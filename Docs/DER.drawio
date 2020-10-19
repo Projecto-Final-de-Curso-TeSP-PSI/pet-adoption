@@ -1,4 +1,4 @@
-<mxfile host="app.diagrams.net" modified="2020-10-19T18:21:23.701Z" agent="5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/86.0.4240.99 Safari/537.36" etag="n0iBZPNjs3Au7PJ5vTP0" version="13.8.0" type="github">
+<mxfile host="app.diagrams.net" modified="2020-10-19T18:31:15.604Z" agent="5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/86.0.4240.99 Safari/537.36" etag="0yh6XAQbY4aWnOYTnJtY" version="13.8.0" type="github">
   <diagram id="mFkcMuC9rqG0T3RHlBue" name="Page-1">
     <mxGraphModel dx="1673" dy="913" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1169" pageHeight="827" math="0" shadow="0">
       <root>
@@ -74,7 +74,7 @@
         <mxCell id="_XHJdUySWQMbSV_TM1zQ-103" value="Missing Animal" style="rounded=1;arcSize=10;whiteSpace=wrap;html=1;align=center;" parent="1" vertex="1">
           <mxGeometry x="1240" y="384" width="100" height="40" as="geometry" />
         </mxCell>
-        <mxCell id="_XHJdUySWQMbSV_TM1zQ-104" value="Reported Found Animal" style="rounded=1;arcSize=10;whiteSpace=wrap;html=1;align=center;" parent="1" vertex="1">
+        <mxCell id="_XHJdUySWQMbSV_TM1zQ-104" value="Found Animal" style="rounded=1;arcSize=10;whiteSpace=wrap;html=1;align=center;" parent="1" vertex="1">
           <mxGeometry x="1240" y="637" width="100" height="40" as="geometry" />
         </mxCell>
         <mxCell id="_XHJdUySWQMbSV_TM1zQ-108" value="" style="group;rotation=110;" parent="1" vertex="1" connectable="0">
@@ -215,7 +215,7 @@
         </mxCell>
         <mxCell id="_XHJdUySWQMbSV_TM1zQ-129" value="1" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" parent="_XHJdUySWQMbSV_TM1zQ-127" vertex="1" connectable="0">
           <mxGeometry x="-0.6265" y="-1" relative="1" as="geometry">
-            <mxPoint x="-10" y="10" as="offset" />
+            <mxPoint x="-10" y="31" as="offset" />
           </mxGeometry>
         </mxCell>
         <mxCell id="_XHJdUySWQMbSV_TM1zQ-117" value="publishDate" style="ellipse;whiteSpace=wrap;html=1;align=center;" parent="1" vertex="1">
@@ -501,11 +501,11 @@
         <mxCell id="_XHJdUySWQMbSV_TM1zQ-156" value="Location" style="ellipse;whiteSpace=wrap;html=1;align=center;" parent="1" vertex="1">
           <mxGeometry x="1169" y="720" width="100" height="40" as="geometry" />
         </mxCell>
-        <mxCell id="f4FxOrE70DpgZQ_qf5H--2" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0.5;entryY=0;entryDx=0;entryDy=0;endArrow=none;endFill=0;" parent="1" source="f4FxOrE70DpgZQ_qf5H--1" target="_XHJdUySWQMbSV_TM1zQ-103" edge="1">
+        <mxCell id="f4FxOrE70DpgZQ_qf5H--2" style="rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0.5;entryY=0;entryDx=0;entryDy=0;endArrow=none;endFill=0;" parent="1" source="f4FxOrE70DpgZQ_qf5H--1" target="_XHJdUySWQMbSV_TM1zQ-103" edge="1">
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
         <mxCell id="f4FxOrE70DpgZQ_qf5H--1" value="Missing Date" style="ellipse;whiteSpace=wrap;html=1;align=center;" parent="1" vertex="1">
-          <mxGeometry x="1240" y="280" width="100" height="40" as="geometry" />
+          <mxGeometry x="1169" y="300" width="100" height="40" as="geometry" />
         </mxCell>
         <mxCell id="f4FxOrE70DpgZQ_qf5H--6" value="&lt;b&gt;Users(&lt;/b&gt;&lt;u&gt;userId,&lt;/u&gt;&amp;nbsp;firstName, lastName, street, doorNumber, floor, code, streetCode, email, phone, nif&lt;b&gt;)&lt;/b&gt;" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;rounded=0;" parent="1" vertex="1">
           <mxGeometry x="1169" y="1140" width="190" height="20" as="geometry" />
@@ -741,8 +741,20 @@
             <mxPoint x="-35" y="6" as="offset" />
           </mxGeometry>
         </mxCell>
-        <mxCell id="g5hpthtUYgiMCNm3RAKt-8" value="Notify" style="shape=rhombus;perimeter=rhombusPerimeter;whiteSpace=wrap;html=1;align=center;" vertex="1" parent="1">
+        <mxCell id="g5hpthtUYgiMCNm3RAKt-8" value="Report" style="shape=rhombus;perimeter=rhombusPerimeter;whiteSpace=wrap;html=1;align=center;" vertex="1" parent="1">
           <mxGeometry x="950" y="543" width="120" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="g5hpthtUYgiMCNm3RAKt-12" style="rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.5;exitY=0;exitDx=0;exitDy=0;entryX=0.5;entryY=1;entryDx=0;entryDy=0;endArrow=none;endFill=0;" edge="1" parent="1" source="g5hpthtUYgiMCNm3RAKt-11" target="_XHJdUySWQMbSV_TM1zQ-104">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="g5hpthtUYgiMCNm3RAKt-11" value="Status" style="ellipse;whiteSpace=wrap;html=1;align=center;" vertex="1" parent="1">
+          <mxGeometry x="1280" y="720" width="100" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="g5hpthtUYgiMCNm3RAKt-14" style="edgeStyle=none;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0.75;entryY=0;entryDx=0;entryDy=0;endArrow=none;endFill=0;" edge="1" parent="1" source="g5hpthtUYgiMCNm3RAKt-13" target="_XHJdUySWQMbSV_TM1zQ-103">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="g5hpthtUYgiMCNm3RAKt-13" value="Status" style="ellipse;whiteSpace=wrap;html=1;align=center;" vertex="1" parent="1">
+          <mxGeometry x="1310" y="300" width="100" height="40" as="geometry" />
         </mxCell>
       </root>
     </mxGraphModel>
