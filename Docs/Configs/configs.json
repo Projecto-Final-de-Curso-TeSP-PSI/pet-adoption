@@ -1,0 +1,17 @@
+[
+    {
+        "Configs" : {
+            "FrontEnd" : {
+                "VirtualHostName" : "paws4adoption.web.front",
+                "UrlVirtualHost" : "C:/wamp64/www/pet-adoption/paws4adoption_web/frontend/web"
+            },
+            "BackEnd" : {
+                "VirtualHostName" : "paws4adoption.web.back",
+                "UrlVirtualHost" : "C:/wamp64/www/pet-adoption/paws4adoption_web/backend/web"
+            },
+            "DB" : {
+                "schema" : "paws4adoption"
+            }
+        }
+    }
+]
