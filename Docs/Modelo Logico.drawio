@@ -1,6 +1,6 @@
-<mxfile host="app.diagrams.net" modified="2020-10-26T10:27:21.136Z" agent="5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/86.0.4240.111 Safari/537.36" etag="EyzokVlaQLvGvYlUcRy8" version="13.8.2" type="github">
+<mxfile host="app.diagrams.net" modified="2020-10-27T11:35:07.926Z" agent="5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/86.0.4240.111 Safari/537.36" etag="2JihUjDexNMzo-agBwt4" version="13.8.3" type="github">
   <diagram id="GfHvBRDyiS6jTgqCynyz" name="Page-1">
-    <mxGraphModel dx="813" dy="443" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
+    <mxGraphModel dx="677" dy="370" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
       <root>
         <mxCell id="0" />
         <mxCell id="1" parent="0" />
@@ -40,7 +40,7 @@
         <mxCell id="PWocoFGBxg9T5XWIW6W9-13" value="" style="group" parent="1" vertex="1" connectable="0">
           <mxGeometry x="40" y="1020" width="181" height="49" as="geometry" />
         </mxCell>
-        <mxCell id="PWocoFGBxg9T5XWIW6W9-14" value="&lt;b&gt;AdoptionAnimals(&lt;/b&gt;&lt;i&gt;animalId,&lt;/i&gt;&amp;nbsp;isOnFAT, organizationID, userID, adoptionDate, userId&lt;b&gt;)&lt;/b&gt;" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;rounded=0;" parent="PWocoFGBxg9T5XWIW6W9-13" vertex="1">
+        <mxCell id="PWocoFGBxg9T5XWIW6W9-14" value="&lt;b&gt;AdoptionAnimals(&lt;/b&gt;&lt;i&gt;animalId,&lt;/i&gt;&amp;nbsp;isOnFAT, organizationID, associatedUserID, adopterId&lt;b&gt;)&lt;/b&gt;" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;rounded=0;" parent="PWocoFGBxg9T5XWIW6W9-13" vertex="1">
           <mxGeometry width="40" height="20" as="geometry" />
         </mxCell>
         <mxCell id="PWocoFGBxg9T5XWIW6W9-15" value="" style="endArrow=classic;html=1;edgeStyle=orthogonalEdgeStyle;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" parent="PWocoFGBxg9T5XWIW6W9-13" target="PWocoFGBxg9T5XWIW6W9-25" edge="1">
@@ -112,20 +112,20 @@
         <mxCell id="PWocoFGBxg9T5XWIW6W9-26" value="" style="endArrow=none;dashed=1;html=1;strokeWidth=1;" parent="1" edge="1">
           <mxGeometry width="50" height="50" relative="1" as="geometry">
             <mxPoint x="337" y="1040" as="sourcePoint" />
-            <mxPoint x="367" y="1040" as="targetPoint" />
+            <mxPoint x="430" y="1040" as="targetPoint" />
           </mxGeometry>
         </mxCell>
         <mxCell id="PWocoFGBxg9T5XWIW6W9-27" value="" style="endArrow=classic;html=1;strokeWidth=1;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" parent="1" target="PWocoFGBxg9T5XWIW6W9-28" edge="1">
           <mxGeometry width="50" height="50" relative="1" as="geometry">
-            <mxPoint x="350" y="1042" as="sourcePoint" />
-            <mxPoint x="310" y="1142" as="targetPoint" />
+            <mxPoint x="381" y="1042" as="sourcePoint" />
+            <mxPoint x="341" y="1142" as="targetPoint" />
             <Array as="points">
-              <mxPoint x="350" y="1070" />
+              <mxPoint x="381" y="1070" />
             </Array>
           </mxGeometry>
         </mxCell>
         <mxCell id="PWocoFGBxg9T5XWIW6W9-28" value="Users(userId)(Fk)" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;rounded=0;" parent="1" vertex="1">
-          <mxGeometry x="380" y="1060" width="40" height="20" as="geometry" />
+          <mxGeometry x="411" y="1060" width="40" height="20" as="geometry" />
         </mxCell>
         <mxCell id="PWocoFGBxg9T5XWIW6W9-29" value="" style="endArrow=none;dashed=1;html=1;strokeWidth=1;" parent="1" edge="1">
           <mxGeometry width="50" height="50" relative="1" as="geometry">
@@ -277,21 +277,21 @@
         </mxCell>
         <mxCell id="PWocoFGBxg9T5XWIW6W9-65" value="" style="endArrow=none;dashed=1;html=1;strokeWidth=1;" parent="1" edge="1">
           <mxGeometry width="50" height="50" relative="1" as="geometry">
-            <mxPoint x="457.5" y="1040" as="sourcePoint" />
-            <mxPoint x="487.5" y="1040" as="targetPoint" />
+            <mxPoint x="435" y="1040" as="sourcePoint" />
+            <mxPoint x="485" y="1040" as="targetPoint" />
           </mxGeometry>
         </mxCell>
         <mxCell id="PWocoFGBxg9T5XWIW6W9-66" value="" style="endArrow=classic;html=1;strokeWidth=1;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" parent="1" target="PWocoFGBxg9T5XWIW6W9-67" edge="1">
           <mxGeometry width="50" height="50" relative="1" as="geometry">
-            <mxPoint x="470.5" y="1042" as="sourcePoint" />
-            <mxPoint x="430.5" y="1142" as="targetPoint" />
+            <mxPoint x="459.5" y="1042" as="sourcePoint" />
+            <mxPoint x="419.5" y="1142" as="targetPoint" />
             <Array as="points">
-              <mxPoint x="471" y="1059" />
+              <mxPoint x="460" y="1059" />
             </Array>
           </mxGeometry>
         </mxCell>
         <mxCell id="PWocoFGBxg9T5XWIW6W9-67" value="Users(userId)(Fk)" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;rounded=0;" parent="1" vertex="1">
-          <mxGeometry x="500" y="1049" width="40" height="20" as="geometry" />
+          <mxGeometry x="489" y="1049" width="40" height="20" as="geometry" />
         </mxCell>
         <mxCell id="PWocoFGBxg9T5XWIW6W9-68" value="&lt;b&gt;AdminUsers(&lt;/b&gt;&lt;u&gt;userId&lt;/u&gt;&lt;b&gt;)&lt;/b&gt;" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;rounded=0;" parent="1" vertex="1">
           <mxGeometry x="40" y="180" width="40" height="20" as="geometry" />
