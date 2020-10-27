@@ -11,6 +11,11 @@ use yii\web\IdentityInterface;
  * User model
  *
  * @property integer $id
+ * @property string $firstName
+ * @property string $lastName
+ * @property string $nif
+ * @property Address $address
+ * @property string $phone
  * @property string $username
  * @property string $password_hash
  * @property string $password_reset_token
@@ -34,7 +39,7 @@ class User extends ActiveRecord implements IdentityInterface
      */
     public static function tableName()
     {
-        return '{{%user}}';
+        return '{{%users}}';
     }
 
     /**
@@ -63,7 +68,7 @@ class User extends ActiveRecord implements IdentityInterface
      */
     public static function findIdentity($id)
     {
-        return static::findOne(['id' => $id, 'status' => self::STATUS_ACTIVE]);
+        return static::findOne(['userId' => $id, 'status' => self::STATUS_ACTIVE]);
     }
 
     /**
