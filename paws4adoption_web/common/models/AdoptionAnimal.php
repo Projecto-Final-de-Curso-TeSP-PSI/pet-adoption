@@ -51,7 +51,7 @@ class AdoptionAnimal extends \yii\db\ActiveRecord
             'adoption_animal_id' => 'Adoption Animal ID',
             'is_on_fat' => 'Is On Fat',
             'organization_id' => 'Organization ID',
-            'associated_user_id' => 'Associated User ID',
+            'associated_user_id' => 'Associated user ID',
         ];
     }
 

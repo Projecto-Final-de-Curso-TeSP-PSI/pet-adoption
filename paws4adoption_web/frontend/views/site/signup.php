@@ -1,35 +1,35 @@
 <?php
 
-/* @var $this yii\web\View */
-/* @var $form yii\bootstrap\ActiveForm */
-/* @var $model \frontend\models\SignupForm */
-
 use yii\helpers\Html;
-use yii\bootstrap\ActiveForm;
+use yii\widgets\ActiveForm;
 
-$this->title = 'Signup';
-$this->params['breadcrumbs'][] = $this->title;
+/* @var $this yii\web\View */
+/* @var $model frontend\models\SignupForm */
+/* @var $form ActiveForm */
 ?>
-<div class="site-signup">
-    <h1><?= Html::encode($this->title) ?></h1>
+<div class="signup">
 
-    <p>Please fill out the following fields to signup:</p>
+    <?php $form = ActiveForm::begin(); ?>
 
-    <div class="row">
-        <div class="col-lg-5">
-            <?php $form = ActiveForm::begin(['id' => 'form-signup']); ?>
-
-                <?= $form->field($model, 'username')->textInput(['autofocus' => true]) ?>
-
-                <?= $form->field($model, 'email') ?>
-
-                <?= $form->field($model, 'password')->passwordInput() ?>
-
-                <div class="form-group">
-                    <?= Html::submitButton('Signup', ['class' => 'btn btn-primary', 'name' => 'signup-button']) ?>
-                </div>
-
-            <?php ActiveForm::end(); ?>
+        <?= $form->field($model, 'firstName') ?>
+        <?= $form->field($model, 'lastName') ?>
+        <?= $form->field($model, 'nif') ?>
+        <?= $form->field($model, 'street') ?>
+        <?= $form->field($model, 'doorNumber') ?>
+        <?= $form->field($model, 'floor') ?>
+        <?= $form->field($model, 'postalCode') ?>
+        <?= $form->field($model, 'streetCode') ?>
+        <?= $form->field($model, 'city') ?>
+        <?= $form->field($model, 'municipality') ?>
+        <?= $form->field($model, 'district') ?>
+        <?= $form->field($model, 'phone') ?>
+        <?= $form->field($model, 'username') ?>
+        <?= $form->field($model, 'email') ?>
+        <?= $form->field($model, 'password') ?>
+    
+        <div class="form-group">
+            <?= Html::submitButton('Submit', ['class' => 'btn btn-primary']) ?>
         </div>
-    </div>
-</div>
+    <?php ActiveForm::end(); ?>
+
+</div><!-- signup -->

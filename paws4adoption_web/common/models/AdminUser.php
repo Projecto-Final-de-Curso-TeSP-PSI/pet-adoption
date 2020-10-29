@@ -37,7 +37,7 @@ class AdminUser extends \yii\db\ActiveRecord
     public function attributeLabels()
     {
         return [
-            'adminUserId' => 'Admin User ID',
+            'adminUserId' => 'Admin user ID',
         ];
     }
 }

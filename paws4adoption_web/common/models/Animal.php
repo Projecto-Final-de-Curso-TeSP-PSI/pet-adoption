@@ -18,14 +18,14 @@ use Yii;
  * @property int $eye_color
  * @property int $size
  *
- * @property AdoptionAnimals $adoptionAnimals
- * @property Breeds $breed
+ * @property AdoptionAnimal $adoptionAnimals
+ * @property Breed $breed
  * @property EyeColor $eyeColor
  * @property FurColor $furColor
  * @property FurLength $furLength
  * @property Size $size0
- * @property Species $specie
- * @property FoundAnimals $foundAnimals
+ * @property Specie $specie
+ * @property FoundAnimal $foundAnimals
  * @property MissingAnimal $missingAnimal
  */
 class Animal extends \yii\db\ActiveRecord
@@ -49,12 +49,12 @@ class Animal extends \yii\db\ActiveRecord
             [['specie_id', 'breed_id', 'fur_length', 'fur_color', 'eye_color', 'size'], 'required'],
             [['specie_id', 'breed_id', 'fur_length', 'fur_color', 'eye_color', 'size'], 'integer'],
             [['chipId'], 'string', 'max' => 15],
-            [['breed_id'], 'exist', 'skipOnError' => true, 'targetClass' => Breeds::className(), 'targetAttribute' => ['breed_id' => 'breed_id']],
-            [['eye_color'], 'exist', 'skipOnError' => true, 'targetClass' => EyeColor::className(), 'targetAttribute' => ['eye_color' => 'eye_color_id']],
-            [['fur_color'], 'exist', 'skipOnError' => true, 'targetClass' => FurColor::className(), 'targetAttribute' => ['fur_color' => 'fur_color_id']],
-            [['fur_length'], 'exist', 'skipOnError' => true, 'targetClass' => FurLength::className(), 'targetAttribute' => ['fur_length' => 'fur_length_id']],
-            [['size'], 'exist', 'skipOnError' => true, 'targetClass' => Size::className(), 'targetAttribute' => ['size' => 'size_id']],
-            [['specie_id'], 'exist', 'skipOnError' => true, 'targetClass' => Species::className(), 'targetAttribute' => ['specie_id' => 'specie_id']],
+            [['breed_id'], 'exist', 'skipOnError' => true, 'targetClass' => Breed::class, 'targetAttribute' => ['breed_id' => 'breed_id']],
+            [['eye_color'], 'exist', 'skipOnError' => true, 'targetClass' => EyeColor::class, 'targetAttribute' => ['eye_color' => 'eye_color_id']],
+            [['fur_color'], 'exist', 'skipOnError' => true, 'targetClass' => FurColor::class, 'targetAttribute' => ['fur_color' => 'fur_color_id']],
+            [['fur_length'], 'exist', 'skipOnError' => true, 'targetClass' => FurLength::class, 'targetAttribute' => ['fur_length' => 'fur_length_id']],
+            [['size'], 'exist', 'skipOnError' => true, 'targetClass' => Size::class, 'targetAttribute' => ['size' => 'size_id']],
+            [['specie_id'], 'exist', 'skipOnError' => true, 'targetClass' => Specie::class, 'targetAttribute' => ['specie_id' => 'specie_id']],
         ];
     }
 
@@ -84,7 +84,7 @@ class Animal extends \yii\db\ActiveRecord
      */
     public function getAdoptionAnimals()
     {
-        return $this->hasOne(AdoptionAnimals::className(), ['adoption_animal_id' => 'animal_id']);
+        return $this->hasOne(AdoptionAnimal::class, ['adoption_animal_id' => 'animal_id']);
     }
 
     /**
@@ -94,7 +94,7 @@ class Animal extends \yii\db\ActiveRecord
      */
     public function getBreed()
     {
-        return $this->hasOne(Breeds::className(), ['breed_id' => 'breed_id']);
+        return $this->hasOne(Breed::class, ['breed_id' => 'breed_id']);
     }
 
     /**
@@ -104,7 +104,7 @@ class Animal extends \yii\db\ActiveRecord
      */
     public function getEyeColor()
     {
-        return $this->hasOne(EyeColor::className(), ['eye_color_id' => 'eye_color']);
+        return $this->hasOne(EyeColor::class, ['eye_color_id' => 'eye_color']);
     }
 
     /**
@@ -114,7 +114,7 @@ class Animal extends \yii\db\ActiveRecord
      */
     public function getFurColor()
     {
-        return $this->hasOne(FurColor::className(), ['fur_color_id' => 'fur_color']);
+        return $this->hasOne(FurColor::class, ['fur_color_id' => 'fur_color']);
     }
 
     /**
@@ -124,7 +124,7 @@ class Animal extends \yii\db\ActiveRecord
      */
     public function getFurLength()
     {
-        return $this->hasOne(FurLength::className(), ['fur_length_id' => 'fur_length']);
+        return $this->hasOne(FurLength::class, ['fur_length_id' => 'fur_length']);
     }
 
     /**
@@ -134,7 +134,7 @@ class Animal extends \yii\db\ActiveRecord
      */
     public function getSize0()
     {
-        return $this->hasOne(Size::className(), ['size_id' => 'size']);
+        return $this->hasOne(Size::class, ['size_id' => 'size']);
     }
 
     /**
@@ -144,7 +144,7 @@ class Animal extends \yii\db\ActiveRecord
      */
     public function getSpecie()
     {
-        return $this->hasOne(Species::className(), ['specie_id' => 'specie_id']);
+        return $this->hasOne(Specie::class, ['specie_id' => 'specie_id']);
     }
 
     /**
@@ -154,7 +154,7 @@ class Animal extends \yii\db\ActiveRecord
      */
     public function getFoundAnimals()
     {
-        return $this->hasOne(FoundAnimals::className(), ['found_animal_id' => 'animal_id']);
+        return $this->hasOne(FoundAnimal::class, ['found_animal_id' => 'animal_id']);
     }
 
     /**
@@ -164,6 +164,6 @@ class Animal extends \yii\db\ActiveRecord
      */
     public function getMissingAnimal()
     {
-        return $this->hasOne(MissingAnimal::className(), ['missing_animal_id' => 'animal_id']);
+        return $this->hasOne(MissingAnimal::class, ['missing_animal_id' => 'animal_id']);
     }
 }

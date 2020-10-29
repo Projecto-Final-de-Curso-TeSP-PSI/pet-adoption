@@ -53,7 +53,7 @@ class FoundAnimal extends \yii\db\ActiveRecord
         return [
             'found_animal_id' => 'Found Animal ID',
             'location' => 'Location',
-            'user_id' => 'User ID',
+            'user_id' => 'user ID',
             'is_active' => 'Is Active',
             'found_date' => 'Found Date',
             'priority' => 'Priority',
@@ -71,7 +71,7 @@ class FoundAnimal extends \yii\db\ActiveRecord
     }
 
     /**
-     * Gets query for [[User]].
+     * Gets query for [[user]].
      *
      * @return \yii\db\ActiveQuery
      */

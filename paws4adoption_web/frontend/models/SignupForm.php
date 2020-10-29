@@ -1,19 +1,31 @@
 <?php
 namespace frontend\models;
 
+
+use app\models\User;
 use Yii;
 use yii\base\Model;
-use common\models\User;
 
 /**
  * Signup form
  */
 class SignupForm extends Model
 {
-    public $username;
+    public $firstName;
+    public $lastName;
     public $email;
+    public $nif;
+    public $street;
+    public $doorNumber;
+    public $floor;
+    public $postalCode;
+    public $streetCode;
+    public $city;
+    public $municipality;
+    public $district;
+    public $phone;
+    public $username;
     public $password;
-
 
     /**
      * {@inheritdoc}
@@ -21,16 +33,49 @@ class SignupForm extends Model
     public function rules()
     {
         return [
+            ['firstName', 'trim'],
+            ['firstName', 'required'],
+            ['firstName', 'string', 'min' => 2, 'max' => 255],
+
+            ['lastName', 'trim'],
+            ['lastName', 'required'],
+            ['lastName', 'string', 'min' => 2, 'max' => 255],
+
+            ['nif', 'trim'],
+            ['nif', 'required'],
+            ['nif', 'unique', 'targetClass' => '\common\models\user', 'message' => 'This NIF already exists in the database.'],
+            ['nif', 'string', 'min' => 9, 'max' => 9],
+
+            ['street', 'trim'],
+            ['street', 'string', 'min' => 2, 'max' => 255],
+
+            ['doorNumber', 'integer'],
+            ['floor', 'integer'],
+            ['postalCode', 'integer'],
+            ['streetCode', 'integer'],
+
+            ['city', 'trim'],
+            ['city', 'string', 'min' => 2, 'max' => 255],
+
+            ['municipality', 'trim'],
+            ['municipality', 'string', 'min' => 2, 'max' => 255],
+
+            ['district', 'trim'],
+            ['district', 'string', 'min' => 2, 'max' => 255],
+
+            ['phone', 'trim'],
+            ['phone', 'string', 'min' => 9, 'max' => 9],
+
             ['username', 'trim'],
             ['username', 'required'],
-            ['username', 'unique', 'targetClass' => '\common\models\User', 'message' => 'This username has already been taken.'],
+            ['username', 'unique', 'targetClass' => '\common\models\user', 'message' => 'This username has already been taken.'],
             ['username', 'string', 'min' => 2, 'max' => 255],
 
             ['email', 'trim'],
             ['email', 'required'],
             ['email', 'email'],
             ['email', 'string', 'max' => 255],
-            ['email', 'unique', 'targetClass' => '\common\models\User', 'message' => 'This email address has already been taken.'],
+            ['email', 'unique', 'targetClass' => '\common\models\user', 'message' => 'This email address has already been taken.'],
 
             ['password', 'required'],
             ['password', 'string', 'min' => Yii::$app->params['user.passwordMinLength']],
