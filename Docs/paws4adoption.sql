@@ -18,6 +18,36 @@ USE `paws4adoption`;
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
 --
+-- Table structure for table `address`
+--
+
+DROP TABLE IF EXISTS `address`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `address` (
+  `address_id` int unsigned NOT NULL AUTO_INCREMENT,
+  `street` varchar(45) DEFAULT NULL,
+  `door_number` int unsigned DEFAULT NULL,
+  `floor` int unsigned DEFAULT NULL,
+  `postal_code` int unsigned DEFAULT NULL,
+  `street_code` int unsigned DEFAULT NULL,
+  `city` varchar(45) DEFAULT NULL,
+  `municipality` varchar(45) DEFAULT NULL,
+  `district` varchar(45) DEFAULT NULL,
+  PRIMARY KEY (`address_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `address`
+--
+
+LOCK TABLES `address` WRITE;
+/*!40000 ALTER TABLE `address` DISABLE KEYS */;
+/*!40000 ALTER TABLE `address` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
 -- Table structure for table `admin_users`
 --
 
@@ -51,13 +81,13 @@ CREATE TABLE `adoption_animals` (
   `is_on_fat` bit(1) DEFAULT NULL,
   `organization_id` int unsigned NOT NULL,
   `associated_user_id` int unsigned NOT NULL,
-  `adoptionDate` date DEFAULT NULL,
-  `adopter_id` int unsigned DEFAULT NULL,
   PRIMARY KEY (`adoption_animal_id`),
   KEY `fk_organization_id_idx` (`organization_id`),
   KEY `fk_associated_user_id_idx` (`associated_user_id`),
-  KEY `fk_adopter_id_idx` (`adopter_id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+  CONSTRAINT `fk_adopt_animal_id` FOREIGN KEY (`adoption_animal_id`) REFERENCES `animals` (`animal_id`),
+  CONSTRAINT `fk_associated_user_id` FOREIGN KEY (`associated_user_id`) REFERENCES `associated_users` (`associated_users_id`),
+  CONSTRAINT `fk_organization_id` FOREIGN KEY (`organization_id`) REFERENCES `organizations` (`organizationId`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -84,8 +114,9 @@ CREATE TABLE `adoptions` (
   `adopter_id` int unsigned NOT NULL,
   PRIMARY KEY (`adoption_id`),
   KEY `fk_adopter_id_idx` (`adopter_id`),
-  KEY `fk_adoption_animal_id_idx` (`adoption_animal_id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+  CONSTRAINT `fk_adopter_id` FOREIGN KEY (`adopter_id`) REFERENCES `users` (`userId`),
+  CONSTRAINT `fk_adoption_animal_id` FOREIGN KEY (`adoption_id`) REFERENCES `adoption_animals` (`adoption_animal_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -108,8 +139,7 @@ CREATE TABLE `animals` (
   `animal_id` int unsigned NOT NULL AUTO_INCREMENT,
   `chipId` varchar(15) DEFAULT NULL,
   `createdAt` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `description` varchar(45) DEFAULT NULL,
-  `animalscol` text,
+  `description` text,
   `specie_id` int unsigned NOT NULL,
   `breed_id` int unsigned NOT NULL,
   `fur_length` int unsigned NOT NULL,
@@ -227,8 +257,10 @@ CREATE TABLE `found_animals` (
   `found_date` date DEFAULT NULL,
   `priority` enum('Alta','Media','Baixa','Por classificar') DEFAULT NULL,
   PRIMARY KEY (`found_animal_id`),
-  KEY `fk_user_id_idx` (`user_id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+  KEY `fk_user_id_idx` (`user_id`),
+  CONSTRAINT `fk_animal_id` FOREIGN KEY (`found_animal_id`) REFERENCES `animals` (`animal_id`),
+  CONSTRAINT `fk_user_id` FOREIGN KEY (`user_id`) REFERENCES `users` (`userId`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -287,6 +319,30 @@ LOCK TABLES `fur_length` WRITE;
 UNLOCK TABLES;
 
 --
+-- Table structure for table `migration`
+--
+
+DROP TABLE IF EXISTS `migration`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `migration` (
+  `version` varchar(180) NOT NULL,
+  `apply_time` int DEFAULT NULL,
+  PRIMARY KEY (`version`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `migration`
+--
+
+LOCK TABLES `migration` WRITE;
+/*!40000 ALTER TABLE `migration` DISABLE KEYS */;
+INSERT INTO `migration` VALUES ('m000000_000000_base',1603807915),('m130524_201442_init',1603814976),('m190124_110200_add_verification_token_column_to_user_table',1603814976);
+/*!40000 ALTER TABLE `migration` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
 -- Table structure for table `missing_animal`
 --
 
@@ -325,18 +381,13 @@ CREATE TABLE `organizations` (
   `organizationId` int unsigned NOT NULL AUTO_INCREMENT,
   `name` varchar(64) NOT NULL,
   `nif` varchar(9) NOT NULL,
-  `street` varchar(64) NOT NULL,
-  `doorNumber` int DEFAULT NULL,
-  `floor` int DEFAULT NULL,
-  `postalCode` int DEFAULT NULL,
-  `streetCode` int DEFAULT NULL,
-  `city` varchar(64) NOT NULL,
-  `municipality` varchar(64) NOT NULL,
-  `district` varchar(64) NOT NULL,
   `email` varchar(64) DEFAULT NULL,
   `phone` varchar(9) DEFAULT NULL,
+  `address` int unsigned DEFAULT NULL,
   PRIMARY KEY (`organizationId`),
-  UNIQUE KEY `nif_UNIQUE` (`nif`)
+  UNIQUE KEY `nif_UNIQUE` (`nif`),
+  KEY `fk_address_id_idx` (`address`),
+  CONSTRAINT `fk_address_id` FOREIGN KEY (`address`) REFERENCES `address` (`address_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -359,7 +410,7 @@ DROP TABLE IF EXISTS `photos`;
 CREATE TABLE `photos` (
   `photo_id` int unsigned NOT NULL AUTO_INCREMENT,
   `caption` varchar(45) DEFAULT NULL,
-  `img` longblob,
+  `img` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`photo_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -432,16 +483,25 @@ CREATE TABLE `users` (
   `lastName` varchar(45) NOT NULL,
   `email` varchar(64) NOT NULL,
   `nif` varchar(9) NOT NULL,
-  `street` varchar(64) DEFAULT NULL,
-  `doorNumber` int unsigned DEFAULT NULL,
-  `floor` int unsigned DEFAULT NULL,
-  `postalCode` int unsigned DEFAULT NULL,
-  `streetCode` int unsigned DEFAULT NULL,
   `phone` varchar(9) DEFAULT NULL,
+  `username` varchar(255) NOT NULL,
+  `auth_key` varchar(32) NOT NULL,
+  `password_hash` varchar(255) NOT NULL,
+  `password_reset_token` varchar(255) DEFAULT NULL,
+  `status` smallint NOT NULL DEFAULT '10',
+  `created_at` int NOT NULL,
+  `updated_at` int NOT NULL,
+  `verification_token` varchar(255) DEFAULT NULL,
+  `address` int unsigned DEFAULT NULL,
   PRIMARY KEY (`userId`),
   UNIQUE KEY `email_UNIQUE` (`email`),
-  UNIQUE KEY `nif_UNIQUE` (`nif`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+  UNIQUE KEY `nif_UNIQUE` (`nif`),
+  UNIQUE KEY `username` (`username`),
+  UNIQUE KEY `password_reset_token` (`password_reset_token`),
+  KEY `fk_address_id_idx` (`address`),
+  KEY `fk_user_address_idx` (`address`),
+  CONSTRAINT `fk_user_address` FOREIGN KEY (`address`) REFERENCES `address` (`address_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -450,6 +510,7 @@ CREATE TABLE `users` (
 
 LOCK TABLES `users` WRITE;
 /*!40000 ALTER TABLE `users` DISABLE KEYS */;
+INSERT INTO `users` VALUES (1,'','','simao123@ipl.pt','',NULL,'simaopedro','DPAq7HVPghTs2D1w9SkVPIToFDs9Tl9-','$2y$13$hixZhgOovPDb0M4WOEMvR.OCy2MKcRD/TnP5QtO6dNwnmVqkA7lYa',NULL,10,1603816253,1603816253,'iK20VU6c1PoTKTWV9WzZG9XTcibKQV9c_1603816253',NULL);
 /*!40000 ALTER TABLE `users` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -462,4 +523,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2020-10-27 12:11:07
+-- Dump completed on 2020-10-29 10:06:23
