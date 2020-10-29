@@ -1,33 +1,36 @@
 <?php
-namespace common\models;
+
+namespace app\models;
 
 use Yii;
 use yii\base\NotSupportedException;
 use yii\behaviors\TimestampBehavior;
-use yii\db\ActiveRecord;
-use yii\web\IdentityInterface;
 
 /**
- * User model
+ * This is the model class for table "users".
  *
- * @property integer $id
+ * @property int $userId
  * @property string $firstName
  * @property string $lastName
- * @property string $nif
- * @property Address $address
- * @property string $phone
- * @property string $username
- * @property string $password_hash
- * @property string $password_reset_token
- * @property string $verification_token
  * @property string $email
+ * @property string $nif
+ * @property string|null $phone
+ * @property string $username
  * @property string $auth_key
- * @property integer $status
- * @property integer $created_at
- * @property integer $updated_at
- * @property string $password write-only password
+ * @property string $password_hash
+ * @property string|null $password_reset_token
+ * @property int $status
+ * @property int $created_at
+ * @property int $updated_at
+ * @property string|null $verification_token
+ * @property int|null $address
+ *
+ * @property Adoption[] $adoptions
+ * @property FoundAnimal[] $foundAnimals
+ * @property MissingAnimal[] $missingAnimals
+ * @property Address $address0
  */
-class User extends ActiveRecord implements IdentityInterface
+class User extends \yii\db\ActiveRecord
 {
     const STATUS_DELETED = 0;
     const STATUS_INACTIVE = 9;
@@ -39,17 +42,7 @@ class User extends ActiveRecord implements IdentityInterface
      */
     public static function tableName()
     {
-        return '{{%users}}';
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function behaviors()
-    {
-        return [
-            TimestampBehavior::className(),
-        ];
+        return 'users';
     }
 
     /**
@@ -58,8 +51,54 @@ class User extends ActiveRecord implements IdentityInterface
     public function rules()
     {
         return [
+            [['firstName', 'lastName', 'email', 'nif', 'username', 'auth_key', 'password_hash', 'created_at', 'updated_at'], 'required'],
+            [['status', 'created_at', 'updated_at', 'address'], 'integer'],
+            [['firstName', 'lastName'], 'string', 'max' => 45],
+            [['email'], 'string', 'max' => 64],
+            [['nif', 'phone'], 'string', 'max' => 9],
+            [['username', 'password_hash', 'password_reset_token', 'verification_token'], 'string', 'max' => 255],
+            [['auth_key'], 'string', 'max' => 32],
+            [['email'], 'unique'],
+            [['nif'], 'unique'],
+            [['username'], 'unique'],
+            [['password_reset_token'], 'unique'],
+            [['address'], 'exist', 'skipOnError' => true, 'targetClass' => Address::class, 'targetAttribute' => ['address' => 'address_id']],
             ['status', 'default', 'value' => self::STATUS_INACTIVE],
             ['status', 'in', 'range' => [self::STATUS_ACTIVE, self::STATUS_INACTIVE, self::STATUS_DELETED]],
+        ];
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function attributeLabels()
+    {
+        return [
+            'userId' => 'User ID',
+            'firstName' => 'First Name',
+            'lastName' => 'Last Name',
+            'email' => 'Email',
+            'nif' => 'Nif',
+            'phone' => 'Phone',
+            'username' => 'Username',
+            'auth_key' => 'Auth Key',
+            'password_hash' => 'Password Hash',
+            'password_reset_token' => 'Password Reset Token',
+            'status' => 'Status',
+            'created_at' => 'Created At',
+            'updated_at' => 'Updated At',
+            'verification_token' => 'Verification Token',
+            'address' => 'Address',
+        ];
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function behaviors()
+    {
+        return [
+            TimestampBehavior::class,
         ];
     }
 
@@ -83,7 +122,7 @@ class User extends ActiveRecord implements IdentityInterface
      * Finds user by username
      *
      * @param string $username
-     * @return static|null
+     * @return $this|null
      */
     public static function findByUsername($username)
     {
@@ -213,5 +252,45 @@ class User extends ActiveRecord implements IdentityInterface
     public function removePasswordResetToken()
     {
         $this->password_reset_token = null;
+    }
+
+    /**
+     * Gets query for [[Adoptions]].
+     *
+     * @return \yii\db\ActiveQuery
+     */
+    public function getAdoptions()
+    {
+        return $this->hasMany(Adoptions::className(), ['adopter_id' => 'userId']);
+    }
+
+    /**
+     * Gets query for [[FoundAnimals]].
+     *
+     * @return \yii\db\ActiveQuery
+     */
+    public function getFoundAnimals()
+    {
+        return $this->hasMany(FoundAnimals::className(), ['user_id' => 'userId']);
+    }
+
+    /**
+     * Gets query for [[MissingAnimals]].
+     *
+     * @return \yii\db\ActiveQuery
+     */
+    public function getMissingAnimals()
+    {
+        return $this->hasMany(MissingAnimal::className(), ['owner_id' => 'userId']);
+    }
+
+    /**
+     * Gets query for [[Address0]].
+     *
+     * @return \yii\db\ActiveQuery
+     */
+    public function getAddress0()
+    {
+        return $this->hasOne(Address::className(), ['address_id' => 'address']);
     }
 }
