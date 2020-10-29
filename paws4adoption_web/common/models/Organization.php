@@ -10,16 +10,12 @@ use Yii;
  * @property int $organizationId
  * @property string $name
  * @property string $nif
- * @property string $street
- * @property int|null $doorNumber
- * @property int|null $floor
- * @property int|null $postalCode
- * @property int|null $streetCode
- * @property string $city
- * @property string $municipality
- * @property string $district
  * @property string|null $email
  * @property string|null $phone
+ * @property int|null $address
+ *
+ * @property AdoptionAnimal[] $adoptionAnimals
+ * @property Address $address0
  */
 class Organization extends \yii\db\ActiveRecord
 {
@@ -37,11 +33,12 @@ class Organization extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['name', 'nif', 'street', 'city', 'municipality', 'district'], 'required'],
-            [['doorNumber', 'floor', 'postalCode', 'streetCode'], 'integer'],
-            [['name', 'street', 'city', 'municipality', 'district', 'email'], 'string', 'max' => 64],
+            [['name', 'nif'], 'required'],
+            [['address'], 'integer'],
+            [['name', 'email'], 'string', 'max' => 64],
             [['nif', 'phone'], 'string', 'max' => 9],
             [['nif'], 'unique'],
+            [['address'], 'exist', 'skipOnError' => true, 'targetClass' => Address::class, 'targetAttribute' => ['address' => 'address_id']],
         ];
     }
 
@@ -54,16 +51,29 @@ class Organization extends \yii\db\ActiveRecord
             'organizationId' => 'Organization ID',
             'name' => 'Name',
             'nif' => 'Nif',
-            'street' => 'Street',
-            'doorNumber' => 'Door Number',
-            'floor' => 'Floor',
-            'postalCode' => 'Postal Code',
-            'streetCode' => 'Street Code',
-            'city' => 'City',
-            'municipality' => 'Municipality',
-            'district' => 'District',
             'email' => 'Email',
             'phone' => 'Phone',
+            'address' => 'Address',
         ];
+    }
+
+    /**
+     * Gets query for [[AdoptionAnimals]].
+     *
+     * @return \yii\db\ActiveQuery
+     */
+    public function getAdoptionAnimals()
+    {
+        return $this->hasMany(AdoptionAnimal::class, ['organization_id' => 'organizationId']);
+    }
+
+    /**
+     * Gets query for [[Address0]].
+     *
+     * @return \yii\db\ActiveQuery
+     */
+    public function getAddress0()
+    {
+        return $this->hasOne(Address::class, ['address_id' => 'address']);
     }
 }
