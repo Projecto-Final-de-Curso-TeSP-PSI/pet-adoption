@@ -144,6 +144,15 @@ class SiteController extends Controller
     {
         return $this->render('about');
     }
+    /**
+     * Displays AnimalsList page.
+     *
+     * @return mixed
+     */
+    public function actionListAnimals()
+    {
+        return $this->render('listAnimals');
+    }
 
     /**
      * Signs user up.
