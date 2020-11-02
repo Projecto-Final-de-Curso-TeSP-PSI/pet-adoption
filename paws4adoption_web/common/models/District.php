@@ -5,21 +5,21 @@ namespace common\models;
 use Yii;
 
 /**
- * This is the model class for table "sizes".
+ * This is the model class for table "districts".
  *
  * @property int $id
- * @property string $size
+ * @property string|null $name
  *
- * @property Animal[] $animals
+ * @property Address[] $addresses
  */
-class Size extends \yii\db\ActiveRecord
+class District extends \yii\db\ActiveRecord
 {
     /**
      * {@inheritdoc}
      */
     public static function tableName()
     {
-        return 'sizes';
+        return 'districts';
     }
 
     /**
@@ -28,8 +28,7 @@ class Size extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['size'], 'required'],
-            [['size'], 'string', 'max' => 45],
+            [['name'], 'string', 'max' => 45],
         ];
     }
 
@@ -40,17 +39,17 @@ class Size extends \yii\db\ActiveRecord
     {
         return [
             'id' => 'ID',
-            'size' => 'Size',
+            'name' => 'Name',
         ];
     }
 
     /**
-     * Gets query for [[Animals]].
+     * Gets query for [[Addresses]].
      *
      * @return \yii\db\ActiveQuery
      */
-    public function getAnimals()
+    public function getAddresses()
     {
-        return $this->hasMany(Animal::className(), ['size_id' => 'id']);
+        return $this->hasMany(Address::className(), ['district_id' => 'id']);
     }
 }

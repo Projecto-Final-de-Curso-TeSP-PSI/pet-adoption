@@ -1,16 +1,16 @@
 <?php
 
-namespace app\models;
+namespace common\models;
 
 use Yii;
 
 /**
- * This is the model class for table "fur_color".
+ * This is the model class for table "fur_colors".
  *
- * @property int $fur_color_id
+ * @property int $id
  * @property string $fur_color
  *
- * @property Animals[] $animals
+ * @property Animal[] $animals
  */
 class FurColor extends \yii\db\ActiveRecord
 {
@@ -19,7 +19,7 @@ class FurColor extends \yii\db\ActiveRecord
      */
     public static function tableName()
     {
-        return 'fur_color';
+        return 'fur_colors';
     }
 
     /**
@@ -39,7 +39,7 @@ class FurColor extends \yii\db\ActiveRecord
     public function attributeLabels()
     {
         return [
-            'fur_color_id' => 'Fur Color ID',
+            'id' => 'ID',
             'fur_color' => 'Fur Color',
         ];
     }
@@ -51,6 +51,6 @@ class FurColor extends \yii\db\ActiveRecord
      */
     public function getAnimals()
     {
-        return $this->hasMany(Animals::className(), ['fur_color' => 'fur_color_id']);
+        return $this->hasMany(Animal::className(), ['fur_color_id' => 'id']);
     }
 }

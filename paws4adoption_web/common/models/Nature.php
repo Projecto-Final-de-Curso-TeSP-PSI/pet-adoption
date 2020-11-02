@@ -5,21 +5,22 @@ namespace common\models;
 use Yii;
 
 /**
- * This is the model class for table "sizes".
+ * This is the model class for table "nature".
  *
  * @property int $id
- * @property string $size
+ * @property int $parent_nature_id
+ * @property string|null $name
  *
  * @property Animal[] $animals
  */
-class Size extends \yii\db\ActiveRecord
+class Nature extends \yii\db\ActiveRecord
 {
     /**
      * {@inheritdoc}
      */
     public static function tableName()
     {
-        return 'sizes';
+        return 'nature';
     }
 
     /**
@@ -28,8 +29,9 @@ class Size extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['size'], 'required'],
-            [['size'], 'string', 'max' => 45],
+            [['parent_nature_id'], 'required'],
+            [['parent_nature_id'], 'integer'],
+            [['name'], 'string', 'max' => 45],
         ];
     }
 
@@ -40,7 +42,8 @@ class Size extends \yii\db\ActiveRecord
     {
         return [
             'id' => 'ID',
-            'size' => 'Size',
+            'parent_nature_id' => 'Parent Nature ID',
+            'name' => 'Name',
         ];
     }
 
@@ -51,6 +54,6 @@ class Size extends \yii\db\ActiveRecord
      */
     public function getAnimals()
     {
-        return $this->hasMany(Animal::className(), ['size_id' => 'id']);
+        return $this->hasMany(Animal::className(), ['nature_id' => 'id']);
     }
 }

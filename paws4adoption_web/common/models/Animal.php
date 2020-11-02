@@ -1,31 +1,28 @@
 <?php
 
-namespace app\models;
+namespace common\models;
 
 use Yii;
 
 /**
  * This is the model class for table "animals".
  *
- * @property int $animal_id
+ * @property int $id
  * @property string|null $chipId
  * @property string $createdAt
  * @property string|null $description
- * @property int $specie_id
- * @property int $breed_id
- * @property int $fur_length
- * @property int $fur_color
- * @property int $eye_color
- * @property int $size
+ * @property int $nature_id
+ * @property int $fur_length_id
+ * @property int $fur_color_id
+ * @property int $size_id
+ * @property string $sex
  *
- * @property AdoptionAnimal $adoptionAnimals
- * @property Breed $breed
- * @property EyeColor $eyeColor
+ * @property AdoptionAnimal $adoptionAnimal
  * @property FurColor $furColor
  * @property FurLength $furLength
- * @property Size $size0
- * @property Specie $specie
- * @property FoundAnimal $foundAnimals
+ * @property Nature $nature
+ * @property Size $size
+ * @property FoundAnimal $foundAnimal
  * @property MissingAnimal $missingAnimal
  */
 class Animal extends \yii\db\ActiveRecord
@@ -45,16 +42,14 @@ class Animal extends \yii\db\ActiveRecord
     {
         return [
             [['createdAt'], 'safe'],
-            [['description'], 'string'],
-            [['specie_id', 'breed_id', 'fur_length', 'fur_color', 'eye_color', 'size'], 'required'],
-            [['specie_id', 'breed_id', 'fur_length', 'fur_color', 'eye_color', 'size'], 'integer'],
+            [['description', 'sex'], 'string'],
+            [['nature_id', 'fur_length_id', 'fur_color_id', 'size_id', 'sex'], 'required'],
+            [['nature_id', 'fur_length_id', 'fur_color_id', 'size_id'], 'integer'],
             [['chipId'], 'string', 'max' => 15],
-            [['breed_id'], 'exist', 'skipOnError' => true, 'targetClass' => Breed::class, 'targetAttribute' => ['breed_id' => 'breed_id']],
-            [['eye_color'], 'exist', 'skipOnError' => true, 'targetClass' => EyeColor::class, 'targetAttribute' => ['eye_color' => 'eye_color_id']],
-            [['fur_color'], 'exist', 'skipOnError' => true, 'targetClass' => FurColor::class, 'targetAttribute' => ['fur_color' => 'fur_color_id']],
-            [['fur_length'], 'exist', 'skipOnError' => true, 'targetClass' => FurLength::class, 'targetAttribute' => ['fur_length' => 'fur_length_id']],
-            [['size'], 'exist', 'skipOnError' => true, 'targetClass' => Size::class, 'targetAttribute' => ['size' => 'size_id']],
-            [['specie_id'], 'exist', 'skipOnError' => true, 'targetClass' => Specie::class, 'targetAttribute' => ['specie_id' => 'specie_id']],
+            [['fur_color_id'], 'exist', 'skipOnError' => true, 'targetClass' => FurColor::className(), 'targetAttribute' => ['fur_color_id' => 'id']],
+            [['fur_length_id'], 'exist', 'skipOnError' => true, 'targetClass' => FurLength::className(), 'targetAttribute' => ['fur_length_id' => 'id']],
+            [['nature_id'], 'exist', 'skipOnError' => true, 'targetClass' => Nature::className(), 'targetAttribute' => ['nature_id' => 'id']],
+            [['size_id'], 'exist', 'skipOnError' => true, 'targetClass' => Size::className(), 'targetAttribute' => ['size_id' => 'id']],
         ];
     }
 
@@ -64,47 +59,26 @@ class Animal extends \yii\db\ActiveRecord
     public function attributeLabels()
     {
         return [
-            'animal_id' => 'Animal ID',
+            'id' => 'ID',
             'chipId' => 'Chip ID',
             'createdAt' => 'Created At',
             'description' => 'Description',
-            'specie_id' => 'Specie ID',
-            'breed_id' => 'Breed ID',
-            'fur_length' => 'Fur Length',
-            'fur_color' => 'Fur Color',
-            'eye_color' => 'Eye Color',
-            'size' => 'Size',
+            'nature_id' => 'Nature ID',
+            'fur_length_id' => 'Fur Length ID',
+            'fur_color_id' => 'Fur Color ID',
+            'size_id' => 'Size ID',
+            'sex' => 'Sex',
         ];
     }
 
     /**
-     * Gets query for [[AdoptionAnimals]].
+     * Gets query for [[AdoptionAnimal]].
      *
      * @return \yii\db\ActiveQuery
      */
-    public function getAdoptionAnimals()
+    public function getAdoptionAnimal()
     {
-        return $this->hasOne(AdoptionAnimal::class, ['adoption_animal_id' => 'animal_id']);
-    }
-
-    /**
-     * Gets query for [[Breed]].
-     *
-     * @return \yii\db\ActiveQuery
-     */
-    public function getBreed()
-    {
-        return $this->hasOne(Breed::class, ['breed_id' => 'breed_id']);
-    }
-
-    /**
-     * Gets query for [[EyeColor]].
-     *
-     * @return \yii\db\ActiveQuery
-     */
-    public function getEyeColor()
-    {
-        return $this->hasOne(EyeColor::class, ['eye_color_id' => 'eye_color']);
+        return $this->hasOne(AdoptionAnimal::className(), ['id' => 'id']);
     }
 
     /**
@@ -114,7 +88,7 @@ class Animal extends \yii\db\ActiveRecord
      */
     public function getFurColor()
     {
-        return $this->hasOne(FurColor::class, ['fur_color_id' => 'fur_color']);
+        return $this->hasOne(FurColor::className(), ['id' => 'fur_color_id']);
     }
 
     /**
@@ -124,37 +98,37 @@ class Animal extends \yii\db\ActiveRecord
      */
     public function getFurLength()
     {
-        return $this->hasOne(FurLength::class, ['fur_length_id' => 'fur_length']);
+        return $this->hasOne(FurLength::className(), ['id' => 'fur_length_id']);
     }
 
     /**
-     * Gets query for [[Size0]].
+     * Gets query for [[Nature]].
      *
      * @return \yii\db\ActiveQuery
      */
-    public function getSize0()
+    public function getNature()
     {
-        return $this->hasOne(Size::class, ['size_id' => 'size']);
+        return $this->hasOne(Nature::className(), ['id' => 'nature_id']);
     }
 
     /**
-     * Gets query for [[Specie]].
+     * Gets query for [[Size]].
      *
      * @return \yii\db\ActiveQuery
      */
-    public function getSpecie()
+    public function getSize()
     {
-        return $this->hasOne(Specie::class, ['specie_id' => 'specie_id']);
+        return $this->hasOne(Size::className(), ['id' => 'size_id']);
     }
 
     /**
-     * Gets query for [[FoundAnimals]].
+     * Gets query for [[FoundAnimal]].
      *
      * @return \yii\db\ActiveQuery
      */
-    public function getFoundAnimals()
+    public function getFoundAnimal()
     {
-        return $this->hasOne(FoundAnimal::class, ['found_animal_id' => 'animal_id']);
+        return $this->hasOne(FoundAnimal::className(), ['id' => 'id']);
     }
 
     /**
@@ -164,6 +138,6 @@ class Animal extends \yii\db\ActiveRecord
      */
     public function getMissingAnimal()
     {
-        return $this->hasOne(MissingAnimal::class, ['missing_animal_id' => 'animal_id']);
+        return $this->hasOne(MissingAnimal::className(), ['id' => 'id']);
     }
 }

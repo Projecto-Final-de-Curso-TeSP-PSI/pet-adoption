@@ -1,21 +1,21 @@
 <?php
 
-namespace app\models;
+namespace common\models;
 
 use Yii;
 
 /**
  * This is the model class for table "organizations".
  *
- * @property int $organizationId
+ * @property int $id
  * @property string $name
  * @property string $nif
  * @property string|null $email
  * @property string|null $phone
- * @property int|null $address
+ * @property int|null $address_id
  *
  * @property AdoptionAnimal[] $adoptionAnimals
- * @property Address $address0
+ * @property Address $address
  */
 class Organization extends \yii\db\ActiveRecord
 {
@@ -34,11 +34,11 @@ class Organization extends \yii\db\ActiveRecord
     {
         return [
             [['name', 'nif'], 'required'],
-            [['address'], 'integer'],
+            [['address_id'], 'integer'],
             [['name', 'email'], 'string', 'max' => 64],
             [['nif', 'phone'], 'string', 'max' => 9],
             [['nif'], 'unique'],
-            [['address'], 'exist', 'skipOnError' => true, 'targetClass' => Address::class, 'targetAttribute' => ['address' => 'address_id']],
+            [['address_id'], 'exist', 'skipOnError' => true, 'targetClass' => Address::className(), 'targetAttribute' => ['address_id' => 'id']],
         ];
     }
 
@@ -48,12 +48,12 @@ class Organization extends \yii\db\ActiveRecord
     public function attributeLabels()
     {
         return [
-            'organizationId' => 'Organization ID',
+            'id' => 'ID',
             'name' => 'Name',
             'nif' => 'Nif',
             'email' => 'Email',
             'phone' => 'Phone',
-            'address' => 'Address',
+            'address_id' => 'Address ID',
         ];
     }
 
@@ -64,16 +64,16 @@ class Organization extends \yii\db\ActiveRecord
      */
     public function getAdoptionAnimals()
     {
-        return $this->hasMany(AdoptionAnimal::class, ['organization_id' => 'organizationId']);
+        return $this->hasMany(AdoptionAnimal::className(), ['organization_id' => 'id']);
     }
 
     /**
-     * Gets query for [[Address0]].
+     * Gets query for [[Address]].
      *
      * @return \yii\db\ActiveQuery
      */
-    public function getAddress0()
+    public function getAddress()
     {
-        return $this->hasOne(Address::class, ['address_id' => 'address']);
+        return $this->hasOne(Address::className(), ['id' => 'address_id']);
     }
 }

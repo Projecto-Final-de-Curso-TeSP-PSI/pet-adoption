@@ -1,28 +1,28 @@
 <?php
 
-namespace app\models;
+namespace common\models;
 
 use Yii;
 
 /**
- * This is the model class for table "missing_animal".
+ * This is the model class for table "missing_animals".
  *
- * @property int $missing_animal_id
+ * @property int $id
  * @property string|null $missing_date
  * @property bool|null $is_missing
  * @property int $owner_id
  *
- * @property Animals $missingAnimal
- * @property Users $owner
+ * @property Animal $animal
+ * @property User $owner
  */
-class MissingAnimal extends \yii\db\ActiveRecord
+class MissingAnimal extends \common\models\Animal
 {
     /**
      * {@inheritdoc}
      */
     public static function tableName()
     {
-        return 'missing_animal';
+        return 'missing_animals';
     }
 
     /**
@@ -31,13 +31,13 @@ class MissingAnimal extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['missing_animal_id', 'owner_id'], 'required'],
-            [['missing_animal_id', 'owner_id'], 'integer'],
+            [['id', 'owner_id'], 'required'],
+            [['id', 'owner_id'], 'integer'],
             [['missing_date'], 'safe'],
             [['is_missing'], 'boolean'],
-            [['missing_animal_id'], 'unique'],
-            [['missing_animal_id'], 'exist', 'skipOnError' => true, 'targetClass' => Animals::className(), 'targetAttribute' => ['missing_animal_id' => 'animal_id']],
-            [['owner_id'], 'exist', 'skipOnError' => true, 'targetClass' => Users::className(), 'targetAttribute' => ['owner_id' => 'userId']],
+            [['id'], 'unique'],
+            [['id'], 'exist', 'skipOnError' => true, 'targetClass' => Animal::className(), 'targetAttribute' => ['id' => 'id']],
+            [['owner_id'], 'exist', 'skipOnError' => true, 'targetClass' => User::className(), 'targetAttribute' => ['owner_id' => 'id']],
         ];
     }
 
@@ -47,7 +47,7 @@ class MissingAnimal extends \yii\db\ActiveRecord
     public function attributeLabels()
     {
         return [
-            'missing_animal_id' => 'Missing Animal ID',
+            'id' => 'ID',
             'missing_date' => 'Missing Date',
             'is_missing' => 'Is Missing',
             'owner_id' => 'Owner ID',
@@ -55,13 +55,13 @@ class MissingAnimal extends \yii\db\ActiveRecord
     }
 
     /**
-     * Gets query for [[MissingAnimal]].
+     * Gets query for [[Id0]].
      *
      * @return \yii\db\ActiveQuery
      */
-    public function getMissingAnimal()
+    public function getAnimal()
     {
-        return $this->hasOne(Animals::className(), ['animal_id' => 'missing_animal_id']);
+        return $this->hasOne(Animal::className(), ['id' => 'id']);
     }
 
     /**
@@ -71,6 +71,6 @@ class MissingAnimal extends \yii\db\ActiveRecord
      */
     public function getOwner()
     {
-        return $this->hasOne(Users::className(), ['userId' => 'owner_id']);
+        return $this->hasOne(User::className(), ['id' => 'owner_id']);
     }
 }

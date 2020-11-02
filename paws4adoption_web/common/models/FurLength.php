@@ -1,16 +1,16 @@
 <?php
 
-namespace app\models;
+namespace common\models;
 
 use Yii;
 
 /**
- * This is the model class for table "fur_length".
+ * This is the model class for table "fur_lengths".
  *
- * @property int $fur_length_id
+ * @property int $id
  * @property string $fur_length
  *
- * @property Animals[] $animals
+ * @property Animal[] $animals
  */
 class FurLength extends \yii\db\ActiveRecord
 {
@@ -19,7 +19,7 @@ class FurLength extends \yii\db\ActiveRecord
      */
     public static function tableName()
     {
-        return 'fur_length';
+        return 'fur_lengths';
     }
 
     /**
@@ -39,7 +39,7 @@ class FurLength extends \yii\db\ActiveRecord
     public function attributeLabels()
     {
         return [
-            'fur_length_id' => 'Fur Length ID',
+            'id' => 'ID',
             'fur_length' => 'Fur Length',
         ];
     }
@@ -51,6 +51,6 @@ class FurLength extends \yii\db\ActiveRecord
      */
     public function getAnimals()
     {
-        return $this->hasMany(Animals::className(), ['fur_length' => 'fur_length_id']);
+        return $this->hasMany(Animal::className(), ['fur_length_id' => 'id']);
     }
 }
