@@ -6,15 +6,15 @@ use yii\widgets\ListView;
 /* @var $this yii\web\View */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
-$this->title = 'Animals';
+$this->title = 'Missing Animals';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
-<div class="animal-index">
+<div class="missing-animal-index">
 
     <h1><?= Html::encode($this->title) ?></h1>
 
     <p>
-        <?= Html::a('Create Animal', ['create'], ['class' => 'btn btn-success']) ?>
+        <?= Html::a('Create Missing Animal', ['create'], ['class' => 'btn btn-success']) ?>
     </p>
 
 
@@ -22,7 +22,7 @@ $this->params['breadcrumbs'][] = $this->title;
         'dataProvider' => $dataProvider,
         'itemOptions' => ['class' => 'item'],
         'itemView' => function ($model, $key, $index, $widget) {
-            return Html::a(Html::encode($model->animal_id), ['view', 'id' => $model->animal_id]);
+            return Html::a(Html::encode($model->id), ['view', 'id' => $model->id]);
         },
     ]) ?>
 
