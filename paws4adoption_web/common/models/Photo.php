@@ -1,13 +1,13 @@
 <?php
 
-namespace app\models;
+namespace common\models;
 
 use Yii;
 
 /**
  * This is the model class for table "photos".
  *
- * @property int $photo_id
+ * @property int $id
  * @property string|null $caption
  * @property string|null $img
  */
@@ -38,7 +38,7 @@ class Photo extends \yii\db\ActiveRecord
     public function attributeLabels()
     {
         return [
-            'photo_id' => 'Photo ID',
+            'id' => 'ID',
             'caption' => 'Caption',
             'img' => 'Img',
         ];

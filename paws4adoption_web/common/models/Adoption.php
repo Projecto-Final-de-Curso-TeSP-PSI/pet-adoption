@@ -1,20 +1,20 @@
 <?php
 
-namespace app\models;
+namespace common\models;
 
 use Yii;
 
 /**
  * This is the model class for table "adoptions".
  *
- * @property int $adoption_id
+ * @property int $id
  * @property string $motivation
  * @property string|null $adoption_date
- * @property int $adoption_animal_id
+ * @property int $adopted_animal_id
  * @property int $adopter_id
  *
- * @property Users $adopter
- * @property AdoptionAnimals $adoption
+ * @property User $adopter
+ * @property AdoptionAnimal $id0
  */
 class Adoption extends \yii\db\ActiveRecord
 {
@@ -32,12 +32,12 @@ class Adoption extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['motivation', 'adoption_animal_id', 'adopter_id'], 'required'],
+            [['motivation', 'adopted_animal_id', 'adopter_id'], 'required'],
             [['motivation'], 'string'],
             [['adoption_date'], 'safe'],
-            [['adoption_animal_id', 'adopter_id'], 'integer'],
-            [['adopter_id'], 'exist', 'skipOnError' => true, 'targetClass' => Users::className(), 'targetAttribute' => ['adopter_id' => 'userId']],
-            [['adoption_id'], 'exist', 'skipOnError' => true, 'targetClass' => AdoptionAnimals::className(), 'targetAttribute' => ['adoption_id' => 'adoption_animal_id']],
+            [['adopted_animal_id', 'adopter_id'], 'integer'],
+            [['adopter_id'], 'exist', 'skipOnError' => true, 'targetClass' => User::className(), 'targetAttribute' => ['adopter_id' => 'id']],
+            [['id'], 'exist', 'skipOnError' => true, 'targetClass' => AdoptionAnimal::className(), 'targetAttribute' => ['id' => 'id']],
         ];
     }
 
@@ -47,10 +47,10 @@ class Adoption extends \yii\db\ActiveRecord
     public function attributeLabels()
     {
         return [
-            'adoption_id' => 'Adoption ID',
+            'id' => 'ID',
             'motivation' => 'Motivation',
             'adoption_date' => 'Adoption Date',
-            'adoption_animal_id' => 'Adoption Animal ID',
+            'adopted_animal_id' => 'Adopted Animal ID',
             'adopter_id' => 'Adopter ID',
         ];
     }
@@ -62,16 +62,16 @@ class Adoption extends \yii\db\ActiveRecord
      */
     public function getAdopter()
     {
-        return $this->hasOne(Users::className(), ['userId' => 'adopter_id']);
+        return $this->hasOne(User::className(), ['id' => 'adopter_id']);
     }
 
     /**
-     * Gets query for [[Adoption]].
+     * Gets query for [[Id0]].
      *
      * @return \yii\db\ActiveQuery
      */
-    public function getAdoption()
+    public function getId0()
     {
-        return $this->hasOne(AdoptionAnimals::className(), ['adoption_animal_id' => 'adoption_id']);
+        return $this->hasOne(AdoptionAnimal::className(), ['id' => 'id']);
     }
 }

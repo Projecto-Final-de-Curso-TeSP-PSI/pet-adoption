@@ -1,22 +1,23 @@
 <?php
 
-namespace app\models;
+namespace common\models;
 
 use Yii;
 
 /**
  * This is the model class for table "adoption_animals".
  *
- * @property int $adoption_animal_id
+ * @property int $id
  * @property bool|null $is_on_fat
  * @property int $organization_id
  * @property int $associated_user_id
  *
- * @property Animals $adoptionAnimal
- * @property AssociatedUsers $associatedUser
- * @property Organizations $organization
+ * @property Animal $animal
+ * @property AssociatedUser $associatedUser
+ * @property Organization $organization
+ * @property Adoption $adoption
  */
-class AdoptionAnimal extends \yii\db\ActiveRecord
+class AdoptionAnimal extends \common\models\Animal
 {
     /**
      * {@inheritdoc}
@@ -32,13 +33,13 @@ class AdoptionAnimal extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['adoption_animal_id', 'organization_id', 'associated_user_id'], 'required'],
-            [['adoption_animal_id', 'organization_id', 'associated_user_id'], 'integer'],
+            [['id', 'organization_id', 'associated_user_id'], 'required'],
+            [['id', 'organization_id', 'associated_user_id'], 'integer'],
             [['is_on_fat'], 'boolean'],
-            [['adoption_animal_id'], 'unique'],
-            [['adoption_animal_id'], 'exist', 'skipOnError' => true, 'targetClass' => Animals::className(), 'targetAttribute' => ['adoption_animal_id' => 'animal_id']],
-            [['associated_user_id'], 'exist', 'skipOnError' => true, 'targetClass' => AssociatedUsers::className(), 'targetAttribute' => ['associated_user_id' => 'associated_users_id']],
-            [['organization_id'], 'exist', 'skipOnError' => true, 'targetClass' => Organizations::className(), 'targetAttribute' => ['organization_id' => 'organizationId']],
+            [['id'], 'unique'],
+            [['id'], 'exist', 'skipOnError' => true, 'targetClass' => Animal::className(), 'targetAttribute' => ['id' => 'id']],
+            [['associated_user_id'], 'exist', 'skipOnError' => true, 'targetClass' => AssociatedUser::className(), 'targetAttribute' => ['associated_user_id' => 'id']],
+            [['organization_id'], 'exist', 'skipOnError' => true, 'targetClass' => Organization::className(), 'targetAttribute' => ['organization_id' => 'id']],
         ];
     }
 
@@ -48,21 +49,21 @@ class AdoptionAnimal extends \yii\db\ActiveRecord
     public function attributeLabels()
     {
         return [
-            'adoption_animal_id' => 'Adoption Animal ID',
+            'id' => 'ID',
             'is_on_fat' => 'Is On Fat',
             'organization_id' => 'Organization ID',
-            'associated_user_id' => 'Associated user ID',
+            'associated_user_id' => 'Associated User ID',
         ];
     }
 
     /**
-     * Gets query for [[AdoptionAnimal]].
+     * Gets query for [[Id0]].
      *
      * @return \yii\db\ActiveQuery
      */
-    public function getAdoptionAnimal()
+    public function getAnimal()
     {
-        return $this->hasOne(Animals::className(), ['animal_id' => 'adoption_animal_id']);
+        return $this->hasOne(Animal::className(), ['id' => 'id']);
     }
 
     /**
@@ -72,7 +73,7 @@ class AdoptionAnimal extends \yii\db\ActiveRecord
      */
     public function getAssociatedUser()
     {
-        return $this->hasOne(AssociatedUsers::className(), ['associated_users_id' => 'associated_user_id']);
+        return $this->hasOne(AssociatedUser::className(), ['id' => 'associated_user_id']);
     }
 
     /**
@@ -82,6 +83,16 @@ class AdoptionAnimal extends \yii\db\ActiveRecord
      */
     public function getOrganization()
     {
-        return $this->hasOne(Organizations::className(), ['organizationId' => 'organization_id']);
+        return $this->hasOne(Organization::className(), ['id' => 'organization_id']);
+    }
+
+    /**
+     * Gets query for [[Adoption]].
+     *
+     * @return \yii\db\ActiveQuery
+     */
+    public function getAdoption()
+    {
+        return $this->hasOne(Adoption::className(), ['id' => 'id']);
     }
 }

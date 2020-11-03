@@ -1,23 +1,23 @@
 <?php
 
-namespace app\models;
+namespace common\models;
 
 use Yii;
 
 /**
  * This is the model class for table "found_animals".
  *
- * @property int $found_animal_id
+ * @property int $id
  * @property string|null $location
- * @property int $user_id
  * @property bool|null $is_active
  * @property string|null $found_date
  * @property string|null $priority
+ * @property int $user_id
  *
- * @property Animals $foundAnimal
- * @property Users $user
+ * @property Animal $animal
+ * @property User $user
  */
-class FoundAnimal extends \yii\db\ActiveRecord
+class FoundAnimal extends \common\models\Animal
 {
     /**
      * {@inheritdoc}
@@ -33,15 +33,15 @@ class FoundAnimal extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['found_animal_id', 'user_id'], 'required'],
-            [['found_animal_id', 'user_id'], 'integer'],
+            [['id', 'user_id'], 'required'],
+            [['id', 'user_id'], 'integer'],
             [['is_active'], 'boolean'],
             [['found_date'], 'safe'],
             [['priority'], 'string'],
             [['location'], 'string', 'max' => 45],
-            [['found_animal_id'], 'unique'],
-            [['found_animal_id'], 'exist', 'skipOnError' => true, 'targetClass' => Animals::className(), 'targetAttribute' => ['found_animal_id' => 'animal_id']],
-            [['user_id'], 'exist', 'skipOnError' => true, 'targetClass' => Users::className(), 'targetAttribute' => ['user_id' => 'userId']],
+            [['id'], 'unique'],
+            [['id'], 'exist', 'skipOnError' => true, 'targetClass' => Animal::className(), 'targetAttribute' => ['id' => 'id']],
+            [['user_id'], 'exist', 'skipOnError' => true, 'targetClass' => User::className(), 'targetAttribute' => ['user_id' => 'id']],
         ];
     }
 
@@ -51,32 +51,32 @@ class FoundAnimal extends \yii\db\ActiveRecord
     public function attributeLabels()
     {
         return [
-            'found_animal_id' => 'Found Animal ID',
+            'id' => 'ID',
             'location' => 'Location',
-            'user_id' => 'user ID',
             'is_active' => 'Is Active',
             'found_date' => 'Found Date',
             'priority' => 'Priority',
+            'user_id' => 'User ID',
         ];
     }
 
     /**
-     * Gets query for [[FoundAnimal]].
+     * Gets query for [[Id0]].
      *
      * @return \yii\db\ActiveQuery
      */
-    public function getFoundAnimal()
+    public function getAnimal()
     {
-        return $this->hasOne(Animals::className(), ['animal_id' => 'found_animal_id']);
+        return $this->hasOne(Animal::className(), ['id' => 'id']);
     }
 
     /**
-     * Gets query for [[user]].
+     * Gets query for [[User]].
      *
      * @return \yii\db\ActiveQuery
      */
     public function getUser()
     {
-        return $this->hasOne(Users::className(), ['userId' => 'user_id']);
+        return $this->hasOne(User::className(), ['id' => 'user_id']);
     }
 }

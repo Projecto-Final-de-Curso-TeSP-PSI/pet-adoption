@@ -1,15 +1,15 @@
 <?php
 
-namespace app\models;
+namespace common\models;
 
 use Yii;
 
 /**
  * This is the model class for table "admin_users".
  *
- * @property int $adminUserId
+ * @property int $id
  */
-class AdminUser extends \yii\db\ActiveRecord
+class AdminUser extends \common\models\User
 {
     /**
      * {@inheritdoc}
@@ -25,9 +25,9 @@ class AdminUser extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['adminUserId'], 'required'],
-            [['adminUserId'], 'integer'],
-            [['adminUserId'], 'unique'],
+            [['id'], 'required'],
+            [['id'], 'integer'],
+            [['id'], 'unique'],
         ];
     }
 
@@ -37,7 +37,7 @@ class AdminUser extends \yii\db\ActiveRecord
     public function attributeLabels()
     {
         return [
-            'adminUserId' => 'Admin user ID',
+            'id' => 'ID',
         ];
     }
 }

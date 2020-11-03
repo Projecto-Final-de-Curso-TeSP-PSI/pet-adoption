@@ -1,23 +1,24 @@
 <?php
 
-namespace app\models;
+namespace common\models;
 
 use Yii;
 
 /**
  * This is the model class for table "address".
  *
- * @property int $address_id
+ * @property int $id
  * @property string|null $street
  * @property int|null $door_number
  * @property int|null $floor
  * @property int|null $postal_code
  * @property int|null $street_code
  * @property string|null $city
- * @property string|null $municipality
- * @property string|null $district
+ * @property int $district_id
  *
- * @property Users[] $users
+ * @property District $district
+ * @property Organization[] $organizations
+ * @property User[] $users
  */
 class Address extends \yii\db\ActiveRecord
 {
@@ -35,8 +36,10 @@ class Address extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['door_number', 'floor', 'postal_code', 'street_code'], 'integer'],
-            [['street', 'city', 'municipality', 'district'], 'string', 'max' => 45],
+            [['door_number', 'floor', 'postal_code', 'street_code', 'district_id'], 'integer'],
+            [['district_id'], 'required'],
+            [['street', 'city'], 'string', 'max' => 45],
+            [['district_id'], 'exist', 'skipOnError' => true, 'targetClass' => District::className(), 'targetAttribute' => ['district_id' => 'id']],
         ];
     }
 
@@ -46,16 +49,35 @@ class Address extends \yii\db\ActiveRecord
     public function attributeLabels()
     {
         return [
-            'address_id' => 'Address ID',
+            'id' => 'ID',
             'street' => 'Street',
             'door_number' => 'Door Number',
             'floor' => 'Floor',
             'postal_code' => 'Postal Code',
             'street_code' => 'Street Code',
             'city' => 'City',
-            'municipality' => 'Municipality',
-            'district' => 'District',
+            'district_id' => 'District ID',
         ];
+    }
+
+    /**
+     * Gets query for [[District]].
+     *
+     * @return \yii\db\ActiveQuery
+     */
+    public function getDistrict()
+    {
+        return $this->hasOne(District::className(), ['id' => 'district_id']);
+    }
+
+    /**
+     * Gets query for [[Organizations]].
+     *
+     * @return \yii\db\ActiveQuery
+     */
+    public function getOrganizations()
+    {
+        return $this->hasMany(Organization::className(), ['address_id' => 'id']);
     }
 
     /**
@@ -65,6 +87,6 @@ class Address extends \yii\db\ActiveRecord
      */
     public function getUsers()
     {
-        return $this->hasMany(Users::className(), ['address' => 'address_id']);
+        return $this->hasMany(User::className(), ['address_id' => 'id']);
     }
 }

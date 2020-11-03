@@ -1,17 +1,19 @@
 <?php
 
-namespace app\models;
+namespace common\models;
 
 use Yii;
 
 /**
  * This is the model class for table "associated_users".
  *
- * @property int $associated_users_id
+ * @property int $id
  * @property bool $isActive
  * @property int $organization_id
+ *
+ * @property AdoptionAnimal[] $adoptionAnimals
  */
-class AssociatedUser extends \yii\db\ActiveRecord
+class AssociatedUser extends \common\models\User
 {
     /**
      * {@inheritdoc}
@@ -27,10 +29,10 @@ class AssociatedUser extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['associated_users_id', 'organization_id'], 'required'],
-            [['associated_users_id', 'organization_id'], 'integer'],
+            [['id', 'organization_id'], 'required'],
+            [['id', 'organization_id'], 'integer'],
             [['isActive'], 'boolean'],
-            [['associated_users_id'], 'unique'],
+            [['id'], 'unique'],
         ];
     }
 
@@ -40,9 +42,19 @@ class AssociatedUser extends \yii\db\ActiveRecord
     public function attributeLabels()
     {
         return [
-            'associated_users_id' => 'Associated Users ID',
+            'id' => 'ID',
             'isActive' => 'Is Active',
             'organization_id' => 'Organization ID',
         ];
+    }
+
+    /**
+     * Gets query for [[AdoptionAnimals]].
+     *
+     * @return \yii\db\ActiveQuery
+     */
+    public function getAdoptionAnimals()
+    {
+        return $this->hasMany(AdoptionAnimal::className(), ['associated_user_id' => 'id']);
     }
 }

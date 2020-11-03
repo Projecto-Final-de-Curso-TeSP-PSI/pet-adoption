@@ -1,6 +1,6 @@
 <?php
 
-namespace app\models;
+namespace common\models;
 
 use Yii;
 
@@ -10,7 +10,7 @@ use Yii;
  * @property int $specie_id
  * @property string $specie_name
  *
- * @property Animals[] $animals
+ * @property Animal[] $animals
  */
 class Specie extends \yii\db\ActiveRecord
 {
@@ -51,6 +51,13 @@ class Specie extends \yii\db\ActiveRecord
      */
     public function getAnimals()
     {
-        return $this->hasMany(Animals::className(), ['specie_id' => 'specie_id']);
+        return $this->hasMany(Animal::className(), ['specie_id' => 'specie_id']);
+    }
+
+    public static function getData(){
+        return [
+            1 => 'Cão',
+            2 => 'Gato'
+        ];
     }
 }
