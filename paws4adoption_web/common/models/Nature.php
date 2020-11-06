@@ -23,6 +23,14 @@ class Nature extends \yii\db\ActiveRecord
         return 'nature';
     }
 
+    public static function getData()
+    {
+        return [
+            1 => 'Labrador',
+            2 => 'Siemês'
+        ];
+    }
+
     /**
      * {@inheritdoc}
      */

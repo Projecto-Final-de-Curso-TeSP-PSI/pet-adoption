@@ -22,6 +22,16 @@ class FurColor extends \yii\db\ActiveRecord
         return 'fur_colors';
     }
 
+    public static function getData()
+    {
+        return [
+            1 => 'Branco',
+            2 => 'Preto',
+            3 => 'Castanho',
+            4 => 'Bege',
+        ];
+    }
+
     /**
      * {@inheritdoc}
      */

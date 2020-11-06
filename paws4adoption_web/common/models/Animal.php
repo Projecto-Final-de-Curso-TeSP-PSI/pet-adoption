@@ -27,12 +27,29 @@ use Yii;
  */
 class Animal extends \yii\db\ActiveRecord
 {
+    public $id;
+    public $chipId;
+    public $createdAt;
+    public $description;
+    public $nature_id;
+    public $fur_length_id;
+    public $fur_color_id;
+    public $size_id;
+    public $sex;
+
     /**
      * {@inheritdoc}
      */
     public static function tableName()
     {
         return 'animals';
+    }
+
+    public static function getSex(){
+        return [
+            'M',
+            'F'
+        ];
     }
 
     /**
@@ -60,14 +77,14 @@ class Animal extends \yii\db\ActiveRecord
     {
         return [
             'id' => 'ID',
-            'chipId' => 'Chip ID',
+            'chipId' => 'Número do Chip',
             'createdAt' => 'Created At',
-            'description' => 'Description',
-            'nature_id' => 'Nature ID',
-            'fur_length_id' => 'Fur Length ID',
-            'fur_color_id' => 'Fur Color ID',
-            'size_id' => 'Size ID',
-            'sex' => 'Sex',
+            'description' => 'Descrição',
+            'nature_id' => 'Raça',
+            'fur_length_id' => 'Tamanho do pêlo',
+            'fur_color_id' => 'Cor do pêlo',
+            'size_id' => 'Porte',
+            'sex' => 'Género',
         ];
     }
 
