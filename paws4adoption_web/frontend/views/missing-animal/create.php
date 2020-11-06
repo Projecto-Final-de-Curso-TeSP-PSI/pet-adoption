@@ -4,6 +4,7 @@ use yii\helpers\Html;
 
 /* @var $this yii\web\View */
 /* @var $model common\models\MissingAnimal */
+/* @var $modelAnimal common\models\Animal */
 
 $this->title = 'Create Missing Animal';
 $this->params['breadcrumbs'][] = ['label' => 'Missing Animals', 'url' => ['index']];
@@ -13,8 +14,9 @@ $this->params['breadcrumbs'][] = $this->title;
 
     <h1><?= Html::encode($this->title) ?></h1>
 
-    <?= $this->render('_form', [
+    <?= $this->render('missingAnimalForm', [
         'model' => $model,
+//        'modelAnimal' => $modelAnimal
     ]) ?>
 
 </div>
