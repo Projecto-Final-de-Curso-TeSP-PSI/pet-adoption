@@ -1,6 +1,8 @@
 <?php
 namespace frontend\controllers;
 
+use common\models\User;
+use frontend\models\ProfileForm;
 use frontend\models\ResendVerificationEmailForm;
 use frontend\models\VerifyEmailForm;
 use Yii;
@@ -90,6 +92,14 @@ class SiteController extends Controller
 
         $model = new LoginForm();
         if ($model->load(Yii::$app->request->post()) && $model->login()) {
+            $loggedUserId = Yii::$app->user->id;
+            $loggedUser = User::findIdentity($loggedUserId);
+            if($loggedUser->address_id == null){
+                $userProfile = new ProfileForm();
+                return $this->render('userProfileForm', [
+                    'model' => $userProfile,
+                ]);
+            }
             return $this->goBack();
         } else {
             $model->password = '';
@@ -265,5 +275,10 @@ class SiteController extends Controller
         return $this->render('resendVerificationEmail', [
             'model' => $model
         ]);
+    }
+
+    public function actionEditUserProfile()
+    {
+
     }
 }
