@@ -1,39 +1,26 @@
 <?php
+
 use \yii\helpers\Html;
+use yii\widgets\ListView;
+
 /* @var $this yii\web\View */
+/* @var $dataProvider yii\data\ActiveDataProvider */
 
-$this->title = 'My Yii Application';
-
-$this->title = 'Nome da lista';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
-<div>
-    <h1><?= Html::encode($this->title) ?></h1>
-    <div class="body-content">
-
-        <div >
-            <!-- Imagem do animal -->
-            <div><?= Html::img('../../assets/images/gato01.jpg')?>'</div>
-            <!-- Informação dos animais -->
-            <div>
-                <p>Nome:</p><br>
-                <p>Idade:</p><br>
-                <p>Associação:</p>
-                <!--Div Botoes Lista Adotar -->
-                <div>
-                    <input type="button" value="Adotar"/>
-                    <input type="button" value="FAT"/>
-                </div>
-                <!--Div Botoes Lista Perdidos/Errantes -->
-                <div>
-                    <input type="button" value="Contactar"/>
-                </div>
-                <!--Div Botoes Lista Publicados por mim -->
-                <div>
-                    <input type="button" value="Eleminar"/>
-                    <input type="button" value="Editar"/>
-                </div>
-            </div>
-        </div>
-    </div>
+<div class="mainContent">
+    <?= ListView::widget([
+        'dataProvider' => $dataProvider,
+        'itemView' => '_animal',
+        'viewParams' => [
+            'fullView' => true,
+            'context' => 'main-page',
+        ],
+        'layout' => "{pager}\n{items}",
+    ])
+    ?>
 </div>
+
+<?php
+
+
