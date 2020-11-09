@@ -12,7 +12,7 @@ use Yii;
  * @property bool|null $is_missing
  * @property int $owner_id
  *
- * @property Animal $animal
+ * @property Animal $id0
  * @property User $owner
  */
 class MissingAnimal extends \common\models\Animal
@@ -30,7 +30,8 @@ class MissingAnimal extends \common\models\Animal
      */
     public function rules()
     {
-        return [
+        $parentRules = parent::rules();
+        $childRules = [
             [['id', 'owner_id'], 'required'],
             [['id', 'owner_id'], 'integer'],
             [['missing_date'], 'safe'],
@@ -39,6 +40,7 @@ class MissingAnimal extends \common\models\Animal
             [['id'], 'exist', 'skipOnError' => true, 'targetClass' => Animal::className(), 'targetAttribute' => ['id' => 'id']],
             [['owner_id'], 'exist', 'skipOnError' => true, 'targetClass' => User::className(), 'targetAttribute' => ['owner_id' => 'id']],
         ];
+        return array_merge($parentRules, $childRules);
     }
 
     /**
@@ -46,20 +48,22 @@ class MissingAnimal extends \common\models\Animal
      */
     public function attributeLabels()
     {
-        return [
+        $parentAtributeLabels = parent::attributeLabels();
+        $childAtributeLabels = [
             'id' => 'ID',
-            'missing_date' => 'Missing Date',
-            'is_missing' => 'Is Missing',
+            'missing_date' => 'Data de Desaparecimento',
+            'is_missing' => 'Desaparecido',
             'owner_id' => 'Owner ID',
         ];
+        return array_merge($parentAtributeLabels, $childAtributeLabels);
     }
 
     /**
-     * Gets query for [[Id0]].
+     * Gets query for [[Animal]].
      *
      * @return \yii\db\ActiveQuery
      */
-    public function getAnimal()
+    public function getId0()
     {
         return $this->hasOne(Animal::className(), ['id' => 'id']);
     }

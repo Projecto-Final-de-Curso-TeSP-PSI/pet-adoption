@@ -1,7 +1,8 @@
 <?php
 namespace frontend\controllers;
 
-use Codeception\Util\Debug;
+use common\models\User;
+use frontend\models\ProfileForm;
 use common\models\Animal;
 use frontend\models\ResendVerificationEmailForm;
 use frontend\models\VerifyEmailForm;
@@ -93,6 +94,14 @@ class SiteController extends Controller
 
         $model = new LoginForm();
         if ($model->load(Yii::$app->request->post()) && $model->login()) {
+            $loggedUserId = Yii::$app->user->id;
+            $loggedUser = User::findIdentity($loggedUserId);
+            if($loggedUser->address_id == null){
+                $userProfile = new ProfileForm();
+                return $this->render('userProfileForm', [
+                    'model' => $userProfile,
+                ]);
+            }
             return $this->goBack();
         } else {
             $model->password = '';
@@ -293,5 +302,10 @@ class SiteController extends Controller
         return $this->render('resendVerificationEmail', [
             'model' => $model
         ]);
+    }
+
+    public function actionEditUserProfile()
+    {
+
     }
 }

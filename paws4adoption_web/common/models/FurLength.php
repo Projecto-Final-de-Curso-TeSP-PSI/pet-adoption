@@ -22,6 +22,15 @@ class FurLength extends \yii\db\ActiveRecord
         return 'fur_lengths';
     }
 
+    public static function getData()
+    {
+        return [
+            1 => 'Curto',
+            2 => 'Médio',
+            3 => 'Longo'
+        ];
+    }
+
     /**
      * {@inheritdoc}
      */

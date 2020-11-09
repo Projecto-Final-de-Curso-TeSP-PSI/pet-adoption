@@ -12,7 +12,7 @@ use Yii;
  * @property int $organization_id
  * @property int $associated_user_id
  *
- * @property Animal $animal
+ * @property Animal $missing-animal
  * @property AssociatedUser $associatedUser
  * @property Organization $organization
  * @property Adoption $adoption
@@ -32,7 +32,8 @@ class AdoptionAnimal extends \common\models\Animal
      */
     public function rules()
     {
-        return [
+        $parentRules = parent::rules();
+        $childRules = [
             [['id', 'organization_id', 'associated_user_id'], 'required'],
             [['id', 'organization_id', 'associated_user_id'], 'integer'],
             [['is_on_fat'], 'boolean'],
@@ -41,6 +42,7 @@ class AdoptionAnimal extends \common\models\Animal
             [['associated_user_id'], 'exist', 'skipOnError' => true, 'targetClass' => AssociatedUser::className(), 'targetAttribute' => ['associated_user_id' => 'id']],
             [['organization_id'], 'exist', 'skipOnError' => true, 'targetClass' => Organization::className(), 'targetAttribute' => ['organization_id' => 'id']],
         ];
+        return array_merge($parentRules, $childRules);
     }
 
     /**
@@ -48,12 +50,14 @@ class AdoptionAnimal extends \common\models\Animal
      */
     public function attributeLabels()
     {
-        return [
+        $parentAttributeLabels = parent::attributeLabels();
+        $childAttributeLabels = [
             'id' => 'ID',
-            'is_on_fat' => 'Is On Fat',
+            'is_on_fat' => 'Em Família de Acolhimento Temporário',
             'organization_id' => 'Organization ID',
             'associated_user_id' => 'Associated User ID',
         ];
+        return array_merge($parentAttributeLabels, $childAttributeLabels);
     }
 
     /**

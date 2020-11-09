@@ -22,6 +22,16 @@ class District extends \yii\db\ActiveRecord
         return 'districts';
     }
 
+    public static function getData()
+    {
+        return [
+            'prompt' => 'Escolha um distrito',
+            1 => 'Distrito 1',
+            2 => 'Distrito 2',
+            3 => 'Distrito 3',
+        ];
+    }
+
     /**
      * {@inheritdoc}
      */

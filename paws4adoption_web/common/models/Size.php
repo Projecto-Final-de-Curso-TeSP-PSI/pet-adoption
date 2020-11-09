@@ -2,6 +2,7 @@
 
 namespace common\models;
 
+use phpDocumentor\Reflection\Utils;
 use Yii;
 
 /**
@@ -20,6 +21,15 @@ class Size extends \yii\db\ActiveRecord
     public static function tableName()
     {
         return 'sizes';
+    }
+
+    public static function getData()
+    {
+        return [
+            1 => 'Pequeno',
+            2 => 'Médio',
+            3 => 'Grande'
+        ];
     }
 
     /**

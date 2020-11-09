@@ -1,0 +1,24 @@
+<resources>
+    <string name="app_name">Paws 4 Adoption</string>
+    <string name="registar">Registar</string>
+    <string name="password">Password</string>
+    <string name="email">Email</string>
+    <string name="nome_de_utilizador">Nome de utilizador</string>
+    <string name="paws_4_adoption_logo">Paws 4 Adoption Logo</string>
+    <string name="escolher_distrito">Escolher Distrito</string>
+    <string name="district1">Distrito 1</string>
+    <string name="district2">Distrito 2</string>
+    <string name="district3">Distrito 3</string>
+    <string name="district4">Distrito 4</string>
+    <string name="district5">Distrito 5</string>
+    <string name="district6">Distrito 6</string>
+    <string-array name="districtslist">
+        <item>@string/escolher_distrito</item>
+        <item>@string/district1</item>
+        <item>@string/district2</item>
+        <item>@string/district3</item>
+        <item>@string/district4</item>
+        <item>@string/district5</item>
+        <item>@string/district6</item>
+    </string-array>
+</resources>

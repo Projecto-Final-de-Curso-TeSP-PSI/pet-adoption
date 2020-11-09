@@ -14,7 +14,7 @@ use Yii;
  * @property string|null $priority
  * @property int $user_id
  *
- * @property Animal $animal
+ * @property Animal $missing-animal
  * @property User $user
  */
 class FoundAnimal extends \common\models\Animal
@@ -32,7 +32,8 @@ class FoundAnimal extends \common\models\Animal
      */
     public function rules()
     {
-        return [
+        $parentRules = parent::rules();
+        $childRules = [
             [['id', 'user_id'], 'required'],
             [['id', 'user_id'], 'integer'],
             [['is_active'], 'boolean'],
@@ -43,6 +44,8 @@ class FoundAnimal extends \common\models\Animal
             [['id'], 'exist', 'skipOnError' => true, 'targetClass' => Animal::className(), 'targetAttribute' => ['id' => 'id']],
             [['user_id'], 'exist', 'skipOnError' => true, 'targetClass' => User::className(), 'targetAttribute' => ['user_id' => 'id']],
         ];
+
+        return array_merge($parentRules, $childRules);
     }
 
     /**
@@ -50,7 +53,8 @@ class FoundAnimal extends \common\models\Animal
      */
     public function attributeLabels()
     {
-        return [
+        $parentAtributeLabels = parent::attributeLabels();
+        $childAtributeLabels = [
             'id' => 'ID',
             'location' => 'Location',
             'is_active' => 'Is Active',
@@ -58,6 +62,7 @@ class FoundAnimal extends \common\models\Animal
             'priority' => 'Priority',
             'user_id' => 'User ID',
         ];
+        return array_merge($parentAtributeLabels, $childAtributeLabels);
     }
 
     /**
