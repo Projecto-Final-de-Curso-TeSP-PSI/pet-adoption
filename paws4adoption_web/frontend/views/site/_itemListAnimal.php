@@ -9,9 +9,9 @@ use yii\helpers\HtmlPurifier;
     <div class="divMainInfo">
         <div class="divImg"><?= Html::img('../../assets/images/gato.jpg')?></div>
         <div class="divInfo">
-            <!--<p><?= HtmlPurifier::process($model->chipId) ?></p>-->
+            <p><?= HtmlPurifier::process($model->chipId) ?></p>
             <div class="divCampos">
-                <p class="pCampos">Especie:</p><p><?= HtmlPurifier::process($model->nature->nameByParentId) ?></p>
+                <p class="pCampos">Especie:</p><p><?= HtmlPurifier::    process($model->nature->nameByParentId) ?></p>
                 <p class="pCampos">Raça: </p><p><?= HtmlPurifier::process($model->nature->name) ?></p>
             </div>
             <div class="divCampos">
