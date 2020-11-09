@@ -27,15 +27,15 @@ use Yii;
  */
 class Animal extends \yii\db\ActiveRecord
 {
-    public $id;
-    public $chipId;
-    public $createdAt;
-    public $description;
-    public $nature_id;
-    public $fur_length_id;
-    public $fur_color_id;
-    public $size_id;
-    public $sex;
+    //public $id;
+    //public $chipId;
+    //public $createdAt;
+    //public $description;
+    //public $nature_id;
+    //public $fur_length_id;
+    //public $fur_color_id;
+    //public $size_id;
+    //public $sex;
 
     /**
      * {@inheritdoc}
@@ -44,6 +44,7 @@ class Animal extends \yii\db\ActiveRecord
     {
         return 'animals';
     }
+
 
     public static function getSex(){
         return [
