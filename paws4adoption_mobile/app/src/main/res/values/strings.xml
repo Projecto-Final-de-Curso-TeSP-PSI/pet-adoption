@@ -13,8 +13,8 @@
     <string name="district5">Distrito 5</string>
     <string name="district6">Distrito 6</string>
     <string name="type_animal">Tipo de animal</string>
-    <string name="name_animal">Nome</string>
-    <string name="size_animal">Porte</string>
+    <string name="name_animal">Nome:</string>
+    <string name="size_animal">Porte:</string>
     <string name="todo">TODO</string>
     <string-array name="districtslist">
         <item>@string/escolher_distrito</item>
