@@ -29,6 +29,7 @@ class ProfileForm extends Model
 
 //    public
 
+
     public function rules()
     {
         $this->user = new User();
