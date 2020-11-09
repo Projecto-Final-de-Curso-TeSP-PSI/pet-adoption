@@ -1,10 +1,13 @@
 <?php
 namespace frontend\controllers;
 
+use Codeception\Util\Debug;
+use common\models\Animal;
 use frontend\models\ResendVerificationEmailForm;
 use frontend\models\VerifyEmailForm;
 use Yii;
 use yii\base\InvalidArgumentException;
+use yii\data\ActiveDataProvider;
 use yii\web\BadRequestHttpException;
 use yii\web\Controller;
 use yii\filters\VerbFilter;
@@ -151,7 +154,32 @@ class SiteController extends Controller
      */
     public function actionListAnimals()
     {
-        return $this->render('listAnimals');
+        $dataProvider = new ActiveDataProvider([
+            'query' => Animal::find()->orderBy('id DESC'),
+            'pagination' => [
+                'pageSize' => 10,
+            ],
+        ]);
+        //var_dump($dataProvider->getModels());
+
+        return $this->render('listAnimals', ['dataProvider' => $dataProvider]);
+    }
+    /**
+     * Displays AnimalsList page.
+     *
+     * @return mixed
+     */
+    public function actionHome()
+    {
+        $dataProvider = new ActiveDataProvider([
+            'query' => Animal::find()->orderBy('id DESC'),
+            'pagination' => [
+                'pageSize' => 10,
+            ],
+        ]);
+        //var_dump($dataProvider->getModels());
+
+        return $this->render('home', ['dataProvider' => $dataProvider]);
     }
 
     /**
