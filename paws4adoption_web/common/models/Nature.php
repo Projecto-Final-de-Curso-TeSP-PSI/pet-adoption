@@ -56,4 +56,13 @@ class Nature extends \yii\db\ActiveRecord
     {
         return $this->hasMany(Animal::className(), ['nature_id' => 'id']);
     }
+
+    /**
+     * Gets query for [[Nature]].
+     *
+     * @return string
+     */
+    public function getNameByParentId(){
+        return $this->findOne(['id' => $this->parent_nature_id])->name;
+    }
 }
