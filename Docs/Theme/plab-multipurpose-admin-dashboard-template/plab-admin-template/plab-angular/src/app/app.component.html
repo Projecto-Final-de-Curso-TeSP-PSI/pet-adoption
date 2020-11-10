@@ -1,0 +1,28 @@
+<!-- Preloader -->
+<app-preloader></app-preloader>
+
+<!-- This conditional block for the rest of the project pages except the authentication pages -->
+<ng-container *ngIf="!(location == '/auth/signup' || location == '/auth/signin' || location == '/auth/forgot-password' || location == '/others/error-404')">
+    <!-- Top Nav bar -->
+    <app-top-nav></app-top-nav>
+    <!-- Left Side Bar -->
+    <app-side-nav></app-side-nav>
+
+    <!-- Main Content Wrapper -->
+    <div class="main-content d-flex flex-column hide-sidemenu">
+        <!-- Router content -->
+        <router-outlet></router-outlet>
+
+        <!-- Footer -->
+        <app-footer></app-footer>
+    </div>
+
+    <!-- Customizer which showing in right side -->
+    <app-color-customizer></app-color-customizer>
+</ng-container>
+
+<!-- This conditional block for the authentication pages -->
+<ng-container *ngIf="(location == '/auth/signup' || location == '/auth/signin' || location == '/auth/forgot-password' || location == '/others/error-404')">
+    <!-- Router content -->
+    <router-outlet></router-outlet>
+</ng-container>
