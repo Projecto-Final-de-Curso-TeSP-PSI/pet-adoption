@@ -2,10 +2,9 @@
 
 namespace frontend\controllers;
 
-use frontend\models\AnimalForm;
 use Yii;
 use common\models\Animal;
-use yii\data\ActiveDataProvider;
+use common\models\AnimalSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
@@ -36,11 +35,11 @@ class AnimalController extends Controller
      */
     public function actionIndex()
     {
-        $dataProvider = new ActiveDataProvider([
-            'query' => Animal::find(),
-        ]);
+        $searchModel = new AnimalSearch();
+        $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
         return $this->render('index', [
+            'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,
         ]);
     }
@@ -58,22 +57,6 @@ class AnimalController extends Controller
         ]);
     }
 
-    public function actionMissingAnimalForm()
-    {
-        $model = new \common\models\MissingAnimal();
-
-        if ($model->load(Yii::$app->request->post())) {
-            if ($model->validate()) {
-                // form inputs are valid, do something here
-                return;
-            }
-        }
-
-        return $this->render('missingAnimalForm', [
-            'model' => $model,
-        ]);
-    }
-
     /**
      * Creates a new Animal model.
      * If creation is successful, the browser will be redirected to the 'view' page.
@@ -81,10 +64,10 @@ class AnimalController extends Controller
      */
     public function actionCreate()
     {
-        $model = new AnimalForm();
+        $model = new Animal();
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->animal_id]);
+            return $this->redirect(['view', 'id' => $model->id]);
         }
 
         return $this->render('create', [
@@ -104,7 +87,7 @@ class AnimalController extends Controller
         $model = $this->findModel($id);
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->animal_id]);
+            return $this->redirect(['view', 'id' => $model->id]);
         }
 
         return $this->render('update', [

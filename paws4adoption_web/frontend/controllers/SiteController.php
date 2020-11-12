@@ -156,23 +156,7 @@ class SiteController extends Controller
     {
         return $this->render('about');
     }
-    /**
-     * Displays AnimalsList page.
-     *
-     * @return mixed
-     */
-    public function actionListAnimals()
-    {
-        $dataProvider = new ActiveDataProvider([
-            'query' => Animal::find()->orderBy('id DESC'),
-            'pagination' => [
-                'pageSize' => 10,
-            ],
-        ]);
-        //var_dump($dataProvider->getModels());
 
-        return $this->render('listAnimals', ['dataProvider' => $dataProvider]);
-    }
     /**
      * Displays AnimalsList page.
      *

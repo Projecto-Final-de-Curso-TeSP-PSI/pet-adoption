@@ -9,6 +9,11 @@ use yii\widgets\ListView;
 /* @var $animalAdoptionSearchModel common\models\AnimalAdoptionSearch */
 /* @var $organizationSearchModel common\models\OrganizationSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
+/* @var $nature */
+/* @var $natureCat */
+/* @var $natureDog */
+/* @var $size */
+/* @var $organization */
 
 $this->title = 'Adota-me';
 $this->params['breadcrumbs'][] = $this->title;
