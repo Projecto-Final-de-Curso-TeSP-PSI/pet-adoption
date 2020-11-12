@@ -8,7 +8,11 @@ use yii\widgets\ActiveForm;
 /* @var $animalModel common\models\AnimalSearch */
 /* @var $organizationModel common\models\OrganizationSearch */
 /* @var $form yii\widgets\ActiveForm */
-
+/* @var $nature */
+/* @var $natureCat */
+/* @var $natureDog */
+/* @var $size */
+/* @var $organization */
 ?>
 
 <div class="adoption-animal-search">
