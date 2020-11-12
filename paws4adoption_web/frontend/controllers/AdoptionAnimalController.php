@@ -1,11 +1,19 @@
 <?php
 
-namespace backend\controllers;
+namespace frontend\controllers;
 
 use backend\models\AdoptionAnimalForm;
+use common\models\Animal;
+use common\models\AnimalAdoptionSearch;
+use common\models\AnimalSearch;
+use common\models\Nature;
+use common\models\Organization;
+use common\models\OrganizationSearch;
+use common\models\Size;
 use Yii;
 use common\models\AdoptionAnimal;
 use yii\data\ActiveDataProvider;
+use yii\helpers\ArrayHelper;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
@@ -36,14 +44,46 @@ class AdoptionAnimalController extends Controller
      */
     public function actionIndex()
     {
-        $dataProvider = new ActiveDataProvider([
-            'query' => AdoptionAnimal::find(),
-        ]);
+        $animalAdoptionSearchModel = new AnimalAdoptionSearch();
+        $animalSearchModel = new AnimalSearch();
+        $organizationSearchModel = new OrganizationSearch();
+        $animalAdoptionDataProvider = $animalAdoptionSearchModel->search(Yii::$app->request->queryParams);
+
 
         return $this->render('index', [
-            'dataProvider' => $dataProvider,
+            'animalAdoptionSearchModel' => $animalAdoptionSearchModel,
+            'animalSearchModel' => $animalSearchModel,
+            'organizationSearchModel' => $organizationSearchModel,
+            'dataProvider' => $animalAdoptionDataProvider,
+
+            'nature' => ArrayHelper::map(Nature::find()->where(['parent_nature_id' => null ])->all(), 'id', 'name'),
+            'natureCat' => ArrayHelper::map(Nature::find()->where(['parent_nature_id' => 1 ])->all(), 'id', 'name'),
+            'natureDog' => ArrayHelper::map(Nature::find()->where(['parent_nature_id' =>  2 ])->all(), 'id', 'name'),
+            'size' => ArrayHelper::map(Size::find()->all(), 'id', 'size'),
+            'organization' => ArrayHelper::map(Organization::find()->all(), 'id', 'name')
         ]);
+
     }
+
+
+    /**
+     * Displays AnimalsList page.
+     *
+     * @return mixed
+     */
+    public function actionListAnimals()
+    {
+        $dataProvider = new ActiveDataProvider([
+            'query' => Animal::find()->orderBy('id DESC'),
+            'pagination' => [
+                'pageSize' => 10,
+            ],
+        ]);
+        //var_dump($dataProvider->getModels());
+
+        return $this->render('listAnimals', ['dataProvider' => $dataProvider]);
+    }
+
 
     /**
      * Displays a single AdoptionAnimal model.
