@@ -1,6 +1,7 @@
 <?php
 
 /* @var $this \yii\web\View */
+
 /* @var $content string */
 
 use yii\helpers\Html;
@@ -9,6 +10,8 @@ use yii\bootstrap\NavBar;
 use yii\widgets\Breadcrumbs;
 use frontend\assets\AppAsset;
 use common\widgets\Alert;
+
+$reqUrl = Yii::$app->urlManager->parseRequest(Yii::$app->request);
 
 AppAsset::register($this);
 ?>
@@ -20,66 +23,39 @@ AppAsset::register($this);
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <?php $this->registerCsrfMetaTags() ?>
+    <?= Yii::$app->view->renderFile('@frontend/views/layouts/partials/_head.php'); ?>
     <title><?= Html::encode($this->title) ?></title>
     <?php $this->head() ?>
 </head>
 <body>
 <?php $this->beginBody() ?>
 
-<div class="wrap">
-    <?php
-    NavBar::begin([
-        'brandLabel' => Yii::$app->name,
-        'brandUrl' => Yii::$app->homeUrl,
-        'options' => [
-            'class' => 'navbar-inverse navbar-fixed-top',
-        ],
-    ]);
-    $menuItems = [
-        ['label' => 'Home', 'url' => ['/site/index']],
-        ['label' => 'Ajudar', 'url' => ['/site/about']],
-        ['label' => 'Contact', 'url' => ['/site/contact']],
-        ['label' => 'Adota-me', 'url' => ['/adoption-animal/list-animals']],
-    ];
-    if (Yii::$app->user->isGuest) {
-        $menuItems[] = ['label' => 'Signup', 'url' => ['/site/signup']];
-        $menuItems[] = ['label' => 'Login', 'url' => ['/site/login']];
-    } else {
-        $menuItems[] = [
-            'label' => 'Perfil', 'url' => ['/site/profile'],
-        ];
-        $menuItems[] = '<li>'
-            . Html::beginForm(['/site/logout'], 'post')
-            . Html::submitButton(
-                'Logout (' . Yii::$app->user->identity->username . ')',
-                ['class' => 'btn btn-link logout']
-            )
-            . Html::endForm()
-            . '</li>';
-    }
-    echo Nav::widget([
-        'options' => ['class' => 'navbar-nav navbar-right'],
-        'items' => $menuItems,
-    ]);
-    NavBar::end();
-    ?>
+<?php if (!($reqUrl[0] === "user/forgot-password" || $reqUrl[0] === "user/login" || $reqUrl[0] === "user/signup" || $reqUrl[0] === "page/error-404")): ?>
+<?= Yii::$app->view->renderFile('@frontend/views/layouts/partials/_top-nav.php'); ?>
 
-    <div class="container">
-        <?= Breadcrumbs::widget([
-            'links' => isset($this->params['breadcrumbs']) ? $this->params['breadcrumbs'] : [],
-        ]) ?>
-        <?= Alert::widget() ?>
-        <?= $content ?>
-    </div>
+    <!-- Side Menu -->
+<?= Yii::$app->view->renderFile('@frontend/views/layouts/partials/_sidemenu.php'); ?>
+
+    <!-- Main Content Wrapper -->
+<div class="main-content d-flex flex-column hide-sidemenu">
+    <?php endif; ?>
+
+
+    <?= $content ?>
+
+    <?php if (!($reqUrl[0] === "user/forgot-password" || $reqUrl[0] === "user/login" || $reqUrl[0] === "user/signup" || $reqUrl[0] === "page/error-404")): ?>
+    <!-- Footer -->
+    <?= Yii::$app->view->renderFile('@frontend/views/layouts/partials/_footer.php'); ?>
 </div>
+    <!-- End Main Content Wrapper -->
+<?php endif; ?>
 
-<footer class="footer">
-    <div class="container">
-        <p class="pull-left">&copy; <?= Html::encode(Yii::$app->name) ?> <?= date('Y') ?></p>
+<!-- Theme Color customizer Right Modal -->
+<?= Yii::$app->view->renderFile('@frontend/views/layouts/partials/_theme-color-customizer.php'); ?>
 
-        <p class="pull-right"><?= Yii::powered() ?></p>
-    </div>
-</footer>
+<!-- Footer Scripts -->
+<?= Yii::$app->view->renderFile('@frontend/views/layouts/partials/_footer-scripts.php'); ?>
+
 
 <?php $this->endBody() ?>
 </body>
