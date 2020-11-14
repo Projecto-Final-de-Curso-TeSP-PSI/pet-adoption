@@ -1,5 +1,5 @@
 
-
+/*
 INSERT INTO districts 
 VALUES (1,'Aveiro'),
 (2,'Beja'),(3,'Braga'),
@@ -29,7 +29,9 @@ VALUES (1,'Aveiro'),
 (27,'Ilha do Faial'),(
 28,'Ilha das Flores'),
 (29,'Ilha do Corvo');
+*/
 
+/*
 INSERT INTO address VALUES 
 (1,'Rua da Escola','7','2.º drt',2400,102,'Leiria',10),
 (2,'Av. da Liberdade','10A','4.º esq',1059,765,'Lisboa',11),
@@ -37,7 +39,9 @@ INSERT INTO address VALUES
 (4,'Bairro 1.º de Maio','25',NULL,2140,57,'Chamusca',14),
 (5,'Estrada de Fátima','107',NULL,2395,1,'Minde',14),
 (6,'Estrada do Caldeirão','8','1.º frt',9980,33,'Corvo',29);
+*/
 
+/*
 INSERT INTO users 
 VALUES 
 (1,'Simão','Pedro','simao.s.pedro@gmail.com','242218040','912345678','simaopedro','ozFqrgfw1RzFo-RJJUXCx9CI87lv5vDN','$2y$13$LOP/MFRXV/l6hF9ohY6CiuO.8yQCi//QGXq7rDrtBvFlCjJvW94tu',NULL,10,1605220994,1605220994,'t5AYTA0WgGx92sREwUOoJBqE4la2P2yt_1605220994',1),
@@ -46,6 +50,7 @@ VALUES
 (4,'Cláudia','Valente','claudiavalente@gm.pt','252456839','933564712','claudiavalente','GWVzgG4hfNVyIeAn9M5n5iDMwjfG9dit','$2y$13$RDKr6nIYt0Gcl.7AH2Ze/exxEy06nPiZrYWbfGNAFjQZ1V3TIdh3e',NULL,10,1605291387,1605291387,'TymcG-CiB4CS_811nBYJqrGdoDRiOEZv_1605291387',4),
 (5,'Martim','Gaspar','martimgaspar@gm.pt','252678934','928736451','martimgaspar','mJMoGHev31YDP8M3J3yXfJRjFDdhhQyN','$2y$13$KwkmKckbOM9XaTP7WM8CDeWCL1oOe0rLhvtFTsQxPa72YzYymVu6y',NULL,10,1605295368,1605295368,'7YIOqMoSC_ArzHFlQy97Xyl90zdxj2Gp_1605295368',5),
 (6,'José','Miguel','zemigas@gm.pt','196783526','915463728','zemigas','w71yoafkeRfTeWZgDZGhY1mgxH3fdQEU','$2y$13$xbiUJM5ILcrXePCzJ2zvXO/zgWF2MdmBtBPOvHBXeINFLfdHqbK9C',NULL,10,1605295493,1605295493,'ipBbZ01J0lr8wtoQdxJnYukQr8ckkg8q_1605295493',6);
+*/
 
 insert into fur_colors
 	values
@@ -198,7 +203,7 @@ VALUES
 (10,'979793874589795','2020-07-08 00:00:00','O Henriques apesar do seu tamanho imponente apenas quer dormir ao sol',													60,3,5,1,'M','Henriques'),
 (11,'985787309457308','2020-07-09 00:00:00','O Freddy foi resgatado de uma casa em ruinas, abandonado, mas agora está pronto para outra familia que cuide bem dele',	75,3,5,1,'M','Freddy'),
 (12,'985987687349867','2020-07-14 00:00:00','A Mason já foi uam cadela feliz, quer volta a fazê-la sorrir?!?!',															83,3,2,1,'M','Manson'),
-(13,'784768479745654','2020-07-23 00:00:00','O Argulias é o cão mais atarefado do canil, está sempre a arruamr alguma coisa debaixo da terra, um osso ou um brinquedo.',68,3,1,1,'M','Argulias'),
+(13,'784768479745654','2020-07-23 00:00:00','O Argulias é o cão mais atarefado do canil, está sempre a arrumar alguma coisa debaixo da terra, um osso ou um brinquedo.',68,3,1,1,'M','Argulias'),
 (14,'694786994857694','2020-07-27 00:00:00','O Esdrubal está connosco há 2 anos, venha dar um passeio com ele e verá que é o cão que procura.',							72,3,2,1,'M','Esdrubal'),
 (15,'498689476897458','2020-08-02 00:00:00','Desde que o Buscapé chegou o canil nunca mais foi o mesmo, é o terror dos cães com sono.',									107,3,5,1,'M','Buscapé'),
 (16,'498689476897458','2020-08-08 00:00:00','Apesar de ter pouca força nas pernas, o Alicate mexe-se muito, quem conseguir que o apanhe.',								64,3,5,1,'M','Alicate'),
@@ -207,33 +212,55 @@ VALUES
 (19,'498689476897458','2020-08-26 00:00:00','Já não existem cães como o Ambrosio, vai buscar o jornal e dá a pata.',													109,2,7,1,'M','Ambrosio'),
 (20,'498689476897458','2020-09-08 00:00:00','A fofa é uma caniche cheia de atividade, sempre pronta para passeios',														68,3,1,1,'M','Fofa');
 
-INSERT INTO adoption_animal
-VALUES
-(1, 0, 1, x),
-(3, 0, 1, x),
-(4, 0, 1, x),
-(5, 0, 1, x),
-(8, 0, 1, x),
-(9, 0, 1, x),
-(10, 0, 1, x),
-(11, 0, 1, x),
-(12, 0, 1, x),
-(14, 0, 1, x),
-(15, 0, 1, x),
-(16, 0, 1, x),
-(17, 0, 1, x),
-(18, 0, 1, x);
 
-INSERT INTO found_animal
+INSERT INTO associated_users
 VALUES
-(6, lat, log, 1, '2020-06-04', 3, x),
-(13, lat, log, 1, '2020-06-04', 3, x),
-(19, lat, log, 1, '2020-06-04', 3, x);
+(3, 1, 1),
+(4, 1, 2),
+(5, 1, 3),
+(6, 1, 3),
+(7, 1, 4),
+(8, 1, 5);
 
-INSERT INTO missing_animal
+INSERT INTO admin_users
 VALUES
-(2, '2020-06-04', 1, x),
-(7, '2020-06-04', 1, x),
-(20, '2020-06-04', 1, x);
+(1),
+(2);
+
+
+INSERT INTO adoption_animals
+VALUES
+(1, 0, 1, 3),
+(3, 0, 2, 4),
+(4, 0, 2, 4),
+(5, 0, 2, 4),
+(8, 0, 1, 3),
+(9, 0, 2, 4),
+(10, 0, 3, 5),
+(11, 0, 4, 7),
+(12, 1, 5, 8),
+(14, 0, 3, 5),
+(15, 0, 5, 8),
+(17, 0, 4, 7),
+(18, 0, 4, 7);
+
+INSERT INTO found_animals
+VALUES
+(6, 1, 1, '2020-06-04', 3, 9),
+(13, 1, 1, '2020-06-04', 3, 10),
+(19, 1, 1, '2020-06-04', 3, 11);
+
+INSERT INTO missing_animals
+VALUES
+(2, '2020-06-04', 1, 12),
+(7, '2020-06-04', 1, 14),
+(20, '2020-06-04', 1, 16);
+
+INSERT INTO adoptions
+VALUES
+(null, 'Gostaria de adotar este cão, tenho muito espaço no quintal.', null, 9, 17),
+(null, 'O meu tareco faleceu há um tempo, e gostaria de ter outro gato em casa, o Limão parece-me oser o gato ideal.', null, 4, 18),
+(null, 'Gostei muito do Esdrubal, como posso fazer para o adotar?.', '2020-09-15', 14, 16),
+(null, 'Gostaria de acolher temporariamente a Mason, como faço?', '2020-09-03', 12, 15);
 
 
