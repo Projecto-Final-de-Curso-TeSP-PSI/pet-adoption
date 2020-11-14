@@ -23,14 +23,8 @@ class ProfileForm extends Model
     public $city;
     public $district_id;
 
-
     private $user;
     private Address $address;
-
-//    public
-
-
-
 
     public function rules()
     {
@@ -63,7 +57,7 @@ class ProfileForm extends Model
         $loggedUser->lastName = $this->lastName;
         $loggedUser->nif = $this->nif;
         $loggedUser->phone = $this->phone;
-        $loggedUser->address = $this->address->id;
+        $loggedUser->address_id = $this->address->id;
 
         return $this->user->save(false);
     }

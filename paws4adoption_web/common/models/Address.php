@@ -36,8 +36,9 @@ class Address extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['door_number', 'floor', 'postal_code', 'street_code', 'district_id'], 'integer'],
+            [['postal_code', 'street_code', 'district_id'], 'integer'],
             [['district_id'], 'required'],
+            [['door_number', 'floor'], 'string', 'max' => 16],
             [['street', 'city'], 'string', 'max' => 45],
             [['district_id'], 'exist', 'skipOnError' => true, 'targetClass' => District::className(), 'targetAttribute' => ['district_id' => 'id']],
         ];

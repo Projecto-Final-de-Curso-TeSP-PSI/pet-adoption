@@ -116,8 +116,9 @@ CREATE TABLE `adoptions` (
   `adopter_id` int unsigned NOT NULL,
   PRIMARY KEY (`id`),
   KEY `fk_adopter_id_idx` (`adopter_id`),
+  KEY `fk_adoption_animal_id` (`adopted_animal_id`),
   CONSTRAINT `fk_adopter_id` FOREIGN KEY (`adopter_id`) REFERENCES `users` (`id`),
-  CONSTRAINT `fk_adoption_animal_id` FOREIGN KEY (`id`) REFERENCES `adoption_animals` (`id`)
+  CONSTRAINT `fk_adoption_animal_id` FOREIGN KEY (`adopted_animal_id`) REFERENCES `adoption_animals` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -259,7 +260,7 @@ CREATE TABLE `fur_colors` (
   `id` int unsigned NOT NULL AUTO_INCREMENT,
   `fur_color` varchar(45) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -268,6 +269,7 @@ CREATE TABLE `fur_colors` (
 
 LOCK TABLES `fur_colors` WRITE;
 /*!40000 ALTER TABLE `fur_colors` DISABLE KEYS */;
+INSERT INTO `fur_colors` VALUES (1,'Branco'),(2,'Preto'),(3,'Cinzento'),(4,'Laranja'),(5,'Castanho'),(6,'Amarelo/dourado'),(7,'Outra');
 /*!40000 ALTER TABLE `fur_colors` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -282,7 +284,7 @@ CREATE TABLE `fur_lengths` (
   `id` int unsigned NOT NULL AUTO_INCREMENT,
   `fur_length` varchar(45) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -291,6 +293,7 @@ CREATE TABLE `fur_lengths` (
 
 LOCK TABLES `fur_lengths` WRITE;
 /*!40000 ALTER TABLE `fur_lengths` DISABLE KEYS */;
+INSERT INTO `fur_lengths` VALUES (1,'Longo'),(2,'Medio'),(3,'Curto');
 /*!40000 ALTER TABLE `fur_lengths` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -357,7 +360,7 @@ CREATE TABLE `nature` (
   `parent_nature_id` int unsigned DEFAULT NULL,
   `name` varchar(45) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=113 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -366,6 +369,7 @@ CREATE TABLE `nature` (
 
 LOCK TABLES `nature` WRITE;
 /*!40000 ALTER TABLE `nature` DISABLE KEYS */;
+INSERT INTO `nature` VALUES (1,NULL,'Gato'),(2,NULL,'Cão'),(3,1,'Abissínio'),(4,1,'American Wirehair'),(5,1,'Asian'),(6,1,'Australian Mist'),(7,1,'Bobtail Americano'),(8,1,'Bombay'),(9,1,'Burmês'),(10,1,'Burmilla'),(11,1,'Cornish Rex'),(12,1,'Curl Americano'),(13,1,'Devon Rex'),(14,1,'Sphynx'),(15,1,'Egyptian Mau'),(16,1,'German Rex'),(17,1,'Havana'),(18,1,'Khao Manee'),(19,1,'Kurlian Bobtail'),(20,1,'Manx'),(21,1,'Munchkin'),(22,1,'Ocicat'),(23,1,'Oriental'),(24,1,'Peterbald'),(25,1,'Pixiebob'),(26,1,'Russian'),(27,1,'Seychellois'),(28,1,'Siamês'),(29,1,'Singapura'),(30,1,'Snowshoe'),(31,1,'Sokoke'),(32,1,'Angorá Turco'),(33,1,'Bobtail Japonês'),(34,1,'Chartreux'),(35,1,'Gato Bosques da Noruega'),(36,1,'LaPerm'),(37,1,'Maine Coon'),(38,1,'RagaMuffin'),(39,1,'Ragdoll'),(40,1,'Sagrado da Birmânia'),(41,1,'Scottish Straigth'),(42,1,'Selkirk Rex'),(43,1,'Somali'),(44,1,'Van Turco'),(45,1,'Balinês'),(46,1,'Siberiano'),(47,1,'Outra (Gato)'),(48,2,'Lulu da Pomerânia / Spitz Alemão'),(49,2,'Airedale Terrier'),(50,2,'American Pit Bull Terrier'),(51,2,'Akita'),(52,2,'American Staffordshire Terrier'),(53,2,'Barbado da Terceira'),(54,2,'Basset Hound'),(55,2,'Beagle'),(56,2,'Bichon Maltês'),(57,2,'Boerboel'),(58,2,'Border Collie'),(59,2,'Boston Terrier'),(60,2,'Boxer'),(61,2,'Braco Alemão '),(62,2,'Bull Terrier'),(63,2,'Bulldog Americano'),(64,2,'Bulldog Francês'),(65,2,'Bulldog Inglês '),(66,2,'BullMastiff'),(67,2,'Cane Corso'),(68,2,'Caniche'),(69,2,'Cão de Castro Laboreiro'),(70,2,'Cão da Serra da Estrela'),(71,2,'Cão da Serra de Aires'),(72,2,'Cão de Água'),(73,2,'Cão de Fila de São Miguel'),(74,2,'Cão de Gado Transmontano '),(75,2,'Chihuahua'),(76,2,'Cão de montanha de Berna'),(77,2,'Cão do Barrocal Algarvio'),(78,2,'Cavalier King Charles Spaniel'),(79,2,'Chow Chow'),(80,2,'CockerSpaniel Inglês'),(81,2,'Dougue Argentino'),(82,2,'Dachshund'),(83,2,'Dalmata'),(84,2,'Dobermann'),(85,2,'Dougue de Bordéus '),(86,2,'English Springer Spaniel'),(87,2,'Galgo'),(88,2,'Golden Retriever'),(89,2,'Grand Danois'),(90,2,'Labrador'),(91,2,'Greyhound'),(92,2,'Husky'),(93,2,'Lhasa Apso'),(94,2,'Pastor Alemão '),(95,2,'Malamute do Alasca'),(96,2,'Pequinês'),(97,2,'Pinscher'),(98,2,'Rottweiler'),(99,2,'Pug'),(100,2,'Rough Collie'),(101,2,'São Bernardo'),(102,2,'Shar Pei'),(103,2,'Schnauzer'),(104,2,'Scottish Terrier'),(105,2,'Shih Tzu'),(106,2,'Weimaraner'),(107,2,'Terra Nova'),(108,2,'Whippet'),(109,2,'Outra (Cão)'),(110,2,'Yorkshire Terrier');
 /*!40000 ALTER TABLE `nature` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -435,7 +439,7 @@ CREATE TABLE `sizes` (
   `id` int unsigned NOT NULL AUTO_INCREMENT,
   `size` varchar(45) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -444,6 +448,7 @@ CREATE TABLE `sizes` (
 
 LOCK TABLES `sizes` WRITE;
 /*!40000 ALTER TABLE `sizes` DISABLE KEYS */;
+INSERT INTO `sizes` VALUES (1,'Pequeno'),(2,'Medio'),(3,'Grande');
 /*!40000 ALTER TABLE `sizes` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -500,4 +505,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2020-11-14 12:50:23
+-- Dump completed on 2020-11-14 15:17:49

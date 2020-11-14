@@ -97,10 +97,7 @@ class SiteController extends Controller
             $loggedUserId = Yii::$app->user->id;
             $loggedUser = User::findIdentity($loggedUserId);
             if($loggedUser->address_id == null){
-                $userProfile = new ProfileForm();
-                return $this->render('userProfileForm', [
-                    'model' => $userProfile,
-                ]);
+                return $this->actionEditUserProfile();
             }
             return $this->goBack();
         } else {
@@ -288,8 +285,19 @@ class SiteController extends Controller
         ]);
     }
 
-    public function actionEditUserProfile()
+    public function actionProfile()
     {
+        $loggedUserId = Yii::$app->user->id;
+        $loggedUser = User::findIdentity($loggedUserId);
 
+        $userProfile = new ProfileForm();
+        if($userProfile->load(Yii::$app->request->post()) && $userProfile->save()){
+            Yii::$app->session->setFlash('success', 'Os seus dados foram gravados com sucesso.');
+            return $this->goHome();
+        }
+        
+        return $this->render('userProfileForm', [
+            'model' => $userProfile,
+        ]);
     }
 }
