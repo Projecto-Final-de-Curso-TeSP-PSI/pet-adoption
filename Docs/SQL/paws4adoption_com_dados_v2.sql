@@ -1,5 +1,4 @@
-DROP DATABASE IF EXISTS `paws4adoption`;
-CREATE DATABASE `paws4adoption` /*!40100 DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci */ /*!80016 DEFAULT ENCRYPTION='N' */;
+CREATE DATABASE  IF NOT EXISTS `paws4adoption` /*!40100 DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci */ /*!80016 DEFAULT ENCRYPTION='N' */;
 USE `paws4adoption`;
 -- MySQL dump 10.13  Distrib 8.0.21, for Win64 (x86_64)
 --
@@ -117,6 +116,7 @@ CREATE TABLE `adoptions` (
   `adopter_id` int unsigned NOT NULL,
   PRIMARY KEY (`id`),
   KEY `fk_adopter_id_idx` (`adopter_id`),
+  KEY `fk_adoption_animal_id` (`adopted_animal_id`),
   CONSTRAINT `fk_adopter_id` FOREIGN KEY (`adopter_id`) REFERENCES `users` (`id`),
   CONSTRAINT `fk_adoption_animal_id` FOREIGN KEY (`adopted_animal_id`) REFERENCES `adoption_animals` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
@@ -505,4 +505,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2020-11-14 13:01:39
+-- Dump completed on 2020-11-14 15:17:49

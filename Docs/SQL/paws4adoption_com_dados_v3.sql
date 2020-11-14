@@ -69,6 +69,7 @@ CREATE TABLE `admin_users` (
 
 LOCK TABLES `admin_users` WRITE;
 /*!40000 ALTER TABLE `admin_users` DISABLE KEYS */;
+INSERT INTO `admin_users` VALUES (1),(2);
 /*!40000 ALTER TABLE `admin_users` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -99,6 +100,7 @@ CREATE TABLE `adoption_animals` (
 
 LOCK TABLES `adoption_animals` WRITE;
 /*!40000 ALTER TABLE `adoption_animals` DISABLE KEYS */;
+INSERT INTO `adoption_animals` VALUES (1,_binary '\0',1,3),(3,_binary '\0',2,4),(4,_binary '\0',2,4),(5,_binary '\0',2,4),(8,_binary '\0',1,3),(9,_binary '\0',2,4),(10,_binary '\0',3,5),(11,_binary '\0',4,7),(12,_binary '',5,8),(14,_binary '\0',3,5),(15,_binary '\0',5,8),(17,_binary '\0',4,7),(18,_binary '\0',4,7);
 /*!40000 ALTER TABLE `adoption_animals` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -117,9 +119,10 @@ CREATE TABLE `adoptions` (
   `adopter_id` int unsigned NOT NULL,
   PRIMARY KEY (`id`),
   KEY `fk_adopter_id_idx` (`adopter_id`),
+  KEY `fk_adoption_animal_id` (`adopted_animal_id`),
   CONSTRAINT `fk_adopter_id` FOREIGN KEY (`adopter_id`) REFERENCES `users` (`id`),
   CONSTRAINT `fk_adoption_animal_id` FOREIGN KEY (`adopted_animal_id`) REFERENCES `adoption_animals` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -128,6 +131,7 @@ CREATE TABLE `adoptions` (
 
 LOCK TABLES `adoptions` WRITE;
 /*!40000 ALTER TABLE `adoptions` DISABLE KEYS */;
+INSERT INTO `adoptions` VALUES (1,'Gostaria de adotar este cão, tenho muito espaço no quintal.',NULL,9,17),(2,'O meu tareco faleceu há um tempo, e gostaria de ter outro gato em casa, o Limão parece-me oser o gato ideal.',NULL,4,18),(3,'Gostei muito do Esdrubal, como posso fazer para o adotar?.','2020-09-15',14,16),(4,'Gostaria de acolher temporariamente a Mason, como faço?','2020-09-03',12,15);
 /*!40000 ALTER TABLE `adoptions` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -158,7 +162,7 @@ CREATE TABLE `animals` (
   CONSTRAINT `fk_fur_length_id` FOREIGN KEY (`fur_length_id`) REFERENCES `fur_lengths` (`id`),
   CONSTRAINT `fk_nature_id` FOREIGN KEY (`nature_id`) REFERENCES `nature` (`id`),
   CONSTRAINT `fk_size_id` FOREIGN KEY (`size_id`) REFERENCES `sizes` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=21 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -167,6 +171,7 @@ CREATE TABLE `animals` (
 
 LOCK TABLES `animals` WRITE;
 /*!40000 ALTER TABLE `animals` DISABLE KEYS */;
+INSERT INTO `animals` VALUES (1,'647837364763743','2020-05-02 00:00:00','Cao muito manso mas tem medo de outros caes',68,3,7,1,'M','Lulu'),(2,'647837334763743','2020-05-07 00:00:00','Gato cheio de vida, muito irrequieto, ideal para quem tenha muito espaço em casa.',47,2,6,1,'M','Becas'),(3,'647837364865743','2020-05-12 00:00:00','O Jolly é um gato afável, sempre pronto a dormir uma sonena á janela',47,3,2,1,'M','Jolly'),(4,'647837374333453','2020-05-24 00:00:00','Gato de muito alimento, está cada vez mais fofo de gordo.',3,2,7,1,'M','Limao'),(5,'375963489569865','2020-06-04 00:00:00','O Jiancarlo é um gato assustado, necessita de ter o seu espaço',13,1,6,1,'M','Jiancarlo'),(6,'659637264928462','2020-06-06 00:00:00','O Pucci apesar de nao ter cauda, anda sempre em correrias',20,2,3,1,'M','Pucci'),(7,'623946928358962','2020-06-09 00:00:00','A Gispy só quer dormir todo o dia e toda a noite.',46,1,4,1,'M','Fausto'),(8,'670476094730704','2020-06-24 00:00:00','Cao muito manso mas tem medo de outros caes',55,3,5,1,'M','Miguel'),(9,'986795367634578','2020-07-02 00:00:00','O Afonso é muito enérgico, não para quieto',68,2,1,1,'M','Afonso'),(10,'979793874589795','2020-07-08 00:00:00','O Henriques apesar do seu tamanho imponente apenas quer dormir ao sol',60,3,5,1,'M','Henriques'),(11,'985787309457308','2020-07-09 00:00:00','O Freddy foi resgatado de uma casa em ruinas, abandonado, mas agora está pronto para outra familia que cuide bem dele',75,3,5,1,'M','Freddy'),(12,'985987687349867','2020-07-14 00:00:00','A Mason já foi uam cadela feliz, quer volta a fazê-la sorrir?!?!',83,3,2,1,'M','Manson'),(13,'784768479745654','2020-07-23 00:00:00','O Argulias é o cão mais atarefado do canil, está sempre a arrumar alguma coisa debaixo da terra, um osso ou um brinquedo.',68,3,1,1,'M','Argulias'),(14,'694786994857694','2020-07-27 00:00:00','O Esdrubal está connosco há 2 anos, venha dar um passeio com ele e verá que é o cão que procura.',72,3,2,1,'M','Esdrubal'),(15,'498689476897458','2020-08-02 00:00:00','Desde que o Buscapé chegou o canil nunca mais foi o mesmo, é o terror dos cães com sono.',107,3,5,1,'M','Buscapé'),(16,'498689476897458','2020-08-08 00:00:00','Apesar de ter pouca força nas pernas, o Alicate mexe-se muito, quem conseguir que o apanhe.',64,3,5,1,'M','Alicate'),(17,'498689476897458','2020-08-13 00:00:00','O Brutus é um são bernardo de tamanho imponente, mas não faz mal a ninguém, venha conhecê-lo.',101,2,5,1,'M','Brutus'),(18,'498689476897458','2020-08-19 00:00:00','A Geraldina chegou com uma ninhada de 4 patudos, já foram todos, quem a leva agora a ela??!',79,1,5,1,'M','Geraldina'),(19,'498689476897458','2020-08-26 00:00:00','Já não existem cães como o Ambrosio, vai buscar o jornal e dá a pata.',109,2,7,1,'M','Ambrosio'),(20,'498689476897458','2020-09-08 00:00:00','A fofa é uma caniche cheia de atividade, sempre pronta para passeios',68,3,1,1,'M','Fofa');
 /*!40000 ALTER TABLE `animals` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -192,6 +197,7 @@ CREATE TABLE `associated_users` (
 
 LOCK TABLES `associated_users` WRITE;
 /*!40000 ALTER TABLE `associated_users` DISABLE KEYS */;
+INSERT INTO `associated_users` VALUES (3,_binary '',1),(4,_binary '',2),(5,_binary '',3),(6,_binary '',3),(7,_binary '',4),(8,_binary '',5);
 /*!40000 ALTER TABLE `associated_users` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -246,6 +252,7 @@ CREATE TABLE `found_animals` (
 
 LOCK TABLES `found_animals` WRITE;
 /*!40000 ALTER TABLE `found_animals` DISABLE KEYS */;
+INSERT INTO `found_animals` VALUES (6,'1',_binary '','2020-06-04','Baixa',9),(13,'1',_binary '','2020-06-04','Baixa',10),(19,'1',_binary '','2020-06-04','Baixa',11);
 /*!40000 ALTER TABLE `found_animals` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -345,6 +352,7 @@ CREATE TABLE `missing_animals` (
 
 LOCK TABLES `missing_animals` WRITE;
 /*!40000 ALTER TABLE `missing_animals` DISABLE KEYS */;
+INSERT INTO `missing_animals` VALUES (2,'2020-06-04',_binary '',12),(7,'2020-06-04',_binary '',14),(20,'2020-06-04',_binary '',16);
 /*!40000 ALTER TABLE `missing_animals` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -492,7 +500,7 @@ CREATE TABLE `users` (
 
 LOCK TABLES `users` WRITE;
 /*!40000 ALTER TABLE `users` DISABLE KEYS */;
-INSERT INTO `users` VALUES (1,'Simão','Pedro','simao.s.pedro@gmail.com','242218040','912345678','simaopedro','ozFqrgfw1RzFo-RJJUXCx9CI87lv5vDN','$2y$13$LOP/MFRXV/l6hF9ohY6CiuO.8yQCi//QGXq7rDrtBvFlCjJvW94tu',NULL,10,1605220994,1605220994,'t5AYTA0WgGx92sREwUOoJBqE4la2P2yt_1605220994',1),(2,'Cátia','Bessa','katyb@gm.pt','242319123','918765432','katy','EgIapFuHmRab0fz93bDuEm6kaCC2FkAM','$2y$13$04H/3AFUiEnJXrYfjkH0puVqPZxW5.Sk55l61yWMYr5ODR2KmMImK',NULL,10,1605224315,1605224315,'LvelSObJ7seAS_lCQEgtODzhg0dBJJRr_1605224315',2),(3,'Ricardo','Lopes','ricardolopes@gm.pt','242517987','963524871','ricardolopes','yI1GZZmscmpCNaxLLaKe6G7jM3CEL5gx','$2y$13$zDobv.B33HURSOYnxtNc/uo7ULABTEpbXOacwL2P9V0Y203.OK7YO',NULL,10,1605291218,1605291218,'3SYTOgQE_8A91wqGl7KGRS9MQ0HOh8ZP_1605291218',3),(4,'Cláudia','Valente','claudiavalente@gm.pt','252456839','933564712','claudiavalente','GWVzgG4hfNVyIeAn9M5n5iDMwjfG9dit','$2y$13$RDKr6nIYt0Gcl.7AH2Ze/exxEy06nPiZrYWbfGNAFjQZ1V3TIdh3e',NULL,10,1605291387,1605291387,'TymcG-CiB4CS_811nBYJqrGdoDRiOEZv_1605291387',4),(5,'Martim','Gaspar','martimgaspar@gm.pt','252678934','928736451','martimgaspar','mJMoGHev31YDP8M3J3yXfJRjFDdhhQyN','$2y$13$KwkmKckbOM9XaTP7WM8CDeWCL1oOe0rLhvtFTsQxPa72YzYymVu6y',NULL,10,1605295368,1605295368,'7YIOqMoSC_ArzHFlQy97Xyl90zdxj2Gp_1605295368',5),(6,'José','Miguel','zemigas@gm.pt','196783526','915463728','zemigas','w71yoafkeRfTeWZgDZGhY1mgxH3fdQEU','$2y$13$xbiUJM5ILcrXePCzJ2zvXO/zgWF2MdmBtBPOvHBXeINFLfdHqbK9C',NULL,10,1605295493,1605295493,'ipBbZ01J0lr8wtoQdxJnYukQr8ckkg8q_1605295493',6),(8,'Rita','Alves','rita@gmail.com','123555658','917544885','rita','7rdixwM38038Z5xE-nyTCPPzaIWk7wtB','$2y$13$bEMkdK2ApJ/fzTJp7/JQ4OZ2fsH5GAS7/NiUMo.vvWFEhaV4BbZwe',NULL,10,1605306410,1605306410,'E5FjYLglm4oK4iF9mXGtbR_zkOg-e5ns_1605306410',8),(9,'Joao','Mendes','joao@gmail.com','111555452','915583126','joao','6GsrKnJwEnEwHcsVhEuEbLvB6UZyVmfK','$2y$13$/W5lu2nmM7ohDWrc8yvHnOQkZNR75MBZV1qBF.QY.AMaKwS1ne96q',NULL,10,1605306887,1605306887,'_-If8lte1_aNFClUyb2znlb0FD_0SKv1_1605306887',9),(10,'Rafael','Gomes','rafael@ipl.com','186522447','915425664','rafael','FPa-bBvu9O6fi8VYoIA01-w5czTGwSR5','$2y$13$hRV6SEOQm7uVA.ETv.Z0KuSeBf7fT6DsWol/qh/QpN2gbCAlMLaAS',NULL,10,1605306920,1605306920,'xvdNNqDGyihDcLyblmFzhITh5jOszx8a_1605306920',10),(11,'Ana','Santos','ana@ipl.com','147525248','965546232','ana','qj4AkBZpVcAFj5donJQ-VgIcOolO5IKU','$2y$13$7EAJE28hUX7gb4r15HP3VOug14rkhk.rOXC6URH1ZLRF8YR9Yeq5G',NULL,10,1605306941,1605306941,'FreHllJDkC66eup4plz9BcypvOA2Krr7_1605306941',11),(12,'Patricia','Alverca','patricia@ipl.com','146822454','965214653','patricia','hUMmy_-cb4hGriI5bUTQQVBIjS_Ug7Hq','$2y$13$YTxUFyfyDnQJ0.AeHsVtAeZriprEHyc7x.lfaOu6kLS1yjhEoE4pK',NULL,10,1605306969,1605306969,'dFp9tmmyKF94DpGqlwF6GxrKglp9Wd6v_1605306969',12),(13,'Tania','Monteiro','tania@ipl.com','254127655','915852045','tania','ai9UHtObJk_PD6PSQPX_gD7SPFHVvj2b','$2y$13$EYWpobRsuMwSxVcENKdTjO9F6PyTozskxxpTkfMIhtpYVxgCvSc0y',NULL,10,1605306985,1605306985,'UPnxKzJST2JkgSAPX8bAuBPcOfl1zxbO_1605306985',13),(14,'Telmo','Jesus','telmo@ipl.com','268421455','934623455','telmo','jGWbLPFsklsEVgbFUukkUC7jYVjq4_hO','$2y$13$9YBcRASoY4paJcUR2MewxuAk3c4P.gX2G0reKQMdNeQxPZQlMdUGi',NULL,10,1605306999,1605306999,'zHGeA4TsN6VRBRROluzgX15xnou5m-XT_1605306999',14),(15,'Tiago','Ribeiro','tiago@ipl.com','215592312','965422355','tiago','71Mz993_1MuqkfggzzdgKMYpmnnteJEQ','$2y$13$Ie4X6NY3ZWXhFq7ND7.yxeq1/OaKarXLWsXXMRBGIrD8yvQ4Nz.wK',NULL,10,1605307023,1605307023,'pGRVYwvOd_ie-WJFhu_1-_WspgUUiCeL_1605307023',15),(16,'Jessica','Silva','jessica@ipl.com','196246633','934524875','jessica','2q19kl4FBD88OeVOaeM1SN8lN-x3UTpW','$2y$13$z5n6xdoQm./6nSlZ9g1VbeSK3IJVM2oGXm1Q1dXyylE9.7HFWdTBK',NULL,10,1605307047,1605307047,'R7bt092u0pKC7JEqSh1o1r-Is0YuJCeY_1605307047',16),(17,'Antonio','Simões','antonio@ipl.com','175300645','916578521','antonio','M5cGOzNYdtyRpkLdZNEJ9D5C-8ZCXaFV','$2y$13$WJJJL6.PRRZyZrO23.2mmOyNnKSZC3sBcBdVUv3/aDBcsqvRHlRwC',NULL,10,1605307061,1605307061,'YXySG72mwz8Up3PrOx46xNmHCnBeiBt4_1605307061',17),(18,'Fernando','Fernandes','fernando@ipl.com','298422361','962174114','fernando','5BZe7exNxtFjgzd5l3wq7etjcmnONi7t','$2y$13$LsQvB5Ub.Vbvc5dxPZFFgeQHYRrBt.GXqelrJQG/VZLoNvixnljIK',NULL,10,1605307078,1605307078,'7hzrd3UpONBHDDSErhCMH20gIuZumP7P_1605307078',18),(19,'Sonia','Mendes','sonia@ipl.com','146539523','937852455','sonia','U4hqVHpPpWjK6pUsk600DCrbXbUN_m-b','$2y$13$GIYjrQqDl.uZfWeAT6j60ezhjFB0z3xWEEOxH776w0znrWNqq9.zi',NULL,10,1605307094,1605307094,'DfeE2TC98oMhEiLhzTXJyIMN5jHIeIJz_1605307094',19),(20,'Pedro','Ribeiro','pedro@ipl.com','136522663','932785248','pedro','Cwy5gwOdYe6DtbgagqH5bXNmQcZMWICm','$2y$13$UmDfFCU.Di/2vKmsrLQ4xObO9nhwI1eGDgW37q9b/Kov/GiuI6ywK',NULL,10,1605307111,1605307111,'YZjpe94o75TvIsJCpNEfZb88NyMcv53a_1605307111',20),(21,'Diogo','Lopes','diogo@ipl.com','125532487','915239415','diogo','fi7JHXIJIWd9aepoI5y6ndaPkxcuyL4z','$2y$13$qfxqo.dvcg7AcAKKSY0RpuOCW3KpB2ibyowa3KZIa/e/HWa4/yggK',NULL,10,1605308218,1605308218,'j3FF2EF-zu2fWA7MjmkCYTjD2kA_J8br_1605308218',21),(22,'Diana','Antunes','diana@ipl.com','268758567','965224654','diana','dOTC79z4dSH_8DQuUCV5KoEV02gOFyR6','$2y$13$y4.etEAsdFEuIPhp9Ejb0.TRPAzNaGCl68TdOf8wkNoT794qwALh.',NULL,10,1605308239,1605308239,'pV0U5zDbF32B7MeR7NRzmpkq0QU0aLQe_1605308239',22);
+INSERT INTO `users` VALUES (1,'Simão','Pedro','simao.s.pedro@gmail.com','242218040','912345678','simaopedro','ozFqrgfw1RzFo-RJJUXCx9CI87lv5vDN','$2y$13$LOP/MFRXV/l6hF9ohY6CiuO.8yQCi//QGXq7rDrtBvFlCjJvW94tu',NULL,10,1605220994,1605220994,'t5AYTA0WgGx92sREwUOoJBqE4la2P2yt_1605220994',1),(2,'Cátia','Bessa','katyb@gm.pt','242319123','918765432','katy','EgIapFuHmRab0fz93bDuEm6kaCC2FkAM','$2y$13$LOP/MFRXV/l6hF9ohY6CiuO.8yQCi//QGXq7rDrtBvFlCjJvW94tu',NULL,10,1605224315,1605224315,'LvelSObJ7seAS_lCQEgtODzhg0dBJJRr_1605224315',2),(3,'Ricardo','Lopes','ricardolopes@gm.pt','242517987','963524871','ricardolopes','yI1GZZmscmpCNaxLLaKe6G7jM3CEL5gx','$2y$13$LOP/MFRXV/l6hF9ohY6CiuO.8yQCi//QGXq7rDrtBvFlCjJvW94tu',NULL,10,1605291218,1605291218,'3SYTOgQE_8A91wqGl7KGRS9MQ0HOh8ZP_1605291218',3),(4,'Cláudia','Valente','claudiavalente@gm.pt','252456839','933564712','claudiavalente','GWVzgG4hfNVyIeAn9M5n5iDMwjfG9dit','$2y$13$LOP/MFRXV/l6hF9ohY6CiuO.8yQCi//QGXq7rDrtBvFlCjJvW94tu',NULL,10,1605291387,1605291387,'TymcG-CiB4CS_811nBYJqrGdoDRiOEZv_1605291387',4),(5,'Martim','Gaspar','martimgaspar@gm.pt','252678934','928736451','martimgaspar','mJMoGHev31YDP8M3J3yXfJRjFDdhhQyN','$2y$13$LOP/MFRXV/l6hF9ohY6CiuO.8yQCi//QGXq7rDrtBvFlCjJvW94tu',NULL,10,1605295368,1605295368,'7YIOqMoSC_ArzHFlQy97Xyl90zdxj2Gp_1605295368',5),(6,'José','Miguel','zemigas@gm.pt','196783526','915463728','zemigas','w71yoafkeRfTeWZgDZGhY1mgxH3fdQEU','$2y$13$LOP/MFRXV/l6hF9ohY6CiuO.8yQCi//QGXq7rDrtBvFlCjJvW94tu',NULL,10,1605295493,1605295493,'ipBbZ01J0lr8wtoQdxJnYukQr8ckkg8q_1605295493',6),(8,'Rita','Alves','rita@gmail.com','123555658','917544885','rita','7rdixwM38038Z5xE-nyTCPPzaIWk7wtB','$2y$13$LOP/MFRXV/l6hF9ohY6CiuO.8yQCi//QGXq7rDrtBvFlCjJvW94tu',NULL,10,1605306410,1605306410,'E5FjYLglm4oK4iF9mXGtbR_zkOg-e5ns_1605306410',8),(9,'Joao','Mendes','joao@gmail.com','111555452','915583126','joao','6GsrKnJwEnEwHcsVhEuEbLvB6UZyVmfK','$2y$13$LOP/MFRXV/l6hF9ohY6CiuO.8yQCi//QGXq7rDrtBvFlCjJvW94tu',NULL,10,1605306887,1605306887,'_-If8lte1_aNFClUyb2znlb0FD_0SKv1_1605306887',9),(10,'Rafael','Gomes','rafael@ipl.com','186522447','915425664','rafael','FPa-bBvu9O6fi8VYoIA01-w5czTGwSR5','$2y$13$LOP/MFRXV/l6hF9ohY6CiuO.8yQCi//QGXq7rDrtBvFlCjJvW94tu',NULL,10,1605306920,1605306920,'xvdNNqDGyihDcLyblmFzhITh5jOszx8a_1605306920',10),(11,'Ana','Santos','ana@ipl.com','147525248','965546232','ana','qj4AkBZpVcAFj5donJQ-VgIcOolO5IKU','$2y$13$LOP/MFRXV/l6hF9ohY6CiuO.8yQCi//QGXq7rDrtBvFlCjJvW94tu',NULL,10,1605306941,1605306941,'FreHllJDkC66eup4plz9BcypvOA2Krr7_1605306941',11),(12,'Patricia','Alverca','patricia@ipl.com','146822454','965214653','patricia','hUMmy_-cb4hGriI5bUTQQVBIjS_Ug7Hq','$2y$13$LOP/MFRXV/l6hF9ohY6CiuO.8yQCi//QGXq7rDrtBvFlCjJvW94tu',NULL,10,1605306969,1605306969,'dFp9tmmyKF94DpGqlwF6GxrKglp9Wd6v_1605306969',12),(13,'Tania','Monteiro','tania@ipl.com','254127655','915852045','tania','ai9UHtObJk_PD6PSQPX_gD7SPFHVvj2b','$2y$13$LOP/MFRXV/l6hF9ohY6CiuO.8yQCi//QGXq7rDrtBvFlCjJvW94tu',NULL,10,1605306985,1605306985,'UPnxKzJST2JkgSAPX8bAuBPcOfl1zxbO_1605306985',13),(14,'Telmo','Jesus','telmo@ipl.com','268421455','934623455','telmo','jGWbLPFsklsEVgbFUukkUC7jYVjq4_hO','$2y$13$LOP/MFRXV/l6hF9ohY6CiuO.8yQCi//QGXq7rDrtBvFlCjJvW94tu',NULL,10,1605306999,1605306999,'zHGeA4TsN6VRBRROluzgX15xnou5m-XT_1605306999',14),(15,'Tiago','Ribeiro','tiago@ipl.com','215592312','965422355','tiago','71Mz993_1MuqkfggzzdgKMYpmnnteJEQ','$2y$13$LOP/MFRXV/l6hF9ohY6CiuO.8yQCi//QGXq7rDrtBvFlCjJvW94tu',NULL,10,1605307023,1605307023,'pGRVYwvOd_ie-WJFhu_1-_WspgUUiCeL_1605307023',15),(16,'Jessica','Silva','jessica@ipl.com','196246633','934524875','jessica','2q19kl4FBD88OeVOaeM1SN8lN-x3UTpW','$2y$13$LOP/MFRXV/l6hF9ohY6CiuO.8yQCi//QGXq7rDrtBvFlCjJvW94tu',NULL,10,1605307047,1605307047,'R7bt092u0pKC7JEqSh1o1r-Is0YuJCeY_1605307047',16),(17,'Antonio','Simões','antonio@ipl.com','175300645','916578521','antonio','M5cGOzNYdtyRpkLdZNEJ9D5C-8ZCXaFV','$2y$13$LOP/MFRXV/l6hF9ohY6CiuO.8yQCi//QGXq7rDrtBvFlCjJvW94tu',NULL,10,1605307061,1605307061,'YXySG72mwz8Up3PrOx46xNmHCnBeiBt4_1605307061',17),(18,'Fernando','Fernandes','fernando@ipl.com','298422361','962174114','fernando','5BZe7exNxtFjgzd5l3wq7etjcmnONi7t','$2y$13$LOP/MFRXV/l6hF9ohY6CiuO.8yQCi//QGXq7rDrtBvFlCjJvW94tu',NULL,10,1605307078,1605307078,'7hzrd3UpONBHDDSErhCMH20gIuZumP7P_1605307078',18),(19,'Sonia','Mendes','sonia@ipl.com','146539523','937852455','sonia','U4hqVHpPpWjK6pUsk600DCrbXbUN_m-b','$2y$13$LOP/MFRXV/l6hF9ohY6CiuO.8yQCi//QGXq7rDrtBvFlCjJvW94tu',NULL,10,1605307094,1605307094,'DfeE2TC98oMhEiLhzTXJyIMN5jHIeIJz_1605307094',19),(20,'Pedro','Ribeiro','pedro@ipl.com','136522663','932785248','pedro','Cwy5gwOdYe6DtbgagqH5bXNmQcZMWICm','$2y$13$LOP/MFRXV/l6hF9ohY6CiuO.8yQCi//QGXq7rDrtBvFlCjJvW94tu',NULL,10,1605307111,1605307111,'YZjpe94o75TvIsJCpNEfZb88NyMcv53a_1605307111',20),(21,'Diogo','Lopes','diogo@ipl.com','125532487','915239415','diogo','fi7JHXIJIWd9aepoI5y6ndaPkxcuyL4z','$2y$13$LOP/MFRXV/l6hF9ohY6CiuO.8yQCi//QGXq7rDrtBvFlCjJvW94tu',NULL,10,1605308218,1605308218,'j3FF2EF-zu2fWA7MjmkCYTjD2kA_J8br_1605308218',21),(22,'Diana','Antunes','diana@ipl.com','268758567','965224654','diana','dOTC79z4dSH_8DQuUCV5KoEV02gOFyR6','$2y$13$LOP/MFRXV/l6hF9ohY6CiuO.8yQCi//QGXq7rDrtBvFlCjJvW94tu',NULL,10,1605308239,1605308239,'pV0U5zDbF32B7MeR7NRzmpkq0QU0aLQe_1605308239',22);
 /*!40000 ALTER TABLE `users` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -505,4 +513,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2020-11-14 13:01:39
+-- Dump completed on 2020-11-14 15:36:38
