@@ -1,6 +1,5 @@
 <?php
 
-use yii\bootstrap\Modal;
 use yii\helpers\Html;
 use yii\widgets\ListView;
 
@@ -9,6 +8,7 @@ use yii\widgets\ListView;
 /* @var $animalAdoptionSearchModel common\models\AnimalAdoptionSearch */
 /* @var $organizationSearchModel common\models\OrganizationSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
+
 /* @var $nature */
 /* @var $natureCat */
 /* @var $natureDog */
@@ -16,9 +16,7 @@ use yii\widgets\ListView;
 /* @var $organization */
 
 $this->title = 'Adota-me';
-
 ?>
-
 <div class="container">
 
 
