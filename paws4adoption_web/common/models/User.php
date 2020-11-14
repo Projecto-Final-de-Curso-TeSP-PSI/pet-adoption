@@ -85,12 +85,12 @@ class User extends \yii\db\ActiveRecord implements IdentityInterface
     {
         return [
             'id' => 'ID',
-            'firstName' => 'First Name',
-            'lastName' => 'Last Name',
+            'firstName' => 'Nome',
+            'lastName' => 'Apelido',
             'email' => 'Email',
-            'nif' => 'Nif',
-            'phone' => 'Phone',
-            'username' => 'Username',
+            'nif' => 'NIF',
+            'phone' => 'Telefone',
+            'username' => 'Nome de utilizador',
             'auth_key' => 'Auth Key',
             'password_hash' => 'Password Hash',
             'password_reset_token' => 'Password Reset Token',

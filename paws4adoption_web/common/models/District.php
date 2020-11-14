@@ -3,6 +3,7 @@
 namespace common\models;
 
 use Yii;
+use yii\helpers\ArrayHelper;
 
 /**
  * This is the model class for table "districts".
@@ -25,20 +26,9 @@ class District extends \yii\db\ActiveRecord
     public static function getData()
     {
         $prompt = 'Escolha um distrito';
-        $districtList = District::find()->all();
-        $districtId = [];
-        $districtName = [];
-        $districtAssocArray = null;
+        $districtList = ArrayHelper::map(District::find()->all(), 'id', 'name');
 
-        foreach ($districtList as $district){
-            $districtId[] = $district->getAttribute('id');
-            $districtName[] = $district->getAttribute('name');
-        }
-
-//        $districtAssocArray[] = ['prompt' => $prompt];
-        $districtAssocArray[] = array_combine($districtId, $districtName);
-
-        return $districtAssocArray;
+        return array_merge(['prompt' => $prompt], $districtList);
     }
 
     /**
