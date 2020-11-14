@@ -24,12 +24,21 @@ class District extends \yii\db\ActiveRecord
 
     public static function getData()
     {
-        return [
-            'prompt' => 'Escolha um distrito',
-            1 => 'Distrito 1',
-            2 => 'Distrito 2',
-            3 => 'Distrito 3',
-        ];
+        $prompt = 'Escolha um distrito';
+        $districtList = District::find()->all();
+        $districtId = [];
+        $districtName = [];
+        $districtAssocArray = null;
+
+        foreach ($districtList as $district){
+            $districtId[] = $district->getAttribute('id');
+            $districtName[] = $district->getAttribute('name');
+        }
+
+//        $districtAssocArray[] = ['prompt' => $prompt];
+        $districtAssocArray[] = array_combine($districtId, $districtName);
+
+        return $districtAssocArray;
     }
 
     /**
