@@ -37,6 +37,10 @@ class User extends \yii\db\ActiveRecord implements IdentityInterface
     const STATUS_INACTIVE = 9;
     const STATUS_ACTIVE = 10;
 
+    const SCENARIO_LOGIN = 'login';
+    const SCENARIO_REGISTER = 'register';
+    const SCENARIO_UPDATE = 'update';
+
     /**
      * {@inheritdoc}
      */
@@ -52,6 +56,15 @@ class User extends \yii\db\ActiveRecord implements IdentityInterface
     {
         return [
             TimestampBehavior::className(),
+        ];
+    }
+
+    public function scenarios()
+    {
+        return [
+            self::SCENARIO_LOGIN => ['username', 'password'],
+            self::SCENARIO_REGISTER => ['firstName','lastName', 'nif', 'username', 'email', 'password'],
+            self::SCENARIO_UPDATE => ['phone']
         ];
     }
 

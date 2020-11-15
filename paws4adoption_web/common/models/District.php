@@ -25,10 +25,7 @@ class District extends \yii\db\ActiveRecord
 
     public static function getData()
     {
-        $prompt = 'Escolha um distrito';
-        $districtList = ArrayHelper::map(District::find()->all(), 'id', 'name');
-
-        return array_merge(['prompt' => $prompt], $districtList);
+        return ArrayHelper::map(District::find()->all(), 'id', 'name');
     }
 
     /**

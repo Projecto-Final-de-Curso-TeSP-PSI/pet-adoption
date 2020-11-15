@@ -97,7 +97,7 @@ class SiteController extends Controller
             $loggedUserId = Yii::$app->user->id;
             $loggedUser = User::findIdentity($loggedUserId);
             if($loggedUser->address_id == null){
-                return $this->actionEditUserProfile();
+                return $this->actionProfile();
             }
             return $this->goBack();
         } else {
@@ -291,6 +291,20 @@ class SiteController extends Controller
         $loggedUser = User::findIdentity($loggedUserId);
 
         $userProfile = new ProfileForm();
+        $userProfile->firstName = $loggedUser->firstName;
+        $userProfile->lastName = $loggedUser->lastName;
+        $userProfile->nif = $loggedUser->nif;
+        $userProfile->phone = $loggedUser->phone;
+        $userProfile->email = $loggedUser->email;
+
+        $userProfile->street = isset($loggedUser->address->street) ? $loggedUser->address->street : null;
+        $userProfile->door_number = isset($loggedUser->address->door_number) ? $loggedUser->address->door_number : null;
+        $userProfile->floor = isset($loggedUser->address->floor) ? $loggedUser->address->floor : null;
+        $userProfile->postal_code = isset($loggedUser->address->postal_code) ? $loggedUser->address->postal_code : null;
+        $userProfile->street_code = isset($loggedUser->address->street_code) ? $loggedUser->address->street_code : null;
+        $userProfile->city = isset($loggedUser->address->city) ? $loggedUser->address->city : null;
+        $userProfile->district_id = isset($loggedUser->address->district_id) ? $loggedUser->address->district_id : null;
+
         if($userProfile->load(Yii::$app->request->post()) && $userProfile->save()){
             Yii::$app->session->setFlash('success', 'Os seus dados foram gravados com sucesso.');
             return $this->goHome();

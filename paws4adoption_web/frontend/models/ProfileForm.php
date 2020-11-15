@@ -14,6 +14,7 @@ class ProfileForm extends Model
     public $lastName;
     public $nif;
     public $phone;
+    public $email;
 
     public $street;
     public $door_number;
@@ -23,7 +24,7 @@ class ProfileForm extends Model
     public $city;
     public $district_id;
 
-    private $user;
+    private User $user;
     private Address $address;
 
     public function rules()
@@ -35,11 +36,18 @@ class ProfileForm extends Model
         return array_merge($userRules, $addressRules);
     }
 
+    public function attributeLabels()
+    {
+        $userAttributeLabels = $this->user->attributeLabels();
+        $addressAttributeLabels = $this->address->attributeLabels();
+        return array_merge($userAttributeLabels, $addressAttributeLabels);
+    }
+
     public function save(){
 
-        if (!$this->validate()) {
-            return null;
-        }
+//        if (!$this->validate()) {
+//            return null;
+//        }
 
         $loggedUser_id = \Yii::$app->user->id;
         $loggedUser = User::findOne($loggedUser_id);
@@ -50,15 +58,16 @@ class ProfileForm extends Model
         $this->address->postal_code = $this->postal_code;
         $this->address->street_code = $this->street_code;
         $this->address->city = $this->city;
-        $this->address->district = $this->district_id;
+        $this->address->district_id = $this->district_id;
         $this->address->save(false);
 
         $loggedUser->firstName = $this->firstName;
         $loggedUser->lastName = $this->lastName;
         $loggedUser->nif = $this->nif;
         $loggedUser->phone = $this->phone;
+        $loggedUser->email = $this->email;
         $loggedUser->address_id = $this->address->id;
 
-        return $this->user->save(false);
+        return $loggedUser->save(false);
     }
 }
