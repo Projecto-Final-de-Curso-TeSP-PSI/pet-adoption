@@ -1,5 +1,6 @@
 <?php
 
+use frontend\assets\AppAsset;
 use yii\helpers\Html;
 use yii\widgets\ListView;
 
@@ -15,6 +16,8 @@ use yii\widgets\ListView;
 /* @var $organization */
 
 $this->title = 'Found Animals';
+
+AppAsset::register($this);
 
 ?>
 <div class="container">
