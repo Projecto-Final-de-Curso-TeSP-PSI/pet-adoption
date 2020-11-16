@@ -4,9 +4,10 @@ use yii\helpers\Html;
 
 /* @var $this yii\web\View */
 /* @var $model common\models\Adoption */
-/* @var $loggedUser common\models\User */
+/* @var $title */
 
-$this->title = 'Create Adoption';
+
+$this->title = $title;
 $this->params['breadcrumbs'][] = ['label' => 'Adoptions', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
@@ -16,7 +17,6 @@ $this->params['breadcrumbs'][] = $this->title;
 
     <?= $this->render('_form', [
         'model' => $model,
-        'loggedUser' => $loggedUser
     ]) ?>
 
 </div>

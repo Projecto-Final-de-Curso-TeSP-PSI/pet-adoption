@@ -2,6 +2,7 @@
 
 namespace common\models;
 
+use phpDocumentor\Reflection\Types\Self_;
 use Yii;
 
 /**
@@ -14,12 +15,23 @@ use Yii;
  * @property int $adopter_id
  *
  * @property User $adopter
- * @property AdoptionAnimal $id0
+ * @property AdoptionAnimal $adoptedAnimal
  */
 class Adoption extends \yii\db\ActiveRecord
 {
+    const SCENARIO_ADOPTION = 'adoption';
+    const SCENARIO_FAT = 'fat';
+
+    public function scenarios()
+    {
+        return [
+            self::SCENARIO_ADOPTION => ['id', 'motivation', 'adopted_animal_id', 'adopter_id'],
+            self::SCENARIO_FAT => ['id', 'motivation', 'adopted_animal_id', 'adopter_id']
+        ];
+    }
+
     /**
-     * {@inheritdoc}
+     * {@inheritdoc}§
      */
     public static function tableName()
     {
@@ -37,7 +49,7 @@ class Adoption extends \yii\db\ActiveRecord
             [['adoption_date'], 'safe'],
             [['adopted_animal_id', 'adopter_id'], 'integer'],
             [['adopter_id'], 'exist', 'skipOnError' => true, 'targetClass' => User::className(), 'targetAttribute' => ['adopter_id' => 'id']],
-            [['id'], 'exist', 'skipOnError' => true, 'targetClass' => AdoptionAnimal::className(), 'targetAttribute' => ['id' => 'id']],
+            [['adopted_animal_id'], 'exist', 'skipOnError' => true, 'targetClass' => AdoptionAnimal::className(), 'targetAttribute' => ['adopted_animal_id' => 'id']],
         ];
     }
 
@@ -46,13 +58,28 @@ class Adoption extends \yii\db\ActiveRecord
      */
     public function attributeLabels()
     {
-        return [
-            'id' => 'ID',
-            'motivation' => 'Motivation',
-            'adoption_date' => 'Adoption Date',
-            'adopted_animal_id' => 'Adopted Animal ID',
-            'adopter_id' => 'Adopter ID',
-        ];
+        switch($this->getScenario()){
+            case self::SCENARIO_ADOPTION:
+                return [
+                    'id' => 'ID',
+                    'motivation' => 'Motivação para o pedido de adoção',
+                    'adoption_date' => 'Adoption Date',
+                    'adopted_animal_id' => 'Animal a adotar',
+                    'adopter_id' => 'Adotante',
+                ];
+                break;
+            case self::SCENARIO_FAT:
+                return [
+                    'id' => 'ID',
+                    'motivation' => 'Motivação para o pedido de acolhimento temporário',
+                    'adoption_date' => 'Data do acolhimento',
+                    'adopted_animal_id' => 'Animal a acolher',
+                    'adopter_id' => 'Acolhedor temporário',
+                ];
+                break;
+
+        }
+
     }
 
     /**
@@ -66,12 +93,13 @@ class Adoption extends \yii\db\ActiveRecord
     }
 
     /**
-     * Gets query for [[Id0]].
+     * Gets query for [[AdoptedAnimal]].
      *
      * @return \yii\db\ActiveQuery
      */
-    public function getId0()
+    public function getAdoptedAnimal()
     {
-        return $this->hasOne(AdoptionAnimal::className(), ['id' => 'id']);
+        return $this->hasOne(AdoptionAnimal::className(), ['id' => 'adopted_animal_id']);
     }
+
 }

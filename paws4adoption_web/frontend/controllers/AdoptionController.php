@@ -67,21 +67,24 @@ class AdoptionController extends Controller
      */
     public function actionCreate()
     {
-        $model = new AdoptionRequestForm();
+        $model = new Adoption();
+        $model->scenario = 'fat';
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             return $this->redirect(['view', 'id' => $model->id]);
         }
 
-        $loggedUser_id = \Yii::$app->user->id;
-        $loggedUser = User::findOne($loggedUser_id);
 
-        $adoptionAnimal = AdoptionAnimal::findOne('id=1');
+        $loggedUser_id = \Yii::$app->user->id;
+        $model->adopter_id = $loggedUser_id;
+        $model->adopted_animal_id = 1;
 
         return $this->render('create', [
             'model' => $model,
-            'loggedUser' => $loggedUser
+            'title' => 'Formulário submissão de pedido de acolhimento temporário (FAT)'
         ]);
+
+
     }
 
     /**
@@ -132,5 +135,41 @@ class AdoptionController extends Controller
         }
 
         throw new NotFoundHttpException('The requested page does not exist.');
+    }
+
+    public function actionSubmitAdoptionRequest(){
+        $model = new Adoption();
+        $model->scenario = 'adoption';
+        $title = 'Formalização de proposta de adoção';
+
+        if ($model->load(Yii::$app->request->post()) && $model->save()) {
+            return $this->redirect(['view', 'id' => $model->id]);
+        }
+
+        $model->adopter_id = \Yii::$app->user->id;
+        $model->adopted_animal_id = 1;
+
+        return $this->render('create', [
+            'model' => $model,
+            'title' => $title
+        ]);
+    }
+
+    public function actionSubmitFatRequest(){
+        $model = new Adoption();
+        $model->scenario = 'fat';
+        $title = 'Formalização de proposta de acolhimento temporário';
+
+        if ($model->load(Yii::$app->request->post()) && $model->save()) {
+            return $this->redirect(['view', 'id' => $model->id]);
+        }
+
+        $model->adopter_id = \Yii::$app->user->id;
+        $model->adopted_animal_id = 1;
+
+        return $this->render('create', [
+            'model' => $model,
+            'title' => $title
+        ]);
     }
 }

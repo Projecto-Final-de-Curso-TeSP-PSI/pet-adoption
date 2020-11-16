@@ -112,6 +112,7 @@ class User extends \yii\db\ActiveRecord implements IdentityInterface
             'updated_at' => 'Updated At',
             'verification_token' => 'Verification Token',
             'address_id' => 'Address ID',
+            'fullname' => 'Nome'
         ];
     }
 
@@ -305,5 +306,9 @@ class User extends \yii\db\ActiveRecord implements IdentityInterface
     public function removePasswordResetToken()
     {
         $this->password_reset_token = null;
+    }
+
+    public function getFullName(){
+        return $this->firstName . " " . $this->lastName;
     }
 }

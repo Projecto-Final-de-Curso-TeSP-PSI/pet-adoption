@@ -90,4 +90,14 @@ class Address extends \yii\db\ActiveRecord
     {
         return $this->hasMany(User::className(), ['address_id' => 'id']);
     }
+
+    public function getFullAddress(){
+        $result = $this->street;
+        $result .= $this->door_number != null ? " Nº " . $this->door_number : "";
+        $result .= $this->floor != null ? " " . $this->floor : "º";
+        $result .= $this->city != null ? " - " . $this->city : "";
+
+
+        return $result;
+    }
 }
