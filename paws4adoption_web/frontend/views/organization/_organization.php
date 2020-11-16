@@ -13,9 +13,9 @@ use yii\widgets\ActiveForm;
 
         <?=Html::a(Html::encode($model->name), ['view', 'id' => $model->id]);?>
         <br>
-        <?=Html::label('Morada: ') . Html::encode($model->address->street);?>
+        <?=Html::label('Morada:') . " ". Html::encode($model->address->fullAddress);?>
         <br>
-        <?=Html::label('Contacto: ') . Html::encode($model->phone);?>
+        <?=Html::label('Contacto:') . " " . Html::encode($model->phone);?>
 
     </div>
 </div>

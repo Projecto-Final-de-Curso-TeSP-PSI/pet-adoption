@@ -12,7 +12,7 @@ use Yii;
  * @property int $organization_id
  * @property int $associated_user_id
  *
- * @property Animal $missing-animal
+ * @property Animal $animal
  * @property AssociatedUser $associatedUser
  * @property Organization $organization
  * @property Adoption $adoption

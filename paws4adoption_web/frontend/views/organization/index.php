@@ -14,18 +14,26 @@ use yii\widgets\Pjax;
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
 
-$this->title = 'Organizations';
+$this->title = 'Associações';
 $this->params['breadcrumbs'][] = $this->title;
-
-
 ?>
+
+
+<div class="organization-search">
+
+
+</div>
+
+<div id="test-div">
+</div>
+
 <div class="organization-index">
 
     <h1><?= Html::encode($this->title) ?></h1>
 
     <div class="container">
         <div class="row">
-            <div class="col-lg-offset-10">
+            <div class="col-lg-offset-2">
                 <?= Html::button('Filtrar', [
                     'class' => 'btn btn-success',
                     'id' => 'btnFilter',
@@ -48,7 +56,6 @@ $this->params['breadcrumbs'][] = $this->title;
 
 <?php Modal::begin([
     'header' => 'Filtrar Associações',
-    'toggleButton' => ['label' => 'click me'],
     'id'=>'modalFilter',
     'size'=>'modal-md',
 ]);?>
@@ -56,14 +63,13 @@ $this->params['breadcrumbs'][] = $this->title;
 <div class='modalContent yii-modal'>
 
     <?php echo $this->render('_search', [
-        'model' => $searchModel,
+        'searchModel' => $searchModel,
         'dataProvider' => $dataProvider,
+
         'districts' => $districts,
-        'organizations' => $organizations
+
     ]);
     ?>
-
-
 
 </div>
 
