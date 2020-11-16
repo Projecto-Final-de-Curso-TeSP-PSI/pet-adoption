@@ -1,5 +1,6 @@
 <?php
 
+use frontend\assets\AppAsset;
 use yii\helpers\Html;
 
 /* @var $this yii\web\View */
@@ -9,6 +10,9 @@ use yii\helpers\Html;
 $this->title = 'Create Missing Animal';
 $this->params['breadcrumbs'][] = ['label' => 'Missing Animals', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
+
+AppAsset::register($this);
+
 ?>
 <div class="missing-animal-create">
 

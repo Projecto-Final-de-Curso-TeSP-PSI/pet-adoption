@@ -4,15 +4,15 @@ use yii\helpers\Html;
 use yii\widgets\ActiveForm;
 
 /* @var $this yii\web\View */
-/* @var $animalAdoptionModel common\models\AnimalAdoptionSearch */
+/* @var $animalFoundModel common\models\FoundAnimalSearch */
 /* @var $animalModel common\models\AnimalSearch */
-/* @var $organizationModel common\models\OrganizationSearch */
+/* @var $dataProvider yii\data\ActiveDataProvider */
 /* @var $form yii\widgets\ActiveForm */
+
 /* @var $nature */
 /* @var $natureCat */
 /* @var $natureDog */
 /* @var $size */
-/* @var $organization */
 ?>
 
 <div class="adoption-animal-search">
@@ -51,20 +51,7 @@ use yii\widgets\ActiveForm;
                 'id'=>'size']
         );
 
-    echo $form->field($organizationModel, 'name')->label('Associação')
-        ->dropDownList(
-            $organization,
-            ['prompt'=>'-Selecione uma associação',
-                'id'=>'name']
-        );
-
-
-
-
-
     ActiveForm::end();
-
     ?>
-
-
 </div>
+
