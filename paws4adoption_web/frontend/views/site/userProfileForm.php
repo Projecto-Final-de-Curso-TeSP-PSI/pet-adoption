@@ -1,5 +1,6 @@
 <?php
 
+use common\models\District;
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
 
@@ -17,20 +18,21 @@ $this->params['breadcrumbs'][] = $this->title;
 
     <?php $form = ActiveForm::begin(); ?>
 
-        <?= $form->field($model, 'firstName')->label('Nome') ?>
-        <?= $form->field($model, 'lastName')->label('Apelido') ?>
-<!--    <?//= $form->field($model, 'email') ?>-->
-        <?= $form->field($model, 'phone')->label('Telefone') ?>
-        <?= $form->field($model, 'street')->label('Rua') ?>
-        <?= $form->field($model, 'door_number')->label('N.º da Porta')?>
-        <?= $form->field($model, 'floor')->label('Andar') ?>
-        <?= $form->field($model, 'postal_code')->label('Código Postal') ?>
-        <?= $form->field($model, 'street_code')->label('Código de Rua') ?>
-        <?= $form->field($model, 'city')->label('Localidade')?>
-        <?= $form->field($model, 'district_id')->dropDownList(\common\models\District::getData()) ?>
+        <?= $form->field($model, 'firstName') ?>
+        <?= $form->field($model, 'lastName') ?>
+        <?= $form->field($model, 'nif') ?>
+        <?= $form->field($model, 'email') ?>
+        <?= $form->field($model, 'phone') ?>
+        <?= $form->field($model, 'street') ?>
+        <?= $form->field($model, 'door_number') ?>
+        <?= $form->field($model, 'floor') ?>
+        <?= $form->field($model, 'postal_code') ?>
+        <?= $form->field($model, 'street_code') ?>
+        <?= $form->field($model, 'city') ?>
+        <?= $form->field($model, 'district_id')->dropDownList(District::getData(), ['prompt' => 'Escolha o Distrito']) ?>
 
         <div class="form-group">
-            <?= Html::submitButton('Alterar Dados', ['class' => 'btn btn-primary']) ?>
+            <?= Html::submitButton('Gravar Dados', ['class' => 'btn btn-primary']) ?>
         </div>
     <?php ActiveForm::end(); ?>
 

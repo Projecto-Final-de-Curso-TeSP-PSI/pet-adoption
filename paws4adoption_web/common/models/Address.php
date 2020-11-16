@@ -51,12 +51,12 @@ class Address extends \yii\db\ActiveRecord
     {
         return [
             'id' => 'ID',
-            'street' => 'Street',
-            'door_number' => 'Door Number',
-            'floor' => 'Floor',
-            'postal_code' => 'Postal Code',
-            'street_code' => 'Street Code',
-            'city' => 'City',
+            'street' => 'Rua',
+            'door_number' => 'Número',
+            'floor' => 'Andar',
+            'postal_code' => 'Código Postal',
+            'street_code' => 'Código de Rua',
+            'city' => 'Localidade',
             'district_id' => 'Distrito',
         ];
     }
