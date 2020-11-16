@@ -12,6 +12,12 @@
     <string name="district4">Distrito 4</string>
     <string name="district5">Distrito 5</string>
     <string name="district6">Distrito 6</string>
+    <string name="escolher_especie">Escolher Especie</string>
+    <string name="especie1">Especie 1</string>
+    <string name="especie2">Especie 2</string>
+    <string name="escolher_organizacao">Escolher Organização</string>
+    <string name="organizacao1">Organização 1</string>
+    <string name="organizacao2">Organização 2</string>
     <string name="type_animal">Tipo de animal</string>
     <string name="name_animal">Nome:</string>
     <string name="size_animal">Porte:</string>
@@ -24,6 +30,16 @@
         <item>@string/district4</item>
         <item>@string/district5</item>
         <item>@string/district6</item>
+    </string-array>
+    <string-array name="especieList">
+        <item>@string/escolher_especie  </item>
+        <item>@string/especie1</item>
+        <item>@string/especie2</item>
+    </string-array>
+    <string-array name="organizacaoList">
+        <item>@string/escolher_organizacao</item>
+        <item>@string/organizacao1</item>
+        <item>@string/organizacao2</item>
     </string-array>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
