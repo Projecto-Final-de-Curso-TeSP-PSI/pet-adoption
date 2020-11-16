@@ -7,7 +7,7 @@ use yii\helpers\HtmlPurifier;
 <div class="cardAnimals">
     <div class="divAnimalName"><h4>Nome</h4></div>
     <div class="divMainInfo">
-        <div class="divImg"><?= Html::img('../../assets/images/gato.jpg')?></div>
+
         <div class="divInfo">
             <p>Organização:</p><p><?= HtmlPurifier::process($model->organization->name) ?></p>
             <p>Especie:</p><p><?= HtmlPurifier::process($model->animal->nature->nameByParentId) ?></p>

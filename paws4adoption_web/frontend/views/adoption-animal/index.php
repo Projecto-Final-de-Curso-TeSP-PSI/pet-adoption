@@ -16,7 +16,7 @@ use yii\widgets\ListView;
 /* @var $organization */
 
 $this->title = 'Adota-me';
-$this->params['breadcrumbs'][] = $this->title;
+
 ?>
 <div class="adoption-animal-index">
 
@@ -52,26 +52,24 @@ $this->params['breadcrumbs'][] = $this->title;
         </div>
     </div>
 
-    <?php Modal::begin([
-        'header' => 'Filtrar Associações',
-        'id'=>'modalFilter',
-        'size'=>'modal-md',
-    ]);?>
-    <div class='modalContent yii-modal'>
 
-        <?php echo $this->render('_search', [
-            'animalModel' => $animalSearchModel,
-            'animalAdoptionModel' => $animalAdoptionSearchModel,
-            'organizationModel' => $organizationSearchModel,
-            'dataProvider' => $dataProvider,
-            'nature' => $nature,
-            'natureCat' => $natureCat,
-            'natureDog' => $natureDog,
-            'size' => $size,
-            'organization' => $organization
-        ]);
-        ?>
-        <?php Modal::end(); ?>
-    </div>
+
+
+    <?= Yii::$app->view->renderFile('@frontend/views/components/_modal.php',
+        ['title' => 'Test title',
+            'content' => $this->render('_search', [
+                'animalModel' => $animalSearchModel,
+                'animalAdoptionModel' => $animalAdoptionSearchModel,
+                'organizationModel' => $organizationSearchModel,
+                'dataProvider' => $dataProvider,
+                'nature' => $nature,
+                'natureCat' => $natureCat,
+                'natureDog' => $natureDog,
+                'size' => $size,
+                'organization' => $organization
+            ]),
+            'submitText' => 'submit test',
+            'closeText' => 'test close'
+        ]); ?>
 
 </div>
