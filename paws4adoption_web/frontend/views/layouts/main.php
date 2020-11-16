@@ -23,7 +23,6 @@ AppAsset::register($this);
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <?php $this->registerCsrfMetaTags() ?>
-    <?= Yii::$app->view->renderFile('@frontend/views/layouts/partials/_head.php'); ?>
     <title><?= Html::encode($this->title) ?></title>
     <?php $this->head() ?>
 </head>
@@ -52,10 +51,6 @@ AppAsset::register($this);
 
 <!-- Theme Color customizer Right Modal -->
 <?= Yii::$app->view->renderFile('@frontend/views/layouts/partials/_theme-color-customizer.php'); ?>
-
-<!-- Footer Scripts -->
-<?= Yii::$app->view->renderFile('@frontend/views/layouts/partials/_footer-scripts.php'); ?>
-
 
 <?php $this->endBody() ?>
 </body>
