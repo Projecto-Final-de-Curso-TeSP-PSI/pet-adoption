@@ -237,7 +237,13 @@
             $(".card").toggleClass("hide-card-shadow");
             $(".stats-card").toggleClass("hide-card-shadow");
             $(".stats-card-one, .stats-card-two, .stats-card-three").toggleClass("hide-card-shadow");
-        }); 
+        });
+
+        //Submit button on modal
+        $("#btnModalSubmit").on('click', function(event){
+            event.preventDefault();
+            $("#searchForm").submit();
+        });
 
     });
 
@@ -245,6 +251,9 @@
     jQuery(window).on('load', function() {
         $('.preloader').fadeOut()
     })
+
+
+
 }(jQuery))
 
 
