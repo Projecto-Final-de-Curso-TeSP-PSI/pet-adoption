@@ -1,6 +1,9 @@
 <?php
 
+use frontend\assets\AppAsset;
 use yii\helpers\Html;
+
+
 use yii\widgets\DetailView;
 
 /* @var $this yii\web\View */
@@ -9,7 +12,8 @@ use yii\widgets\DetailView;
 $this->title = $model->name;
 $this->params['breadcrumbs'][] = ['label' => 'Organizations', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
-\yii\web\YiiAsset::register($this);
+
+AppAsset::register($this);
 ?>
 <div class="organization-view">
 

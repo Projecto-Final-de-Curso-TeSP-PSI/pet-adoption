@@ -2,6 +2,7 @@
 
 use common\models\Organization;
 use common\models\Address;
+use frontend\assets\AppAsset;
 use yii\bootstrap\Modal;
 use yii\helpers\ArrayHelper;
 use yii\helpers\Html;
@@ -16,24 +17,19 @@ use yii\widgets\Pjax;
 
 $this->title = 'Associações';
 $this->params['breadcrumbs'][] = $this->title;
+
+AppAsset::register($this);
 ?>
-
-
-<div class="organization-search">
-
-
-</div>
-
-<div id="test-div">
-</div>
 
 <div class="organization-index">
 
-    <h1><?= Html::encode($this->title) ?></h1>
-
     <div class="container">
         <div class="row">
-            <div class="col-lg-offset-2">
+            <h1><?= Html::encode($this->title) ?></h1>
+        </div>
+
+        <div>
+            <div class="divTitleButtonFilter">
                 <?= Html::button('Filtrar', [
                     'class' => 'btn btn-success',
                     'id' => 'btnFilter',
@@ -42,37 +38,31 @@ $this->params['breadcrumbs'][] = $this->title;
                 ]) ?>
             </div>
         </div>
-        <div class="row">
+
+        <div>
             <?= ListView::widget([
                 'id' => 'lvOrganizations',
                 'dataProvider' => $dataProvider,
                 'itemOptions' => ['class' => 'item'],
+                'layout' => "{pager}\n{items}",
                 'itemView' => '_organization'
             ]) ?>
         </div>
+
     </div>
 
 </div>
 
-<?php Modal::begin([
-    'header' => 'Filtrar Associações',
-    'id'=>'modalFilter',
-    'size'=>'modal-md',
-]);?>
+<!-- Modal do filtro -->
+<?= Yii::$app->view->renderFile('@frontend/views/components/_modal.php',
+    ['title' => 'Filtro Organizações',
+        'content' => $this->render('_search', ['districts' => $districts]),
+        'submitText' => 'Filtrar',
+        'closeText' => 'Fechar'
+    ]); ?>
 
-<div class='modalContent yii-modal'>
 
-    <?php echo $this->render('_search', [
-        'searchModel' => $searchModel,
-        'dataProvider' => $dataProvider,
 
-        'districts' => $districts,
 
-    ]);
-    ?>
 
-</div>
 
-<?php Modal::end(); ?>
-
-</div>

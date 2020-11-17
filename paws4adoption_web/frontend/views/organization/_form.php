@@ -1,11 +1,14 @@
 <?php
 
+use frontend\assets\AppAsset;
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
 
 /* @var $this yii\web\View */
 /* @var $model common\models\Organization */
 /* @var $form yii\widgets\ActiveForm */
+
+AppAsset::register($this);
 ?>
 
 <div class="organization-form">
