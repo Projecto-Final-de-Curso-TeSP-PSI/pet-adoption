@@ -49,7 +49,7 @@ class SiteController extends Controller
             'verbs' => [
                 'class' => VerbFilter::className(),
                 'actions' => [
-                    'logout' => ['post'],
+                    'logout' => ['get', 'post'],
                 ],
             ],
         ];
@@ -103,7 +103,7 @@ class SiteController extends Controller
         } else {
             $model->password = '';
 
-            return $this->render('login', [
+            return $this->render('login_plab', [
                 'model' => $model,
             ]);
         }

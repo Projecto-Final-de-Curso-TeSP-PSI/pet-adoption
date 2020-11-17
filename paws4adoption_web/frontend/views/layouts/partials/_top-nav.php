@@ -195,7 +195,8 @@ use yii\helpers\Html;
             <li class="nav-item dropdown profile-nav-item">
                 <a class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                     <div class="menu-profile">
-                        <span class="name">Aaron Rossi</span>
+                        <?php $userid = Yii::$app->user->id; $loggedUser = \common\models\User::findIdentity($userid) ?>
+                        <span class="name"><?= isset($loggedUser) ? $loggedUser->getFullName() : 'Guest' ?></span>
                         <?= Html::img('@web/images/user/1.jpg', ['alt' => 'Profile Image', 'class' => 'rounded-circle']); ?>
                     </div>
                 </a>
@@ -216,7 +217,7 @@ use yii\helpers\Html;
                         <i data-feather="settings" class="icon"></i>
                         Settings
                     </a>
-                    <a class="dropdown-item" href="/user/login">
+                    <a class="dropdown-item" href="/site/logout">
                         <i data-feather="log-out" class="icon"></i>
                         Logout
                     </a>
