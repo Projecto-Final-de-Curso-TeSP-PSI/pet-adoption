@@ -2,12 +2,28 @@
     <nav class="sidemenu navbar navbar-expand navbar-light hide-nav-title">
         <div class="navbar-collapse collapse">
             <div class="navbar-nav">
+                <a class="nav-link" href="/pet-adoption/paws4adoption_web/frontend/web/site/index">
+                    <i data-feather="home" class="icon"></i>
+                    <span class="title">Paws4Adoption</span>
+                </a>
+                <a class="nav-link" href="/pet-adoption/paws4adoption_web/frontend/web/adoption-animal/index">
+                    <i data-feather="heart" class="icon"></i>
+                    <span class="title">Adota-me</span>
+                </a>
+                <a class="nav-link" href="/pet-adoption/paws4adoption_web/frontend/web/missing-animal/index">
+                    <i data-feather="frown" class="icon"></i>
+                    <span class="title">Desaparcidos</span>
+                </a>
+                <a class="nav-link" href="/pet-adoption/paws4adoption_web/frontend/web/found-animal/index">
+                    <i data-feather="flag" class="icon"></i>
+                    <span class="title">Errantes</span>
+                </a>
                 <div class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                         <div class="dropdown-title">
-                            <i data-feather="grid" class="icon"></i>
+                            <i data-feather="info" class="icon"></i>
                             <span class="title">
-                                Dashboard
+                                Informações
                                 <i data-feather="chevron-right" class="icon fr"></i>
                             </span>
                         </div>
@@ -15,39 +31,18 @@
                     <div class="dropdown-menu">
                         <a class="dropdown-item" href="/">
                             <i data-feather="chevron-right" class="icon"></i>
-                            Sales
+                            Lista de associações
                         </a>
                         <a class="dropdown-item" href="/dashboard2">
                             <i data-feather="chevron-right" class="icon"></i>
-                            eCommerce
+                            Como Ajudar
                         </a>
                         <a class="dropdown-item" href="/dashboard3">
                             <i data-feather="chevron-right" class="icon"></i>
-                            Analytics
-                        </a>
-						<a class="dropdown-item" href="/dashboard4">
-                            <i data-feather="chevron-right" class="icon"></i>
-                            CRM
-                        </a>
-						<a class="dropdown-item" href="/dashboard5">
-                            <i data-feather="chevron-right" class="icon"></i>
-                            Projects
+                            Funcionalidades
                         </a>
                     </div>
                 </div>
-
-                <a class="nav-link" href="/app/inbox">
-                    <i data-feather="inbox" class="icon"></i>
-                    <span class="title">Inbox</span>
-                </a>
-                <a class="nav-link" href="/app/chat">
-                    <i data-feather="message-square" class="icon"></i>
-                    <span class="title">Chat</span>
-                </a>
-                <a class="nav-link" href="/app/todos">
-                    <i data-feather="check-square" class="icon"></i>
-                    <span class="title">Todo List</span>
-                </a>
                 <a class="nav-link" href="/app/notes">
                     <i data-feather="file-text" class="icon"></i>
                     <span class="title">Notes</span>
