@@ -1,5 +1,6 @@
 <?php
 
+use frontend\assets\AppAsset;
 use yii\helpers\Html;
 use yii\grid\GridView;
 
@@ -9,6 +10,8 @@ use yii\grid\GridView;
 
 $this->title = 'Adoptions';
 $this->params['breadcrumbs'][] = $this->title;
+
+AppAsset::register($this);
 ?>
 <div class="adoption-index">
 
