@@ -2,10 +2,13 @@
 
 namespace frontend\controllers;
 
-use frontend\models\MissingAnimalForm;
+use common\models\AnimalSearch;
+use common\models\Nature;
+use common\models\Size;
 use Yii;
 use common\models\MissingAnimal;
-use yii\data\ActiveDataProvider;
+use common\models\AnimalMissingSearch;
+use yii\helpers\ArrayHelper;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
@@ -36,12 +39,20 @@ class MissingAnimalController extends Controller
      */
     public function actionIndex()
     {
-        $dataProvider = new ActiveDataProvider([
-            'query' => MissingAnimal::find(),
-        ]);
+        $animalMissingSearchModel = new AnimalMissingSearch();
+        $animalSearchModel = new AnimalSearch();
+        $animalMissingDataProvider = $animalMissingSearchModel->search(Yii::$app->request->queryParams);
+
 
         return $this->render('index', [
-            'dataProvider' => $dataProvider,
+            'animalMissingSearchModel' => $animalMissingSearchModel,
+            'animalSearchModel' => $animalSearchModel,
+            'dataProvider' => $animalMissingDataProvider,
+
+            'nature' => ArrayHelper::map(Nature::find()->where(['parent_nature_id' => null ])->all(), 'id', 'name'),
+            'natureCat' => ArrayHelper::map(Nature::find()->where(['parent_nature_id' => 1 ])->all(), 'id', 'name'),
+            'natureDog' => ArrayHelper::map(Nature::find()->where(['parent_nature_id' =>  2 ])->all(), 'id', 'name'),
+            'size' => ArrayHelper::map(Size::find()->all(), 'id', 'size')
         ]);
     }
 
@@ -65,8 +76,7 @@ class MissingAnimalController extends Controller
      */
     public function actionCreate()
     {
-        $model = new MissingAnimalForm();
-//        $modelAnimal = new Animal();
+        $model = new MissingAnimal();
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             return $this->redirect(['view', 'id' => $model->id]);
@@ -74,7 +84,6 @@ class MissingAnimalController extends Controller
 
         return $this->render('create', [
             'model' => $model,
-//            'modelAnimal' => $modelAnimal
         ]);
     }
 

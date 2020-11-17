@@ -1,30 +1,59 @@
 <?php
 
+use frontend\assets\AppAsset;
 use yii\helpers\Html;
 use yii\widgets\ListView;
 
 /* @var $this yii\web\View */
+/* @var $animalSearchModel common\models\AnimalSearch */
+/* @var $animalMissingSearchModel common\models\AnimalMissingSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
-$this->title = 'Missing Animals';
+/* @var $nature */
+/* @var $natureCat */
+/* @var $natureDog */
+/* @var $size */
+
+$this->title = 'Animais Desaparcidos';
 $this->params['breadcrumbs'][] = $this->title;
+
+AppAsset::register($this);
 ?>
-<div class="missing-animal-index">
+<div class="container">
+    <div class="divTitleButtonFilter">
+        <h1><?= Html::encode($this->title) ?></h1>
 
-    <h1><?= Html::encode($this->title) ?></h1>
-
-    <p>
-        <?= Html::a('Create Missing Animal', ['create'], ['class' => 'btn btn-success']) ?>
-    </p>
-
-
-    <?= ListView::widget([
-        'dataProvider' => $dataProvider,
-        'itemOptions' => ['class' => 'item'],
-        'itemView' => function ($model, $key, $index, $widget) {
-            return Html::a(Html::encode($model->id), ['view', 'id' => $model->id]);
-        },
-    ]) ?>
-
-
+        <?= Html::button('Filtrar', [
+            'class' => 'btn btn-success',
+            'id' => 'btnFilter',
+            'data-toggle' => 'modal',
+            'data-target' => '#modalFilter',
+        ]) ?>
+    </div>
+    <div>
+        <?= ListView::widget([
+            'dataProvider' => $dataProvider,
+            'itemView' => '_itemListMissingAnimal',
+            'layout' => "{pager}\n{items}",
+            'options' => ['class' => 'row'],
+            'itemOptions' => ['class' => 'col-xl-4 col-lg-4 col-sm-6']
+        ])
+        ?>
+    </div>
 </div>
+<!-- Modal do filtro -->
+<?= Yii::$app->view->renderFile('@frontend/views/components/_modal.php',
+    ['title' => 'Filtro Animais para Adoção',
+        'content' => $this->render('_filterMissingAnimal', [
+            'animalModel' => $animalSearchModel,
+            'animalAdoptionModel' => $animalMissingSearchModel,
+            'dataProvider' => $dataProvider,
+            'nature' => $nature,
+            'natureCat' => $natureCat,
+            'natureDog' => $natureDog,
+            'size' => $size,
+        ]),
+        'submitText' => 'Filtrar',
+        'closeText' => 'Fechar'
+    ]); ?>
+
