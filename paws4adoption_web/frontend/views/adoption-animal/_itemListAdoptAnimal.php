@@ -3,6 +3,7 @@
 use yii\helpers\Html;
 use yii\helpers\HtmlPurifier;
 
+
 ?>
 
 
@@ -26,7 +27,30 @@ use yii\helpers\HtmlPurifier;
 
         </div>
         <hr class="lineCard">
-        <button type="button" class="btn btn-primary">Mais informação</button>
+        <?= Html::button('Mais informação', [
+            'class' => 'btn btn-primary btn-success',
+            'id' => 'btnDetailsAnimal',
+            'data-toggle' => 'modal',
+            'data-target' => '#modalAnimalDetails',
+        ]) ?>
+        <!-- Modal dos Detalhes -->
+        <?= Yii::$app->view->renderFile('@frontend/views/components/_modalAnimalDetails.php',
+            ['title' => 'Detalhes',
+
+                'nature' =>$model->animal->nature->nameByParentId,
+                'bread' =>$model->animal->nature->name,
+                'sex' =>$model->animal->sex,
+                'size' =>$model->animal->size->size,
+                'color' =>$model->animal->furColor->fur_color,
+                'furLength' =>$model->animal->furLength->fur_length,
+                'chip' =>$model->animal->chipId,
+                'date' =>$model->animal->createdAt,
+                'postBy' =>$model->organization->name,
+                'description' =>$model->animal->description,
+
+                'btn1' => 'Adotar',
+                'btn2' => 'FAT'
+            ]); ?>
     </div>
 </div>
 
