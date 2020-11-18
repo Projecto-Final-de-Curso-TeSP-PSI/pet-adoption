@@ -77,4 +77,16 @@ class MissingAnimal extends \common\models\Animal
     {
         return $this->hasOne(User::className(), ['id' => 'owner_id']);
     }
+    /**
+     * Gets query for [[Owner]].
+     *
+     * @return string
+     */
+    public function getMissingDate()
+    {
+        return $this->missing_date;
+    }
+
+
+
 }
