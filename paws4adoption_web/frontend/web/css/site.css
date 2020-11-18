@@ -137,3 +137,13 @@ a.desc:after {
 .pDate{
     text-align: center;
 }
+.divTab {
+    background-color: transparent!important;
+}
+.tabLink{
+    font-weight: bold;
+}
+.logoImg{
+    width: 700px;
+    margin: 20px auto;
+}

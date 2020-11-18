@@ -1,6 +1,9 @@
 <?php
 namespace frontend\controllers;
 
+use common\models\AdoptionAnimal;
+use common\models\FoundAnimal;
+use common\models\MissingAnimal;
 use common\models\User;
 use frontend\models\ProfileForm;
 use common\models\Animal;
@@ -149,11 +152,19 @@ class SiteController extends Controller
      *
      * @return mixed
      */
-    public function actionAbout()
+    public function actionHelp()
     {
-        return $this->render('about');
+        return $this->render('help');
     }
-
+    /**
+     * Displays about page.
+     *
+     * @return mixed
+     */
+    public function actionFaq()
+    {
+        return $this->render('faq');
+    }
     /**
      * Displays AnimalsList page.
      *
@@ -161,15 +172,24 @@ class SiteController extends Controller
      */
     public function actionHome()
     {
-        $dataProvider = new ActiveDataProvider([
-            'query' => Animal::find()->orderBy('id DESC'),
-            'pagination' => [
-                'pageSize' => 10,
-            ],
+        $dataProviderAdoptionAnimal = new ActiveDataProvider([
+            'query' => AdoptionAnimal::find()->orderBy('id DESC')->limit(3),
+            'pagination' => false,
         ]);
-        //var_dump($dataProvider->getModels());
+        $dataProviderMissingAnimal = new ActiveDataProvider([
+            'query' => MissingAnimal::find()->orderBy('id DESC')->limit(3),
+            'pagination' => false,
+        ]);
+        $dataProviderFoundAnimal = new ActiveDataProvider([
+        'query' => FoundAnimal::find()->orderBy('id DESC')->limit(3),
+        'pagination' => false,
+    ]);
 
-        return $this->render('home', ['dataProvider' => $dataProvider]);
+        return $this->render('home', [
+            'dataProviderAdoptionAnimal' => $dataProviderAdoptionAnimal,
+            'dataProviderMissingAnimal' => $dataProviderMissingAnimal,
+            'dataProviderFoundAnimal' => $dataProviderFoundAnimal,
+        ]);
     }
 
     /**

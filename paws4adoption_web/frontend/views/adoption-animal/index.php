@@ -36,7 +36,7 @@ AppAsset::register($this);
     <div>
         <?= ListView::widget([
             'dataProvider' => $dataProvider,
-            'itemView' => '_itemListAdoptAnimal',
+            'itemView' => '../components/_itemListAnimal',
             'layout' => "{pager}\n{items}",
             'options' => ['class' => 'row'],
             'itemOptions' => ['class' => 'col-xl-4 col-lg-4 col-sm-6']

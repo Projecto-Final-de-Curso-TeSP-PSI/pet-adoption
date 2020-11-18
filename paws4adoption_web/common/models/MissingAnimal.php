@@ -63,7 +63,7 @@ class MissingAnimal extends \common\models\Animal
      *
      * @return \yii\db\ActiveQuery
      */
-    public function getId0()
+    public function getAnimal()
     {
         return $this->hasOne(Animal::className(), ['id' => 'id']);
     }
