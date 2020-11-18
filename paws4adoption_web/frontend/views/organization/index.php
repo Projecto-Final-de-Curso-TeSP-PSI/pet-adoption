@@ -21,37 +21,30 @@ $this->params['breadcrumbs'][] = $this->title;
 AppAsset::register($this);
 ?>
 
-<div class="organization-index">
+<div class="container">
+    <div class="divTitleButtonFilter">
+        <h1><?= Html::encode($this->title) ?></h1>
+        <?= Html::button('Filtrar', [
+            'class' => 'btn btn-success btnFilter',
+            'id' => 'btnFilter',
+            'data-toggle' => 'modal',
+            'data-target' => '#modalFilter',
+        ]) ?>
+    </div>
 
-    <div class="container">
-        <div class="row">
-            <h1><?= Html::encode($this->title) ?></h1>
-        </div>
 
-        <div>
-            <div class="divTitleButtonFilter">
-                <?= Html::button('Filtrar', [
-                    'class' => 'btn btn-success',
-                    'id' => 'btnFilter',
-                    'data-toggle'=> 'modal',
-                    'data-target'=> '#modalFilter',
-                ]) ?>
-            </div>
-        </div>
-
-        <div>
-            <?= ListView::widget([
-                'id' => 'lvOrganizations',
-                'dataProvider' => $dataProvider,
-                'itemOptions' => ['class' => 'item'],
-                'layout' => "{pager}\n{items}",
-                'itemView' => '_organization'
-            ]) ?>
-        </div>
-
+    <div>
+        <?= ListView::widget([
+            'id' => 'lvOrganizations',
+            'dataProvider' => $dataProvider,
+            'itemOptions' => ['class' => 'item'],
+            'layout' => "{pager}\n{items}",
+            'itemView' => '_organization'
+        ]) ?>
     </div>
 
 </div>
+
 
 <!-- Modal do filtro -->
 <?= Yii::$app->view->renderFile('@frontend/views/components/_modal.php',

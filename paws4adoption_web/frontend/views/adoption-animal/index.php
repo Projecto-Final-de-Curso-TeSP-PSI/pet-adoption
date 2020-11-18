@@ -27,7 +27,7 @@ AppAsset::register($this);
         <h1><?= Html::encode($this->title) ?></h1>
 
         <?= Html::button('Filtrar', [
-            'class' => 'btn btn-success',
+            'class' => 'btn btn-success btnFilter',
             'id' => 'btnFilter',
             'data-toggle' => 'modal',
             'data-target' => '#modalFilter',

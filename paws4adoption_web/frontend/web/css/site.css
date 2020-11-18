@@ -120,6 +120,10 @@ a.desc:after {
     justify-content: space-between;
     padding-bottom: 20px;
 }
+.btnFilter{
+    height: 40px;
+    align-self: center;
+}
 .lineCard{
     margin-top: 10px;
     margin-bottom: 10px;
