@@ -157,9 +157,9 @@ use yii\helpers\Html;
                         <i data-feather="user" class="icon"></i>
                         Profile
                     </a>
-                    <a class="dropdown-item" href="/site/logout">
-                        <i data-feather="log-out" class="icon"></i>
-                        Logout
+                    <a class="dropdown-item" href="<?= isset($loggedUser) ? '/site/logout' : 'site/login' ?>">
+                        <i data-feather="<?= isset($loggedUser) ? 'log-out' : 'log-in' ?>" class="icon"></i>
+                        <?= isset($loggedUser) ? 'Logout' : 'Login' ?>
                     </a>
                 </div>
             </li>
