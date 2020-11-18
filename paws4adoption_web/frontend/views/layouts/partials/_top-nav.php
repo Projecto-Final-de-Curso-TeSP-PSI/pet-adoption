@@ -2,13 +2,12 @@
 use yii\helpers\Html;
 ?>
 <nav class="navbar navbar-expand fixed-top top-menu">
-    <a class="navbar-brand" href="/">
+
+    <a class="navbar-brand titlePage" href="/">
         <!-- Large logo -->
         <?= Html::img('@web/images/large-logo.png', ['alt' => 'Logo', 'class' => 'large-logo']); ?>
-        <!-- Small logo -->
         <?= Html::img('@web/images/small-logo.png', ['alt' => 'Logo', 'class' => 'small-logo']); ?>
     </a>
-
     <!-- Burger menu -->
     <div class="burger-menu toggle-menu">
         <span class="top-bar"></span>
@@ -16,58 +15,11 @@ use yii\helpers\Html;
         <span class="bottom-bar"></span>
     </div>
 
+
+
+
+
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
-        <!-- Mega Menu -->
-        <ul class="left-nav d-none d-md-block navbar-nav">
-            <li class="nav-item dropdown mega-menu">
-                <a class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    <div class="mega-menu-btn">
-                        Mega Menu
-                        <i data-feather="chevron-down" class="icon"></i>
-                    </div>
-                </a>
-
-                <div class="dropdown-menu">
-                    <div class="container">
-                        <div class="row">
-                            <div class="col-lg-3 col-md-6">
-                                <h5 class="title">Components</h5>
-                                <a class="dropdown-item" href="/ui-component/alerts">Alerts</a>
-                                <a class="dropdown-item" href="/ui-component/badges">Badges</a>
-                                <a class="dropdown-item" href="/ui-component/buttons">Buttons</a>
-                            </div>
-                            <div class="col-lg-3 col-md-6">
-                                <h5 class="title">Components</h5>
-                                <a class="dropdown-item" href="/ui-component/cards">Cards</a>
-                                <a class="dropdown-item" href="/ui-component/dropdowns">Dropdowns</a>
-                                <a class="dropdown-item" href="/ui-component/forms">Forms</a>
-                            </div>
-                            <div class="col-lg-3 col-md-6">
-                                <h5 class="title">Components</h5>
-                                <a class="dropdown-item" href="/ui-component/list-groups">List Groups</a>
-                                <a class="dropdown-item" href="/ui-component/modals">Modals</a>
-                                <a class="dropdown-item" href="/ui-component/progress-bars">Progress Bars</a>
-                            </div>
-                            <div class="col-lg-3 col-md-6">
-                                <h5 class="title">Components</h5>
-                                <a class="dropdown-item" href="/ui-component/tables">Tables</a>
-                                <a class="dropdown-item" href="/ui-component/tabs">Tabs</a>
-                                <a class="dropdown-item" href="/page/gallery">Gallery</a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </li>
-        </ul>
-
-        <!-- Search form -->
-        <form class="nav-search-form d-none d-sm-block">
-            <input type="text" class="form-control" placeholder="Search...">
-            <button type="submit" class="search-success">
-                <i data-feather="search" class="icon"></i>
-            </button>
-        </form>
-
         <!-- Right nav -->
         <ul class="navbar-nav right-nav ml-auto">
             <!-- Email Notification dropdown -->
@@ -204,18 +156,6 @@ use yii\helpers\Html;
                     <a class="dropdown-item" href="/page/profile">
                         <i data-feather="user" class="icon"></i>
                         Profile
-                    </a>
-                    <a class="dropdown-item" href="/app/inbox">
-                        <i data-feather="inbox" class="icon"></i>
-                        Mailbox
-                    </a>
-                    <a class="dropdown-item" href="/app/chat">
-                        <i data-feather="help-circle" class="icon"></i>
-                        Support
-                    </a>
-                    <a class="dropdown-item" href="/page/profile-settings">
-                        <i data-feather="settings" class="icon"></i>
-                        Settings
                     </a>
                     <a class="dropdown-item" href="/site/logout">
                         <i data-feather="log-out" class="icon"></i>
