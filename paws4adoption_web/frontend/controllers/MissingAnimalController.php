@@ -3,11 +3,14 @@
 namespace frontend\controllers;
 
 use common\models\AnimalSearch;
+use common\models\MissingAnimalSearch;
 use common\models\Nature;
 use common\models\Size;
+use common\models\User;
 use Yii;
 use common\models\MissingAnimal;
 use common\models\AnimalMissingSearch;
+use yii\data\ActiveDataProvider;
 use yii\helpers\ArrayHelper;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
@@ -135,5 +138,39 @@ class MissingAnimalController extends Controller
         }
 
         throw new NotFoundHttpException('The requested page does not exist.');
+    }
+
+    public function actionMyMissingAnimals(){
+
+        //User de teste
+        $user = User::findOne(1);
+
+        $searchModel = new MissingAnimalSearch();
+        $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
+
+        $missingAnimals = MissingAnimal::find()->all();
+
+        /*$query = MissingAnimal::find();
+        $dataProvider = new ActiveDataProvider([
+            'query' => $query,
+            'pagination' => [
+                'pageSize' => 10,
+            ],
+            'sort' => [
+                'defaultOrder' => [
+                    'id' => SORT_ASC,
+                ]
+            ],
+        ]);*/
+
+        $title = 'Meus animais perdidos';
+
+        return $this->render('myMissingAnimals', [
+            'title' => $title,
+            'user' => $user,
+            'searchModel' => $searchModel,
+            'dataProvider' => $dataProvider
+        ]);
+
     }
 }

@@ -3,12 +3,16 @@
 /* @var $title */
 /* @var $content */
 
+use frontend\assets\AppAsset;
+
+AppAsset::register($this);
 ?>
 
 <div class="row">
     <div class="col-xl-12">
         <div class="card mb-30">
             <div class="card-body">
+
                 <div class="card-header">
                     <h5 class="card-title"><?=$title?></h5>
                 </div>
