@@ -2,19 +2,19 @@
     <nav class="sidemenu navbar navbar-expand navbar-light hide-nav-title">
         <div class="navbar-collapse collapse">
             <div class="navbar-nav">
-                <a class="nav-link" href="/pet-adoption/paws4adoption_web/frontend/web/site">
+                <a class="nav-link" href="<?= Yii::$app->request->baseUrl ?>/site/home">
                     <i data-feather="home" class="icon"></i>
                     <span class="title">Paws4Adoption</span>
                 </a>
-                <a class="nav-link" href="/pet-adoption/paws4adoption_web/frontend/web/adoption-animal">
+                <a class="nav-link" href="<?= Yii::$app->request->baseUrl ?>/adoption-animal">
                     <i data-feather="heart" class="icon"></i>
                     <span class="title">Adota-me</span>
                 </a>
-                <a class="nav-link" href="/pet-adoption/paws4adoption_web/frontend/web/missing-animal">
+                <a class="nav-link" href="<?= Yii::$app->request->baseUrl ?>/missing-animal">
                     <i data-feather="frown" class="icon"></i>
                     <span class="title">Desaparcidos</span>
                 </a>
-                <a class="nav-link" href="/pet-adoption/paws4adoption_web/frontend/web/found-animal">
+                <a class="nav-link" href="<?= Yii::$app->request->baseUrl ?>/found-animal">
                     <i data-feather="flag" class="icon"></i>
                     <span class="title">Errantes</span>
                 </a>
@@ -29,21 +29,21 @@
                         </div>
                     </a>
                     <div class="dropdown-menu">
-                        <a class="dropdown-item" href="/pet-adoption/paws4adoption_web/frontend/web/organization">
+                        <a class="dropdown-item" href="<?= Yii::$app->request->baseUrl ?>/organization">
                             <i data-feather="list" class="icon"></i>
                             Lista de associações
                         </a>
-                        <a class="dropdown-item" href="/pet-adoption/paws4adoption_web/frontend/web/site/help">
+                        <a class="dropdown-item" href="<?= Yii::$app->request->baseUrl ?>/site/help">
                             <i data-feather="help-circle" class="icon"></i>
                             Como Ajudar
                         </a>
-                        <a class="dropdown-item" href="/pet-adoption/paws4adoption_web/frontend/web/site/info">
+                        <a class="dropdown-item" href="<?= Yii::$app->request->baseUrl ?>/site/info">
                             <i data-feather="info" class="icon"></i>
                             Funcionalidades
                         </a>
                     </div>
                 </div>
-                <a class="nav-link" href="/pet-adoption/paws4adoption_web/frontend/web/">
+                <a class="nav-link" href="<?= Yii::$app->request->baseUrl ?>/">
                     <i data-feather="archive" class="icon"></i>
                     <span class="title">Minha Lista</span>
                 </a>
