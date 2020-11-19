@@ -1,6 +1,7 @@
 <?php
 
 use frontend\assets\AppAsset;
+use yii\helpers\Html;
 use yii\widgets\ListView;
 
 AppAsset::register($this);
