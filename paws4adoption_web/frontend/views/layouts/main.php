@@ -30,6 +30,7 @@ AppAsset::register($this);
 <?php $this->beginBody() ?>
 
 <?php if (!($reqUrl[0] === "user/forgot-password" || $reqUrl[0] === "user/login" || $reqUrl[0] === "user/signup" || $reqUrl[0] === "page/error-404")): ?>
+    <!-- Nav Bar -->
 <?= Yii::$app->view->renderFile('@frontend/views/layouts/partials/_top-nav.php'); ?>
 
     <!-- Side Menu -->
@@ -50,7 +51,7 @@ AppAsset::register($this);
 <?php endif; ?>
 
 <!-- Theme Color customizer Right Modal -->
-<?= Yii::$app->view->renderFile('@frontend/views/layouts/partials/_theme-color-customizer.php'); ?>
+<?//= Yii::$app->view->renderFile('@frontend/views/layouts/partials/_theme-color-customizer.php'); ?>
 
 <?php $this->endBody() ?>
 </body>
