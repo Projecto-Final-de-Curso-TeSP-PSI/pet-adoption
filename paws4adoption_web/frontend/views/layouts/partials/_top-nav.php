@@ -3,17 +3,20 @@ use yii\helpers\Html;
 ?>
 <nav class="navbar navbar-expand fixed-top top-menu">
 
-    <a class="navbar-brand titlePage" href="/">
-        <!-- Large logo -->
-        <?= Html::img('@web/images/large-logo.png', ['alt' => 'Logo', 'class' => 'large-logo']); ?>
-        <?= Html::img('@web/images/small-logo.png', ['alt' => 'Logo', 'class' => 'small-logo']); ?>
-    </a>
     <!-- Burger menu -->
     <div class="burger-menu toggle-menu">
         <span class="top-bar"></span>
         <span class="middle-bar"></span>
         <span class="bottom-bar"></span>
     </div>
+
+    <!-- Nav Bar Logo -->
+    <a class="navbar-brand titlePage" href="/">
+        <!-- Large logo -->
+        <?= Html::img('@web/images/large-logo.png', ['alt' => 'Logo', 'class' => 'large-logo']); ?>
+        <?= Html::img('@web/images/small-logo.png', ['alt' => 'Logo', 'class' => 'small-logo']); ?>
+    </a>
+
 
 
 
@@ -149,7 +152,7 @@ use yii\helpers\Html;
                     <div class="menu-profile">
                         <?php $userid = Yii::$app->user->id; $loggedUser = \common\models\User::findIdentity($userid) ?>
                         <span class="name"><?= isset($loggedUser) ? $loggedUser->getFullName() : 'Guest' ?></span>
-                        <?= Html::img('@web/images/user/1.jpg', ['alt' => 'Profile Image', 'class' => 'rounded-circle']); ?>
+                        <i data-feather="user" class="icon"></i>
                     </div>
                 </a>
                 <div class="dropdown-menu">
@@ -157,7 +160,8 @@ use yii\helpers\Html;
                         <i data-feather="user" class="icon"></i>
                         Profile
                     </a>
-                    <a class="dropdown-item" href="<?= isset($loggedUser) ? '/site/logout' : 'site/login' ?>">
+                    <a class="dropdown-item" href="<?= isset($loggedUser) ? Yii::$app->request->baseUrl.'/site/logout' :
+                                                                            Yii::$app->request->baseUrl.'site/login' ?>">
                         <i data-feather="<?= isset($loggedUser) ? 'log-out' : 'log-in' ?>" class="icon"></i>
                         <?= isset($loggedUser) ? 'Logout' : 'Login' ?>
                     </a>
