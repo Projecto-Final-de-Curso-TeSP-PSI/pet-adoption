@@ -2,7 +2,7 @@
     <nav class="sidemenu navbar navbar-expand navbar-light hide-nav-title">
         <div class="navbar-collapse collapse">
             <div class="navbar-nav">
-                <a class="nav-link" href="<?= Yii::$app->request->baseUrl ?>/site/home">
+                <a class="nav-link" href="<?= Yii::$app->homeUrl ?>">
                     <i data-feather="home" class="icon"></i>
                     <span class="title">Paws4Adoption</span>
                 </a>

@@ -204,7 +204,7 @@ class SiteController extends Controller
             return $this->goHome();
         }
 
-        return $this->render('signup', [
+        return $this->render('signup_plab', [
             'model' => $model,
         ]);
     }
@@ -329,7 +329,7 @@ class SiteController extends Controller
             return $this->goHome();
         }
         
-        return $this->render('userProfileForm', [
+        return $this->render('profile-settings_plab', [
             'model' => $userProfile,
         ]);
     }

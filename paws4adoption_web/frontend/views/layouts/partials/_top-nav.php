@@ -156,12 +156,20 @@ use yii\helpers\Html;
                     </div>
                 </a>
                 <div class="dropdown-menu">
-                    <a class="dropdown-item" href="/page/profile">
-                        <i data-feather="user" class="icon"></i>
-                        Profile
-                    </a>
+                    <?= isset($loggedUser) ?
+                        '<a class="dropdown-item" href="'.Yii::$app->request->baseUrl.'/site/profile'.'">
+                            <i data-feather="user" class="icon"></i>
+                            Profile
+                        </a>' : ''
+                    ?>
+                    <?= !isset($loggedUser) ?
+                        '<a class="dropdown-item" href="'.Yii::$app->request->baseUrl.'/site/signup'.'">
+                            <i data-feather="user" class="icon"></i>
+                            Registar
+                        </a>' : ''
+                    ?>
                     <a class="dropdown-item" href="<?= isset($loggedUser) ? Yii::$app->request->baseUrl.'/site/logout' :
-                                                                            Yii::$app->request->baseUrl.'site/login' ?>">
+                                                                            Yii::$app->request->baseUrl.'/site/login' ?>">
                         <i data-feather="<?= isset($loggedUser) ? 'log-out' : 'log-in' ?>" class="icon"></i>
                         <?= isset($loggedUser) ? 'Logout' : 'Login' ?>
                     </a>
