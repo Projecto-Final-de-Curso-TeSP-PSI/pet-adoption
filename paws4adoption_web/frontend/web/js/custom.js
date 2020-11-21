@@ -166,7 +166,7 @@
         });
  
         // Left Sidemenu BG Color Switcher
-        document.getElementById('BGPrimary').onclick = switchPrimary;
+       /* document.getElementById('BGPrimary').onclick = switchPrimary;
         document.getElementById('BGSuccess').onclick = switchSuccess;
         document.getElementById('BGSecondary').onclick = switchSecondary;
         document.getElementById('BGPurple').onclick = switchPurple;
@@ -180,9 +180,9 @@
         document.getElementById('BGGray').onclick = switchGray;
         document.getElementById('BGGrayBlue').onclick = switchGrayBlue;
         document.getElementById('BGGreen').onclick = switchGreen;
-        document.getElementById('BGDeepPurple').onclick = switchDeepPurple;
+        document.getElementById('BGDeepPurple').onclick = switchDeepPurple;*/
         
-        function switchPrimary() {
+        /*function switchPrimary() {
             document.getElementsByTagName('body')[0].className = 'sidemenu-bg-primary'; 
         }
         function switchSuccess() {
@@ -223,7 +223,7 @@
         }
         function switchDeepPurple() {
             document.getElementsByTagName('body')[0].className = 'sidemenu-bg-deep-purple'; 
-        }
+        }*/
 
         // Folded Menu
         $(".folded-menu").on('click', function(){
