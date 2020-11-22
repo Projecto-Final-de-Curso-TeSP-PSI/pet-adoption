@@ -30,4 +30,10 @@
     <string name="insertEmail">Introduza o email</string>
     <string name="insertPassword">Introduza a password</string>
     <string name="login">Login</string>
+    <string name="insert_name">Introduza o nome no animal</string>
+    <string name="id_chip">Id Chip</string>
+    <string name="description">Descrição</string>
+    <string name="submit">submit</string>
+    <string name="location">Localização</string>
+    <string name="date">Data</string>
 </resources>
