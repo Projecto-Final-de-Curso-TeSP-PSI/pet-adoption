@@ -24,19 +24,10 @@ use Yii;
  * @property Size $size
  * @property FoundAnimal $foundAnimal
  * @property MissingAnimal $missingAnimal
+ * @property Photo[] $photos
  */
 class Animal extends \yii\db\ActiveRecord
 {
-    //public $id;
-    //public $chipId;
-    //public $createdAt;
-    //public $description;
-    //public $nature_id;
-    //public $fur_length_id;
-    //public $fur_color_id;
-    //public $size_id;
-    //public $sex;
-
     /**
      * {@inheritdoc}
      */
@@ -157,6 +148,16 @@ class Animal extends \yii\db\ActiveRecord
     public function getMissingAnimal()
     {
         return $this->hasOne(MissingAnimal::className(), ['id' => 'id']);
+    }
+
+    /**
+     * Gets query for [[Photo]].
+     *
+     * @return \yii\db\ActiveQuery
+     */
+    public function getPhotos()
+    {
+        return $this->hasMany(Photo::className(), ['id_animal' => 'id']);
     }
 
     public function  getType(){

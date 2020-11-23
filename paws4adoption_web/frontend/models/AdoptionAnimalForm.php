@@ -56,6 +56,6 @@ class AdoptionAnimalForm extends Model
 
         $photo = new Photo();
         $photo->caption = "photo caption test";
-        $photo->img = $this->img;
+        $photo->imgPath = $this->img;
     }
 }

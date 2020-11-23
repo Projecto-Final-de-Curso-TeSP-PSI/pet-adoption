@@ -10,6 +10,9 @@ use Yii;
  * @property int $id
  * @property string|null $caption
  * @property string|null $imgPath
+ * @property int $id_animal
+ *
+ * @property Animal $animal
  */
 class Photo extends \yii\db\ActiveRecord
 {
@@ -27,8 +30,11 @@ class Photo extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
+            [['id_animal'], 'required'],
+            [['id_animal'], 'integer'],
             [['caption'], 'string', 'max' => 45],
             [['imgPath'], 'string', 'max' => 255],
+            [['id_animal'], 'exist', 'skipOnError' => true, 'targetClass' => Animal::className(), 'targetAttribute' => ['id_animal' => 'id']],
         ];
     }
 
@@ -40,7 +46,18 @@ class Photo extends \yii\db\ActiveRecord
         return [
             'id' => 'ID',
             'caption' => 'Caption',
-            'img' => 'Img',
+            'imgPath' => 'Img Path',
+            'id_animal' => 'Id Animal',
         ];
+    }
+
+    /**
+     * Gets query for [[Animal]].
+     *
+     * @return \yii\db\ActiveQuery
+     */
+    public function getAnimal()
+    {
+        return $this->hasOne(Animal::className(), ['id' => 'id_animal']);
     }
 }

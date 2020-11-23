@@ -8,6 +8,7 @@ use yii\widgets\ListView;
 /* @var $dataProviderMissingAnimal yii\data\ActiveDataProvider */
 /* @var $dataProviderAdoptionAnimal yii\data\ActiveDataProvider */
 /* @var $dataProviderFoundAnimal yii\data\ActiveDataProvider */
+/* @var $dataProviderPhoto yii\data\ActiveDataProvider */
 
 $this->title = 'My Yii Application';
 AppAsset::register($this);

@@ -4,12 +4,19 @@ use yii\helpers\Html;
 use yii\helpers\HtmlPurifier;
 
 $type = $model->animal->getType();
-var_dump($type);
+$photos = $model->animal->photos;
+
+$imgPath = '@web/';
+
+foreach ($photos as $photo){
+    $imgPath .= $photo['imgPath'];
+}
+
 ?>
 
 
 <div class="card mb-30">
-    <?= Html::img('@web/images/cards/1.jpg', ['alt' => 'Card Image', 'class' => 'card-img radius-0']); ?>
+<?= Html::img($imgPath, ['alt' => 'Card Image', 'class' => 'card-img radius-0']); ?>
     <div class="card-body">
         <div class="card-title h5"><?= HtmlPurifier::process($model->animal->name) ?></div>
         <hr class="lineCard">

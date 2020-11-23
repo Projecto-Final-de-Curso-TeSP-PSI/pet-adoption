@@ -5,6 +5,7 @@ use common\models\AdoptionAnimal;
 use common\models\FoundAnimal;
 use common\models\MissingAnimal;
 use common\models\MissingAnimalSearch;
+use common\models\Photo;
 use common\models\User;
 use frontend\models\ProfileForm;
 use common\models\Animal;
@@ -175,12 +176,18 @@ class SiteController extends Controller
         $dataProviderFoundAnimal = new ActiveDataProvider([
         'query' => FoundAnimal::find()->orderBy('id DESC')->limit(3),
         'pagination' => false,
-    ]);
+        ]);
+
+        $dataProviderPhoto = new ActiveDataProvider([
+            'query' => Photo::find(),
+            'pagination' => false,
+        ]);
 
         return $this->render('index', [
             'dataProviderAdoptionAnimal' => $dataProviderAdoptionAnimal,
             'dataProviderMissingAnimal' => $dataProviderMissingAnimal,
             'dataProviderFoundAnimal' => $dataProviderFoundAnimal,
+            'dataProviderPhoto' => $dataProviderPhoto
         ]);
     }
 
