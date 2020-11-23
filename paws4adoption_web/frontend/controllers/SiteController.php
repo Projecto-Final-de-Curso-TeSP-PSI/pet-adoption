@@ -74,15 +74,6 @@ class SiteController extends Controller
         ];
     }
 
-    /**
-     * Displays homepage.
-     *
-     * @return mixed
-     */
-    public function actionIndex()
-    {
-        return $this->render('index');
-    }
 
     /**
      * Logs in a user.
@@ -164,12 +155,13 @@ class SiteController extends Controller
     {
         return $this->render('faq');
     }
+
     /**
-     * Displays AnimalsList page.
+     * Displays homepage.
      *
      * @return mixed
      */
-    public function actionHome()
+    public function actionIndex()
     {
         $dataProviderAdoptionAnimal = new ActiveDataProvider([
             'query' => AdoptionAnimal::find()->orderBy('id DESC')->limit(3),
@@ -184,7 +176,7 @@ class SiteController extends Controller
         'pagination' => false,
     ]);
 
-        return $this->render('home', [
+        return $this->render('index', [
             'dataProviderAdoptionAnimal' => $dataProviderAdoptionAnimal,
             'dataProviderMissingAnimal' => $dataProviderMissingAnimal,
             'dataProviderFoundAnimal' => $dataProviderFoundAnimal,
