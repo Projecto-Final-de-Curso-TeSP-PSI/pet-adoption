@@ -11,7 +11,7 @@ use yii\helpers\Html;
     </div>
 
     <!-- Nav Bar Logo -->
-    <a class="navbar-brand titlePage" href="/">
+    <a class="navbar-brand" href="/">
         <!-- Large logo -->
         <?= Html::img('@web/images/large-logo.png', ['alt' => 'Logo', 'class' => 'large-logo']); ?>
         <?= Html::img('@web/images/small-logo.png', ['alt' => 'Logo', 'class' => 'small-logo']); ?>

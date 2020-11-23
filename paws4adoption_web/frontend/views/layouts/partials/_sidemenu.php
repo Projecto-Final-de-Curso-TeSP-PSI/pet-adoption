@@ -18,6 +18,39 @@
                     <i data-feather="flag" class="icon"></i>
                     <span class="title">Errantes</span>
                 </a>
+
+                <div class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <div class="dropdown-title">
+                            <i data-feather="plus" class="icon"></i>
+                            <span class="title">
+                                Publicar
+                                <i data-feather="chevron-right" class="icon fr"></i>
+                            </span>
+                        </div>
+                    </a>
+                    <div class="dropdown-menu">
+                        <a class="dropdown-item" href="<?= Yii::$app->request->baseUrl ?>/missing-animal/create">
+                            <i data-feather="frown" class="icon"></i>
+                            Animal Desaparcido
+                        </a>
+                        <a class="dropdown-item" href="<?= Yii::$app->request->baseUrl ?>/found-animal/create">
+                            <i data-feather="flag" class="icon"></i>
+                            Animal Errante
+                        </a>
+                    </div>
+                </div>
+
+                <a class="nav-link" href="<?= Yii::$app->request->baseUrl ?>">
+                    <i data-feather="archive" class="icon"></i>
+                    <span class="title">Minha Lista</span>
+                </a>
+
+                <a class="nav-link" href="<?= Yii::$app->request->baseUrl ?>/organization/create">
+                    <i data-feather="file-plus" class="icon"></i>
+                    <span class="title">Regista Associação</span>
+                </a>
+
                 <div class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                         <div class="dropdown-title">
@@ -43,10 +76,6 @@
                         </a>
                     </div>
                 </div>
-                <a class="nav-link" href="<?= Yii::$app->request->baseUrl ?>/">
-                    <i data-feather="archive" class="icon"></i>
-                    <span class="title">Minha Lista</span>
-                </a>
             </div>
         </div>
     </nav>
