@@ -13,7 +13,7 @@ class m201122_204540_AddColumn_Animal_id_in_PhotosTable extends Migration
     public function safeUp()
     {
 //        $this->addColumn('photos', 'animal_id', $this->integer()->notNull());
-        
+
     }
 
     /**
