@@ -12,12 +12,19 @@ $this->params['breadcrumbs'][] = $this->title;
 
 AppAsset::register($this);
 ?>
+<div class="main-content-header">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item">
+            <a href="/">Paws4Adoption</a>
+        </li>
+        <li class="breadcrumb-item active">
+            <span class="active">Publicar Animal Errante</span>
+        </li>
+    </ol>
+</div>
+
 <div class="found-animal-create">
-
-    <h1><?= Html::encode($this->title) ?></h1>
-
     <?= $this->render('_form', [
         'model' => $model,
     ]) ?>
-
 </div>

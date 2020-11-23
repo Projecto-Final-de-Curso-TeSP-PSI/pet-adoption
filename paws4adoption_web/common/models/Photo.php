@@ -9,7 +9,7 @@ use Yii;
  *
  * @property int $id
  * @property string|null $caption
- * @property string|null $img
+ * @property string|null $imgPath
  */
 class Photo extends \yii\db\ActiveRecord
 {
@@ -28,7 +28,7 @@ class Photo extends \yii\db\ActiveRecord
     {
         return [
             [['caption'], 'string', 'max' => 45],
-            [['img'], 'string', 'max' => 255],
+            [['imgPath'], 'string', 'max' => 255],
         ];
     }
 

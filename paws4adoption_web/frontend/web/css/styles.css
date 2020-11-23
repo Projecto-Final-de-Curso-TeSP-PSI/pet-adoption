@@ -766,6 +766,7 @@ form .form-group {
 }
 
 .top-menu .navbar-brand .large-logo {
+  width: 40px;
   max-width: 105px;
 }
 

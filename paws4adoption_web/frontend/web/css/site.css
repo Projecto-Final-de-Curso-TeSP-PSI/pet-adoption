@@ -120,7 +120,30 @@ a.desc:after {
     justify-content: space-between;
     padding-bottom: 20px;
 }
+.btnFilter{
+    height: 40px;
+    align-self: center;
+}
 .lineCard{
     margin-top: 10px;
     margin-bottom: 10px;
+}
+.divInfoModel{
+    display: flex;
+}
+.divInfoModelSec{
+    flex: 1;
+}
+.pDate{
+    text-align: center;
+}
+.divTab {
+    background-color: transparent!important;
+}
+.tabLink{
+    font-weight: bold;
+}
+.logoImg{
+    width: 700px;
+    margin: 20px auto;
 }

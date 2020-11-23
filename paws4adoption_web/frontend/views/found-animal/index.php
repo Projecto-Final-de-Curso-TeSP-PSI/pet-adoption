@@ -7,7 +7,7 @@ use yii\widgets\ListView;
 /* @var $this yii\web\View */
 /* @var $animalSearchModel common\models\AnimalSearch */
 /* @var $animalFoundSearchModel common\models\FoundAnimalSearch */
-/* @var $animalFoundDataProvider yii\data\ActiveDataProvider */
+/* @var $dataProvider yii\data\ActiveDataProvider */
 
 /* @var $nature */
 /* @var $natureCat */
@@ -27,7 +27,7 @@ AppAsset::register($this);
         <h1><?= Html::encode($this->title) ?></h1>
 
         <?= Html::button('Filtrar', [
-            'class' => 'btn btn-success',
+            'class' => 'btn btn-success btnFilter',
             'id' => 'btnFilter',
             'data-toggle' => 'modal',
             'data-target' => '#modalFilter',
@@ -36,7 +36,7 @@ AppAsset::register($this);
     <div>
         <?= ListView::widget([
             'dataProvider' => $dataProvider,
-            'itemView' => '_itemListFoundAnimal',
+            'itemView' => '../components/_itemListAnimal',
             'layout' => "{pager}\n{items}",
             'options' => ['class' => 'row'],
             'itemOptions' => ['class' => 'col-xl-4 col-lg-4 col-sm-6']

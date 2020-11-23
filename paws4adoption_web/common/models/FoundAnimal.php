@@ -84,4 +84,24 @@ class FoundAnimal extends \common\models\Animal
     {
         return $this->hasOne(User::className(), ['id' => 'user_id']);
     }
+
+    /**
+     * Gets query for [[User]].
+     *
+     * @return \yii\db\ActiveQuery
+     */
+    public function getLocation()
+    {
+        return $this->hasOne(User::className(), ['id' => 'address_id']);
+    }
+
+    /**
+     * Gets query for [[FoundDate]].
+     *
+     * @return string
+     */
+    public function getFoundDate()
+    {
+        return $this->found_date;
+    }
 }

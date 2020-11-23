@@ -1,5 +1,6 @@
 <?php
 
+use frontend\assets\AppAsset;
 use yii\helpers\Html;
 
 /* @var $this yii\web\View */
@@ -10,13 +11,16 @@ use yii\helpers\Html;
 $this->title = $title;
 $this->params['breadcrumbs'][] = ['label' => 'Adoptions', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
+
+AppAsset::register($this);
 ?>
 <div class="adoption-create">
 
-    <h1><?= Html::encode($this->title) ?></h1>
-
-    <?= $this->render('_form', [
-        'model' => $model,
-    ]) ?>
+    <?= Yii::$app->view->renderFile('@frontend/views/components/_panel.php',
+        [
+            'title' => $title,
+            'content' => $this->render('_form', ['model' => $model]),
+            'submitText' => 'Submeter pedido adoção',
+        ]); ?>
 
 </div>

@@ -63,7 +63,7 @@ class MissingAnimal extends \common\models\Animal
      *
      * @return \yii\db\ActiveQuery
      */
-    public function getId0()
+    public function getAnimal()
     {
         return $this->hasOne(Animal::className(), ['id' => 'id']);
     }
@@ -77,4 +77,16 @@ class MissingAnimal extends \common\models\Animal
     {
         return $this->hasOne(User::className(), ['id' => 'owner_id']);
     }
+    /**
+     * Gets query for [[Owner]].
+     *
+     * @return string
+     */
+    public function getMissingDate()
+    {
+        return $this->missing_date;
+    }
+
+
+
 }

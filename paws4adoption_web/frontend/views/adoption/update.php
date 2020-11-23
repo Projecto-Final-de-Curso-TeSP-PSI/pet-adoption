@@ -1,5 +1,6 @@
 <?php
 
+use frontend\assets\AppAsset;
 use yii\helpers\Html;
 
 /* @var $this yii\web\View */
@@ -9,6 +10,8 @@ $this->title = 'Update Adoption: ' . $model->id;
 $this->params['breadcrumbs'][] = ['label' => 'Adoptions', 'url' => ['index']];
 $this->params['breadcrumbs'][] = ['label' => $model->id, 'url' => ['view', 'id' => $model->id]];
 $this->params['breadcrumbs'][] = 'Update';
+
+AppAsset::register($this);
 ?>
 <div class="adoption-update">
 

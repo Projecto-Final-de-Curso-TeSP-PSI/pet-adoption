@@ -158,4 +158,17 @@ class Animal extends \yii\db\ActiveRecord
     {
         return $this->hasOne(MissingAnimal::className(), ['id' => 'id']);
     }
+
+    public function  getType(){
+        if($this->getAdoptionAnimal()->count() != '0'){
+            return 'adoptionAnimal';
+        }
+        if($this->getFoundAnimal()->count() != '0'){
+            return 'foundAnimal';
+        }
+        if($this->getMissingAnimal()->count() != '0'){
+            return 'missingAnimal';
+        }
+        return null;
+    }
 }

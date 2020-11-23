@@ -1,5 +1,6 @@
 <?php
 
+use frontend\assets\AppAsset;
 use yii\helpers\Html;
 use yii\widgets\ListView;
 
@@ -16,6 +17,8 @@ use yii\widgets\ListView;
 /* @var $organization */
 
 $this->title = 'Adota-me';
+
+AppAsset::register($this);
 ?>
 <div class="container">
 
@@ -24,7 +27,7 @@ $this->title = 'Adota-me';
         <h1><?= Html::encode($this->title) ?></h1>
 
         <?= Html::button('Filtrar', [
-            'class' => 'btn btn-success',
+            'class' => 'btn btn-success btnFilter',
             'id' => 'btnFilter',
             'data-toggle' => 'modal',
             'data-target' => '#modalFilter',
@@ -33,7 +36,7 @@ $this->title = 'Adota-me';
     <div>
         <?= ListView::widget([
             'dataProvider' => $dataProvider,
-            'itemView' => '_itemListAdoptAnimal',
+            'itemView' => '../components/_itemListAnimal',
             'layout' => "{pager}\n{items}",
             'options' => ['class' => 'row'],
             'itemOptions' => ['class' => 'col-xl-4 col-lg-4 col-sm-6']

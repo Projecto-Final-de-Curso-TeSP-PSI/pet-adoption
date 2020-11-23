@@ -1,6 +1,10 @@
 <?php
 namespace frontend\controllers;
 
+use common\models\AdoptionAnimal;
+use common\models\FoundAnimal;
+use common\models\MissingAnimal;
+use common\models\MissingAnimalSearch;
 use common\models\User;
 use frontend\models\ProfileForm;
 use common\models\Animal;
@@ -49,7 +53,7 @@ class SiteController extends Controller
             'verbs' => [
                 'class' => VerbFilter::className(),
                 'actions' => [
-                    'logout' => ['post'],
+                    'logout' => ['get', 'post'],
                 ],
             ],
         ];
@@ -71,15 +75,6 @@ class SiteController extends Controller
         ];
     }
 
-    /**
-     * Displays homepage.
-     *
-     * @return mixed
-     */
-    public function actionIndex()
-    {
-        return $this->render('index');
-    }
 
     /**
      * Logs in a user.
@@ -103,7 +98,7 @@ class SiteController extends Controller
         } else {
             $model->password = '';
 
-            return $this->render('login', [
+            return $this->render('login_plab', [
                 'model' => $model,
             ]);
         }
@@ -117,7 +112,6 @@ class SiteController extends Controller
     public function actionLogout()
     {
         Yii::$app->user->logout();
-
         return $this->goHome();
     }
 
@@ -149,27 +143,99 @@ class SiteController extends Controller
      *
      * @return mixed
      */
-    public function actionAbout()
+    public function actionHelp()
     {
-        return $this->render('about');
+        return $this->render('help');
     }
-
     /**
-     * Displays AnimalsList page.
+     * Displays about page.
      *
      * @return mixed
      */
-    public function actionHome()
+    public function actionFaq()
     {
+        return $this->render('faq');
+    }
+
+    /**
+     * Displays homepage.
+     *
+     * @return mixed
+     */
+    public function actionIndex()
+    {
+        $dataProviderAdoptionAnimal = new ActiveDataProvider([
+            'query' => AdoptionAnimal::find()->orderBy('id DESC')->limit(3),
+            'pagination' => false,
+        ]);
+        $dataProviderMissingAnimal = new ActiveDataProvider([
+            'query' => MissingAnimal::find()->orderBy('id DESC')->limit(3),
+            'pagination' => false,
+        ]);
+        $dataProviderFoundAnimal = new ActiveDataProvider([
+        'query' => FoundAnimal::find()->orderBy('id DESC')->limit(3),
+        'pagination' => false,
+    ]);
+
+        return $this->render('index', [
+            'dataProviderAdoptionAnimal' => $dataProviderAdoptionAnimal,
+            'dataProviderMissingAnimal' => $dataProviderMissingAnimal,
+            'dataProviderFoundAnimal' => $dataProviderFoundAnimal,
+        ]);
+    }
+
+    /**
+     * Displays My List Animals Publish.
+     *
+     * @return mixed
+     */
+    public function actionMyListAnimals(){
+        $dataProviderMissingAnimal = new ActiveDataProvider([
+            'query' => MissingAnimal::find()->orderBy('id DESC')->limit(3),
+            'pagination' => false,
+        ]);
+        $dataProviderFoundAnimal = new ActiveDataProvider([
+            'query' => FoundAnimal::find()->orderBy('id DESC')->limit(3),
+            'pagination' => false,
+        ]);
+
+        return $this->render('myListAnimals', [
+
+            'dataProviderMissingAnimal' => $dataProviderMissingAnimal,
+            'dataProviderFoundAnimal' => $dataProviderFoundAnimal,
+        ]);
+
+        //User de teste
+        /*$user = User::findOne(1);
+
+        $searchModel = new MissingAnimalSearch();
+        $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
+
+        $missingAnimals = MissingAnimal::find()->all();*/
+
+        /*$query = MissingAnimal::find();
         $dataProvider = new ActiveDataProvider([
-            'query' => Animal::find()->orderBy('id DESC'),
+            'query' => $query,
             'pagination' => [
                 'pageSize' => 10,
             ],
-        ]);
-        //var_dump($dataProvider->getModels());
+            'sort' => [
+                'defaultOrder' => [
+                    'id' => SORT_ASC,
+                ]
+            ],
+        ]);*/
 
-        return $this->render('home', ['dataProvider' => $dataProvider]);
+
+
+
+       /* return $this->render('myListAnimals', [
+            'title' => $title,
+            'user' => $user,
+            'searchModel' => $searchModel,
+            'dataProvider' => $dataProvider
+        ]);*/
+
     }
 
     /**
@@ -181,11 +247,11 @@ class SiteController extends Controller
     {
         $model = new SignupForm();
         if ($model->load(Yii::$app->request->post()) && $model->signup()) {
-            Yii::$app->session->setFlash('success', 'Thank you for registration. Please check your inbox for verification email.');
+            Yii::$app->session->setFlash('success', 'Obrigado pelo seu registo. Agora pode fazer login.');
             return $this->goHome();
         }
 
-        return $this->render('signup', [
+        return $this->render('signup_plab', [
             'model' => $model,
         ]);
     }
@@ -310,8 +376,10 @@ class SiteController extends Controller
             return $this->goHome();
         }
         
-        return $this->render('userProfileForm', [
+        return $this->render('profile-settings_plab', [
             'model' => $userProfile,
         ]);
     }
+
+
 }
