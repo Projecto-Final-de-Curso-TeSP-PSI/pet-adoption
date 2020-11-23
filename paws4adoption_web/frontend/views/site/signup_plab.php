@@ -1,5 +1,6 @@
 <?php
 
+use frontend\assets\AppAsset;
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
 
@@ -9,6 +10,7 @@ use yii\widgets\ActiveForm;
 
 $this->title = 'Registo de utilizador';
 $this->params['breadcrumbs'][] = $this->title;
+AppAsset::register($this);
 ?>
 <!-- Signup Area -->
 <div class="auth-main-content auth-bg-image">

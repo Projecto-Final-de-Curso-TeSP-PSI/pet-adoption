@@ -1,5 +1,6 @@
 <?php
 
+use frontend\assets\AppAsset;
 use yii\helpers\Html;
 
 /* @var $this yii\web\View */
@@ -8,6 +9,7 @@ use yii\helpers\Html;
 $this->title = 'Publicar Animal para Adopção';
 $this->params['breadcrumbs'][] = ['label' => 'Adoption Animals', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
+AppAsset::register($this);
 ?>
 <div class="adoption-animal-create">
 

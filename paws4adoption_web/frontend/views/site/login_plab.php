@@ -4,8 +4,10 @@
 /* @var $form yii\bootstrap\ActiveForm */
 /* @var $model \common\models\LoginForm */
 
+use frontend\assets\AppAsset;
 use yii\bootstrap\ActiveForm;
 use yii\helpers\Html;
+AppAsset::register($this);
 ?>
 <!-- Login Area -->
 <div class="auth-main-content auth-bg-image">

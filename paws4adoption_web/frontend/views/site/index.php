@@ -1,5 +1,6 @@
 <?php
 
+use frontend\assets\AppAsset;
 use \yii\helpers\Html;
 use yii\widgets\ListView;
 
@@ -9,6 +10,7 @@ use yii\widgets\ListView;
 /* @var $dataProviderFoundAnimal yii\data\ActiveDataProvider */
 
 $this->title = 'My Yii Application';
+AppAsset::register($this);
 ?>
 <div class="site-index">
 
