@@ -41,7 +41,7 @@
                     </div>
                 </div>
 
-                <a class="nav-link" href="<?= Yii::$app->request->baseUrl ?>">
+                <a class="nav-link" href="<?= Yii::$app->request->baseUrl ?>/site/my-list-animals">
                     <i data-feather="archive" class="icon"></i>
                     <span class="title">Minha Lista</span>
                 </a>

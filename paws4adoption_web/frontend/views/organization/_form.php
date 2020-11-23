@@ -11,24 +11,37 @@ use yii\widgets\ActiveForm;
 AppAsset::register($this);
 ?>
 
-<div class="organization-form">
+<!-- Profile Settings -->
+<div class="row">
+    <div class="col-lg-12">
+        <div class="profile-settings-form mb-30">
+            <div class="userProfileForm">
+                <h1><?= Html::encode($this->title) ?></h1>
 
-    <?php $form = ActiveForm::begin(); ?>
+                <p>Pode registar a sua associação nesta secção</p>
 
-    <?= $form->field($model, 'name')->textInput(['maxlength' => true]) ?>
+                <?php $form = ActiveForm::begin(); ?>
 
-    <?= $form->field($model, 'nif')->textInput(['maxlength' => true]) ?>
+                <?= $form->field($model, 'name')->textInput(['maxlength' => true]) ?>
 
-    <?= $form->field($model, 'email')->textInput(['maxlength' => true]) ?>
+                <?= $form->field($model, 'nif')->textInput(['maxlength' => true]) ?>
 
-    <?= $form->field($model, 'phone')->textInput(['maxlength' => true]) ?>
+                <?= $form->field($model, 'email')->textInput(['maxlength' => true]) ?>
 
-    <?= $form->field($model, 'address_id')->textInput() ?>
+                <?= $form->field($model, 'phone')->textInput(['maxlength' => true]) ?>
 
-    <div class="form-group">
-        <?= Html::submitButton('Save', ['class' => 'btn btn-success']) ?>
+                <?= $form->field($model, 'address_id')->textInput() ?>
+
+                <div class="form-group">
+                    <?= Html::submitButton('Save', ['class' => 'btn btn-success']) ?>
+                </div>
+
+                <p><b>AVISO: </b>Depois do registo precisa de aguardar até ser aceite</p>
+
+                <?php ActiveForm::end(); ?>
+
+            </div><!-- userProfileForm -->
+        </div>
     </div>
-
-    <?php ActiveForm::end(); ?>
-
 </div>
+<!-- End Profile Settings -->

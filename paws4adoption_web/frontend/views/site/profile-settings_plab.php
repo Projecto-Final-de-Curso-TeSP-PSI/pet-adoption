@@ -1,6 +1,7 @@
 <?php
 
 use common\models\District;
+use frontend\assets\AppAsset;
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
 
@@ -10,16 +11,16 @@ use yii\widgets\ActiveForm;
 
 $this->title = 'Dados do Utilizador';
 $this->params['breadcrumbs'][] = $this->title;
+AppAsset::register($this);
 ?>
 <!-- Main Content Header -->
 <div class="main-content-header">
-    <h1>Profile</h1>
     <ol class="breadcrumb">
         <li class="breadcrumb-item">
-            <a href="/">Dashboard</a>
+            <a href="/">Paws4Adoption</a>
         </li>
         <li class="breadcrumb-item active">
-            <span class="active">Profile Settings</span>
+            <span class="active">Prefil</span>
         </li>
     </ol>
 </div>

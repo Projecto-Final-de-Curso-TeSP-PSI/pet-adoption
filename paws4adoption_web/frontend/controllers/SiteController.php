@@ -4,6 +4,7 @@ namespace frontend\controllers;
 use common\models\AdoptionAnimal;
 use common\models\FoundAnimal;
 use common\models\MissingAnimal;
+use common\models\MissingAnimalSearch;
 use common\models\User;
 use frontend\models\ProfileForm;
 use common\models\Animal;
@@ -184,6 +185,60 @@ class SiteController extends Controller
     }
 
     /**
+     * Displays My List Animals Publish.
+     *
+     * @return mixed
+     */
+    public function actionMyListAnimals(){
+        $dataProviderMissingAnimal = new ActiveDataProvider([
+            'query' => MissingAnimal::find()->orderBy('id DESC')->limit(3),
+            'pagination' => false,
+        ]);
+        $dataProviderFoundAnimal = new ActiveDataProvider([
+            'query' => FoundAnimal::find()->orderBy('id DESC')->limit(3),
+            'pagination' => false,
+        ]);
+
+        return $this->render('myListAnimals', [
+
+            'dataProviderMissingAnimal' => $dataProviderMissingAnimal,
+            'dataProviderFoundAnimal' => $dataProviderFoundAnimal,
+        ]);
+
+        //User de teste
+        /*$user = User::findOne(1);
+
+        $searchModel = new MissingAnimalSearch();
+        $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
+
+        $missingAnimals = MissingAnimal::find()->all();*/
+
+        /*$query = MissingAnimal::find();
+        $dataProvider = new ActiveDataProvider([
+            'query' => $query,
+            'pagination' => [
+                'pageSize' => 10,
+            ],
+            'sort' => [
+                'defaultOrder' => [
+                    'id' => SORT_ASC,
+                ]
+            ],
+        ]);*/
+
+
+
+
+       /* return $this->render('myListAnimals', [
+            'title' => $title,
+            'user' => $user,
+            'searchModel' => $searchModel,
+            'dataProvider' => $dataProvider
+        ]);*/
+
+    }
+
+    /**
      * Signs user up.
      *
      * @return mixed
@@ -325,4 +380,6 @@ class SiteController extends Controller
             'model' => $userProfile,
         ]);
     }
+
+
 }
