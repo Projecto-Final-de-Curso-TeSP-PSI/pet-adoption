@@ -2,7 +2,8 @@ suite_namespace: frontend\tests\acceptance
 actor: AcceptanceTester
 modules:
     enabled:
-        - PhpBrowser:
-            url: http://localhost/paws4adoption.web.front/
+        - WebDriver:
+              url: http://paws4adoption.web.front
+              browser: firefox
         - Yii2:
             part: init
