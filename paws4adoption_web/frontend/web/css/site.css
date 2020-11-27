@@ -147,3 +147,7 @@ a.desc:after {
     width: 700px;
     margin: 20px auto;
 }
+
+.btn-redirect-to-signup{
+    color: white;
+}

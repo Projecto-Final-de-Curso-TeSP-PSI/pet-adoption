@@ -18,10 +18,10 @@ AppAsset::register($this);
         <div class="d-tablecell">
             <div class="auth-box">
                 <div class="row align-items-center">
-                    <div class="col-md-6">
+                    <!--<div class="col-md-6">
                         <div class="form-left-content">
                             <div class="auth-logo">
-                                <?= Html::img('@web/images/large-logo.png', ['alt' => 'Logo']); ?>
+                                <?/*= Html::img('@web/images/large-logo.png', ['alt' => 'Logo']); */?>
                             </div>
 
                             <div class="login-links">
@@ -43,7 +43,7 @@ AppAsset::register($this);
                                 </a>
                             </div>
                         </div>
-                    </div>
+                    </div>-->
 
                     <div class="col-md-6">
                         <div class="form-content">
