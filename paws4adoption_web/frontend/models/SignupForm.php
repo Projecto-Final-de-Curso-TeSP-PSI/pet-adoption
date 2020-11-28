@@ -11,10 +11,6 @@ use yii\base\Model;
  */
 class SignupForm extends Model
 {
-//    public $firstName;
-//    public $lastName;
-//    public $nif;
-//    public $phone;
     public $username;
     public $email;
     public $password;
