@@ -46,12 +46,24 @@ AppAsset::register($this);
                                         </div>
 
                                         <div style="color:#999;margin:1em 0">
-                                            Esqueceu-se da sua password? Pode redefini-la <?= Html::a('aqui', ['site/request-password-reset']) ?>.
+                                            Esqueceu-se da sua password? Pode redefini-la <?= Html::a('Aqui', ['site/request-password-reset']) ?>.
                                             <br>
                                             Precisa que lhe seja enviado um novo email de verificação? <?= Html::a('Reenviar', ['site/resend-verification-email']) ?>
                                         </div>
 
                                         <?php ActiveForm::end(); ?>
+
+                                        <hr>
+
+                                        <div class="form-group">
+                                            <p style="color:#999;margin:1em 0">
+                                                Ainda não tem conta? Registe-se!
+                                            </p>
+
+                                            <a href="/site/signup" class="btn btn-primary btn-redirect-to-signup">Registar</a>
+
+                                        </div>
+
                                     </div>
                                 </div>
                             </div>

@@ -37,9 +37,18 @@ AppAsset::register($this);
 
                 <?php $form = ActiveForm::begin(); ?>
 
-                    <?= $form->field($model, 'firstName') ?>
-                    <?= $form->field($model, 'lastName') ?>
-                    <?= $form->field($model, 'nif') ?>
+                    <?php
+                        if ($model->firstName != null){
+                            echo $form->field($model, 'firstName')->textInput(['readonly' => true]);
+                            echo $form->field($model, 'lastName')->textInput(['readonly' => true]);
+                            echo $form->field($model, 'nif')->textInput(['readonly' => true]);
+                        } else {
+                            echo $form->field($model, 'firstName');
+                            echo $form->field($model, 'lastName');
+                            echo $form->field($model, 'nif');
+                        }
+                    ?>
+
                     <?= $form->field($model, 'email') ?>
                     <?= $form->field($model, 'phone') ?>
                     <?= $form->field($model, 'street') ?>
