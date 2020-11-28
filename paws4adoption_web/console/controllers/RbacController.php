@@ -1,6 +1,6 @@
 <?php
 
-namespace app\commands;
+namespace console\controllers;
 
 use Yii;
 use yii\console\Controller;
@@ -68,9 +68,10 @@ class RbacController extends Controller
         $auth->addChild($admin, $removeOrganization);
         $auth->addChild($admin, $blockUser);
 
-        /*// Atribui roles para usuários. 1 and 2 são IDs retornados por IdentityInterface::getId()
+        // Atribui roles para usuários. 1 and 2 são IDs retornados por IdentityInterface::getId()
         // normalmente implementado no seu model User.
-        $auth->assign($author, 2);
-        $auth->assign($admin, 1);*/
+        $auth->assign($admin, 1); // Role de admin atribuído ao user com id 1 na base de dados (Simão);
+        $auth->assign($admin, 3); // Role de admin atribuído ao user com id 3 na base de dados (Ricardo);
+        $auth->assign($admin, 4); // Role de admin atribuído ao user com id 4 na base de dados (Cláudia);
     }
 }
