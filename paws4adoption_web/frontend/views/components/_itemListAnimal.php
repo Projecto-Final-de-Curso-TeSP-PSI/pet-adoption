@@ -3,6 +3,7 @@
 use yii\helpers\Html;
 use yii\helpers\HtmlPurifier;
 
+$animalId = $model->animal->id;
 $type = $model->animal->getType();
 $photos = $model->animal->photos;
 
@@ -32,7 +33,7 @@ foreach ($photos as $photo){
             'class' => 'btn btn-primary btn-success',
             'id' => 'btnDetailsAnimal',
             'data-toggle' => 'modal',
-            'data-target' => '#modalAnimalDetails',
+            'data-target' => '#modalAnimalDetails' . $animalId,
         ]) ?>
 
         <!-- Modal dos Detalhes -->
@@ -41,6 +42,7 @@ foreach ($photos as $photo){
             case 'adoptionAnimal':
                 echo Yii::$app->view->renderFile('@frontend/views/components/_modalAnimalDetails.php',
                     ['title' => 'Detalhes do Animal',
+                        'modalId' => $animalId,
                         'type' => $type,
                         'name' => $model->animal->name,
                         'nature' => $model->animal->nature->nameByParentId,
@@ -62,7 +64,7 @@ foreach ($photos as $photo){
             case 'missingAnimal':
                 echo Yii::$app->view->renderFile('@frontend/views/components/_modalAnimalDetails.php',
                     ['title' => 'Detalhes do Animal',
-
+                        'modalId' => $animalId,
                         'type' => $model->gettype(),
                         'name' => $model->animal->name,
                         'nature' => $model->animal->nature->nameByParentId,
@@ -85,7 +87,7 @@ foreach ($photos as $photo){
             case 'foundAnimal':
                 echo Yii::$app->view->renderFile('@frontend/views/components/_modalAnimalDetails.php',
                     ['title' => 'Detalhes do Animal',
-
+                        'modalId' => $animalId,
                         'type' => $model->animal->gettype(),
                         'name' => $model->animal->name,
                         'nature' => $model->animal->nature->nameByParentId,

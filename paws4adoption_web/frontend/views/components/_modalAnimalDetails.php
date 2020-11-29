@@ -4,6 +4,7 @@ use yii\helpers\Html;
 
 
 /* @var $type */
+/* @var $modalId */
 /* @var $title */
 /* @var $name */
 /* @var $nature */
@@ -28,7 +29,7 @@ use yii\helpers\Html;
 
 ?>
 
-<div class="modal fade LargeModal" id="modalAnimalDetails" tabindex="-1" role="dialog"
+<div class="modal fade LargeModal" id='<?= "modalAnimalDetails" . $modalId?>' tabindex="-1" role="dialog"
      aria-labelledby="exampleModalLabel"
      aria-hidden="true">
     <div class="modal-dialog modal-lg" role="document">
