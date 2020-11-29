@@ -37,7 +37,9 @@ class OrganizationController extends Controller
                         'allow' => true,
                         'roles' => ['associatedUser'],
                     ],
+
                     [
+                        // TODO: As actions de create e delete realizadas pelo admin devem estar no backoffice e não aqui.
                         'actions' => ['create', 'delete'],
                         'allow' => true,
                         'roles' => ['admin'],
