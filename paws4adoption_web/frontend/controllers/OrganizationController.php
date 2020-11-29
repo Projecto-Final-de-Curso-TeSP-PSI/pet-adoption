@@ -11,6 +11,7 @@ use common\models\Organization;
 use common\models\OrganizationSearch;
 use yii\data\ActiveDataProvider;
 use yii\db\Exception;
+use yii\filters\AccessControl;
 use yii\helpers\ArrayHelper;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
@@ -27,6 +28,22 @@ class OrganizationController extends Controller
     public function behaviors()
     {
         return [
+            'access' => [
+                'class' => AccessControl::className(),
+                'only' => ['create', 'update', 'delete'],
+                'rules' => [
+                    [
+                        'actions' => ['update'],
+                        'allow' => true,
+                        'roles' => ['associatedUser'],
+                    ],
+                    [
+                        'actions' => ['create', 'delete'],
+                        'allow' => true,
+                        'roles' => ['admin'],
+                    ]
+                ]
+            ],
             'verbs' => [
                 'class' => VerbFilter::className(),
                 'actions' => [
@@ -94,7 +111,7 @@ class OrganizationController extends Controller
             ]);
         }
         catch(Exception $e){
-
+            // TODO: LIDAR COM A EXCEPÇÃO. O que acontece se for lançada uma excepção?
         }
     }
 
