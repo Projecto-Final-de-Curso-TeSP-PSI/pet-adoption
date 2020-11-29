@@ -8,6 +8,7 @@ use frontend\models\AdoptionRequestForm;
 use Yii;
 use common\models\Adoption;
 use common\models\AdoptionSearch;
+use yii\filters\AccessControl;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
@@ -23,6 +24,17 @@ class AdoptionController extends Controller
     public function behaviors()
     {
         return [
+            'access' => [
+                'class' => AccessControl::class,
+                'only' => ['submit-adoption-request', 'sumbit-fat-request'],
+                'rules' => [
+                    [
+                        'actions' => ['submit-adoption-request', 'submit-fat-request'],
+                        'allow' => true,
+                        'roles' => ['@']
+                    ]
+                ]
+            ],
             'verbs' => [
                 'class' => VerbFilter::className(),
                 'actions' => [
