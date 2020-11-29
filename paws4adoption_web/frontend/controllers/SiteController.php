@@ -37,15 +37,15 @@ class SiteController extends Controller
         return [
             'access' => [
                 'class' => AccessControl::className(),
-                'only' => ['logout', 'signup'],
+                'only' => ['logout', 'signup', 'login', 'profile', 'my-list-animals'],
                 'rules' => [
                     [
-                        'actions' => ['signup'],
+                        'actions' => ['signup', 'login'],
                         'allow' => true,
                         'roles' => ['?'],
                     ],
                     [
-                        'actions' => ['logout'],
+                        'actions' => ['logout', 'profile', 'my-list-animals'],
                         'allow' => true,
                         'roles' => ['@'],
                     ],
@@ -207,7 +207,6 @@ class SiteController extends Controller
         ]);
 
         return $this->render('myListAnimals', [
-
             'dataProviderMissingAnimal' => $dataProviderMissingAnimal,
             'dataProviderFoundAnimal' => $dataProviderFoundAnimal,
         ]);

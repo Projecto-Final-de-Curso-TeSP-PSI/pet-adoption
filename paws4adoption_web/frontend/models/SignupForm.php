@@ -11,10 +11,6 @@ use yii\base\Model;
  */
 class SignupForm extends Model
 {
-//    public $firstName;
-//    public $lastName;
-//    public $nif;
-//    public $phone;
     public $username;
     public $email;
     public $password;
@@ -58,6 +54,12 @@ class SignupForm extends Model
         $user->setPassword($this->password);
         $user->generateAuthKey();
         $user->generateEmailVerificationToken();
+
+        // atribuição do papel de user por default a todos os utilizadores registados
+        $auth = Yii::$app->getAuthManager();
+        $userRole = $auth->getRole('user');
+        $auth->assign($userRole, $user->getId());
+
         return $user->save(false) && $this->sendEmail($user);
 
     }

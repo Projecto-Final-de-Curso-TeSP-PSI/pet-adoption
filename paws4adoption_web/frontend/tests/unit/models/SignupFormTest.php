@@ -6,6 +6,7 @@ use frontend\models\SignupForm;
 
 class SignupFormTest extends \Codeception\Test\Unit
 {
+    
     /**
      * @var \frontend\tests\UnitTester
      */
