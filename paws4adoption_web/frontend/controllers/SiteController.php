@@ -37,15 +37,15 @@ class SiteController extends Controller
         return [
             'access' => [
                 'class' => AccessControl::className(),
-                'only' => ['logout', 'signup'],
+                'only' => ['logout', 'signup', 'login', 'profile', 'my-list-animals'],
                 'rules' => [
                     [
-                        'actions' => ['signup'],
+                        'actions' => ['signup', 'login'],
                         'allow' => true,
                         'roles' => ['?'],
                     ],
                     [
-                        'actions' => ['logout'],
+                        'actions' => ['logout', 'profile', 'my-list-animals'],
                         'allow' => true,
                         'roles' => ['@'],
                     ],
@@ -198,16 +198,15 @@ class SiteController extends Controller
      */
     public function actionMyListAnimals(){
         $dataProviderMissingAnimal = new ActiveDataProvider([
-            'query' => MissingAnimal::find()->orderBy('id DESC')->limit(3),
+            'query' => MissingAnimal::find()->where(['owner_id' => Yii::$app->user->getId()])->orderBy('id DESC')->all(),
             'pagination' => false,
         ]);
         $dataProviderFoundAnimal = new ActiveDataProvider([
-            'query' => FoundAnimal::find()->orderBy('id DESC')->limit(3),
+            'query' => FoundAnimal::find()->where(['user_id' => Yii::$app->user->getId()])->orderBy('id DESC')->all(),
             'pagination' => false,
         ]);
 
         return $this->render('myListAnimals', [
-
             'dataProviderMissingAnimal' => $dataProviderMissingAnimal,
             'dataProviderFoundAnimal' => $dataProviderFoundAnimal,
         ]);
