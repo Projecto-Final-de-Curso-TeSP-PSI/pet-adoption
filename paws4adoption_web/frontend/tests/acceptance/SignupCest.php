@@ -29,7 +29,12 @@ class SignupCest
         $I->seeInCurrentUrl('/site/signup');
         $I->see('Registo de utilizador');
 
-        $I->fillField()
+        $I->fillField('SignupForm[username]', 'ricardo.lopes');
+        $I->fillField('SignupForm[email]', 'ricardo.lopes@trigenius.pt');
+        $I->fillField('SignupForm[password]', 'Porto123#');
+        $I->click(Locator::find('button', ['type' => 'submit']));
+
+        $I->seeInCurrentUrl('/');
 
     }
 }
