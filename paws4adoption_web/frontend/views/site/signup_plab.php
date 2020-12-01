@@ -50,7 +50,7 @@ AppAsset::register($this);
                             <h1 class="heading"><?= Html::encode($this->title) ?></h1>
                             <p>Preencha o formulário para se registar.</p>
 
-                            <?php $form = ActiveForm::begin(); ?>
+                            <?php $form = ActiveForm::begin(['id' => 'form-signup']); ?>
 
                                 <?= $form->field($model, 'username') ?>
                                 <?= $form->field($model, 'email') ?>

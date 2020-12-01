@@ -14,15 +14,19 @@ class SignupCest
         $I->amOnRoute('site/signup');
     }
 
+
     public function signupWithEmptyFields(FunctionalTester $I)
     {
-        $I->see('Signup', 'h1');
-        $I->see('Please fill out the following fields to signup:');
-        $I->submitForm($this->formId, []);
+        $I->see('Registo de utilizador', 'h1');
+        $I->see('Preencha o formulário para se registar.', 'p');
+        $I->submitForm($this->formId,         [
+            'SignupForm[username]'  => '',
+            'SignupForm[email]'     => '',
+            'SignupForm[password]'  => '',
+        ]);
         $I->seeValidationError('Username cannot be blank.');
         $I->seeValidationError('Email cannot be blank.');
         $I->seeValidationError('Password cannot be blank.');
-
     }
 
     public function signupWithWrongEmail(FunctionalTester $I)
