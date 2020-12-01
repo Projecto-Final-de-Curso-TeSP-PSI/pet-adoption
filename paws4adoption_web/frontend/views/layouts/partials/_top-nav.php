@@ -148,7 +148,7 @@ use yii\helpers\Html;
 
             <!-- Profile dropdown -->
             <li class="nav-item dropdown profile-nav-item">
-                <a class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                <a id='dropDownUser' class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                     <div class="menu-profile">
                         <?php $userid = Yii::$app->user->id; $loggedUser = \common\models\User::findIdentity($userid) ?>
                         <span class="name"><?= isset($loggedUser) ? $loggedUser->getFullName() : 'Guest' ?></span>

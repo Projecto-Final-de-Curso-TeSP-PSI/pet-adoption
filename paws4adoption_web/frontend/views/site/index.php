@@ -23,7 +23,7 @@ AppAsset::register($this);
             <!-- Divs com informação sobre o projeto -->
             <div class="row">
                 <div class="col-lg-12">
-                    <div class="card-title h5">No que Consiste o Site</div>
+                    <div class="card-title h5 ">No que Consiste o Site</div>
                     <div class="card mb-30">
                         <div class="card-body">
                             <p class="card-text">Este site foi desenvolvido como Projeto Final do Curso Tecnico Superior Profissional de Programação de Sistemas de Informação.

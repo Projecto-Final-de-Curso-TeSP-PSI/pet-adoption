@@ -14,6 +14,9 @@ class LoginCest
      * @see \Codeception\Module\Yii2::loadFixtures()
      * @return array
      */
+
+    protected $formId = '#login-form';
+
     public function _fixtures()
     {
         return [
@@ -29,37 +32,45 @@ class LoginCest
         $I->amOnRoute('site/login');
     }
 
-    protected function formParams($login, $password)
+    //_______________________________________TESTE DE LOGIN USER _____________________________________________
+    //---->TESTE PARA VER SE QUANDO OS CAMPOS DE LOGIN ESTÃO VAZIOS MOSTRA OS ERROS DE VALIDAÇÃO NECESSARIOS
+    public function loginWithEmptyFields(FunctionalTester $I)
     {
-        return [
-            'LoginForm[username]' => $login,
-            'LoginForm[password]' => $password,
-        ];
-    }
-
-    public function checkEmpty(FunctionalTester $I)
-    {
-        $I->submitForm('#login-form', $this->formParams('', ''));
+        $I->see('Log In', 'h1');
+        $I->see('Autentique-se com nome de utilizador e password.', 'p');
+        $I->submitForm($this->formId, [
+                'LoginForm[username]' => '',
+                'LoginForm[password]' => '',
+            ]
+        );
         $I->seeValidationError('Username cannot be blank.');
         $I->seeValidationError('Password cannot be blank.');
     }
-
+    //---->TESTE PARA VERIFICAR SE QUANDO A PASS ESTÁ ERRADA MOSTRA O ERRO DE VALIDAÇÃO NECESSARIO
     public function checkWrongPassword(FunctionalTester $I)
     {
-        $I->submitForm('#login-form', $this->formParams('admin', 'wrong'));
+        $I->submitForm( $this->formId, [
+            'LoginForm[username]' => 'claudiavalente',
+            'LoginForm[password]' => 'wrong',
+            ]
+        );
+        $I->dontSeeValidationError('Username cannot be blank.');
+        $I->dontSeeValidationError('Password cannot be blank.');
         $I->seeValidationError('Incorrect username or password.');
     }
-
-    public function checkInactiveAccount(FunctionalTester $I)
-    {
-        $I->submitForm('#login-form', $this->formParams('test.test', 'Test1234'));
-        $I->seeValidationError('Incorrect username or password');
-    }
-
+    //---->TESTE PARA FAZER LOGIN E VERIFICAR SE ESTÁ TUDO LOGADO E NA PAGINA CERTA
     public function checkValidLogin(FunctionalTester $I)
     {
-        $I->submitForm('#login-form', $this->formParams('claudiavalente', 'Sporting'));
-        $I->see('Cláudia Valente', 'a   ');
+        $I->submitForm( $this->formId, [
+                'LoginForm[username]' => 'claudiavalente',
+                'LoginForm[password]' => 'Sporting',
+            ]
+        );
+        $I->see('Cláudia Valente', 'a');
+        $I->see('No que Consiste o Site', 'div');
+        $I->click('#dropDownUser');
+        $I->see('Profile');
+        $I->see('Logout');
         $I->dontSeeLink('Login');
         $I->dontSeeLink('Signup');
     }
