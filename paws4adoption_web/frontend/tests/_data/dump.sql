@@ -56,7 +56,8 @@ DROP TABLE IF EXISTS `admin_users`;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `admin_users` (
   `id` int(10) unsigned NOT NULL,
-  PRIMARY KEY (`id`)
+  PRIMARY KEY (`id`),
+  CONSTRAINT `fk_admin_user_id` FOREIGN KEY (`id`) REFERENCES `users` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -184,7 +185,8 @@ CREATE TABLE `associated_users` (
   `isActive` bit(1) NOT NULL,
   `organization_id` int(10) unsigned NOT NULL,
   PRIMARY KEY (`id`),
-  KEY `associated_fk_org_id_idx` (`organization_id`)
+  KEY `associated_fk_org_id_idx` (`organization_id`),
+  CONSTRAINT `fk_assoc_user_id` FOREIGN KEY (`id`) REFERENCES `users` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
