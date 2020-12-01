@@ -44,7 +44,6 @@ class SignupCest
     }
 
     //----->TESTE PARA VERIFICAR SE O REGISTO É FEITO COM SUCESSO
-    /* !!!!(TESTE NÃO ESTÁ A FUNCIONAR)!!!!
     public function signupSuccessfully(FunctionalTester $I)
     {
         $I->submitForm($this->formId, [
@@ -53,13 +52,11 @@ class SignupCest
             'SignupForm[password]' => 'tester_password',
         ]);
 
-        $I->seeRecord('common\models\user', [
+        $I->seeRecord('common\models\User', [
             'username' => 'tester',
             'email' => 'tester.email@example.com',
-            'status' => \common\models\user::STATUS_INACTIVE
+            'status' => \common\models\User::STATUS_INACTIVE
         ]);
 
-        $I->seeEmailIsSent();
-        $I->see('Thank you for registration. Please check your inbox for verification email.');
-    }*/
+    }
 }
