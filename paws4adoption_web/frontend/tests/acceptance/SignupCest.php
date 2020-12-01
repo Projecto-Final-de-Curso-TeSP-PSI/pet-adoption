@@ -14,14 +14,14 @@ class SignupCest
     {
         $I->wantTo("test making a signup");
 
-        $I->amOnPage(Url::toRoute('/site/index'));
+        $I->amOnPage('/site/index');
         $I->wait(2); // wait for page to be opened
 
         $I->see('No que consiste o site');
         $I->click(Locator::find('span', ['class' => 'name']));
 
-        $I->wait(1);
-        $I->see('Registar');
+        $I->see('Registar', '#btnSignup');
+
 
         $I->click(Locator::find('a', ['href' => '/site/signup']));
         $I->wait(1);
