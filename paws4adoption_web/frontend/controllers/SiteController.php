@@ -212,38 +212,6 @@ class SiteController extends Controller
             'dataProviderMissingAnimal' => $dataProviderMissingAnimal,
             'dataProviderFoundAnimal' => $dataProviderFoundAnimal,
         ]);
-
-        //User de teste
-        /*$user = User::findOne(1);
-
-        $searchModel = new MissingAnimalSearch();
-        $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
-
-        $missingAnimals = MissingAnimal::find()->all();*/
-
-        /*$query = MissingAnimal::find();
-        $dataProvider = new ActiveDataProvider([
-            'query' => $query,
-            'pagination' => [
-                'pageSize' => 10,
-            ],
-            'sort' => [
-                'defaultOrder' => [
-                    'id' => SORT_ASC,
-                ]
-            ],
-        ]);*/
-
-
-
-
-       /* return $this->render('myListAnimals', [
-            'title' => $title,
-            'user' => $user,
-            'searchModel' => $searchModel,
-            'dataProvider' => $dataProvider
-        ]);*/
-
     }
 
     /**
