@@ -203,6 +203,7 @@ class SiteController extends Controller
             'query' => MissingAnimal::find()->where(['owner_id' => $id]),
             'pagination' => false,
         ]);
+        
         $dataProviderFoundAnimal = new ActiveDataProvider([
             'query' => FoundAnimal::find()->where(['user_id' => $id]),
             'pagination' => false,
