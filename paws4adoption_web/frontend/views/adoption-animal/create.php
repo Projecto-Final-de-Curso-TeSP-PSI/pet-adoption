@@ -11,6 +11,7 @@ $this->params['breadcrumbs'][] = ['label' => 'Adoption Animals', 'url' => ['inde
 $this->params['breadcrumbs'][] = $this->title;
 AppAsset::register($this);
 ?>
+
 <div class="adoption-animal-create">
 
     <h1><?= Html::encode($this->title) ?></h1>
