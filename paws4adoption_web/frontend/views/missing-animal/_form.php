@@ -31,7 +31,7 @@ use yii\widgets\ActiveForm;
                 </div>
 
                 <?php ActiveForm::end(); ?>
-                <p><b>Para editar ou eleminar <uma></uma> publicação já feita aceda à </b><a href="<?= Yii::$app->request->baseUrl ?>/site/listAnimals"><b> Minha lista </a></a></p>
+                <p><b>Para editar ou eleminar <uma></uma> publicação já feita aceda à </b><a href="<?= Yii::$app->request->baseUrl ?>/site/my-list-animals"><b> Minha lista </a></a></p>
 
             </div><!-- userProfileForm -->
         </div>

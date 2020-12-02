@@ -42,7 +42,7 @@ foreach ($photos as $photo){
             case 'adoptionAnimal':
                 echo Yii::$app->view->renderFile('@frontend/views/components/_modalAnimalDetails.php',
                     ['title' => 'Detalhes do Animal',
-                        'modalId' => $animalId,
+                        'animalId' => $animalId,
                         'type' => $type,
                         'name' => $model->animal->name,
                         'nature' => $model->animal->nature->nameByParentId,
@@ -64,7 +64,7 @@ foreach ($photos as $photo){
             case 'missingAnimal':
                 echo Yii::$app->view->renderFile('@frontend/views/components/_modalAnimalDetails.php',
                     ['title' => 'Detalhes do Animal',
-                        'modalId' => $animalId,
+                        'animalId' => $animalId,
                         'type' => $model->gettype(),
                         'name' => $model->animal->name,
                         'nature' => $model->animal->nature->nameByParentId,
@@ -77,17 +77,32 @@ foreach ($photos as $photo){
                         'date' => $model->animal->createdAt,
                         'postBy' => $model->owner->username,
                         'missingDate' => $model->missingDate,
+                        'ownerId' => $model->owner->id,
 
                         'description' => $model->animal->description,
+
 
                         'submitContact' => 'Contactar',
                         'closeText' => 'Fechar'
                     ]);
+
+                echo Yii::$app->view->renderFile('@frontend/views/components/_modalPublisherInfo.php',
+                    [
+                        'title' => 'Contatos do dono',
+                        'modalId' => $animalId,
+
+                        'publisherUsername' => $model->owner->username,
+                        'publisherContact' => $model->owner->phone,
+                        'publisherEmail' => $model->owner->email,
+
+                        'closeText' => 'Fechar'
+                    ]);
+
                 break;
             case 'foundAnimal':
                 echo Yii::$app->view->renderFile('@frontend/views/components/_modalAnimalDetails.php',
                     ['title' => 'Detalhes do Animal',
-                        'modalId' => $animalId,
+                        'animalId' => $animalId,
                         'type' => $model->animal->gettype(),
                         'name' => $model->animal->name,
                         'nature' => $model->animal->nature->nameByParentId,
