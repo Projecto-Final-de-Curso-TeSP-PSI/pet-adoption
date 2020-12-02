@@ -17,7 +17,7 @@ $this->title = 'Os meus animais perdidos';
 <div class="container">
     <div class="card mb-30 divTab">
         <div class="card-body">
-            <h2 class="title">Destaques</h2>
+            <h2 class="title">Os meus animais</h2>
             <div class="tabs-style-two">
                 <ul class="nav nav-tabs">
                     <li class="nav-item">
@@ -35,7 +35,8 @@ $this->title = 'Os meus animais perdidos';
                             'itemView' => '../components/_itemListAnimal',
                             'layout' => "{pager}\n{items}",
                             'options' => ['class' => 'row'],
-                            'itemOptions' => ['class' => 'col-xl-4 col-lg-4 col-sm-6']
+                            'itemOptions' => ['class' => 'col-xl-4 col-lg-4 col-sm-6'],
+                            'emptyText' => 'Sem resultados para mostrar'
                         ])
                         ?>
                     </div>
@@ -46,10 +47,12 @@ $this->title = 'Os meus animais perdidos';
                             'itemView' => '../components/_itemListAnimal',
                             'layout' => "{pager}\n{items}",
                             'options' => ['class' => 'row'],
-                            'itemOptions' => ['class' => 'col-xl-4 col-lg-4 col-sm-6']
+                            'itemOptions' => ['class' => 'col-xl-4 col-lg-4 col-sm-6'],
+                            'emptyText' => 'Sem resultados para mostrar'
                         ])
                         ?>
                     </div>
+
                 </div>
             </div>
         </div>
