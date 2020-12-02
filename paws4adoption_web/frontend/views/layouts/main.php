@@ -50,9 +50,6 @@ AppAsset::register($this);
     <!-- End Main Content Wrapper -->
 <?php endif; ?>
 
-<!-- Theme Color customizer Right Modal -->
-<?//= Yii::$app->view->renderFile('@frontend/views/layouts/partials/_theme-color-customizer.php'); ?>
-
 <?php $this->endBody() ?>
 </body>
 </html>

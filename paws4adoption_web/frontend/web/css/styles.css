@@ -44,7 +44,7 @@ body {
   font-family: "Nunito", sans-serif;
   color: #686c71;
   font-size: 14px;
-  background-color: #eeeef8;
+  background-color: #efc8a324;
 }
 
 a {
@@ -54,7 +54,7 @@ a {
 
 a:hover {
   text-decoration: none;
-  color: #2962ff;
+  color: #c27333;
 }
 
 h1, h2, h3, h4, h5, h6 {
@@ -86,13 +86,13 @@ img {
 
 ::-webkit-scrollbar-thumb {
   border-radius: 30px;
-  background: #2962ff;
+  background: #c27333;
   -webkit-box-shadow: inset 0 0 6px #f6f6f7;
           box-shadow: inset 0 0 6px #f6f6f7;
 }
 
 ::-webkit-scrollbar-thumb:window-inactive {
-  background: #2962ff;
+  background: #c27333;
 }
 
 /* End Scrollbar CSS */
@@ -258,7 +258,7 @@ button:focus {
 
 .input-group-text {
   color: #fff;
-  background-color: #2962ff;
+  background-color: #c27333;
   border-radius: 0;
 }
 
@@ -529,7 +529,7 @@ form .form-group {
 }
 
 .primary-text {
-  color: #2962ff !important;
+  color: #c27333 !important;
 }
 
 .purple-text {
@@ -545,7 +545,7 @@ form .form-group {
 }
 
 .theme-color {
-  color: #2962ff;
+  color: #c27333;
 }
 
 .danger-color {
@@ -569,7 +569,7 @@ form .form-group {
 }
 
 .primary-bg {
-  background: #2962ff;
+  background: #c27333;
 }
 
 .success-bg {
@@ -581,7 +581,7 @@ form .form-group {
 }
 
 .theme-bg {
-  background-color: #2962ff !important;
+  background-color: #c27333 !important;
 }
 
 .right {
@@ -734,8 +734,8 @@ form .form-group {
 }
 
 .btn-primary {
-  background-color: #2962ff;
-  border-color: #2962ff;
+  background-color: #c27333;
+  border-color: #c27333;
 }
 
 .btn-primary:hover {
@@ -744,13 +744,13 @@ form .form-group {
 }
 
 .btn-outline-primary {
-  color: #2962ff;
-  border-color: #2962ff;
+  color: #c27333;
+  border-color: #c27333;
 }
 
 .btn-outline-primary:hover {
-  background-color: #2962ff;
-  border-color: #2962ff;
+  background-color: #c27333;
+  border-color: #c27333;
 }
 
 .line-height-1-4 {
@@ -873,13 +873,13 @@ form .form-group {
 }
 
 .top-menu .nav-search-form .search-success:hover {
-  color: #2962ff;
+  color: #c27333;
 }
 
 .top-menu .nav-search-form .search-success:active {
   background-color: transparent;
   border-color: transparent;
-  color: #2962ff;
+  color: #c27333;
 }
 
 .top-menu .nav-search-form .search-success:focus {
@@ -1021,14 +1021,14 @@ form .form-group {
 
 .top-menu .dropdown-item:hover, .top-menu .dropdown-item:focus {
   background: #eef5f9;
-  color: #2962ff;
+  color: #c27333;
 }
 
 .top-menu .dropdown-item:hover::before {
   content: '';
   position: absolute;
   right: -18px;
-  background: #2962ff;
+  background: #c27333;
   height: 15px;
   width: 40px;
   -webkit-transform: rotate(90deg);
@@ -1041,7 +1041,7 @@ form .form-group {
 }
 
 .top-menu .dropdown-menu .dropdown-item.active, .top-menu .dropdown-menu .dropdown-item:active {
-  color: #2962ff;
+  color: #c27333;
   background-color: #eef5f9;
 }
 
@@ -1049,7 +1049,7 @@ form .form-group {
   content: '';
   position: absolute;
   right: -18px;
-  background: #2962ff;
+  background: #c27333;
   height: 15px;
   width: 40px;
   -webkit-transform: rotate(90deg);
@@ -1120,7 +1120,7 @@ form .form-group {
 }
 
 .top-menu .message-item .chat-content .mail-desc .amount {
-  background: #2962ff;
+  background: #c27333;
   color: #fff;
   padding: 8px 5px 7px;
   border-radius: 30px;
@@ -1206,7 +1206,7 @@ form .form-group {
   content: '';
   position: absolute;
   right: -18px;
-  background: #2962ff;
+  background: #c27333;
   height: 15px;
   width: 40px;
   -webkit-transform: rotate(-45deg);
@@ -1215,7 +1215,7 @@ form .form-group {
 }
 
 .sidemenu-area .sidemenu .navbar-nav .dropdown-menu .dropdown-item.active {
-  color: #2962ff;
+  color: #c27333;
   background-color: #eef5f9;
 }
 
@@ -1223,7 +1223,7 @@ form .form-group {
   content: '';
   position: absolute;
   right: -18px;
-  background: #2962ff;
+  background: #c27333;
   height: 15px;
   width: 40px;
   -webkit-transform: rotate(-45deg);
@@ -1244,7 +1244,7 @@ form .form-group {
 }
 
 .sidemenu-area .sidemenu .navbar-nav .nav-link .icon {
-  color: #2962ff;
+  color: #c27333;
   width: 15px;
   height: 15px;
   margin-top: -3px;
@@ -1252,18 +1252,18 @@ form .form-group {
 
 .sidemenu-area .sidemenu .navbar-nav .nav-link:hover, .sidemenu-area .sidemenu .navbar-nav .nav-link:focus {
   background: #eef5f9;
-  color: #2962ff;
+  color: #c27333;
 }
 
 .sidemenu-area .sidemenu .navbar-nav .nav-link:hover .icon, .sidemenu-area .sidemenu .navbar-nav .nav-link:focus .icon {
-  color: #2962ff;
+  color: #c27333;
 }
 
 .sidemenu-area .sidemenu .navbar-nav .nav-link:hover::before {
   content: '';
   position: absolute;
   right: -18px;
-  background: #2962ff;
+  background: #c27333;
   height: 15px;
   width: 40px;
   -webkit-transform: rotate(-45deg);
@@ -1279,14 +1279,14 @@ form .form-group {
 
 .sidemenu-area .sidemenu .navbar-nav .active {
   background: #eef5f9;
-  color: #2962ff;
+  color: #c27333;
 }
 
 .sidemenu-area .sidemenu .navbar-nav .active::before {
   content: '';
   position: absolute;
   right: -18px;
-  background: #2962ff;
+  background: #c27333;
   height: 15px;
   width: 40px;
   -webkit-transform: rotate(-45deg);
@@ -1295,12 +1295,12 @@ form .form-group {
 }
 
 .sidemenu-area .sidemenu .navbar-nav .active .icon {
-  color: #2962ff;
+  color: #c27333;
 }
 
 .sidemenu-area .sidemenu .navbar-nav .dropdown-item:hover, .sidemenu-area .sidemenu .navbar-nav .dropdown-item:focus {
   background: #eef5f9;
-  color: #2962ff;
+  color: #c27333;
 }
 
 .sidemenu-area .sidemenu .navbar-nav .dropdown-title {
@@ -1360,12 +1360,12 @@ form .form-group {
 
 /* Primary BG SideMenu */
 .sidemenu-bg-primary .sidemenu-area {
-  background-color: #2962ff;
+  background-color: #c27333;
 }
 
 .sidemenu-bg-primary .sidemenu-area .sidemenu .navbar-nav .nav-link {
   color: #fff;
-  border-bottom: 1px solid #3268fd;
+  border-bottom: 1px solid #c27333;
 }
 
 .sidemenu-bg-primary .sidemenu-area .sidemenu .navbar-nav .nav-link .icon {
@@ -1376,16 +1376,16 @@ form .form-group {
 
 .sidemenu-bg-primary .sidemenu-area .sidemenu .navbar-nav .nav-link:hover, .sidemenu-bg-primary .sidemenu-area .sidemenu .navbar-nav .nav-link:focus {
   background: #fff;
-  color: #2962ff;
+  color: #c27333;
 }
 
 .sidemenu-bg-primary .sidemenu-area .sidemenu .navbar-nav .nav-link:hover .icon, .sidemenu-bg-primary .sidemenu-area .sidemenu .navbar-nav .nav-link:focus .icon {
-  color: #2962ff;
+  color: #c27333;
 }
 
 .sidemenu-bg-primary .sidemenu-area .sidemenu .navbar-nav .nav-link.active {
   background: #fff;
-  color: #2962ff;
+  color: #c27333;
 }
 
 .sidemenu-bg-primary .sidemenu-area .sidemenu .navbar-nav .nav-link.active::before {
@@ -1393,7 +1393,7 @@ form .form-group {
 }
 
 .sidemenu-bg-primary .sidemenu-area .sidemenu .navbar-nav .nav-link.active .icon {
-  color: #2962ff;
+  color: #c27333;
 }
 
 /* Success BG SideMenu */
@@ -1475,20 +1475,20 @@ form .form-group {
 
 .sidemenu-bg-secondary .sidemenu-area .sidemenu .navbar-nav .nav-link:hover, .sidemenu-bg-secondary .sidemenu-area .sidemenu .navbar-nav .nav-link:focus {
   background: #fff;
-  color: #2962ff;
+  color: #c27333;
 }
 
 .sidemenu-bg-secondary .sidemenu-area .sidemenu .navbar-nav .nav-link:hover .icon, .sidemenu-bg-secondary .sidemenu-area .sidemenu .navbar-nav .nav-link:focus .icon {
-  color: #2962ff;
+  color: #c27333;
 }
 
 .sidemenu-bg-secondary .sidemenu-area .sidemenu .navbar-nav .active {
   background: #fff;
-  color: #2962ff;
+  color: #c27333;
 }
 
 .sidemenu-bg-secondary .sidemenu-area .sidemenu .navbar-nav .active .icon {
-  color: #2962ff;
+  color: #c27333;
 }
 
 /* Purple BG SideMenu */
@@ -2186,7 +2186,7 @@ form .form-group {
 
 /* BG Color */
 .bg_primary {
-  background-color: #2962ff;
+  background-color: #c27333;
 }
 
 .bg_success {
@@ -2282,7 +2282,7 @@ form .form-group {
 }
 
 .main-content-header .breadcrumb a:hover {
-  color: #2962ff;
+  color: #c27333;
 }
 
 .single-sales-card .card-body {
@@ -2322,7 +2322,7 @@ form .form-group {
 
 .card .card-header::before {
   content: '';
-  background: #2962ff;
+  background: #c27333;
   height: 1px;
   width: 30px;
   position: absolute;
@@ -2331,7 +2331,7 @@ form .form-group {
 }
 
 .card .card-header .day {
-  background-color: #2962ff;
+  background-color: #c27333;
   position: absolute;
   bottom: 10px;
   right: 0;
@@ -2397,7 +2397,7 @@ form .form-group {
   padding: 0 !important;
   line-height: 20px;
   background: #fff;
-  color: #2962ff;
+  color: #c27333;
   height: 25px;
   width: 25px;
   margin-top: -5px;
@@ -2410,7 +2410,7 @@ form .form-group {
 }
 
 .card-dropdown .btn:hover {
-  background: #2962ff;
+  background: #c27333;
   color: #fff;
 }
 
@@ -2610,7 +2610,7 @@ form .form-group {
 }
 
 .avatar-blue {
-  color: #2962ff !important;
+  color: #c27333 !important;
   background: rgba(63, 135, 245, 0.1) !important;
 }
 
@@ -2666,7 +2666,7 @@ form .form-group {
 }
 
 .top-rated-products .single-product .product-title:hover {
-  color: #2962ff;
+  color: #c27333;
 }
 
 .top-rated-products .single-product p {
@@ -2699,8 +2699,8 @@ form .form-group {
   position: absolute;
   top: 30px;
   right: 10px;
-  border: 1px solid #2962ff;
-  color: #2962ff;
+  border: 1px solid #c27333;
+  color: #c27333;
   height: 26px;
   width: 26px;
   text-align: center;
@@ -2711,7 +2711,7 @@ form .form-group {
 }
 
 .top-rated-products .single-product .view-link:hover {
-  background: #2962ff;
+  background: #c27333;
   color: #fff;
 }
 
@@ -2750,7 +2750,7 @@ form .form-group {
 }
 
 .tickets-lists li .product-title:hover {
-  color: #2962ff;
+  color: #c27333;
 }
 
 .tickets-lists li .date, .tickets-lists li .time {
@@ -2784,9 +2784,9 @@ form .form-group {
 }
 
 .product-categories li::before {
-  background-color: #2962ff;
+  background-color: #c27333;
   content: '';
-  border: 1.4px solid #2962ff;
+  border: 1.4px solid #c27333;
   width: 10px;
   height: 10px;
   position: absolute;
@@ -2800,7 +2800,7 @@ form .form-group {
 }
 
 .product-categories li a:hover {
-  color: #2962ff;
+  color: #c27333;
 }
 
 .table .bg-none {
@@ -2846,7 +2846,7 @@ form .form-group {
 }
 
 .table a:hover {
-  color: #2962ff;
+  color: #c27333;
 }
 
 .table tr.active {
@@ -2912,7 +2912,7 @@ form .form-group {
 }
 
 .page-link {
-  color: #2962ff;
+  color: #c27333;
 }
 
 .page-link:hover {
@@ -2920,8 +2920,8 @@ form .form-group {
 }
 
 .page-item.active .page-link {
-  background-color: #2962ff;
-  border-color: #2962ff;
+  background-color: #c27333;
+  border-color: #c27333;
 }
 
 /* End search result style */
@@ -2950,7 +2950,7 @@ form .form-group {
 
 .notifications-card .list-group .list-group-item a {
   font-weight: 500;
-  color: #2962ff;
+  color: #c27333;
 }
 
 .notifications-card .list-group .list-group-item a:hover {
@@ -3108,7 +3108,7 @@ form .form-group {
 }
 
 .control input:checked ~ .control-indicator {
-  background: #2962ff;
+  background: #c27333;
 }
 
 .control-indicator:after {
@@ -3209,7 +3209,7 @@ form .form-group {
 .form-left-content .auth-logo {
   text-align: center;
   font-size: 25px;
-  color: #2962ff;
+  color: #c27333;
   line-height: 1;
   margin-bottom: 20px;
 }
@@ -3292,7 +3292,7 @@ form .form-group {
 
 .form-content .heading::before {
   content: '';
-  background: #2962ff;
+  background: #c27333;
   height: 1px;
   width: 30px;
   position: absolute;
@@ -3331,7 +3331,7 @@ form .form-group {
 }
 
 .form-content .fp-link:hover {
-  color: #2962ff;
+  color: #c27333;
   text-decoration: underline;
 }
 
@@ -3601,8 +3601,8 @@ form .form-group {
 
 .tabs-style-two .nav-tabs .nav-link.active, .tabs-style-two .nav-tabs .nav-item.show .nav-link {
   color: #fff;
-  background-color: #2962ff;
-  border-color: #2962ff;
+  background-color: #c27333;
+  border-color: #c27333;
 }
 
 .tabs-style-three .tab-content {
@@ -3620,12 +3620,12 @@ form .form-group {
 }
 
 .tabs-style-three .nav-tabs .nav-link:hover {
-  border-top: 2px solid #2962ff;
+  border-top: 2px solid #c27333;
   border-bottom-color: #fff;
 }
 
 .tabs-style-three .nav-tabs .nav-link.active, .tabs-style-three .nav-tabs .nav-item.show .nav-link {
-  border-top: 2px solid #2962ff;
+  border-top: 2px solid #c27333;
 }
 
 .pill-tab .nav {
@@ -3638,7 +3638,7 @@ form .form-group {
 }
 
 .pill-tab .nav-pills .nav-link:hover {
-  color: #2962ff;
+  color: #c27333;
 }
 
 .pill-tab .nav-pills .nav-link.active, .pill-tab .nav-pills .show > .nav-link {
@@ -3656,12 +3656,12 @@ form .form-group {
 }
 
 .vertical-pills-tab .nav-pills .nav-link:hover {
-  color: #2962ff;
+  color: #c27333;
 }
 
 .vertical-pills-tab .nav-pills .nav-link.active, .vertical-pills-tab .nav-pills .show > .nav-link {
   color: #fff;
-  background-color: #2962ff;
+  background-color: #c27333;
 }
 
 .vertical-pills-tab .tab-content {
@@ -3686,7 +3686,7 @@ form .form-group {
 }
 
 .inbox-main-sidebar .nav-pills .nav-link:hover {
-  color: #2962ff;
+  color: #c27333;
   background-color: #fff;
 }
 
@@ -3696,7 +3696,7 @@ form .form-group {
 
 .inbox-main-sidebar .nav-pills .nav-link.active {
   color: #fff;
-  background-color: #2962ff;
+  background-color: #c27333;
 }
 
 .inbox-content-wrap {
@@ -3733,7 +3733,7 @@ textarea.form-control {
   content: '';
   position: absolute;
   right: -18px;
-  background: #2962ff;
+  background: #c27333;
   height: 15px;
   width: 40px;
   -webkit-transform: rotate(90deg);
@@ -3780,7 +3780,7 @@ textarea.form-control {
   content: '';
   position: absolute;
   right: -18px;
-  background: #2962ff;
+  background: #c27333;
   height: 15px;
   width: 40px;
   -webkit-transform: rotate(90deg);
@@ -3864,7 +3864,7 @@ textarea.form-control {
 }
 
 .marketing-content .list .gh {
-  background: #2962ff;
+  background: #c27333;
 }
 
 .marketing-content .list h3 {
@@ -3877,7 +3877,7 @@ textarea.form-control {
 }
 
 .marketing-content .list h3 a:hover {
-  color: #2962ff;
+  color: #c27333;
 }
 
 .marketing-content .list p {
@@ -4161,7 +4161,7 @@ textarea.form-control {
 }
 
 .profile-header .profile-stats a:hover strong {
-  color: #2962ff;
+  color: #c27333;
 }
 
 .profile-left-content .info {
@@ -4214,7 +4214,7 @@ textarea.form-control {
 }
 
 .post-card .media-body h5 a:hover {
-  color: #2962ff;
+  color: #c27333;
 }
 
 .post-card .media-body p {
@@ -4229,7 +4229,7 @@ textarea.form-control {
 }
 
 .post-card .feed-back a:hover {
-  color: #2962ff;
+  color: #c27333;
 }
 
 .post-card .feed-back a:last-child {
@@ -4266,7 +4266,7 @@ textarea.form-control {
 }
 
 .profile-right-content .media-body h5 a:hover {
-  color: #2962ff;
+  color: #c27333;
 }
 
 .profile-right-content .media-body .btn {
@@ -4315,7 +4315,7 @@ textarea.form-control {
 }
 
 .single-user-card .social-links a:hover {
-  color: #2962ff;
+  color: #c27333;
 }
 
 .single-user-card .social-links a .icon {
@@ -4568,7 +4568,7 @@ textarea.form-control {
 }
 
 .timeline-icon.bg-primary {
-  background-color: #2962ff;
+  background-color: #c27333;
   color: #fff;
 }
 
@@ -4696,10 +4696,10 @@ textarea.form-control {
 }
 
 .error-content .back-link {
-  background-color: #2962ff;
+  background-color: #c27333;
   color: #fff;
   display: inline-block;
-  border: 1px solid #2962ff;
+  border: 1px solid #c27333;
   padding: 10px 30px;
   border-radius: 100px;
   margin-top: 30px;
@@ -4755,7 +4755,7 @@ textarea.form-control {
   left: 0;
   top: 0;
   font-size: 14px;
-  background: #2962ff;
+  background: #c27333;
   color: #fff;
   height: 100%;
   line-height: 50px;
@@ -4850,7 +4850,7 @@ textarea.form-control {
 }
 
 .side-menu-switch .switch input.light:checked + .slider:before {
-  background-color: #2962ff;
+  background-color: #c27333;
 }
 
 .side-menu-switch .switch input:checked + .slider:before {
@@ -4961,7 +4961,7 @@ textarea.form-control {
 }
 
 .footer p a {
-  color: #2962ff;
+  color: #c27333;
 }
 
 .footer p a:hover {
@@ -5064,7 +5064,7 @@ textarea.form-control {
 /* End apexcharts canvas */
 /* Preloader */
 .preloader {
-  background-color: #2962ff;
+  background-color: #c27333;
   position: fixed;
   top: 0;
   left: 0;
@@ -5187,7 +5187,7 @@ textarea.form-control {
 }
 
 #toTop i {
-  background-color: #2962ff;
+  background-color: #c27333;
   color: #fff;
   display: inline-block;
   height: 30px;
@@ -5206,7 +5206,7 @@ textarea.form-control {
 /* End Back To Top */
 /* Color customizer modal */
 .customizer-toggle {
-  background-color: #2962ff;
+  background-color: #c27333;
   position: fixed;
   top: 80px;
   right: 0;
@@ -5224,8 +5224,8 @@ textarea.form-control {
 }
 
 .color-customizer-modal .modal-header {
-  border-bottom-color: #2962ff;
-  background-color: #2962ff;
+  border-bottom-color: #c27333;
+  background-color: #c27333;
   border-radius: 0;
   padding: 30px 30px !important;
 }
