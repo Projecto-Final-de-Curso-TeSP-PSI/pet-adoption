@@ -197,12 +197,16 @@ class SiteController extends Controller
      * @return mixed
      */
     public function actionMyListAnimals(){
+
+
+        $id = Yii::$app->user->getId();
+
         $dataProviderMissingAnimal = new ActiveDataProvider([
-            'query' => MissingAnimal::find()->orderBy('id DESC')->limit(3),
+            'query' => MissingAnimal::find()->where(['owner_id' => $id]),
             'pagination' => false,
         ]);
         $dataProviderFoundAnimal = new ActiveDataProvider([
-            'query' => FoundAnimal::find()->orderBy('id DESC')->limit(3),
+            'query' => FoundAnimal::find()->where(['user_id' => $id]),
             'pagination' => false,
         ]);
 
