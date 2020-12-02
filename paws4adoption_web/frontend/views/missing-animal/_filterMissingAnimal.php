@@ -20,13 +20,13 @@ use yii\widgets\ActiveForm;
     <?php
     $form = ActiveForm::begin([
         'action' => ['index'],
-        'method' => 'get',
+        'method' => 'post',
     ]);
 
     echo $form->field($animalModel, 'name')->label('Especie')
         ->dropDownList(
             $nature,
-            ['prompt'=>'-Selecione uma especie',
+            ['prompt'=>'-Selecione uma espécie',
                 'id'=>'name']
         );
 
