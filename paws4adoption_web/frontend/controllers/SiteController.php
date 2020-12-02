@@ -197,8 +197,6 @@ class SiteController extends Controller
      * @return mixed
      */
     public function actionMyListAnimals(){
-
-
         $id = Yii::$app->user->getId();
 
         $dataProviderMissingAnimal = new ActiveDataProvider([
