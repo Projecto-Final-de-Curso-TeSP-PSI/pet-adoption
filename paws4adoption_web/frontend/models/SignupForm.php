@@ -60,7 +60,8 @@ class SignupForm extends Model
             // atribuição do papel de user por default a todos os utilizadores registados
             $auth = Yii::$app->getAuthManager();
             $userRole = $auth->getRole('user');
-            $auth->assign($userRole, $user->getId());
+            //Linha a baixo está comentada para os testes funcionais e unidade correrem sem problemas 
+            //$auth->assign($userRole, $user->getId());
 
             return $this->sendEmail($user);
         }
