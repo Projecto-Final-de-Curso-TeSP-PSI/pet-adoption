@@ -1,10 +1,12 @@
 <?php
 
+use yii\bootstrap\Modal;
 use yii\helpers\Html;
+use yii\helpers\Url;
 
 
 /* @var $type */
-/* @var $modalId */
+/* @var $animalId */
 /* @var $title */
 /* @var $name */
 /* @var $nature */
@@ -29,7 +31,7 @@ use yii\helpers\Html;
 
 ?>
 
-<div class="modal fade LargeModal" id='<?= "modalAnimalDetails" . $modalId?>' tabindex="-1" role="dialog"
+<div class="modal fade LargeModal" id='<?= "modalAnimalDetails" . $animalId?>' tabindex="-1" role="dialog"
      aria-labelledby="exampleModalLabel"
      aria-hidden="true">
     <div class="modal-dialog modal-lg" role="document">
@@ -85,21 +87,80 @@ use yii\helpers\Html;
                     <p class="card-text"><b>Descricao: </b></p>
                     <p><?= $description ?></p>
                 </div>
-
             </div>
+
             <div class="modal-footer">
                 <?php
-                if ($type == 'adoptionAnimal') {
-                    echo '<button id="btnModalSubmit" type="button" class="btn btn-primary"> ' . $submitAdoption . '</button>';
-                    echo '<button id="btnModalSubmit" type="button" class="btn btn-primary"> ' . $submitFat . '</button>';
-                    echo '<button type="button" class="btn btn-secondary" data-dismiss="modal"> ' . $closeText . '</button>';
+                switch($type){
 
-                } else {
-                    echo '<button id="btnModalSubmit" type="button" class="btn btn-primary"> ' . $submitContact . '</button>';
-                    echo '<button type="button" class="btn btn-secondary" data-dismiss="modal"> ' . $closeText . '</button>';
+                    case 'adoptionAnimal':
+                        echo '<button id="btnModalSubmit" type="button" class="btn btn-primary"> ' . $submitAdoption . '</button>';
+                        echo '<button id="btnModalSubmit" type="button" class="btn btn-primary"> ' . $submitFat . '</button>';
+                        echo '<button type="button" class="btn btn-secondary" data-dismiss="modal"> ' . $closeText . '</button>';
+                        break;
+
+                    case 'missingAnimal':
+                        //This button call's modal with owner details
+                        $loggedUserId = Yii::$app->user->id;
+                        if($loggedUserId == $ownerId){
+
+                            echo Html::a('Editar', ['missing-animal/update', 'id' => Html::encode($animalId)], [
+                                'class' => 'btn btn-primary',
+                                'title' => 'Editar animal',
+                            ]);
+
+                            echo Html::button('Eliminar', [
+                                'class' => 'btn btn-danger',
+                                'title' => 'Eliminar animal',
+                                'data-toggle' => 'modal',
+                                'data-target' => '#modalYesNo' . Html::encode($animalId),
+                                ]
+                            );
+
+                        }
+                        else{
+                            echo Html::button( Html::encode($submitContact), [
+                                    'class' => 'btn btn-primary',
+                                    'title' => 'Contatos Publicador',
+                                    'data-toggle' => 'modal',
+                                    'data-target' => '#modalPublisherInfo' . $animalId,
+                                ]
+                            );
+                        }
+
+                        break;
+                    case 'foundAnimal':
+                        break;
+                    default:
                 }
+
+                echo Html::button(Html::encode($closeText), [
+                        'class' => "btn btn-secondary",
+                        'data-dismiss' => 'modal',
+                        'title' => 'Voltar à lista',
+                    ]
+                );
+
                 ?>
+
             </div>
+
         </div>
     </div>
 </div>
+
+
+
+<?php
+    echo Yii::$app->view->renderFile('@frontend/views/components/_modalYesNo.php',
+        [
+            'route' => 'missing-animal/delete',
+            'animalId' => $animalId,
+            'title' => 'Eliminar',
+            'subtitle' => '',
+            'question' => 'Confirmar que prentende eliminar o animal?',
+            'dismissButtonText' => 'Cancelar',
+            'confirmButtonText' => 'Sim',
+        ]);
+?>
+

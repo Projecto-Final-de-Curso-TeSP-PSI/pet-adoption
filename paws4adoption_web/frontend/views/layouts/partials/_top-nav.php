@@ -163,12 +163,12 @@ use yii\helpers\Html;
                         </a>' : ''
                     ?>
                     <?= !isset($loggedUser) ?
-                        '<a class="dropdown-item" href="'.Yii::$app->request->baseUrl.'/site/signup'.'">
+                        '<a id="btnSignup" class="dropdown-item" href="'.Yii::$app->request->baseUrl.'/site/signup'.'">
                             <i data-feather="user" class="icon"></i>
                             Registar
                         </a>' : ''
                     ?>
-                    <a class="dropdown-item" href="<?= isset($loggedUser) ? Yii::$app->request->baseUrl.'/site/logout' :
+                    <a id="btnLogin" class="dropdown-item" href="<?= isset($loggedUser) ? Yii::$app->request->baseUrl.'/site/logout' :
                                                                             Yii::$app->request->baseUrl.'/site/login' ?>">
                         <i data-feather="<?= isset($loggedUser) ? 'log-out' : 'log-in' ?>" class="icon"></i>
                         <?= isset($loggedUser) ? 'Logout' : 'Login' ?>

@@ -21,7 +21,7 @@ class LoginCest
 
         $I->click(Locator::find('span', ['class' => 'name']));
 
-        $I->see('LogIn');
+        $I->see('LogIn', '#btnLogin');
 
         $I->click(Locator::find('a', ['href' => '/site/login']));
         $I->seeInCurrentUrl('/site/login');

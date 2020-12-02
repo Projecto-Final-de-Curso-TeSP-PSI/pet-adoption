@@ -197,12 +197,15 @@ class SiteController extends Controller
      * @return mixed
      */
     public function actionMyListAnimals(){
+        $id = Yii::$app->user->getId();
+
         $dataProviderMissingAnimal = new ActiveDataProvider([
-            'query' => MissingAnimal::find()->orderBy('id DESC')->limit(3),
+            'query' => MissingAnimal::find()->where(['owner_id' => $id]),
             'pagination' => false,
         ]);
+        
         $dataProviderFoundAnimal = new ActiveDataProvider([
-            'query' => FoundAnimal::find()->orderBy('id DESC')->limit(3),
+            'query' => FoundAnimal::find()->where(['user_id' => $id]),
             'pagination' => false,
         ]);
 
@@ -210,38 +213,6 @@ class SiteController extends Controller
             'dataProviderMissingAnimal' => $dataProviderMissingAnimal,
             'dataProviderFoundAnimal' => $dataProviderFoundAnimal,
         ]);
-
-        //User de teste
-        /*$user = User::findOne(1);
-
-        $searchModel = new MissingAnimalSearch();
-        $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
-
-        $missingAnimals = MissingAnimal::find()->all();*/
-
-        /*$query = MissingAnimal::find();
-        $dataProvider = new ActiveDataProvider([
-            'query' => $query,
-            'pagination' => [
-                'pageSize' => 10,
-            ],
-            'sort' => [
-                'defaultOrder' => [
-                    'id' => SORT_ASC,
-                ]
-            ],
-        ]);*/
-
-
-
-
-       /* return $this->render('myListAnimals', [
-            'title' => $title,
-            'user' => $user,
-            'searchModel' => $searchModel,
-            'dataProvider' => $dataProvider
-        ]);*/
-
     }
 
     /**

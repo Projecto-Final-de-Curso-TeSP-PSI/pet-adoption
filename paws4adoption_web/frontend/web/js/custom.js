@@ -144,7 +144,8 @@
             $images.viewer('destroy').viewer(options);
             toggleButtons(options.inline ? 'inline' : 'modal');
         });
-        $buttons.on('click', 'button', function () {
+
+        /*$buttons.on('click', 'button', function () {
             var data = $(this).data();
             var args = data.arguments || [];
             if (data.method) {
@@ -163,7 +164,7 @@
                     break;
                 }
             }
-        });
+        });*/
  
         // Left Sidemenu BG Color Switcher
        /* document.getElementById('BGPrimary').onclick = switchPrimary;
@@ -245,14 +246,26 @@
             $("#searchForm").submit();
         });
 
+        //Fader when there is more than one modal
+        //Recovered from: https://stackoverflow.com/questions/19305821/multiple-modals-overlay
+        $(document).on('show.bs.modal', '.modal', function () {
+            var zIndex = 1040 + (10 * $('.modal:visible').length);
+            $(this).css('z-index', zIndex);
+            setTimeout(function() {
+                $('.modal-backdrop').not('.modal-stack').css('z-index', zIndex - 1).addClass('modal-stack');
+            }, 0);
+        });
+
+        $(document).on('hidden.bs.modal', '.modal', function () {
+            $('.modal:visible').length && $(document.body).addClass('modal-open');
+        });
+
     });
 
 	// Preloader JS
     jQuery(window).on('load', function() {
         $('.preloader').fadeOut()
-    })
-
-
+    });
 
 }(jQuery))
 
