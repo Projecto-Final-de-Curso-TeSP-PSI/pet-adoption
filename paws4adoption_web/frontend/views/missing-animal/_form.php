@@ -1,11 +1,23 @@
 <?php
 
+use yii\helpers\ArrayHelper;
 use yii\helpers\Html;
+use yii\helpers\Url;
 use yii\widgets\ActiveForm;
+use kartik\date\DatePicker;
+use kartik\depdrop\DepDrop;
 
 /* @var $this yii\web\View */
-/* @var $model common\models\MissingAnimal */
+/* @var $animalModel common\models\Animal */
+/* @var $missingAnimalModel common\models\MissingAnimal */
 /* @var $form yii\widgets\ActiveForm */
+/* @var $natureList */
+/* @var $natureDog */
+/* @var $natureCat */
+/* @var $fulLength */
+/* @var $fulColor */
+/* @var $size */
+/* @var $sex */
 ?>
 <!-- Profile Settings -->
 <div class="row">
@@ -18,20 +30,42 @@ use yii\widgets\ActiveForm;
 
                 <?php $form = ActiveForm::begin(); ?>
 
-                <?= $form->field($model, 'id')->textInput() ?>
+                <?= $form->field($animalModel, 'name')->textInput(['placeholder' => 'Insere o nome']) ?>
 
-                <?= $form->field($model, 'missing_date')->textInput() ?>
+                <?= $form->field($animalModel, 'nature_id')->dropDownList($natureList, ['id' => 'nature-id']) ?>
 
-                <?= $form->field($model, 'is_missing')->checkbox() ?>
+                <?= $form->field($animalModel, 'nature_id')->widget(DepDrop::classname(), [
+                    'pluginOptions' => [
+                        'depends' => ['nature-id'],
+                        'placeholder' => 'Select...',
+                        'url' => Url::to(['subnature'])
+                    ]
+                ]) ?>
 
-                <?= $form->field($model, 'owner_id')->textInput() ?>
+
+                <?= $form->field($animalModel, 'sex')->dropDownList($sex, ['prompt' => 'Escolha o sexo']) ?>
+
+                <?= $form->field($animalModel, 'fur_length_id')->dropDownList($fulLength, ['prompt' => 'Escolha o tamanho do pelo']) ?>
+
+                <?= $form->field($animalModel, 'fur_color_id')->dropDownList($fulColor, ['prompt' => 'Escolha a cor do pelo']) ?>
+
+                <?= $form->field($animalModel, 'size_id')->dropDownList($size, ['prompt' => 'Escolha o Porte']) ?>
+
+                <?= $form->field($missingAnimalModel, 'missing_date')->widget(DatePicker::className(), [
+                    'options' => ['placeholder' => 'dd/mm/aaaa'],
+                    'pluginOptions' => ['autoclose' => true, 'format' => 'dd/mm/yyyy',],
+
+                ]) ?>
+
+                <?= $form->field($animalModel, 'description')->textarea() ?>
 
                 <div class="form-group">
-                    <?= Html::submitButton('Save', ['class' => 'btn btn-success']) ?>
+                    <?= Html::submitButton('Publicar', ['class' => 'btn btn-success']) ?>
                 </div>
 
                 <?php ActiveForm::end(); ?>
-                <p><b>Para editar ou eleminar <uma></uma> publicação já feita aceda à </b><a href="<?= Yii::$app->request->baseUrl ?>/site/my-list-animals"><b> Minha lista </a></a></p>
+                <p><b>Para editar ou eleminar uma publicação já feita aceda à </b><a
+                            href="<?= Yii::$app->request->baseUrl ?>/site/my-list-animals"><b> Minha lista </a></a></p>
 
             </div><!-- userProfileForm -->
         </div>

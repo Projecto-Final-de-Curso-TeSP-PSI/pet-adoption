@@ -69,14 +69,15 @@ class Animal extends \yii\db\ActiveRecord
     {
         return [
             'id' => 'ID',
+            'name' => 'Nome',
             'chipId' => 'Número do Chip',
-            'createdAt' => 'Created At',
+            'createdAt' => 'Postado em',
             'description' => 'Descrição',
             'nature_id' => 'Raça',
             'fur_length_id' => 'Tamanho do pêlo',
             'fur_color_id' => 'Cor do pêlo',
             'size_id' => 'Porte',
-            'sex' => 'Género',
+            'sex' => 'Sexo',
         ];
     }
 
