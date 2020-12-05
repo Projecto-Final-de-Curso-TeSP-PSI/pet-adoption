@@ -11,10 +11,20 @@ return [
     'basePath' => dirname(__DIR__),
     'controllerNamespace' => 'backend\controllers',
     'bootstrap' => ['log'],
-    'modules' => [],
+    'modules' => [
+        'api' => [
+            'class' => 'backend\modules\api\Module',
+        ],
+    ],
     'components' => [
         'request' => [
             'csrfParam' => '_csrf-backend',
+
+            //Definição do JSON PARSER
+            'parsers' => [
+                'application/json' => 'yii\web\JsonParser'
+            ],
+
         ],
         'user' => [
             'identityClass' => 'common\models\user',
@@ -41,6 +51,10 @@ return [
             'enablePrettyUrl' => true,
             'showScriptName' => false,
             'rules' => [
+                [
+                    'class' => 'yii\rest\UrlRule',
+                    'controller' => 'api/user',
+                ],
             ],
         ],
     ],
