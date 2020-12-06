@@ -1,5 +1,6 @@
 <?php
 
+use common\models\District;
 use yii\helpers\ArrayHelper;
 use yii\helpers\Html;
 use yii\helpers\Url;
@@ -9,8 +10,10 @@ use kartik\depdrop\DepDrop;
 use kartik\file\FileInput;
 
 /* @var $this yii\web\View */
+/* @var $addressModel common\models\Address */
 /* @var $animalModel common\models\Animal */
 /* @var $missingAnimalModel common\models\MissingAnimal */
+/* @var $foundAnimalModel common\models\FoundAnimal */
 /* @var $animalPhotoModel common\models\Photo */
 /* @var $form yii\widgets\ActiveForm */
 /* @var $natureList */
@@ -20,16 +23,31 @@ use kartik\file\FileInput;
 /* @var $fulColor */
 /* @var $size */
 /* @var $sex */
+/* @var $typeCreate */
+/* @var $priority */
+
 ?>
 
 <div class="row">
     <div class="col-lg-12">
         <div class="profile-settings-form mb-30">
             <div class="userProfileForm">
-                <h1><?= Html::encode($this->title) ?></h1>
+                <?php
+                switch ($typeCreate) {
+                    case 'createMissingAnimal':
+                        echo "<h1>Pubicação Animal Desaparcido</h1>";
+                        echo "<p>O seu Animal desaparceu?<br>Publique para que as outras pessoas possam ter conhecimento</p>";
+                        break;
+                    case 'createFoundAnimal':
+                        echo "<h1>Pubicação Animal Errante</h1>";
+                        echo "<p>Encontrou um animal?<br>Publique para que as outras pessoas possam ter conhecimento e ajudar</p>";
+                        echo "<p>Quando uma publicação de animal errante é feita, será enviado um pedido de resgate para as associações do destrito onde foi avistado</p>";
+                        break;
+                    default:
+                        break;
 
-                <p>O seu Animal desaparceu?<br>Publique para que as outras pessoas possam ter conhecimento</p>
-
+                }
+                ?>
                 <?php $form = ActiveForm::begin(['options' => ['enctype' => 'multipart/form-data']]); ?>
 
                 <?= $form->field($animalModel, 'name')->textInput(['placeholder' => 'Insere o nome']) ?>
@@ -57,14 +75,36 @@ use kartik\file\FileInput;
                 <?= $form->field($animalModel, 'fur_color_id')->dropDownList($fulColor, ['prompt' => 'Escolha a cor do pelo']) ?>
 
                 <?= $form->field($animalModel, 'size_id')->dropDownList($size, ['prompt' => 'Escolha o Porte']) ?>
+                <?php
+                switch ($typeCreate) {
+                    case 'createMissingAnimal':
+                        echo $form->field($missingAnimalModel, 'missing_date')->widget(DatePicker::className(), [
+                            'options' => ['placeholder' => 'dd/mm/aaaa'],
+                            'pluginOptions' => ['autoclose' => true, 'format' => 'dd/mm/yyyy',],
 
-                <?= $form->field($missingAnimalModel, 'missing_date')->widget(DatePicker::className(), [
-                    'options' => ['placeholder' => 'dd/mm/aaaa'],
-                    'pluginOptions' => ['autoclose' => true, 'format' => 'dd/mm/yyyy',],
+                        ]);
+                        break;
+                    case 'createFoundAnimal':
+                        echo $form->field($foundAnimalModel, 'found_date')->widget(DatePicker::className(), [
+                            'options' => ['placeholder' => 'dd/mm/aaaa'],
+                            'pluginOptions' => ['autoclose' => true, 'format' => 'dd/mm/yyyy',],
 
-                ]) ?>
+                        ]);
 
-                <?= $form->field($animalModel, 'description')->textarea(['rows' => 6]) ?>
+                        echo $form->field($addressModel, 'street');
+                        echo $form->field($addressModel, 'city');
+                        echo $form->field($addressModel, 'district_id')->dropDownList(District::getData(), ['prompt' => 'Escolha o Distrito']);
+                        echo $form->field($foundAnimalModel, 'priority')->dropDownList($priority, ['prompt' => 'Escolha a prioridade de resgate']);
+
+                        break;
+                    default:
+                        break;
+
+                }
+                ?>
+
+
+                <?= $form->field($animalModel, 'description')->textarea(['placeholder' => 'Insere informação que consideres relevantes a publicação.'],['rows' => 3]) ?>
 
                 <?= $form->field($animalPhotoModel, 'imgPath')->widget(FileInput::classname(), [
                     'options' => ['accept' => 'image/*'],

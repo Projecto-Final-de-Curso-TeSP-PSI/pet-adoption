@@ -14,13 +14,16 @@ use yii\helpers\Html;
 /* @var $fulColor */
 /* @var $size */
 /* @var $sex */
+/* @var $priority */
 
 
 $this->title = 'Publicar Animal Desaparcido';
 AppAsset::register($this);
+$typeCreate = 'createMissingAnimal'
 ?>
 <div class="container">
     <?= $this->render('../components/_PublishForm', [
+        'typeCreate' => $typeCreate,
         'animalModel' => $animalModel,
         'missingAnimalModel' => $missingAnimalModel,
         'animalPhotoModel' => $animalPhotoModel,
@@ -30,7 +33,7 @@ AppAsset::register($this);
         'fulLength' => $fulLength,
         'fulColor' => $fulColor,
         'size' => $size,
-        'sex' => $sex
+        'sex' => $sex,
     ]) ?>
 </div>
 

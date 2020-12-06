@@ -22,6 +22,8 @@ use Yii;
  */
 class Address extends \yii\db\ActiveRecord
 {
+    const SCENARIO_FOUND_ANIMAL = 'foundAnimal';
+
     /**
      * {@inheritdoc}
      */
@@ -41,6 +43,7 @@ class Address extends \yii\db\ActiveRecord
             [['door_number', 'floor'], 'string', 'max' => 16],
             [['street', 'city'], 'string', 'max' => 45],
             [['district_id'], 'exist', 'skipOnError' => true, 'targetClass' => District::className(), 'targetAttribute' => ['district_id' => 'id']],
+            [['city'], 'required', 'on' => self::SCENARIO_FOUND_ANIMAL],
         ];
     }
 

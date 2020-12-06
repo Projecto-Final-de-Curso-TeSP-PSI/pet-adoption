@@ -32,20 +32,20 @@ class FoundAnimal extends \common\models\Animal
      */
     public function rules()
     {
-        $parentRules = parent::rules();
-        $childRules = [
-            [['id', 'user_id'], 'required'],
+        return [
+            //A data tem de ser um date time ou algo do genero para se usar o calendario
+            [['id', 'user_id', 'priority'], 'required'],
             [['id', 'user_id'], 'integer'],
             [['is_active'], 'boolean'],
             [['found_date'], 'safe'],
             [['priority'], 'string'],
-            [['location'], 'string', 'max' => 45],
+            //A localização leva um id e nao uma string
+            //[['location'], 'string', 'max' => 45],
             [['id'], 'unique'],
             [['id'], 'exist', 'skipOnError' => true, 'targetClass' => Animal::className(), 'targetAttribute' => ['id' => 'id']],
             [['user_id'], 'exist', 'skipOnError' => true, 'targetClass' => User::className(), 'targetAttribute' => ['user_id' => 'id']],
         ];
 
-        return array_merge($parentRules, $childRules);
     }
 
     /**
@@ -58,11 +58,21 @@ class FoundAnimal extends \common\models\Animal
             'id' => 'ID',
             'location' => 'Location',
             'is_active' => 'Is Active',
-            'found_date' => 'Found Date',
-            'priority' => 'Priority',
+            'found_date' => 'Data de Encontro',
+            'priority' => 'Prioridade',
             'user_id' => 'User ID',
         ];
         return array_merge($parentAtributeLabels, $childAtributeLabels);
+    }
+
+    public static function getPriority()
+    {
+        return [
+            'Baixa' => 'Baixa',
+            'Media' => 'Media',
+            'Alta' => 'Alta',
+            'Por classificar' => 'Por classificar'
+        ];
     }
 
     /**
@@ -105,11 +115,13 @@ class FoundAnimal extends \common\models\Animal
         return $this->found_date;
     }
 
-    public static function getAllAdressesIds(){
+    public static function getAllAdressesIds()
+    {
         return self::find()
             ->innerJoinWith('user')
             ->select('address_id')
             ->column();
     }
+
 
 }
