@@ -1,4 +1,4 @@
--- MySQL dump 10.13  Distrib 8.0.19, for Win64 (x86_64)
+-- MySQL dump 10.13  Distrib 8.0.22, for Win64 (x86_64)
 --
 -- Host: localhost    Database: paws4adoption
 -- ------------------------------------------------------
@@ -208,8 +208,8 @@ DROP TABLE IF EXISTS `auth_assignment`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `auth_assignment` (
-  `item_name` varchar(64) COLLATE utf8_unicode_ci NOT NULL,
-  `user_id` varchar(64) COLLATE utf8_unicode_ci NOT NULL,
+  `item_name` varchar(64) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
+  `user_id` varchar(64) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
   `created_at` int(11) DEFAULT NULL,
   PRIMARY KEY (`item_name`,`user_id`),
   KEY `idx-auth_assignment-user_id` (`user_id`),
@@ -223,6 +223,7 @@ CREATE TABLE `auth_assignment` (
 
 LOCK TABLES `auth_assignment` WRITE;
 /*!40000 ALTER TABLE `auth_assignment` DISABLE KEYS */;
+INSERT INTO `auth_assignment` VALUES ('admin','1',1606854454),('admin','3',1606854454),('admin','4',1606854454),('user','26',1606855597);
 /*!40000 ALTER TABLE `auth_assignment` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -234,10 +235,10 @@ DROP TABLE IF EXISTS `auth_item`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `auth_item` (
-  `name` varchar(64) COLLATE utf8_unicode_ci NOT NULL,
+  `name` varchar(64) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
   `type` smallint(6) NOT NULL,
-  `description` text COLLATE utf8_unicode_ci,
-  `rule_name` varchar(64) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `description` text CHARACTER SET utf8 COLLATE utf8_unicode_ci,
+  `rule_name` varchar(64) CHARACTER SET utf8 COLLATE utf8_unicode_ci DEFAULT NULL,
   `data` blob,
   `created_at` int(11) DEFAULT NULL,
   `updated_at` int(11) DEFAULT NULL,
@@ -254,6 +255,7 @@ CREATE TABLE `auth_item` (
 
 LOCK TABLES `auth_item` WRITE;
 /*!40000 ALTER TABLE `auth_item` DISABLE KEYS */;
+INSERT INTO `auth_item` VALUES ('admin',1,NULL,NULL,NULL,1606854454,1606854454),('associatedUser',1,NULL,NULL,NULL,1606854454,1606854454),('blockUser',2,'Block a User',NULL,NULL,1606854454,1606854454),('createOrganization',2,'Create an Organization',NULL,NULL,1606854454,1606854454),('foundMissingAnimal',2,'Publish a Found Animal',NULL,NULL,1606854454,1606854454),('publishAdoptionAnimal',2,'Publish an Animal for Adoption',NULL,NULL,1606854454,1606854454),('publishMissingAnimal',2,'Publish a Missing Animal',NULL,NULL,1606854454,1606854454),('removeOrganization',2,'Remove an Organization',NULL,NULL,1606854454,1606854454),('user',1,NULL,NULL,NULL,1606854454,1606854454);
 /*!40000 ALTER TABLE `auth_item` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -265,8 +267,8 @@ DROP TABLE IF EXISTS `auth_item_child`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `auth_item_child` (
-  `parent` varchar(64) COLLATE utf8_unicode_ci NOT NULL,
-  `child` varchar(64) COLLATE utf8_unicode_ci NOT NULL,
+  `parent` varchar(64) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
+  `child` varchar(64) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
   PRIMARY KEY (`parent`,`child`),
   KEY `child` (`child`),
   CONSTRAINT `auth_item_child_ibfk_1` FOREIGN KEY (`parent`) REFERENCES `auth_item` (`name`) ON DELETE CASCADE ON UPDATE CASCADE,
@@ -280,6 +282,7 @@ CREATE TABLE `auth_item_child` (
 
 LOCK TABLES `auth_item_child` WRITE;
 /*!40000 ALTER TABLE `auth_item_child` DISABLE KEYS */;
+INSERT INTO `auth_item_child` VALUES ('admin','associatedUser'),('admin','blockUser'),('admin','createOrganization'),('user','foundMissingAnimal'),('associatedUser','publishAdoptionAnimal'),('user','publishMissingAnimal'),('admin','removeOrganization'),('associatedUser','user');
 /*!40000 ALTER TABLE `auth_item_child` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -291,7 +294,7 @@ DROP TABLE IF EXISTS `auth_rule`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `auth_rule` (
-  `name` varchar(64) COLLATE utf8_unicode_ci NOT NULL,
+  `name` varchar(64) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
   `data` blob,
   `created_at` int(11) DEFAULT NULL,
   `updated_at` int(11) DEFAULT NULL,
@@ -603,7 +606,7 @@ CREATE TABLE `users` (
   KEY `fk_address_id_idx` (`address_id`),
   KEY `fk_user_address_id_idx` (`address_id`),
   CONSTRAINT `fk_user_address_id` FOREIGN KEY (`address_id`) REFERENCES `address` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=25 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=27 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -612,7 +615,7 @@ CREATE TABLE `users` (
 
 LOCK TABLES `users` WRITE;
 /*!40000 ALTER TABLE `users` DISABLE KEYS */;
-INSERT INTO `users` VALUES (1,'Simão','Pedro','simao.s.pedro@gmail.com','242218040','912345678','simaopedro','ozFqrgfw1RzFo-RJJUXCx9CI87lv5vDN','$2y$13$LOP/MFRXV/l6hF9ohY6CiuO.8yQCi//QGXq7rDrtBvFlCjJvW94tu',NULL,10,1605220994,1605220994,'t5AYTA0WgGx92sREwUOoJBqE4la2P2yt_1605220994',1),(2,'Cátia','Bessa','katyb@gm.pt','242319123','918765432','katy','EgIapFuHmRab0fz93bDuEm6kaCC2FkAM','$2y$13$LOP/MFRXV/l6hF9ohY6CiuO.8yQCi//QGXq7rDrtBvFlCjJvW94tu',NULL,10,1605224315,1605224315,'LvelSObJ7seAS_lCQEgtODzhg0dBJJRr_1605224315',2),(3,'Ricardo','Lopes','ricardolopes@gm.pt','242517987','963524871','ricardolopes','yI1GZZmscmpCNaxLLaKe6G7jM3CEL5gx','$2y$13$LOP/MFRXV/l6hF9ohY6CiuO.8yQCi//QGXq7rDrtBvFlCjJvW94tu',NULL,10,1605291218,1605291218,'3SYTOgQE_8A91wqGl7KGRS9MQ0HOh8ZP_1605291218',3),(4,'Cláudia','Valente','claudiavalente@gm.pt','252456839','933564712','claudiavalente','GWVzgG4hfNVyIeAn9M5n5iDMwjfG9dit','$2y$13$LOP/MFRXV/l6hF9ohY6CiuO.8yQCi//QGXq7rDrtBvFlCjJvW94tu',NULL,10,1605291387,1605291387,'TymcG-CiB4CS_811nBYJqrGdoDRiOEZv_1605291387',4),(5,'Martim','Gaspar','martimgaspar@gm.pt','252678934','928736451','martimgaspar','mJMoGHev31YDP8M3J3yXfJRjFDdhhQyN','$2y$13$LOP/MFRXV/l6hF9ohY6CiuO.8yQCi//QGXq7rDrtBvFlCjJvW94tu',NULL,10,1605295368,1605295368,'7YIOqMoSC_ArzHFlQy97Xyl90zdxj2Gp_1605295368',5),(6,'José','Miguel','zemigas@gm.pt','196783526','915463728','zemigas','w71yoafkeRfTeWZgDZGhY1mgxH3fdQEU','$2y$13$LOP/MFRXV/l6hF9ohY6CiuO.8yQCi//QGXq7rDrtBvFlCjJvW94tu',NULL,10,1605295493,1605295493,'ipBbZ01J0lr8wtoQdxJnYukQr8ckkg8q_1605295493',6),(8,'Rita','Alves','rita@gmail.com','123555658','917544885','rita','7rdixwM38038Z5xE-nyTCPPzaIWk7wtB','$2y$13$LOP/MFRXV/l6hF9ohY6CiuO.8yQCi//QGXq7rDrtBvFlCjJvW94tu',NULL,10,1605306410,1605306410,'E5FjYLglm4oK4iF9mXGtbR_zkOg-e5ns_1605306410',8),(9,'Joao','Mendes','joao@gmail.com','111555452','915583126','joao','6GsrKnJwEnEwHcsVhEuEbLvB6UZyVmfK','$2y$13$LOP/MFRXV/l6hF9ohY6CiuO.8yQCi//QGXq7rDrtBvFlCjJvW94tu',NULL,10,1605306887,1605306887,'_-If8lte1_aNFClUyb2znlb0FD_0SKv1_1605306887',9),(10,'Rafael','Gomes','rafael@ipl.com','186522447','915425664','rafael','FPa-bBvu9O6fi8VYoIA01-w5czTGwSR5','$2y$13$LOP/MFRXV/l6hF9ohY6CiuO.8yQCi//QGXq7rDrtBvFlCjJvW94tu',NULL,10,1605306920,1605306920,'xvdNNqDGyihDcLyblmFzhITh5jOszx8a_1605306920',10),(11,'Ana','Santos','ana@ipl.com','147525248','965546232','ana','qj4AkBZpVcAFj5donJQ-VgIcOolO5IKU','$2y$13$LOP/MFRXV/l6hF9ohY6CiuO.8yQCi//QGXq7rDrtBvFlCjJvW94tu',NULL,10,1605306941,1605306941,'FreHllJDkC66eup4plz9BcypvOA2Krr7_1605306941',11),(12,'Patricia','Alverca','patricia@ipl.com','146822454','965214653','patricia','hUMmy_-cb4hGriI5bUTQQVBIjS_Ug7Hq','$2y$13$LOP/MFRXV/l6hF9ohY6CiuO.8yQCi//QGXq7rDrtBvFlCjJvW94tu',NULL,10,1605306969,1605306969,'dFp9tmmyKF94DpGqlwF6GxrKglp9Wd6v_1605306969',12),(13,'Tania','Monteiro','tania@ipl.com','254127655','915852045','tania','ai9UHtObJk_PD6PSQPX_gD7SPFHVvj2b','$2y$13$LOP/MFRXV/l6hF9ohY6CiuO.8yQCi//QGXq7rDrtBvFlCjJvW94tu',NULL,10,1605306985,1605306985,'UPnxKzJST2JkgSAPX8bAuBPcOfl1zxbO_1605306985',13),(14,'Telmo','Jesus','telmo@ipl.com','268421455','934623455','telmo','jGWbLPFsklsEVgbFUukkUC7jYVjq4_hO','$2y$13$LOP/MFRXV/l6hF9ohY6CiuO.8yQCi//QGXq7rDrtBvFlCjJvW94tu',NULL,10,1605306999,1605306999,'zHGeA4TsN6VRBRROluzgX15xnou5m-XT_1605306999',14),(15,'Tiago','Ribeiro','tiago@ipl.com','215592312','965422355','tiago','71Mz993_1MuqkfggzzdgKMYpmnnteJEQ','$2y$13$LOP/MFRXV/l6hF9ohY6CiuO.8yQCi//QGXq7rDrtBvFlCjJvW94tu',NULL,10,1605307023,1605307023,'pGRVYwvOd_ie-WJFhu_1-_WspgUUiCeL_1605307023',15),(16,'Jessica','Silva','jessica@ipl.com','196246633','934524875','jessica','2q19kl4FBD88OeVOaeM1SN8lN-x3UTpW','$2y$13$LOP/MFRXV/l6hF9ohY6CiuO.8yQCi//QGXq7rDrtBvFlCjJvW94tu',NULL,10,1605307047,1605307047,'R7bt092u0pKC7JEqSh1o1r-Is0YuJCeY_1605307047',16),(17,'Antonio','Simões','antonio@ipl.com','175300645','916578521','antonio','M5cGOzNYdtyRpkLdZNEJ9D5C-8ZCXaFV','$2y$13$LOP/MFRXV/l6hF9ohY6CiuO.8yQCi//QGXq7rDrtBvFlCjJvW94tu',NULL,10,1605307061,1605307061,'YXySG72mwz8Up3PrOx46xNmHCnBeiBt4_1605307061',17),(18,'Fernando','Fernandes','fernando@ipl.com','298422361','962174114','fernando','5BZe7exNxtFjgzd5l3wq7etjcmnONi7t','$2y$13$LOP/MFRXV/l6hF9ohY6CiuO.8yQCi//QGXq7rDrtBvFlCjJvW94tu',NULL,10,1605307078,1605307078,'7hzrd3UpONBHDDSErhCMH20gIuZumP7P_1605307078',18),(19,'Sonia','Mendes','sonia@ipl.com','146539523','937852455','sonia','U4hqVHpPpWjK6pUsk600DCrbXbUN_m-b','$2y$13$LOP/MFRXV/l6hF9ohY6CiuO.8yQCi//QGXq7rDrtBvFlCjJvW94tu',NULL,10,1605307094,1605307094,'DfeE2TC98oMhEiLhzTXJyIMN5jHIeIJz_1605307094',19),(20,'Pedro','Ribeiro','pedro@ipl.com','136522663','932785248','pedro','Cwy5gwOdYe6DtbgagqH5bXNmQcZMWICm','$2y$13$LOP/MFRXV/l6hF9ohY6CiuO.8yQCi//QGXq7rDrtBvFlCjJvW94tu',NULL,10,1605307111,1605307111,'YZjpe94o75TvIsJCpNEfZb88NyMcv53a_1605307111',20),(21,'Diogo','Lopes','diogo@ipl.com','125532487','915239415','diogo','fi7JHXIJIWd9aepoI5y6ndaPkxcuyL4z','$2y$13$LOP/MFRXV/l6hF9ohY6CiuO.8yQCi//QGXq7rDrtBvFlCjJvW94tu',NULL,10,1605308218,1605308218,'j3FF2EF-zu2fWA7MjmkCYTjD2kA_J8br_1605308218',21),(22,'Diana','Antunes','diana@ipl.com','268758567','965224654','diana','dOTC79z4dSH_8DQuUCV5KoEV02gOFyR6','$2y$13$LOP/MFRXV/l6hF9ohY6CiuO.8yQCi//QGXq7rDrtBvFlCjJvW94tu',NULL,10,1605308239,1605308239,'pV0U5zDbF32B7MeR7NRzmpkq0QU0aLQe_1605308239',22),(23,'Manuel','Carlos','manecas@ipl.pt','231564897','987654321','manecas','z6ny9PqXrRX6DFVxqQKWl9wV3kNYQtTS','$2y$13$dGwOrHksMBVq4R2KOP13funEPVNsSSSEtwqo/apSnX8LwTlN4qW2S',NULL,10,1605378335,1605461899,'2JkjKV2RobCqqWX45VUPHzgv4inafjFz_1605378335',31),(24,'Asdrubal','Gertrudes','asdrubal@ipl.pt','123456789','967845321','asdrubal','ACXeGdiP6Vp4mkjERdUh_y3CYhcK0Lil','$2y$13$M1eTcXY2R262OZXOS.yWOecfGKgwbamnPCjYH5QjnjTunvUsJVnqO',NULL,10,1605963196,1605964863,'2xzQ0WBGpQSo-EeNpOrhjNzyYtfwyvLp_1605963196',32);
+INSERT INTO `users` VALUES (1,'Simão','Pedro','simao.s.pedro@gmail.com','242218040','912345678','simaopedro','ozFqrgfw1RzFo-RJJUXCx9CI87lv5vDN','$2y$13$LOP/MFRXV/l6hF9ohY6CiuO.8yQCi//QGXq7rDrtBvFlCjJvW94tu',NULL,10,1605220994,1605220994,'t5AYTA0WgGx92sREwUOoJBqE4la2P2yt_1605220994',1),(2,'Cátia','Bessa','katyb@gm.pt','242319123','918765432','katy','EgIapFuHmRab0fz93bDuEm6kaCC2FkAM','$2y$13$LOP/MFRXV/l6hF9ohY6CiuO.8yQCi//QGXq7rDrtBvFlCjJvW94tu',NULL,10,1605224315,1605224315,'LvelSObJ7seAS_lCQEgtODzhg0dBJJRr_1605224315',2),(3,'Ricardo','Lopes','ricardolopes@gm.pt','242517987','963524871','ricardolopes','yI1GZZmscmpCNaxLLaKe6G7jM3CEL5gx','$2y$13$LOP/MFRXV/l6hF9ohY6CiuO.8yQCi//QGXq7rDrtBvFlCjJvW94tu',NULL,10,1605291218,1605291218,'3SYTOgQE_8A91wqGl7KGRS9MQ0HOh8ZP_1605291218',3),(4,'Cláudia','Valente','claudiavalente@gm.pt','252456839','933564712','claudiavalente','GWVzgG4hfNVyIeAn9M5n5iDMwjfG9dit','$2y$13$LOP/MFRXV/l6hF9ohY6CiuO.8yQCi//QGXq7rDrtBvFlCjJvW94tu',NULL,10,1605291387,1605291387,'TymcG-CiB4CS_811nBYJqrGdoDRiOEZv_1605291387',4),(5,'Martim','Gaspar','martimgaspar@gm.pt','252678934','928736451','martimgaspar','mJMoGHev31YDP8M3J3yXfJRjFDdhhQyN','$2y$13$LOP/MFRXV/l6hF9ohY6CiuO.8yQCi//QGXq7rDrtBvFlCjJvW94tu',NULL,10,1605295368,1605295368,'7YIOqMoSC_ArzHFlQy97Xyl90zdxj2Gp_1605295368',5),(6,'José','Miguel','zemigas@gm.pt','196783526','915463728','zemigas','w71yoafkeRfTeWZgDZGhY1mgxH3fdQEU','$2y$13$LOP/MFRXV/l6hF9ohY6CiuO.8yQCi//QGXq7rDrtBvFlCjJvW94tu',NULL,10,1605295493,1605295493,'ipBbZ01J0lr8wtoQdxJnYukQr8ckkg8q_1605295493',6),(8,'Rita','Alves','rita@gmail.com','123555658','917544885','rita','7rdixwM38038Z5xE-nyTCPPzaIWk7wtB','$2y$13$LOP/MFRXV/l6hF9ohY6CiuO.8yQCi//QGXq7rDrtBvFlCjJvW94tu',NULL,10,1605306410,1605306410,'E5FjYLglm4oK4iF9mXGtbR_zkOg-e5ns_1605306410',8),(9,'Joao','Mendes','joao@gmail.com','111555452','915583126','joao','6GsrKnJwEnEwHcsVhEuEbLvB6UZyVmfK','$2y$13$LOP/MFRXV/l6hF9ohY6CiuO.8yQCi//QGXq7rDrtBvFlCjJvW94tu',NULL,10,1605306887,1605306887,'_-If8lte1_aNFClUyb2znlb0FD_0SKv1_1605306887',9),(10,'Rafael','Gomes','rafael@ipl.com','186522447','915425664','rafael','FPa-bBvu9O6fi8VYoIA01-w5czTGwSR5','$2y$13$LOP/MFRXV/l6hF9ohY6CiuO.8yQCi//QGXq7rDrtBvFlCjJvW94tu',NULL,10,1605306920,1605306920,'xvdNNqDGyihDcLyblmFzhITh5jOszx8a_1605306920',10),(11,'Ana','Santos','ana@ipl.com','147525248','965546232','ana','qj4AkBZpVcAFj5donJQ-VgIcOolO5IKU','$2y$13$LOP/MFRXV/l6hF9ohY6CiuO.8yQCi//QGXq7rDrtBvFlCjJvW94tu',NULL,10,1605306941,1605306941,'FreHllJDkC66eup4plz9BcypvOA2Krr7_1605306941',11),(12,'Patricia','Alverca','patricia@ipl.com','146822454','965214653','patricia','hUMmy_-cb4hGriI5bUTQQVBIjS_Ug7Hq','$2y$13$LOP/MFRXV/l6hF9ohY6CiuO.8yQCi//QGXq7rDrtBvFlCjJvW94tu',NULL,10,1605306969,1605306969,'dFp9tmmyKF94DpGqlwF6GxrKglp9Wd6v_1605306969',12),(13,'Tania','Monteiro','tania@ipl.com','254127655','915852045','tania','ai9UHtObJk_PD6PSQPX_gD7SPFHVvj2b','$2y$13$LOP/MFRXV/l6hF9ohY6CiuO.8yQCi//QGXq7rDrtBvFlCjJvW94tu',NULL,10,1605306985,1605306985,'UPnxKzJST2JkgSAPX8bAuBPcOfl1zxbO_1605306985',13),(14,'Telmo','Jesus','telmo@ipl.com','268421455','934623455','telmo','jGWbLPFsklsEVgbFUukkUC7jYVjq4_hO','$2y$13$LOP/MFRXV/l6hF9ohY6CiuO.8yQCi//QGXq7rDrtBvFlCjJvW94tu',NULL,10,1605306999,1605306999,'zHGeA4TsN6VRBRROluzgX15xnou5m-XT_1605306999',14),(15,'Tiago','Ribeiro','tiago@ipl.com','215592312','965422355','tiago','71Mz993_1MuqkfggzzdgKMYpmnnteJEQ','$2y$13$LOP/MFRXV/l6hF9ohY6CiuO.8yQCi//QGXq7rDrtBvFlCjJvW94tu',NULL,10,1605307023,1605307023,'pGRVYwvOd_ie-WJFhu_1-_WspgUUiCeL_1605307023',15),(16,'Jessica','Silva','jessica@ipl.com','196246633','934524875','jessica','2q19kl4FBD88OeVOaeM1SN8lN-x3UTpW','$2y$13$LOP/MFRXV/l6hF9ohY6CiuO.8yQCi//QGXq7rDrtBvFlCjJvW94tu',NULL,10,1605307047,1605307047,'R7bt092u0pKC7JEqSh1o1r-Is0YuJCeY_1605307047',16),(17,'Antonio','Simões','antonio@ipl.com','175300645','916578521','antonio','M5cGOzNYdtyRpkLdZNEJ9D5C-8ZCXaFV','$2y$13$LOP/MFRXV/l6hF9ohY6CiuO.8yQCi//QGXq7rDrtBvFlCjJvW94tu',NULL,10,1605307061,1605307061,'YXySG72mwz8Up3PrOx46xNmHCnBeiBt4_1605307061',17),(18,'Fernando','Fernandes','fernando@ipl.com','298422361','962174114','fernando','5BZe7exNxtFjgzd5l3wq7etjcmnONi7t','$2y$13$LOP/MFRXV/l6hF9ohY6CiuO.8yQCi//QGXq7rDrtBvFlCjJvW94tu',NULL,10,1605307078,1605307078,'7hzrd3UpONBHDDSErhCMH20gIuZumP7P_1605307078',18),(19,'Sonia','Mendes','sonia@ipl.com','146539523','937852455','sonia','U4hqVHpPpWjK6pUsk600DCrbXbUN_m-b','$2y$13$LOP/MFRXV/l6hF9ohY6CiuO.8yQCi//QGXq7rDrtBvFlCjJvW94tu',NULL,10,1605307094,1605307094,'DfeE2TC98oMhEiLhzTXJyIMN5jHIeIJz_1605307094',19),(20,'Pedro','Ribeiro','pedro@ipl.com','136522663','932785248','pedro','Cwy5gwOdYe6DtbgagqH5bXNmQcZMWICm','$2y$13$LOP/MFRXV/l6hF9ohY6CiuO.8yQCi//QGXq7rDrtBvFlCjJvW94tu',NULL,10,1605307111,1605307111,'YZjpe94o75TvIsJCpNEfZb88NyMcv53a_1605307111',20),(21,'Diogo','Lopes','diogo@ipl.com','125532487','915239415','diogo','fi7JHXIJIWd9aepoI5y6ndaPkxcuyL4z','$2y$13$LOP/MFRXV/l6hF9ohY6CiuO.8yQCi//QGXq7rDrtBvFlCjJvW94tu',NULL,10,1605308218,1605308218,'j3FF2EF-zu2fWA7MjmkCYTjD2kA_J8br_1605308218',21),(22,'Diana','Antunes','diana@ipl.com','268758567','965224654','diana','dOTC79z4dSH_8DQuUCV5KoEV02gOFyR6','$2y$13$LOP/MFRXV/l6hF9ohY6CiuO.8yQCi//QGXq7rDrtBvFlCjJvW94tu',NULL,10,1605308239,1605308239,'pV0U5zDbF32B7MeR7NRzmpkq0QU0aLQe_1605308239',22),(23,'Manuel','Carlos','manecas@ipl.pt','231564897','987654321','manecas','z6ny9PqXrRX6DFVxqQKWl9wV3kNYQtTS','$2y$13$dGwOrHksMBVq4R2KOP13funEPVNsSSSEtwqo/apSnX8LwTlN4qW2S',NULL,10,1605378335,1605461899,'2JkjKV2RobCqqWX45VUPHzgv4inafjFz_1605378335',31),(24,'Asdrubal','Gertrudes','asdrubal@ipl.pt','123456789','967845321','asdrubal','ACXeGdiP6Vp4mkjERdUh_y3CYhcK0Lil','$2y$13$M1eTcXY2R262OZXOS.yWOecfGKgwbamnPCjYH5QjnjTunvUsJVnqO',NULL,10,1605963196,1605964863,'2xzQ0WBGpQSo-EeNpOrhjNzyYtfwyvLp_1605963196',32),(25,NULL,NULL,'ricardo.lopes@trigenius.pt',NULL,NULL,'ricardo.lopes','UjExoLm1rJXELL8Fg63CzNLYVdDs_mBR','$2y$13$Gt6SSZViMzpmbLvQ7CJGTuJXjge44FwtNiyFz3Slm/gshm2QSsqk2',NULL,10,1606853863,1606853863,'_g8TWoKd-aYUZqBfc8l6ufqoLlUUt-A1_1606853863',NULL),(26,NULL,NULL,'joaopaulo@gmail.com',NULL,NULL,'joaopaulo','K0u7WSPbCdbTYzFt4l7i8UzctEQoa20E','$2y$13$Z/SuVR4kxFclzPKNXDonzO1T4kV9U8RdV4VPavjaaNZTJklpmH1Ou',NULL,10,1606855597,1606855597,'YfJZ1u7MDXtjN8OFzj1D0ORsyNVHhE-n_1606855597',NULL);
 /*!40000 ALTER TABLE `users` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -625,4 +628,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2020-11-29 22:58:33
+-- Dump completed on 2020-12-01 21:15:46
