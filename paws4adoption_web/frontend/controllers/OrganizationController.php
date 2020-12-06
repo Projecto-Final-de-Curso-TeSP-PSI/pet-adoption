@@ -4,6 +4,7 @@ namespace frontend\controllers;
 
 use common\models\Address;
 use common\models\District;
+use common\models\MissingAnimal;
 use Couchbase\SearchQuery;
 use Dotenv\Repository\AdapterRepository;
 use Yii;
@@ -62,27 +63,23 @@ class OrganizationController extends Controller
     public function actionIndex()
     {
         try {
+
             $searchModel = new OrganizationSearch();
             $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
-            if( Yii::$app->request->post() != null) {
+            $request = Yii::$app->request;
 
-                $post = Yii::$app->request->post();
-                $id = $post['District']['id'];
+            if( $request->post() != null) {
 
-
-                $organizationsIds = Yii::$app->db
-                    ->createCommand('
-                    SELECT o.id
-                    FROM organizations o
-                        JOIN address a ON a.id = o.address_id 
-                        JOIN districts d ON d.id = a.district_id
-                    WHERE d.id = ' . $id
-                    )->queryColumn();
-
-
-
-                $query = Organization::find()->where(['in', 'id', $organizationsIds]);
+                $requestDistrictId = ArrayHelper::getValue($request->post(), 'District.id' );
+                if($requestDistrictId == "all") {
+                    $query = Organization::find()
+                        ->innerJoinWith('address');
+                } else {
+                    $query = Organization::find()
+                        ->innerJoinWith('address')
+                        ->where(['district_id' => $requestDistrictId]);
+                }
 
                 $dataProvider = new ActiveDataProvider([
                     'query' => $query,
@@ -97,23 +94,31 @@ class OrganizationController extends Controller
                 ]);
             }
 
-            $districtIds = Yii::$app->db
-                ->createCommand('SELECT DISTINCT d.id
-                FROM organizations o
-                JOIN address a ON a.id = o.address_id 
-                JOIN districts d ON d.id = a.district_id')
-                ->queryColumn();
-            $districts = District::find()->where(['in', 'id', $districtIds])->all();
+            /*$districts = District::find()
+                ->innerJoinWith('addresses')
+                ->where(['in', 'address.id', Organization::getAllAddressesIds()])
+                ->all();*/
+
+            $districts = District::withOrganizations();
+
+            /*$allOption = new District();
+            $allOption->id = "all";
+            $allOption->name = 'Todas as associações';*/
+
+            //$districts[count($districts)] = $allOption;
+            //array_push($districts, $allOption);
+
+            array_push($districts, ['id' => 'all', 'name' => 'Todas as associações']);
+
 
             return $this->render('index', [
                 'searchModel' => $searchModel,
                 'dataProvider' => $dataProvider,
-
                 'districts' => $districts,
             ]);
         }
         catch(Exception $e){
-            // TODO: LIDAR COM A EXCEPÇÃO. O que acontece se for lançada uma excepção?
+            throw $e;
         }
     }
 

@@ -97,6 +97,11 @@ class MissingAnimal extends \common\models\Animal
         return $this->missing_date;
     }
 
-
+    public static function getAllAdressesIds(){
+        return self::find()
+            ->innerJoinWith('owner')
+            ->select('address_id')
+            ->column();
+    }
 
 }

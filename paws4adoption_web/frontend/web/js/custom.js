@@ -243,7 +243,14 @@
         //Submit button on modal
         $("#btnModalSubmit").on('click', function(event){
             event.preventDefault();
-            $("#searchForm").submit();
+
+            var e = document.getElementById("district-id");
+            var selectedValue = e.options[e.selectedIndex].value;
+
+            if(selectedValue !== ""){
+                $("#searchForm").submit();
+            }
+
         });
 
         //Fader when there is more than one modal

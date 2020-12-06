@@ -58,4 +58,41 @@ class District extends \yii\db\ActiveRecord
     {
         return $this->hasMany(Address::className(), ['district_id' => 'id']);
     }
+
+    //Returns all Districts that have organizations
+    public static function withOrganizations(){
+        return self::find()
+            ->innerjoinWith('addresses')
+            ->where(['in', 'address.id', Organization::getAllAddressesIds()])
+            ->addOrderBy('name')
+            ->all();
+    }
+
+    //Returns all Districts that have Adoption Animals
+    public static function withAdoptionAnimals(){
+        return self::find()
+            ->innerjoinWith('addresses')
+            ->where(['in', 'address.id', AdoptionAnimal::getAllAddressesIds()])
+            ->addOrderBy('name')
+            ->all();
+    }
+
+    //Returns all Districts that have Missing Animals
+    public static function withMissingAnimals(){
+        return self::find()
+            ->innerjoinWith('addresses')
+            ->where(['in', 'address.id', AdoptionAnimal::getAllAddressesIds()])
+            ->addOrderBy('name')
+            ->all();
+    }
+
+    //Returns all Districts that have Found Animals
+    public static function withFoundAnimals(){
+        return self::find()
+            ->innerjoinWith('addresses')
+            ->where(['in', 'address.id', FoundAnimal::getAllAddressesIds()])
+            ->addOrderBy('name')
+            ->all();
+    }
+
 }

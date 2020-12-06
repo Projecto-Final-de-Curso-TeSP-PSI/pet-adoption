@@ -99,4 +99,12 @@ class AdoptionAnimal extends \common\models\Animal
     {
         return $this->hasOne(Adoption::className(), ['id' => 'id']);
     }
+
+    public static function getAllAddressesIds(){
+        return self::find()
+            ->innerJoinWith('Organization')
+            ->select('address_id')
+            ->column();
+    }
+
 }
