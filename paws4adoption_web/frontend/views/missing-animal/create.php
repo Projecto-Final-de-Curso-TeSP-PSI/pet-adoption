@@ -6,6 +6,7 @@ use yii\helpers\Html;
 /* @var $this yii\web\View */
 /* @var $animalModel common\models\Animal */
 /* @var $missingAnimalModel common\models\MissingAnimal */
+/* @var $animalPhotoModel common\models\Photo */
 /* @var $natureList */
 /* @var $natureDog */
 /* @var $natureCat */
@@ -22,6 +23,7 @@ AppAsset::register($this);
     <?= $this->render('../components/_PublishForm', [
         'animalModel' => $animalModel,
         'missingAnimalModel' => $missingAnimalModel,
+        'animalPhotoModel' => $animalPhotoModel,
         'natureList' => $natureList,
         'natureDog' => $natureDog,
         'natureCat' => $natureCat,

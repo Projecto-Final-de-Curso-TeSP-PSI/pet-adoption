@@ -3,13 +3,15 @@
 use yii\helpers\ArrayHelper;
 use yii\helpers\Html;
 use yii\helpers\Url;
-use yii\widgets\ActiveForm;
+use kartik\form\ActiveForm;
 use kartik\date\DatePicker;
 use kartik\depdrop\DepDrop;
+use kartik\file\FileInput;
 
 /* @var $this yii\web\View */
 /* @var $animalModel common\models\Animal */
 /* @var $missingAnimalModel common\models\MissingAnimal */
+/* @var $animalPhotoModel common\models\Photo */
 /* @var $form yii\widgets\ActiveForm */
 /* @var $natureList */
 /* @var $natureDog */
@@ -28,7 +30,7 @@ use kartik\depdrop\DepDrop;
 
                 <p>O seu Animal desaparceu?<br>Publique para que as outras pessoas possam ter conhecimento</p>
 
-                <?php $form = ActiveForm::begin(); ?>
+                <?php $form = ActiveForm::begin(['options' => ['enctype' => 'multipart/form-data']]); ?>
 
                 <?= $form->field($animalModel, 'name')->textInput(['placeholder' => 'Insere o nome']) ?>
 
@@ -36,17 +38,16 @@ use kartik\depdrop\DepDrop;
 
                 <?= $form->field($animalModel, 'nature_id')->dropDownList($natureList, ['id' => 'nature-id']) ?>
 
-                <?= $form->field($animalModel, 'nature_id')->dropDownList($natureCat, [ 'prompt' => 'Escolha a raça ']) ?>
+                <?= $form->field($animalModel, 'nature_id')->dropDownList($natureCat, ['prompt' => 'Escolha a raça ']) ?>
 
 
-
-                <?//= $form->field($animalModel, 'nature_id')->widget(DepDrop::classname(), [
-                    //'id' => 'sub-nature-id',
-                    //'pluginOptions' => [
-                        //'depends' => ['nature-id'],
-                        //'placeholder' => 'Select...',
-                        //'url' => Url::to(['subnature']),
-                    //],
+                <? //= $form->field($animalModel, 'nature_id')->widget(DepDrop::classname(), [
+                //'id' => 'sub-nature-id',
+                //'pluginOptions' => [
+                //'depends' => ['nature-id'],
+                //'placeholder' => 'Select...',
+                //'url' => Url::to(['subnature']),
+                //],
                 //]) ?>
 
                 <?= $form->field($animalModel, 'sex')->dropDownList($sex, ['prompt' => 'Escolha o sexo']) ?>
@@ -64,6 +65,10 @@ use kartik\depdrop\DepDrop;
                 ]) ?>
 
                 <?= $form->field($animalModel, 'description')->textarea(['rows' => 6]) ?>
+
+                <?= $form->field($animalPhotoModel, 'imgPath')->widget(FileInput::classname(), [
+                    'options' => ['accept' => 'image/*'],
+                ]) ?>
 
                 <div class="form-group">
                     <?= Html::submitButton('Publicar', ['class' => 'btn btn-success']) ?>

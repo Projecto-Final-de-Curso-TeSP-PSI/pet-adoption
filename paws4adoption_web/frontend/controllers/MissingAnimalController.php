@@ -8,6 +8,7 @@ use common\models\FurColor;
 use common\models\FurLength;
 use common\models\MissingAnimalSearch;
 use common\models\Nature;
+use common\models\Photo;
 use common\models\Size;
 use common\models\User;
 use Yii;
@@ -16,9 +17,11 @@ use common\models\AnimalMissingSearch;
 use yii\data\ActiveDataProvider;
 use yii\filters\AccessControl;
 use yii\helpers\ArrayHelper;
+use yii\helpers\VarDumper;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
+use yii\web\UploadedFile;
 
 /**
  * MissingAnimalController implements the CRUD actions for MissingAnimal model.
@@ -52,7 +55,6 @@ class MissingAnimalController extends Controller
     }
 
 
-
     /**
      * Lists all MissingAnimal models.
      * @return mixed
@@ -68,7 +70,6 @@ class MissingAnimalController extends Controller
             'animalMissingSearchModel' => $animalMissingSearchModel,
             'animalSearchModel' => $animalSearchModel,
             'dataProvider' => $animalMissingDataProvider,
-
             'nature' => ArrayHelper::map(Nature::find()->where(['parent_nature_id' => null])->all(), 'id', 'name'),
             'natureCat' => ArrayHelper::map(Nature::find()->where(['parent_nature_id' => !null])->all(), 'id', 'name'),
             'natureDog' => ArrayHelper::map(Nature::find()->where(['parent_nature_id' => 2])->all(), 'id', 'name'),
@@ -100,14 +101,14 @@ class MissingAnimalController extends Controller
                 var_dump($natureId);
                 return;
 
-                if($natureId == 1){
+                if ($natureId == 1) {
                     return ArrayHelper::map(Nature::find()->where(['parent_nature_id' => 1])->all(), 'id', 'name');
-                }else{
+                } else {
                     return ArrayHelper::map(Nature::find()->where(['parent_nature_id' => 2])->all(), 'id', 'name');
                 }
             }
         }
-        return ['output'=>'', 'selected'=>''];
+        return ['output' => '', 'selected' => ''];
 
 
     }
@@ -121,6 +122,7 @@ class MissingAnimalController extends Controller
     {
         $animalModel = new Animal(['scenario' => Animal::SCENARIO_MISSING_ANIMAL]);
         $missingAnimalModel = new MissingAnimal();
+        $animalPhotoModel = new Photo();
         $natureList = ArrayHelper::map(Nature::find()->where(['parent_nature_id' => null])->all(), 'id', 'name');
         $sex = Animal::getSex();
         $natureCat = ArrayHelper::map(Nature::find()->where(['parent_nature_id' => 1])->all(), 'id', 'name');
@@ -129,24 +131,32 @@ class MissingAnimalController extends Controller
         $fulColor = ArrayHelper::map(FurColor::find()->all(), 'id', 'fur_color');
         $size = ArrayHelper::map(Size::find()->all(), 'id', 'size');
 
-        if (Yii::$app->request->post()){
+        if (Yii::$app->request->post()) {
             $formData = Yii::$app->request->post();
 
-
-            if($animalModel->load($formData) && $animalModel->save()){
-                $missingAnimalModel->load($formData);
-                $missingAnimalModel->id = $animalModel->id;
-                $missingAnimalModel->is_missing = true;
-                $missingAnimalModel->owner_id = Yii::$app->user->id;
-                if($missingAnimalModel->save()){
-                    return $this->redirect(['site/my-list-animals']);
+            if ($animalModel->load($formData) && $animalModel->save()) {
+                $file = UploadedFile::getInstance($animalPhotoModel, 'imgPath');
+                $animalPhotoModel->imgPath = 'images/animal/' . $animalModel->name . '_' . $animalModel->id . '.' . $file->extension;
+                $animalPhotoModel->id_animal = $animalModel->id;
+                $animalPhotoModel->caption = $animalModel->nature->name . " - " . $animalModel->name;
+                $file->saveAs('@frontend/web/images/animal/' . $animalModel->name . '_' . $animalModel->id . '.' . $file->extension);
+                if ($animalPhotoModel->save()) {
+                    $missingAnimalModel->load($formData);
+                    $missingAnimalModel->id = $animalModel->id;
+                    $missingAnimalModel->is_missing = true;
+                    $missingAnimalModel->owner_id = Yii::$app->user->id;
+                    if ($missingAnimalModel->save()) {
+                        return $this->redirect(['site/my-list-animals']);
+                    }
                 }
+
             }
         }
 
         return $this->render('create', [
             'animalModel' => $animalModel,
             'missingAnimalModel' => $missingAnimalModel,
+            'animalPhotoModel' => $animalPhotoModel,
             'natureList' => $natureList,
             'natureCat' => $natureCat,
             'natureDog' => $natureDog,
