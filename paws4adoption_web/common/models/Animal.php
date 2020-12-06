@@ -28,6 +28,8 @@ use Yii;
  */
 class Animal extends \yii\db\ActiveRecord
 {
+    const SCENARIO_MISSING_ANIMAL = 'missingAnimal';
+
     /**
      * {@inheritdoc}
      */
@@ -37,12 +39,14 @@ class Animal extends \yii\db\ActiveRecord
     }
 
 
-    public static function getSex(){
+    public static function getSex()
+    {
         return [
-            'M',
-            'F'
+            'Male',
+            'Female'
         ];
     }
+
 
     /**
      * {@inheritdoc}
@@ -50,17 +54,19 @@ class Animal extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['createdAt'], 'safe'],
-            [['description', 'sex'], 'string'],
-            [['nature_id', 'fur_length_id', 'fur_color_id', 'size_id', 'sex'], 'required'],
+            [['description', 'sex', 'name'], 'string'],
             [['nature_id', 'fur_length_id', 'fur_color_id', 'size_id'], 'integer'],
+            [['nature_id', 'fur_length_id', 'fur_color_id', 'size_id', 'sex'], 'required'],
             [['chipId'], 'string', 'max' => 15],
+            [['createdAt'], 'safe'],
             [['fur_color_id'], 'exist', 'skipOnError' => true, 'targetClass' => FurColor::className(), 'targetAttribute' => ['fur_color_id' => 'id']],
             [['fur_length_id'], 'exist', 'skipOnError' => true, 'targetClass' => FurLength::className(), 'targetAttribute' => ['fur_length_id' => 'id']],
             [['nature_id'], 'exist', 'skipOnError' => true, 'targetClass' => Nature::className(), 'targetAttribute' => ['nature_id' => 'id']],
             [['size_id'], 'exist', 'skipOnError' => true, 'targetClass' => Size::className(), 'targetAttribute' => ['size_id' => 'id']],
+            [['name'], 'required', 'on' => self::SCENARIO_MISSING_ANIMAL],
         ];
     }
+
 
     /**
      * {@inheritdoc}
@@ -161,14 +167,15 @@ class Animal extends \yii\db\ActiveRecord
         return $this->hasMany(Photo::className(), ['id_animal' => 'id']);
     }
 
-    public function  getType(){
-        if($this->getAdoptionAnimal()->count() != '0'){
+    public function getType()
+    {
+        if ($this->getAdoptionAnimal()->count() != '0') {
             return 'adoptionAnimal';
         }
-        if($this->getFoundAnimal()->count() != '0'){
+        if ($this->getFoundAnimal()->count() != '0') {
             return 'foundAnimal';
         }
-        if($this->getMissingAnimal()->count() != '0'){
+        if ($this->getMissingAnimal()->count() != '0') {
             return 'missingAnimal';
         }
         return null;

@@ -19,7 +19,7 @@ use kartik\depdrop\DepDrop;
 /* @var $size */
 /* @var $sex */
 ?>
-<!-- Profile Settings -->
+
 <div class="row">
     <div class="col-lg-12">
         <div class="profile-settings-form mb-30">
@@ -32,16 +32,22 @@ use kartik\depdrop\DepDrop;
 
                 <?= $form->field($animalModel, 'name')->textInput(['placeholder' => 'Insere o nome']) ?>
 
+                <?= $form->field($animalModel, 'chipId')->textInput(['placeholder' => 'Insere o Chip']) ?>
+
                 <?= $form->field($animalModel, 'nature_id')->dropDownList($natureList, ['id' => 'nature-id']) ?>
 
-                <?= $form->field($animalModel, 'nature_id')->widget(DepDrop::classname(), [
-                    'pluginOptions' => [
-                        'depends' => ['nature-id'],
-                        'placeholder' => 'Select...',
-                        'url' => Url::to(['subnature'])
-                    ]
-                ]) ?>
+                <?= $form->field($animalModel, 'nature_id')->dropDownList($natureCat, [ 'prompt' => 'Escolha a raça ']) ?>
 
+
+
+                <?//= $form->field($animalModel, 'nature_id')->widget(DepDrop::classname(), [
+                    //'id' => 'sub-nature-id',
+                    //'pluginOptions' => [
+                        //'depends' => ['nature-id'],
+                        //'placeholder' => 'Select...',
+                        //'url' => Url::to(['subnature']),
+                    //],
+                //]) ?>
 
                 <?= $form->field($animalModel, 'sex')->dropDownList($sex, ['prompt' => 'Escolha o sexo']) ?>
 
@@ -57,7 +63,7 @@ use kartik\depdrop\DepDrop;
 
                 ]) ?>
 
-                <?= $form->field($animalModel, 'description')->textarea() ?>
+                <?= $form->field($animalModel, 'description')->textarea(['rows' => 6]) ?>
 
                 <div class="form-group">
                     <?= Html::submitButton('Publicar', ['class' => 'btn btn-success']) ?>

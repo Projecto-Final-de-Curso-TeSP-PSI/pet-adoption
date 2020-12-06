@@ -6,9 +6,9 @@ use yii\widgets\DetailView;
 /* @var $this yii\web\View */
 /* @var $model common\models\MissingAnimal */
 
-$this->title = $model->id;
-$this->params['breadcrumbs'][] = ['label' => 'Missing Animals', 'url' => ['index']];
-$this->params['breadcrumbs'][] = $this->title;
+
+$this->title = $model->animal->name;
+
 \yii\web\YiiAsset::register($this);
 ?>
 <div class="missing-animal-view">

@@ -33,10 +33,10 @@ class MissingAnimalController extends Controller
         return [
             'access' => [
                 'class' => AccessControl::class,
-                'only' => ['create', 'update', 'delete'],
+                'only' => ['create', 'update', 'delete', 'subnature'],
                 'rules' => [
                     [
-                        'actions' => ['create', 'update', 'delete'],
+                        'actions' => ['create', 'update', 'delete', 'subnature'],
                         'allow' => true,
                         'roles' => ['@'],
                     ]
@@ -50,6 +50,8 @@ class MissingAnimalController extends Controller
             ],
         ];
     }
+
+
 
     /**
      * Lists all MissingAnimal models.
@@ -68,7 +70,7 @@ class MissingAnimalController extends Controller
             'dataProvider' => $animalMissingDataProvider,
 
             'nature' => ArrayHelper::map(Nature::find()->where(['parent_nature_id' => null])->all(), 'id', 'name'),
-            'natureCat' => ArrayHelper::map(Nature::find()->where(['parent_nature_id' => 1])->all(), 'id', 'name'),
+            'natureCat' => ArrayHelper::map(Nature::find()->where(['parent_nature_id' => !null])->all(), 'id', 'name'),
             'natureDog' => ArrayHelper::map(Nature::find()->where(['parent_nature_id' => 2])->all(), 'id', 'name'),
             'size' => ArrayHelper::map(Size::find()->all(), 'id', 'size')
         ]);
@@ -89,9 +91,7 @@ class MissingAnimalController extends Controller
 
     public function actionSubnature()
     {
-        Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
-        echo 'hello';
-        return;
+
         if (isset($_POST['depdrop_parents'])) {
             $parents = $_POST['depdrop_parents'];
             if ($parents != null) {
@@ -119,7 +119,7 @@ class MissingAnimalController extends Controller
      */
     public function actionCreate()
     {
-        $animalModel = new Animal();
+        $animalModel = new Animal(['scenario' => Animal::SCENARIO_MISSING_ANIMAL]);
         $missingAnimalModel = new MissingAnimal();
         $natureList = ArrayHelper::map(Nature::find()->where(['parent_nature_id' => null])->all(), 'id', 'name');
         $sex = Animal::getSex();
@@ -129,8 +129,19 @@ class MissingAnimalController extends Controller
         $fulColor = ArrayHelper::map(FurColor::find()->all(), 'id', 'fur_color');
         $size = ArrayHelper::map(Size::find()->all(), 'id', 'size');
 
-        if ($missingAnimalModel->load(Yii::$app->request->post()) && $missingAnimalModel->save()) {
-            return $this->redirect(['view', 'id' => $missingAnimalModel->id]);
+        if (Yii::$app->request->post()){
+            $formData = Yii::$app->request->post();
+
+
+            if($animalModel->load($formData) && $animalModel->save()){
+                $missingAnimalModel->load($formData);
+                $missingAnimalModel->id = $animalModel->id;
+                $missingAnimalModel->is_missing = true;
+                $missingAnimalModel->owner_id = Yii::$app->user->id;
+                if($missingAnimalModel->save()){
+                    return $this->redirect(['site/my-list-animals']);
+                }
+            }
         }
 
         return $this->render('create', [

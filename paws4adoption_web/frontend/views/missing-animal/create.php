@@ -18,9 +18,8 @@ use yii\helpers\Html;
 $this->title = 'Publicar Animal Desaparcido';
 AppAsset::register($this);
 ?>
-
-<div class="missing-animal-create">
-    <?= $this->render('_form', [
+<div class="container">
+    <?= $this->render('../components/_PublishForm', [
         'animalModel' => $animalModel,
         'missingAnimalModel' => $missingAnimalModel,
         'natureList' => $natureList,

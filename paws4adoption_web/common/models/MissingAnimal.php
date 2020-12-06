@@ -2,6 +2,8 @@
 
 namespace common\models;
 
+
+use phpDocumentor\Reflection\Utils;
 use Yii;
 
 /**
@@ -30,20 +32,28 @@ class MissingAnimal extends \common\models\Animal
      */
     public function rules()
     {
-        $parentRules = parent::rules();
-        $childRules = [
-            [['id', 'owner_id'], 'required'],
+        return [
+            [['id', 'owner_id', 'missing_date'], 'required'],
             [['id', 'owner_id'], 'integer'],
             [['missing_date'], 'safe'],
             [['is_missing'], 'boolean'],
             [['id'], 'unique'],
             [['id'], 'exist', 'skipOnError' => true, 'targetClass' => Animal::className(), 'targetAttribute' => ['id' => 'id']],
             [['owner_id'], 'exist', 'skipOnError' => true, 'targetClass' => User::className(), 'targetAttribute' => ['owner_id' => 'id']],
+            ['missing_date', 'validateDate']
         ];
-        return array_merge($parentRules, $childRules);
     }
 
-    /**
+    public function validateDate($attribute, $params, $validator){
+        $today = date("d/m/Y");
+        $inputDate = $this->$attribute;
+
+        if($inputDate > $today)
+            $this->addError($attribute, 'Data não pode estar no futuro.');
+    }
+
+
+/**
      * {@inheritdoc}
      */
     public function attributeLabels()

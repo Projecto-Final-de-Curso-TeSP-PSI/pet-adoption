@@ -44,7 +44,7 @@ body {
   font-family: "Nunito", sans-serif;
   color: #686c71;
   font-size: 14px;
-  background-color: #efc8a324;
+  background-color: #efc8a324!important;
 }
 
 a {
