@@ -104,4 +104,12 @@ class FoundAnimal extends \common\models\Animal
     {
         return $this->found_date;
     }
+
+    public static function getAllAdressesIds(){
+        return self::find()
+            ->innerJoinWith('user')
+            ->select('address_id')
+            ->column();
+    }
+
 }

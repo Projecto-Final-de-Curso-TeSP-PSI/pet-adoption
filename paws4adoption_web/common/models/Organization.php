@@ -76,4 +76,11 @@ class Organization extends \yii\db\ActiveRecord
     {
         return $this->hasOne(Address::className(), ['id' => 'address_id']);
     }
+
+    public static function getAllAddressesIds(){
+        return self::find()
+            ->select('address_id')
+            ->column();
+    }
+
 }
