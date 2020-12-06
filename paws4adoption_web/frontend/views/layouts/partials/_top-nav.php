@@ -22,7 +22,7 @@ use yii\helpers\Html;
 
 
 
-    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+    <div class="navbar-collapse" id="navbarSupportedContent">
         <!-- Right nav -->
         <ul class="navbar-nav right-nav ml-auto">
             <!-- Email Notification dropdown -->

@@ -49,12 +49,6 @@ class MissingAnimalForm extends Model
 
         $this->owner_id = \Yii::$app->user->id;
 
-//        ESTE IF SERVE APENAS PARA EVITAR QUE O FORM REBENTE POR FALTA DO USER
-//        É PARA ELEMINAR NA IMPLEMENTAÇÃO REAL
-        if($this->owner_id == null){
-            $this->owner_id = 1;
-        }
-
         $this->missingAnimal->chipId = $this->chipId;
         $this->missingAnimal->description = $this->description;
         $this->missingAnimal->nature_id = $this->nature_id;

@@ -2,7 +2,10 @@
 
 namespace frontend\controllers;
 
+use common\models\Animal;
 use common\models\AnimalSearch;
+use common\models\FurColor;
+use common\models\FurLength;
 use common\models\MissingAnimalSearch;
 use common\models\Nature;
 use common\models\Size;
@@ -30,10 +33,10 @@ class MissingAnimalController extends Controller
         return [
             'access' => [
                 'class' => AccessControl::class,
-                'only' => ['create', 'update', 'delete'],
+                'only' => ['create', 'update', 'delete', 'subnature'],
                 'rules' => [
                     [
-                        'actions' => ['create', 'update', 'delete'],
+                        'actions' => ['create', 'update', 'delete', 'subnature'],
                         'allow' => true,
                         'roles' => ['@'],
                     ]
@@ -47,6 +50,8 @@ class MissingAnimalController extends Controller
             ],
         ];
     }
+
+
 
     /**
      * Lists all MissingAnimal models.
@@ -64,9 +69,9 @@ class MissingAnimalController extends Controller
             'animalSearchModel' => $animalSearchModel,
             'dataProvider' => $animalMissingDataProvider,
 
-            'nature' => ArrayHelper::map(Nature::find()->where(['parent_nature_id' => null ])->all(), 'id', 'name'),
-            'natureCat' => ArrayHelper::map(Nature::find()->where(['parent_nature_id' => 1 ])->all(), 'id', 'name'),
-            'natureDog' => ArrayHelper::map(Nature::find()->where(['parent_nature_id' =>  2 ])->all(), 'id', 'name'),
+            'nature' => ArrayHelper::map(Nature::find()->where(['parent_nature_id' => null])->all(), 'id', 'name'),
+            'natureCat' => ArrayHelper::map(Nature::find()->where(['parent_nature_id' => !null])->all(), 'id', 'name'),
+            'natureDog' => ArrayHelper::map(Nature::find()->where(['parent_nature_id' => 2])->all(), 'id', 'name'),
             'size' => ArrayHelper::map(Size::find()->all(), 'id', 'size')
         ]);
     }
@@ -84,6 +89,29 @@ class MissingAnimalController extends Controller
         ]);
     }
 
+    public function actionSubnature()
+    {
+
+        if (isset($_POST['depdrop_parents'])) {
+            $parents = $_POST['depdrop_parents'];
+            if ($parents != null) {
+                $natureId = $parents[0];
+
+                var_dump($natureId);
+                return;
+
+                if($natureId == 1){
+                    return ArrayHelper::map(Nature::find()->where(['parent_nature_id' => 1])->all(), 'id', 'name');
+                }else{
+                    return ArrayHelper::map(Nature::find()->where(['parent_nature_id' => 2])->all(), 'id', 'name');
+                }
+            }
+        }
+        return ['output'=>'', 'selected'=>''];
+
+
+    }
+
     /**
      * Creates a new MissingAnimal model.
      * If creation is successful, the browser will be redirected to the 'view' page.
@@ -91,14 +119,41 @@ class MissingAnimalController extends Controller
      */
     public function actionCreate()
     {
-        $model = new MissingAnimal();
+        $animalModel = new Animal(['scenario' => Animal::SCENARIO_MISSING_ANIMAL]);
+        $missingAnimalModel = new MissingAnimal();
+        $natureList = ArrayHelper::map(Nature::find()->where(['parent_nature_id' => null])->all(), 'id', 'name');
+        $sex = Animal::getSex();
+        $natureCat = ArrayHelper::map(Nature::find()->where(['parent_nature_id' => 1])->all(), 'id', 'name');
+        $natureDog = ArrayHelper::map(Nature::find()->where(['parent_nature_id' => 2])->all(), 'id', 'name');
+        $fulLength = ArrayHelper::map(FurLength::find()->all(), 'id', 'fur_length');
+        $fulColor = ArrayHelper::map(FurColor::find()->all(), 'id', 'fur_color');
+        $size = ArrayHelper::map(Size::find()->all(), 'id', 'size');
 
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id]);
+        if (Yii::$app->request->post()){
+            $formData = Yii::$app->request->post();
+
+
+            if($animalModel->load($formData) && $animalModel->save()){
+                $missingAnimalModel->load($formData);
+                $missingAnimalModel->id = $animalModel->id;
+                $missingAnimalModel->is_missing = true;
+                $missingAnimalModel->owner_id = Yii::$app->user->id;
+                if($missingAnimalModel->save()){
+                    return $this->redirect(['site/my-list-animals']);
+                }
+            }
         }
 
         return $this->render('create', [
-            'model' => $model,
+            'animalModel' => $animalModel,
+            'missingAnimalModel' => $missingAnimalModel,
+            'natureList' => $natureList,
+            'natureCat' => $natureCat,
+            'natureDog' => $natureDog,
+            'fulLength' => $fulLength,
+            'fulColor' => $fulColor,
+            'size' => $size,
+            'sex' => $sex
         ]);
     }
 
