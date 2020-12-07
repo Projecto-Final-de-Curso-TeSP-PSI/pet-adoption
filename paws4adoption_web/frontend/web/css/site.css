@@ -114,7 +114,6 @@ a.desc:after {
     outline: none;
 }
 
-/* css lista de animais */
 .divTitleButtonFilter{
     display: flex;
     justify-content: space-between;
@@ -150,4 +149,15 @@ a.desc:after {
 
 .btn-redirect-to-signup{
     color: white;
+}
+.navbar-collapse{
+    padding-left: 0 !important;
+    padding-right: 0 !important;
+}
+.fixed-top{
+    position: fixed!important;
+    min-height: 65px!important;
+}
+.navbar-brand{
+    padding: 5px !important;
 }

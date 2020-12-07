@@ -17,7 +17,6 @@ use yii\helpers\Html;
 /* @var $priority */
 
 
-$this->title = 'Publicar Animal Desaparcido';
 AppAsset::register($this);
 $typeCreate = 'createMissingAnimal'
 ?>
