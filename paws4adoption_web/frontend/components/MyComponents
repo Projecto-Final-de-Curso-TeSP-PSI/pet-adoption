@@ -1,0 +1,15 @@
+<?php
+
+use Yii;
+use yii\base\Component;
+
+class MyComponents extends Component{
+    public function ddlGetAllDistricts(){
+        $districts = \common\models\District::find()->all();
+        return $districts;
+    }
+    public function ddlGetAllFurLengths(){
+        $districts = \common\models\District::find()->all();
+        return $districts;
+    }
+}
