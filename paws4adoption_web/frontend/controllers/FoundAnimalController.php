@@ -2,8 +2,13 @@
 
 namespace frontend\controllers;
 
+use common\models\Address;
+use common\models\Animal;
 use common\models\AnimalSearch;
+use common\models\FurColor;
+use common\models\FurLength;
 use common\models\Nature;
+use common\models\Photo;
 use common\models\Size;
 use Yii;
 use common\models\FoundAnimal;
@@ -13,6 +18,7 @@ use yii\helpers\ArrayHelper;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
+use yii\web\UploadedFile;
 
 /**
  * FoundAnimalController implements the CRUD actions for FoundAnimal model.
@@ -87,14 +93,60 @@ class FoundAnimalController extends Controller
      */
     public function actionCreate()
     {
-        $model = new FoundAnimal();
+        $addressModel = new Address(['scenario' => Address::SCENARIO_FOUND_ANIMAL]);
+        $animalModel = new Animal();
+        $foundAnimalModel = new FoundAnimal();
+        $animalPhotoModel = new Photo();
+        $natureList = ArrayHelper::map(Nature::find()->where(['parent_nature_id' => null])->all(), 'id', 'name');
+        $sex = Animal::getSex();
+        $priority = FoundAnimal::getPriority();
+        $natureCat = ArrayHelper::map(Nature::find()->where(['parent_nature_id' => 1])->all(), 'id', 'name');
+        $natureDog = ArrayHelper::map(Nature::find()->where(['parent_nature_id' => 2])->all(), 'id', 'name');
+        $fulLength = ArrayHelper::map(FurLength::find()->all(), 'id', 'fur_length');
+        $fulColor = ArrayHelper::map(FurColor::find()->all(), 'id', 'fur_color');
+        $size = ArrayHelper::map(Size::find()->all(), 'id', 'size');
 
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id]);
+        if (Yii::$app->request->post()) {
+            $formData = Yii::$app->request->post();
+
+            if ($animalModel->load($formData) && $animalModel->save()) {
+                $file = UploadedFile::getInstance($animalPhotoModel, 'imgPath');
+                $animalPhotoModel->imgPath = 'images/animal/' . $animalModel->name . '_' . $animalModel->id . '.' . $file->extension;
+                $animalPhotoModel->id_animal = $animalModel->id;
+                $animalPhotoModel->caption = $animalModel->nature->name . " - " . $animalModel->name;
+                $file->saveAs('@frontend/web/images/animal/' . $animalModel->name . '_' . $animalModel->id . '.' . $file->extension);
+                if ($animalPhotoModel->save()) {
+                    $addressModel->load($formData);
+                    if($addressModel->save()){
+                        $foundAnimalModel->load($formData);
+                        $foundAnimalModel->id = $animalModel->id;
+                        $foundAnimalModel->is_active = true;
+                        $foundAnimalModel->user_id = Yii::$app->user->id;
+                        $foundAnimalModel->location = $addressModel->id;
+
+                        if ($foundAnimalModel->save()) {
+                            return $this->redirect(['site/my-list-animals']);
+                        }
+                    }
+
+                }
+
+            }
         }
 
         return $this->render('create', [
-            'model' => $model,
+            'addressModel' => $addressModel,
+            'animalModel' => $animalModel,
+            'foundAnimalModel' => $foundAnimalModel,
+            'animalPhotoModel' => $animalPhotoModel,
+            'natureList' => $natureList,
+            'natureCat' => $natureCat,
+            'natureDog' => $natureDog,
+            'fulLength' => $fulLength,
+            'fulColor' => $fulColor,
+            'size' => $size,
+            'sex' => $sex,
+            'priority' => $priority
         ]);
     }
 

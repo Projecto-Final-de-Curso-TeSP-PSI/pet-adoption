@@ -42,8 +42,8 @@ class Animal extends \yii\db\ActiveRecord
     public static function getSex()
     {
         return [
-            'Male',
-            'Female'
+            'M' => 'Macho',
+            'F' => 'Femêa'
         ];
     }
 
