@@ -38,7 +38,6 @@ class OrganizationController extends Controller
                         'allow' => true,
                         'roles' => ['associatedUser'],
                     ],
-
                     [
                         // TODO: As actions de create e delete realizadas pelo admin devem estar no backoffice e não aqui.
                         'actions' => ['create', 'delete'],
@@ -59,6 +58,7 @@ class OrganizationController extends Controller
     /**
      * Lists all Organization models.
      * @return mixed
+     * @throws \Exception
      */
     public function actionIndex()
     {
@@ -73,12 +73,11 @@ class OrganizationController extends Controller
 
                 $requestDistrictId = ArrayHelper::getValue($request->post(), 'District.id' );
                 if($requestDistrictId == "all") {
-                    $query = Organization::find()
-                        ->innerJoinWith('address');
+                    $query = Organization::find();
                 } else {
                     $query = Organization::find()
                         ->innerJoinWith('address')
-                        ->where(['district_id' => $requestDistrictId]);
+                        ->where(['in', 'district_id', $requestDistrictId]);
                 }
 
                 $dataProvider = new ActiveDataProvider([
@@ -94,22 +93,11 @@ class OrganizationController extends Controller
                 ]);
             }
 
-            /*$districts = District::find()
-                ->innerJoinWith('addresses')
-                ->where(['in', 'address.id', Organization::getAllAddressesIds()])
-                ->all();*/
-
+            //Generate list with all districs that have organizations
             $districts = District::withOrganizations();
 
-            /*$allOption = new District();
-            $allOption->id = "all";
-            $allOption->name = 'Todas as associações';*/
-
-            //$districts[count($districts)] = $allOption;
-            //array_push($districts, $allOption);
-
+            //Add generic option to the dropdown list
             array_push($districts, ['id' => 'all', 'name' => 'Todas as associações']);
-
 
             return $this->render('index', [
                 'searchModel' => $searchModel,
@@ -118,6 +106,7 @@ class OrganizationController extends Controller
             ]);
         }
         catch(Exception $e){
+            //Throw exception case anything fails
             throw $e;
         }
     }
@@ -203,6 +192,10 @@ class OrganizationController extends Controller
         throw new NotFoundHttpException('The requested page does not exist.');
     }
 
+    /**
+     * @param $id
+     * @return string
+     */
     public function actionOrganizationFilter1($id){
 
         $districts = District::findOne($id);
