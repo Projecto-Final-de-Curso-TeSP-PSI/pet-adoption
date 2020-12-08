@@ -50,6 +50,7 @@ AppAsset::register($this);
 <?= Yii::$app->view->renderFile('@frontend/views/components/_modal.php',
     ['title' => 'Filtro Organizações',
         'content' => $this->render('_search', ['districts' => $districts]),
+        'submitBtnId' => 'OrganizationFilterBtn',
         'submitText' => 'Filtrar',
         'closeText' => 'Fechar'
     ]); ?>

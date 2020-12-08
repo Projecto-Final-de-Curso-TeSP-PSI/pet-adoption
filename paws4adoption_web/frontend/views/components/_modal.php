@@ -20,7 +20,7 @@
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal"><?= $closeText ?></button>
-                <button id="btnModalSubmit" type="button" class="btn btn-primary"><?= $submitText ?></button>
+                <button id="<?= $submitBtnId ?>" type="button" class="btn btn-primary"><?= $submitText ?></button>
             </div>
         </div>
     </div>

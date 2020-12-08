@@ -61,6 +61,13 @@ class AdoptionAnimalController extends Controller
         $organizationSearchModel = new OrganizationSearch();
         $animalAdoptionDataProvider = $animalAdoptionSearchModel->search(Yii::$app->request->queryParams);
 
+        if (Yii::$app->request->post() != null){
+
+            $post = Yii::$app->request->post();
+
+            $query = AdoptionAnimal::find()->where(['']);
+
+        }
 
         return $this->render('index', [
             'animalAdoptionSearchModel' => $animalAdoptionSearchModel,

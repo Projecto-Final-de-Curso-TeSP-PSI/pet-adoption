@@ -15,6 +15,7 @@ use Yii;
 use common\models\MissingAnimal;
 use common\models\AnimalMissingSearch;
 use yii\data\ActiveDataProvider;
+use yii\db\Query;
 use yii\filters\AccessControl;
 use yii\helpers\ArrayHelper;
 use yii\helpers\VarDumper;
@@ -61,20 +62,37 @@ class MissingAnimalController extends Controller
      */
     public function actionIndex()
     {
-        $animalMissingSearchModel = new AnimalMissingSearch();
-        $animalSearchModel = new AnimalSearch();
-        $animalMissingDataProvider = $animalMissingSearchModel->search(Yii::$app->request->queryParams);
+        try {
+            $animalMissingSearchModel = new AnimalMissingSearch();
+            $animalSearchModel = new AnimalSearch();
+            $animalMissingDataProvider = $animalMissingSearchModel->search(Yii::$app->request->queryParams);
 
+            if (Yii::$app->request->get() != null){
+
+                $query = $this->queryBuilder(Yii::$app->request->get());
+
+                $animalMissingDataProvider = new ActiveDataProvider([
+                    'query' => $query,
+                    'pagination' => [
+                        'pageSize' => 10,
+                    ]
+                ]);
+            }
+        } catch (\Exception $exception){
+            // TODO: LIDAR COM A EXCEPÇÃO. O que acontece se for lançada uma excepção?
+            throw $exception;
+        }
 
         return $this->render('index', [
             'animalMissingSearchModel' => $animalMissingSearchModel,
             'animalSearchModel' => $animalSearchModel,
             'dataProvider' => $animalMissingDataProvider,
-            'nature' => ArrayHelper::map(Nature::find()->where(['parent_nature_id' => null])->all(), 'id', 'name'),
-            'natureCat' => ArrayHelper::map(Nature::find()->where(['parent_nature_id' => !null])->all(), 'id', 'name'),
-            'natureDog' => ArrayHelper::map(Nature::find()->where(['parent_nature_id' => 2])->all(), 'id', 'name'),
-            'size' => ArrayHelper::map(Size::find()->all(), 'id', 'size')
+            'nature' => Nature::getParentNatureIds(),
+            'natureCat' => Nature::getExistingNatureCat(),
+            'natureDog' => Nature::getExistingNatureDog(),
+            'size' => Size::getData(),
         ]);
+
     }
 
     /**
@@ -217,5 +235,73 @@ class MissingAnimalController extends Controller
         throw new NotFoundHttpException('The requested page does not exist.');
     }
 
+    private function queryBuilder($params){
 
+        $parent_nature_id = $params['AnimalSearch']['parent_nature_id'];
+        $natureCat_id = $params['AnimalSearch']['natureCat_id'];
+        $natureDog_id = $params['AnimalSearch']['natureDog_id'];
+        $size = $params['AnimalSearch']['size'];
+
+        if($parent_nature_id !== "" && $natureCat_id !== "" && $size !== ""){
+            $naturesIds = Nature::getChildsIdsByParentId($parent_nature_id);
+
+            $query = MissingAnimal::find()
+                ->innerJoinWith('animal')
+                ->where(['in', 'nature_id', $naturesIds])
+                ->where(['nature_id' => $natureCat_id, 'size_id' => $size]);
+
+            return $query;
+
+        } elseif ($parent_nature_id !== "" && $natureDog_id !== "" && $size !== ""){
+            $naturesIds = Nature::getChildsIdsByParentId($parent_nature_id);
+
+            $query = MissingAnimal::find()
+                ->innerJoinWith('animal')
+                ->where(['in', 'nature_id', $naturesIds])
+                ->where(['nature_id' => $natureDog_id, 'size_id' => $size]);
+
+            return $query;
+
+        } elseif ($parent_nature_id !== "" && $natureCat_id !== ""){
+
+            $query = MissingAnimal::find()
+                ->innerJoinWith('animal')
+                ->where(['nature_id' => $natureCat_id]);
+
+            return $query;
+
+        } elseif ($parent_nature_id !== "" && $natureDog_id !== ""){
+
+            $query = MissingAnimal::find()
+                ->innerJoinWith('animal')
+                ->where(['nature_id' => $natureDog_id]);
+
+            return $query;
+
+        } elseif ($parent_nature_id !== "" && $size !== ""){
+            $naturesIds = Nature::getChildsIdsByParentId($parent_nature_id);
+
+            $query = MissingAnimal::find()
+                ->innerJoinWith('animal')
+                ->where(['in', 'nature_id', $naturesIds, 'size_id' => $size]);
+
+            return $query;
+
+        } elseif ($parent_nature_id !== ""){
+            $naturesIds = Nature::getChildsIdsByParentId($parent_nature_id);
+
+            $query = MissingAnimal::find()
+                ->innerJoinWith('animal')
+                ->where(['in', 'nature_id', $naturesIds]);
+
+            return $query;
+
+        } elseif ($size !== ""){
+            $query = MissingAnimal::find()
+                ->innerJoinWith('animal')
+                ->where(['size_id' => $size]);
+
+            return $query;
+        }
+    }
 }

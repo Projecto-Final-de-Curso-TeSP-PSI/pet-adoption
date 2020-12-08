@@ -50,13 +50,13 @@ AppAsset::register($this);
         'content' => $this->render('_search', [
             'animalModel' => $animalSearchModel,
             'animalAdoptionModel' => $animalAdoptionSearchModel,
-            'organizationModel' => $organizationSearchModel,
+//            'organizationModel' => $organizationSearchModel,
             'dataProvider' => $dataProvider,
             'nature' => $nature,
             'natureCat' => $natureCat,
             'natureDog' => $natureDog,
             'size' => $size,
-            'organization' => $organization
+//            'organization' => $organization
         ]),
         'submitText' => 'Filtrar',
         'closeText' => 'Fechar'

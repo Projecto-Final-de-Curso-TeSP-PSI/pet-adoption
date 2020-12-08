@@ -15,12 +15,13 @@ use yii\widgets\ActiveForm;
 /* @var $size */
 ?>
 
-<div class="adoption-animal-search">
+<div class="found-animal-search">
 
     <?php
     $form = ActiveForm::begin([
         'action' => ['index'],
-        'method' => 'get',
+        'method' => 'post',
+        'id' => 'searchForm'
     ]);
 
     echo $form->field($animalModel, 'name')->label('Especie')

@@ -31,7 +31,7 @@ AppAsset::register($this);
                 [
                     'prompt' => 'Escolha uma organização',
                 ]
-            );
+            )
         ?>
 
     <?php ActiveForm::end();?>
