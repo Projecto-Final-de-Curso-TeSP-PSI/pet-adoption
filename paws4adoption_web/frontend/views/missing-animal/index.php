@@ -14,7 +14,7 @@ use yii\widgets\ListView;
 /* @var $natureDog */
 /* @var $size */
 
-$this->title = 'Animais Desaparcidos';
+$this->title = 'Animais Desaparecidos';
 $this->params['breadcrumbs'][] = $this->title;
 
 AppAsset::register($this);
@@ -44,15 +44,16 @@ AppAsset::register($this);
 <!-- Modal do filtro -->
 <?= Yii::$app->view->renderFile('@frontend/views/components/_modal.php',
     ['title' => 'Filtro Animais para Adoção',
-        'content' => $this->render('_filterMissingAnimal', [
-            'animalModel' => $animalSearchModel,
-            'animalAdoptionModel' => $animalMissingSearchModel,
+        'content' => $this->render('_search', [
+            'animalSearchModel' => $animalSearchModel,
+            'animalMissingModel' => $animalMissingSearchModel,
             'dataProvider' => $dataProvider,
             'nature' => $nature,
             'natureCat' => $natureCat,
             'natureDog' => $natureDog,
             'size' => $size,
         ]),
+        'submitBtnId' => 'MissingAnimalFilterBtn',
         'submitText' => 'Filtrar',
         'closeText' => 'Fechar'
     ]); ?>

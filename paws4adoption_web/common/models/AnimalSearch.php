@@ -11,6 +11,10 @@ use common\models\Animal;
  */
 class AnimalSearch extends Animal
 {
+    public $parent_nature_id;
+    public $natureCat_id;
+    public $natureDog_id;
+
     /**
      * {@inheritdoc}
      */

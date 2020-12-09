@@ -47,6 +47,13 @@ class Animal extends \yii\db\ActiveRecord
         ];
     }
 
+    public static function getAllNatureIds()
+    {
+        return self::find()
+            ->select('nature_id')
+            ->column();
+    }
+
 
     /**
      * {@inheritdoc}

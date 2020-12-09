@@ -1,5 +1,6 @@
 <?php
 
+use yii\helpers\ArrayHelper;
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
 
@@ -9,25 +10,25 @@ use yii\widgets\ActiveForm;
 ?>
 
 <div class="missing-animal-search">
-
-    <?php $form = ActiveForm::begin([
+    <?php
+        $form = ActiveForm::begin([
         'action' => ['index'],
         'method' => 'get',
-    ]); ?>
+        'id' => 'searchForm'
+        ]);
 
-    <?= $form->field($model, 'id') ?>
+        echo $form->field($animalSearchModel, 'parent_nature_id')->label('Espécie')
+        ->dropDownList(ArrayHelper::map($nature,'id', 'name'), ['prompt' => 'Escolha uma espécie']);
 
-    <?= $form->field($model, 'missing_date') ?>
+        echo $form->field($animalSearchModel, 'natureCat_id')->label('Raça Gato')
+        ->dropDownList(ArrayHelper::map($natureCat, 'id', 'name'), ['prompt'=>'-Selecione a raça']);
 
-    <?= $form->field($model, 'is_missing')->checkbox() ?>
+        echo $form->field($animalSearchModel, 'natureDog_id')->label('Raça Cao')
+        ->dropDownList(ArrayHelper::map($natureDog, 'id', 'name'), ['prompt'=>'-Selecione a raça']);
 
-    <?= $form->field($model, 'owner_id') ?>
+        echo $form->field($animalSearchModel, 'size')->label('Porte')
+        ->dropDownList(ArrayHelper::map($size, 'id', 'size'), ['prompt'=>'-Selecione o porte']);
 
-    <div class="form-group">
-        <?= Html::submitButton('Search', ['class' => 'btn btn-primary']) ?>
-        <?= Html::resetButton('Reset', ['class' => 'btn btn-outline-secondary']) ?>
-    </div>
-
-    <?php ActiveForm::end(); ?>
-
+        ActiveForm::end();
+    ?>
 </div>
