@@ -2,8 +2,10 @@
 
 namespace frontend\controllers;
 
+use common\models\Address;
 use common\models\Animal;
 use common\models\AnimalSearch;
+use common\models\FoundAnimal;
 use common\models\FurColor;
 use common\models\FurLength;
 use common\models\MissingAnimalSearch;
@@ -177,13 +179,39 @@ class MissingAnimalController extends Controller
     public function actionUpdate($id)
     {
         $model = $this->findModel($id);
+        $animalModel = $model->animal;
 
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id]);
+        $natureList = ArrayHelper::map(Nature::find()->where(['parent_nature_id' => null])->all(), 'id', 'name');
+        $sex = Animal::getSex();
+        $natureCat = ArrayHelper::map(Nature::find()->where(['parent_nature_id' => 1])->all(), 'id', 'name');
+        $natureDog = ArrayHelper::map(Nature::find()->where(['parent_nature_id' => 2])->all(), 'id', 'name');
+        $fulLength = ArrayHelper::map(FurLength::find()->all(), 'id', 'fur_length');
+        $fulColor = ArrayHelper::map(FurColor::find()->all(), 'id', 'fur_color');
+        $size = ArrayHelper::map(Size::find()->all(), 'id', 'size');
+
+        if (Yii::$app->request->post()) {
+            $formData = Yii::$app->request->post();
+            var_dump($formData);
+
+            if ($animalModel->load($formData) && $animalModel->save()) {
+                $model->load($formData);
+                if ($model->save()) {
+                    return $this->redirect(['site/my-list-animals']);
+                }
+            }
         }
+
 
         return $this->render('update', [
             'model' => $model,
+            'animalModel' => $animalModel,
+            'natureList' => $natureList,
+            'natureCat' => $natureCat,
+            'natureDog' => $natureDog,
+            'fulLength' => $fulLength,
+            'fulColor' => $fulColor,
+            'size' => $size,
+            'sex' => $sex,
         ]);
     }
 
@@ -194,7 +222,8 @@ class MissingAnimalController extends Controller
      * @return mixed
      * @throws NotFoundHttpException if the model cannot be found
      */
-    public function actionDelete($id)
+    public
+    function actionDelete($id)
     {
         $this->findModel($id)->delete();
 
@@ -208,7 +237,8 @@ class MissingAnimalController extends Controller
      * @return MissingAnimal the loaded model
      * @throws NotFoundHttpException if the model cannot be found
      */
-    protected function findModel($id)
+    protected
+    function findModel($id)
     {
         if (($model = MissingAnimal::findOne($id)) !== null) {
             return $model;

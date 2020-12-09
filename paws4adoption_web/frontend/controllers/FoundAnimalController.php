@@ -66,9 +66,9 @@ class FoundAnimalController extends Controller
             'animalSearchModel' => $animalSearchModel,
             'dataProvider' => $animalFoundDataProvider,
 
-            'nature' => ArrayHelper::map(Nature::find()->where(['parent_nature_id' => null ])->all(), 'id', 'name'),
-            'natureCat' => ArrayHelper::map(Nature::find()->where(['parent_nature_id' => 1 ])->all(), 'id', 'name'),
-            'natureDog' => ArrayHelper::map(Nature::find()->where(['parent_nature_id' =>  2 ])->all(), 'id', 'name'),
+            'nature' => ArrayHelper::map(Nature::find()->where(['parent_nature_id' => null])->all(), 'id', 'name'),
+            'natureCat' => ArrayHelper::map(Nature::find()->where(['parent_nature_id' => 1])->all(), 'id', 'name'),
+            'natureDog' => ArrayHelper::map(Nature::find()->where(['parent_nature_id' => 2])->all(), 'id', 'name'),
             'size' => ArrayHelper::map(Size::find()->all(), 'id', 'size')
         ]);
     }
@@ -117,7 +117,7 @@ class FoundAnimalController extends Controller
                 $file->saveAs('@frontend/web/images/animal/' . $animalModel->name . '_' . $animalModel->id . '.' . $file->extension);
                 if ($animalPhotoModel->save()) {
                     $addressModel->load($formData);
-                    if($addressModel->save()){
+                    if ($addressModel->save()) {
                         $foundAnimalModel->load($formData);
                         $foundAnimalModel->id = $animalModel->id;
                         $foundAnimalModel->is_active = true;
@@ -160,14 +160,49 @@ class FoundAnimalController extends Controller
     public function actionUpdate($id)
     {
         $model = $this->findModel($id);
+        $animalModel = $model->animal;
+        $addressid = $model->location;
+        $addressModel = Address::findOne(['id' => $addressid]);
 
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id]);
+
+        $natureList = ArrayHelper::map(Nature::find()->where(['parent_nature_id' => null])->all(), 'id', 'name');
+        $sex = Animal::getSex();
+        $priority = FoundAnimal::getPriority();
+        $natureCat = ArrayHelper::map(Nature::find()->where(['parent_nature_id' => 1])->all(), 'id', 'name');
+        $natureDog = ArrayHelper::map(Nature::find()->where(['parent_nature_id' => 2])->all(), 'id', 'name');
+        $fulLength = ArrayHelper::map(FurLength::find()->all(), 'id', 'fur_length');
+        $fulColor = ArrayHelper::map(FurColor::find()->all(), 'id', 'fur_color');
+        $size = ArrayHelper::map(Size::find()->all(), 'id', 'size');
+
+        if (Yii::$app->request->post()) {
+            $formData = Yii::$app->request->post();
+            var_dump($formData);
+
+            if ($animalModel->load($formData) && $animalModel->save()) {
+                $addressModel->load($formData);
+                if ($addressModel->save()) {
+
+                    $model->load($formData);
+                    if ($model->save()) {
+                        return $this->redirect(['site/my-list-animals']);
+                    }
+                }
+            }
         }
 
         return $this->render('update', [
             'model' => $model,
-        ]);
+            'addressModel' => $addressModel,
+            'animalModel' => $animalModel,
+            'natureList' => $natureList,
+            'natureCat' => $natureCat,
+            'natureDog' => $natureDog,
+            'fulLength' => $fulLength,
+            'fulColor' => $fulColor,
+            'size' => $size,
+            'sex' => $sex,
+            'priority' => $priority]);
+
     }
 
     /**
@@ -177,7 +212,8 @@ class FoundAnimalController extends Controller
      * @return mixed
      * @throws NotFoundHttpException if the model cannot be found
      */
-    public function actionDelete($id)
+    public
+    function actionDelete($id)
     {
         $this->findModel($id)->delete();
 
@@ -191,7 +227,8 @@ class FoundAnimalController extends Controller
      * @return FoundAnimal the loaded model
      * @throws NotFoundHttpException if the model cannot be found
      */
-    protected function findModel($id)
+    protected
+    function findModel($id)
     {
         if (($model = FoundAnimal::findOne($id)) !== null) {
             return $model;
