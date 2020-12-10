@@ -28,11 +28,11 @@ class LoginCest
         $I->see('Log In');
 
 
-        $I->fillField('LoginForm[username]', 'ricardolopes');
+        $I->fillField('LoginForm[username]', 'simaopedro');
         $I->fillField('LoginForm[password]', 'Sporting');
         $I->click('login-button');
 
         $I->wait(1);
-        $I->see('Ricardo Lopes');
+        $I->see('Simão Pedro');
     }
 }
