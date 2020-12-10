@@ -22,6 +22,8 @@ use yii\helpers\Url;
 /* @var $missingDate */
 /* @var $foundDate */
 /* @var $location */
+/* @var $ownerId */
+/* @var $userId */
 
 /* @var $submitAdoption */
 /* @var $submitFat */
@@ -130,6 +132,33 @@ use yii\helpers\Url;
 
                         break;
                     case 'foundAnimal':
+                        //This button call's modal with owner details
+                        $loggedUserId = Yii::$app->user->id;
+                        if($loggedUserId == $userId){
+
+                            echo Html::a('Editar', [ 'found-animal/update', 'id' => Html::encode($animalId)], [
+                                'class' => 'btn btn-primary',
+                                'title' => 'Editar animal',
+                            ]);
+
+                            echo Html::button('Eliminar', [
+                                    'class' => 'btn btn-danger',
+                                    'title' => 'Eliminar animal',
+                                    'data-toggle' => 'modal',
+                                    'data-target' => '#modalYesNo' . Html::encode($animalId),
+                                ]
+                            );
+
+                        }
+                        else{
+                            echo Html::button( Html::encode($submitContact), [
+                                    'class' => 'btn btn-primary',
+                                    'title' => 'Contatos Publicador',
+                                    'data-toggle' => 'modal',
+                                    'data-target' => '#modalPublisherInfo' . $animalId,
+                                ]
+                            );
+                        }
                         break;
                     default:
                 }

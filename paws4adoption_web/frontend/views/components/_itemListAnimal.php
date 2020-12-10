@@ -114,6 +114,7 @@ foreach ($photos as $photo){
                         'chip' => $model->animal->chipId,
                         'date' => $model->animal->createdAt,
                         'postBy' => $model->user->username,
+                        'userId' => $model->user->id,
                         'foundDate' => $model->foundDate,
                         'location' => $model->location,
                         'description' => $model->animal->description,

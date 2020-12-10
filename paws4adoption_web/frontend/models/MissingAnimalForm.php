@@ -20,7 +20,6 @@ class MissingAnimalForm extends Model
     public $sex;
     public $missing_date;
     public $is_missing;
-
     public $owner_id;
 
     public $img;
@@ -57,7 +56,7 @@ class MissingAnimalForm extends Model
         $this->missingAnimal->size_id = $this->size_id;
         $this->missingAnimal->sex = $this->sex;
         $this->missingAnimal->missing_date = $this->missing_date;
-        $this->missingAnimal->is_missing = $this->is_missing;
+        $this->missingAnimal->is_missing = true;
         $this->missingAnimal->owner_id = $this->owner_id;
 
         $this->missingAnimal->save(false);

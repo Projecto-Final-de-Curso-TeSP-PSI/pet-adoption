@@ -21,6 +21,7 @@ use yii\widgets\ActiveForm;
     $form = ActiveForm::begin([
         'action' => ['index'],
         'method' => 'post',
+        'id' => 'searchForm'
     ]);
 
     echo $form->field($animalModel, 'name')->label('Especie')

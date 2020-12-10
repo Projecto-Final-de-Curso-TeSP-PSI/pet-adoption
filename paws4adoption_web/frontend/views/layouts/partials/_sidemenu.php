@@ -12,7 +12,7 @@
                 </a>
                 <a class="nav-link" href="<?= Yii::$app->request->baseUrl ?>/missing-animal">
                     <i data-feather="frown" class="icon"></i>
-                    <span class="title">Desaparcidos</span>
+                    <span class="title">Desaparecidos</span>
                 </a>
                 <a class="nav-link" href="<?= Yii::$app->request->baseUrl ?>/found-animal">
                     <i data-feather="flag" class="icon"></i>

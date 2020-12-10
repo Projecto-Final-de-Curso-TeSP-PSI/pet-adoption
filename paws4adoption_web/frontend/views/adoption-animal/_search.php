@@ -20,7 +20,8 @@ use yii\widgets\ActiveForm;
     <?php
     $form = ActiveForm::begin([
         'action' => ['index'],
-        'method' => 'get',
+        'method' => 'post',
+        'id' => 'searchForm'
     ]);
 
     echo $form->field($animalModel, 'name')->label('Especie')
@@ -51,20 +52,13 @@ use yii\widgets\ActiveForm;
                 'id'=>'size']
         );
 
-    echo $form->field($organizationModel, 'name')->label('Associação')
+    /*echo $form->field($organizationModel, 'name')->label('Associação')
         ->dropDownList(
             $organization,
             ['prompt'=>'-Selecione uma associação',
                 'id'=>'name']
-        );
-
-
-
-
+        );*/
 
     ActiveForm::end();
-
     ?>
-
-
 </div>

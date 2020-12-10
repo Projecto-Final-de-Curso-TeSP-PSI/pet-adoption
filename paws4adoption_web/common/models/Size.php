@@ -23,13 +23,13 @@ class Size extends \yii\db\ActiveRecord
         return 'sizes';
     }
 
+    /**
+     * Devolve array com todos os tamanhos definidos na Base de dados
+     * @return array|\yii\db\ActiveRecord[]
+     */
     public static function getData()
     {
-        return [
-            1 => 'Pequeno',
-            2 => 'Médio',
-            3 => 'Grande'
-        ];
+        return self::find()->all();
     }
 
     /**

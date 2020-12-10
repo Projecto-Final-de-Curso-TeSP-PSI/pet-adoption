@@ -3,6 +3,7 @@
 namespace common\models;
 
 use Yii;
+use yii\helpers\ArrayHelper;
 
 /**
  * This is the model class for table "nature".
@@ -21,14 +22,6 @@ class Nature extends \yii\db\ActiveRecord
     public static function tableName()
     {
         return 'nature';
-    }
-
-    public static function getData()
-    {
-        return [
-            1 => 'Labrador',
-            2 => 'Siemês'
-        ];
     }
 
     /**
@@ -79,5 +72,43 @@ class Nature extends \yii\db\ActiveRecord
             ->where(['name' => $nature])
             ->one();
         return $instance->id;
+    }
+
+    public static function getParentNatureIds(){
+        return self::find()->where(['parent_nature_id' => null])->all();
+    }
+
+    /**
+     * Devolve array de todas as raças dos gatos registados na base de dados
+     * @return array|\yii\db\ActiveRecord[]
+     */
+    public static function getExistingNatureCat()
+    {
+        return self::find()
+            ->innerJoinWith('animals')
+            ->where(['in', 'animals.nature_id', Animal::getAllNatureIds()])
+            ->where(['parent_nature_id' => 1])
+            ->orderBy('name')
+            ->all();
+    }
+
+    /**
+     * Devolve array de todas as raças dos cães registados na base de dados
+     * @return array|\yii\db\ActiveRecord[]
+     */
+    public static function getExistingNatureDog()
+    {
+        return self::find()
+            ->innerJoinWith('animals')
+            ->where(['in', 'animals.nature_id', Animal::getAllNatureIds()])
+            ->where(['parent_nature_id' => 2])
+            ->orderBy('name')
+            ->all();
+    }
+
+    public static function getChildsIdsByParentId($parentNatureId)
+    {
+        // Devolve array
+        return self::find()->where(['parent_nature_id' => $parentNatureId])->select('id')->column();
     }
 }

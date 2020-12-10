@@ -241,7 +241,7 @@
         });
 
         //Submit button on modal
-        $("#btnModalSubmit").on('click', function(event){
+        $("#OrganizationFilterBtn").on('click', function(event){
             event.preventDefault();
 
             var e = document.getElementById("district-id");
@@ -250,8 +250,29 @@
             if(selectedValue !== ""){
                 $("#searchForm").submit();
             }
-
         });
+
+        //Submit button on modal
+        $("#MissingAnimalFilterBtn").on('click', function(event){
+            event.preventDefault();
+
+            var especie = document.getElementById("animalsearch-parent_nature_id");
+            var especieValue = especie.options[especie.selectedIndex].value;
+
+            var natureCat = document.getElementById("animalsearch-naturecat_id");
+            var natureCatValue = natureCat.options[natureCat.selectedIndex].value;
+
+            var natureDog = document.getElementById("animalsearch-naturedog_id");
+            var natureDogValue = natureDog.options[natureDog.selectedIndex].value;
+
+            var size = document.getElementById("animalsearch-size");
+            var sizeValue = size.options[size.selectedIndex].value;
+
+            if(especieValue !== "" || natureCatValue !== "" || natureDogValue !== "" || sizeValue !== ""){
+                $("#searchForm").submit();
+            }
+        });
+
 
         //Fader when there is more than one modal
         //Recovered from: https://stackoverflow.com/questions/19305821/multiple-modals-overlay
