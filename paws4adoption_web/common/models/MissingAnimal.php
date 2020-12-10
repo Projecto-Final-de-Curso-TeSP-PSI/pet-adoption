@@ -52,8 +52,7 @@ class MissingAnimal extends \common\models\Animal
             $this->addError($attribute, 'Data não pode estar no futuro.');
     }
 
-
-/**
+    /**
      * {@inheritdoc}
      */
     public function attributeLabels()
@@ -87,6 +86,7 @@ class MissingAnimal extends \common\models\Animal
     {
         return $this->hasOne(User::className(), ['id' => 'owner_id']);
     }
+
     /**
      * Gets query for [[Owner]].
      *
@@ -97,7 +97,11 @@ class MissingAnimal extends \common\models\Animal
         return $this->missing_date;
     }
 
-    public static function getAllAdressesIds(){
+    /**
+     * Gets an array with all the districs id's that have missing animals registered
+     * @return array
+     */
+    public static function getAllAddressesIds(){
         return self::find()
             ->innerJoinWith('owner')
             ->select('address_id')

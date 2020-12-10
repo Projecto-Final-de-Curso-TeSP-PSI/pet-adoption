@@ -102,7 +102,7 @@ class AdoptionAnimal extends \common\models\Animal
 
     public static function getAllAddressesIds(){
         return self::find()
-            ->innerJoinWith('Organization')
+            ->innerJoinWith('organization')
             ->select('address_id')
             ->column();
     }

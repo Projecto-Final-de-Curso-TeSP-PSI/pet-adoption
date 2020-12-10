@@ -11,6 +11,8 @@ return [
     'basePath' => dirname(__DIR__),
     'controllerNamespace' => 'backend\controllers',
     'bootstrap' => ['log'],
+
+    //Definição do módulo da API
     'modules' => [
         'api' => [
             'class' => 'backend\modules\api\Module',
@@ -24,7 +26,6 @@ return [
             'parsers' => [
                 'application/json' => 'yii\web\JsonParser'
             ],
-
         ],
         'user' => [
             'identityClass' => 'common\models\user',
@@ -47,13 +48,81 @@ return [
         'errorHandler' => [
             'errorAction' => 'site/error',
         ],
+
+        //Mailing component
+        'mail' => [
+            'class' => 'yii\swiftmailer\Mailer',
+            'transport' => [
+                'class' => 'Swift_SmtpTransport',
+                'host' => 'smtp.mailtrap.io',
+                'username' => 'c80140978ca101',
+                'password' => '9a2b56ba99140f',
+                'port' => '2525',
+                'encryption' => 'tls',
+            ],
+        ],
+
         'urlManager' => [
             'enablePrettyUrl' => true,
             'showScriptName' => false,
             'rules' => [
-                [
+                [ //URL: USER
                     'class' => 'yii\rest\UrlRule',
                     'controller' => 'api/user',
+                ],
+                [ //URL: ORGANIZATION By District
+                    'class' => 'yii\rest\UrlRule',
+                    'controller' => 'api/organization',
+                    'extraPatterns' => [
+                        'GET district/{districtId}' => 'district',
+                    ],
+                    'tokens' => [
+                        '{id}' => '<id:\\d+>',
+                        '{districtId}' => '<districtId:\\d+>'
+                    ],
+                ],
+                [ //URL: DISTRICT WITH ORGANIZATION
+                    'class' => 'yii\rest\UrlRule',
+                    'controller' => 'api/district',
+                    'extraPatterns' => [
+                        'GET withorganizations' => 'withorganizations',
+                    ],
+                ],
+                [ //URL: DISTRICT WITH ORGANIZATION
+                    'class' => 'yii\rest\UrlRule',
+                    'controller' => 'api/district',
+                    'extraPatterns' => [
+                        'GET withadoptionanimals' => 'withadoptionanimals',
+                    ],
+                ],
+                [ //URL: DISTRICT WITH MISSING ANIMAL
+                    'class' => 'yii\rest\UrlRule',
+                    'controller' => 'api/district',
+                    'extraPatterns' => [
+                        'GET withmissinganimals' => 'withmissinganimals',
+                    ],
+                ],
+                [ //URL: DISTRICT WITH ANIMAL
+                    'class' => 'yii\rest\UrlRule',
+                    'controller' => 'api/district',
+                    'extraPatterns' => [
+                        'GET withfoundanimals' => 'withfoundanimals',
+                    ],
+                ],
+                [ //URL: MISSING ANIMAL
+                    'class' => 'yii\rest\UrlRule',
+                    'controller' => 'api/missing-animal',
+                ],
+                [ //URL: MISSING ANIMAL
+                    'class' => 'yii\rest\UrlRule',
+                    'controller' => 'api/animal',
+                    'extraPatterns' => [
+                        'GET missinganimals/{id}' => 'missinganimals',
+                    ],
+                    'tokens' => [
+                        '{id}' => '<id:\\d+>',
+                        //'{districtId}' => '<districtId:\\d+>'
+                    ],
                 ],
             ],
         ],

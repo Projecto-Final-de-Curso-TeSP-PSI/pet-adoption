@@ -63,4 +63,11 @@ class Size extends \yii\db\ActiveRecord
     {
         return $this->hasMany(Animal::className(), ['size_id' => 'id']);
     }
+
+    public static function getId($size){
+        $instance = self::find()
+            ->where(['size' => $size])
+            ->one();
+        return $instance->id;
+    }
 }

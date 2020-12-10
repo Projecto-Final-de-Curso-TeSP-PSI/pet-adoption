@@ -73,4 +73,11 @@ class Nature extends \yii\db\ActiveRecord
     public function getNameByParentId(){
         return $this->findOne(['id' => $this->parent_nature_id])->name;
     }
+
+    public static function getId($nature){
+        $instance = self::find()
+            ->where(['name' => $nature])
+            ->one();
+        return $instance->id;
+    }
 }

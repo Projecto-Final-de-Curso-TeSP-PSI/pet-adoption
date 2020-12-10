@@ -11,7 +11,7 @@ use yii\rest\ActiveController;
  */
 class UserController extends ActiveController
 {
-    public $modelClass = 'common\models\User';
+    public $modelClass = 'backend\modules\api\models\User';
 
     public function behaviors()
     {

@@ -28,6 +28,14 @@ class District extends \yii\db\ActiveRecord
         return ArrayHelper::map(District::find()->all(), 'id', 'name');
     }
 
+    public static function getId($district)
+    {
+        $instance = self::find()
+            ->where(['name' => $district])
+            ->one();
+        return $instance->id;
+    }
+
     /**
      * {@inheritdoc}
      */
@@ -81,7 +89,7 @@ class District extends \yii\db\ActiveRecord
     public static function withMissingAnimals(){
         return self::find()
             ->innerjoinWith('addresses')
-            ->where(['in', 'address.id', AdoptionAnimal::getAllAddressesIds()])
+            ->where(['in', 'address.id', MissingAnimal::getAllAddressesIds()])
             ->addOrderBy('name')
             ->all();
     }

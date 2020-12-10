@@ -80,6 +80,7 @@ class Organization extends \yii\db\ActiveRecord
     public static function getAllAddressesIds(){
         return self::find()
             ->select('address_id')
+            ->distinct()
             ->column();
     }
 

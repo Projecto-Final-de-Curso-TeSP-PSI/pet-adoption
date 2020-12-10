@@ -63,4 +63,14 @@ class FurColor extends \yii\db\ActiveRecord
     {
         return $this->hasMany(Animal::className(), ['fur_color_id' => 'id']);
     }
+
+    /**
+     *
+     */
+    public static function getId($color){
+        $instance = self::find()
+            ->where(['fur_color' => $color])
+            ->one();
+        return $instance->id;
+    }
 }

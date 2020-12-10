@@ -62,4 +62,11 @@ class FurLength extends \yii\db\ActiveRecord
     {
         return $this->hasMany(Animal::className(), ['fur_length_id' => 'id']);
     }
+
+    public static function getId($length){
+        $instance = self::find()
+            ->where(['fur_length' => $length])
+            ->one();
+        return $instance->id;
+    }
 }
