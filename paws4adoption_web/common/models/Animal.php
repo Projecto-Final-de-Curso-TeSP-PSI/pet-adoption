@@ -187,4 +187,12 @@ class Animal extends \yii\db\ActiveRecord
         }
         return null;
     }
+
+    /**
+     * Override static method find, and sets that AnimalQuery.php add's querying methods
+     * @return AnimalQuery|\yii\db\ActiveQuery
+     */
+    public static function find(){
+        return new AnimalQuery(get_called_class());
+    }
 }
