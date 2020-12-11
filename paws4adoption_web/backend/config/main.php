@@ -113,15 +113,22 @@ return [
                     'class' => 'yii\rest\UrlRule',
                     'controller' => 'api/missing-animal',
                 ],
-                [ //URL: MISSING ANIMAL
+                [ //SERVICE: ANIMALS
                     'class' => 'yii\rest\UrlRule',
                     'controller' => 'api/animal',
                     'extraPatterns' => [
-                        'GET missinganimals/{id}' => 'missinganimals',
+                        //ADOPTION ANIMALS
+                        //        URL                  CONTROLLER ACTION(same convention as web)
+                        'GET adoption-animals'      => 'adoption-animals',
+
+                        //MISSING ANIMALS
+                        'GET missing-animals'       => 'missing-animals',
+
+                        //FOUND ANIMALS
+                        'GET found-animals'         => 'found-animals',
                     ],
                     'tokens' => [
                         '{id}' => '<id:\\d+>',
-                        //'{districtId}' => '<districtId:\\d+>'
                     ],
                 ],
             ],

@@ -247,16 +247,15 @@ class AnimalController extends ActiveController
             Photo::deleteAll(['id_animal' => $animal->id]);
 
             //delete child animal
-            $childAnimal = null;
             switch($animal->getType()){
                 case 'adoptionAnimal':
-                    $childAnimal = AdoptionAnimal::findOne($id)->delete();
+                    AdoptionAnimal::findOne($id)->delete();
                     break;
                 case 'missingAnimal':
-                    $childAnimal = MissingAnimal::findOne($id)->delete();
+                    MissingAnimal::findOne($id)->delete();
                     break;
                 case 'foundAnimal':
-                    $childAnimal = FoundAnimal::findOne($id)->delete();
+                    FoundAnimal::findOne($id)->delete();
                     break;
             }
 
@@ -275,94 +274,29 @@ class AnimalController extends ActiveController
         return true;
     }
 
-//    public function actionMissinganimals($id = null){
-//
-//        try{
-//            $result = [];
-//
-//            //If ana animal Id is passed as argument, returns that missing animal
-//            $request = Yii::$app->request;
-//            if($request->get() != null){
-//
-//                $result = \backend\modules\api\models\Animal::findOne($id);
-//
-//                    if($result->getType() == 'missinAnimal'){
-//                        return json_encode($result);
-//                    } else {
-//                        throw new \yii\web\NotFoundHttpException("Não foinencontrado uma animal com o Id: " . $id);
-//                    }
-//
-//
-//
-//
-//            }
-//
-//            $animals = \backend\modules\api\models\Animal::find()
-//                ->joinWith('missingAnimal')
-//                //->where(['not', [id' => null]])
-//                ->all();
-//
-////        foreach ($animals as $animal){
-////            if($animal->getType() == 'missingAnimal'){
-////                array_push($result, $animal);
-////            }
-////        }
-//
-//            //var_dump($animals);
-//            //var_dump($result);
-//            var_dump(json_encode($animals));
-//            die;
-//
-//
-//            return json_encode($result);
-//
-//        }
-//        catch(NotFoundHttpException $e){
-//            return $e;
-//        }
-//        catch(Exception $e){
-//            return $e;
-//        }
-//
-//    }
 
-//    public $documentPath = 'documents/';
-//
-//    public function verbs()
-//    {
-//        $verbs = parent::verbs();
-//        $verbs[ "upload" ] = ['POST' ];
-//        return $verbs;
-//    }
-//
-//    public function actionUpload()
-//    {
-//        $postdata = fopen( $_FILES[ 'data' ][ 'tmp_name' ], "r" );
-//        /* Get file extension */
-//        $extension = substr( $_FILES[ 'data' ][ 'name' ], strrpos( $_FILES[ 'data' ][ 'name' ], '.' ) );
-//
-//        /* Generate unique name */
-//        $filename = $this->documentPath . uniqid() . $extension;
-//
-//        /* Open a file for writing */
-//        $fp = fopen( $filename, "w" );
-//
-//        /* Read the data 1 KB at a time
-//          and write to the file */
-//        while( $data = fread( $postdata, 1024 ) )
-//            fwrite( $fp, $data );
-//
-//        /* Close the streams */
-//        fclose( $fp );
-//        fclose( $postdata );
-//
-//        /* the result object that is sent to client*/
-//        $result = new UploadResult;
-//        $result->filename = $filename;
-//        $result->document = $_FILES[ 'data' ][ 'name' ];
-//        $result->create_time = date( "Y-m-d H:i:s" );
-//        return $result;
-//    }
+    public function actionAdoptionAnimals(){
 
+        return \backend\modules\api\models\Animal::find()
+            ->isAdoptionAnimal()
+            ->isAdopted()
+            ->isOnFat()
+            ->all();
+    }
 
+    public function actionMissingAnimals($id = null){
+
+        return \backend\modules\api\models\Animal::find()
+            ->isMissingAnimal()
+            ->isStillMissing()
+            ->all();
+    }
+
+    public function actionFoundAnimals($id = null){
+
+        return \backend\modules\api\models\Animal::find()
+            ->isFoundAnimal()
+            ->isStillOnStreet()
+            ->all();
+    }
 }
