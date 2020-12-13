@@ -64,5 +64,6 @@ class SignupAPI extends \frontend\models\SignupForm
         }
 
         return false;
+        
     }
 }
