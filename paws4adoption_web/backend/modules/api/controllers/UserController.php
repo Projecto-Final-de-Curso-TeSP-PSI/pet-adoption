@@ -83,26 +83,26 @@ class UserController extends ActiveController
         }
     }
 
-//    /**
-//     * User login.
-//     *
-//     * @return mixed
-//     */
-//    public function actionLogin(){
-//        $model = new LoginForm();
-//        $params = Yii::$app->request->post();
-//        $model->username = $params['username'];
-//        $model->password = $params['password'];
-//        if ($model->login()) {
-//            $response['message'] = 'You are now logged in!';
-//            $response['user'] = \common\models\User::findByUsername($model->username);
-//            //return [$response,$model];
-//            return $response;
-//        }
-//        else {
-//            $model->validate();
-//            $response['errors'] = $model->getErrors();
-//            return $response;
-//        }
-//    }
+    /**
+     * User login.
+     *
+     * @return mixed
+     */
+    public function actionLogin(){
+        $model = new LoginForm();
+        $params = Yii::$app->request->post();
+        $model->username = $params['username'];
+        $model->password = $params['password'];
+        if ($model->login()) {
+            $response['message'] = 'You are now logged in!';
+            $response['user'] = \common\models\User::findByUsername($model->username);
+            //return [$response,$model];
+            return $response;
+        }
+        else {
+            $model->validate();
+            $response['errors'] = $model->getErrors();
+            return $response;
+        }
+    }
 }

@@ -20,7 +20,6 @@ use yii\filters\auth\HttpBasicAuth;
 use yii\rest\ActiveController;
 use yii\web\BadRequestHttpException;
 use yii\web\NotFoundHttpException;
-use yii\web\UploadedFile;
 
 /**
  * Default controller for the `api` module
@@ -57,11 +56,67 @@ class AnimalController extends ActiveController
         return $actions;
     }
 
+    public function verbs()
+
+    {
+
+        $verbs = parent::verbs();
+
+        $verbs[ "upload" ] = ['POST' ];
+
+        return $verbs;
+
+    }
+
+
+    public function actionUpload()
+    {
+        $documentPath = realpath(Yii::$app->basePath . '/../frontend/web/images/animal') . '\\';
+        /*var_dump($documentPath);
+        die;*/
+
+        $postdata = fopen( $_FILES[ 'photo' ][ 'tmp_name' ], "r" );
+
+        /* Get file extension */
+
+        $extension = substr( $_FILES[ 'photo' ][ 'name' ], strrpos( $_FILES[ 'photo' ][ 'name' ], '.' ) );
+
+
+        /* Generate unique name */
+
+        $uniqueId = uniqid() . $extension;
+
+        $filename = $documentPath . $uniqueId;
+
+
+        /* Open a file for writing */
+
+        $fp = fopen( $filename, "w" );
+
+
+        /* Read the data 1 KB at a time
+
+          and write to the file */
+
+        while( $data = fread( $postdata, 1024 ) )
+
+            fwrite( $fp, $data );
+
+
+        /* Close the streams */
+
+        fclose( $fp );
+
+        fclose( $postdata );
+
+
+        return $uniqueId;
+    }
+
     public function actionCreate(){
         $db = Yii::$app->db;
         $transaction = $db->beginTransaction();
         try {
-
             $request = Yii::$app->request;
             if($request->post() !== null){
 
@@ -80,28 +135,13 @@ class AnimalController extends ActiveController
                 $animal->sex = $body['sex'];
                 $animal->save();
 
-//                var_dump($animal); die;
+            //TODO: fazer upload da foto $body->photo
+                $photo = new Photo();
+                $photo->id_animal = $animal->id;
+                $photo->caption = $animal->nature->name . " - " . $animal->name;
+                $photo->imgPath = 'images/animal/' . $this->actionUpload();
+                $photo->save();
 
-//                //TODO: fazer upload da foto $body->photo
-//                $photo = new Photo();
-//                $photo->id_animal = $animal->id;
-//                $photo->caption = $animal->nature->name . " - " . $animal->name;
-//
-//                $photo->imgPath = UploadedFile::getInstance($body, 'photo');
-//                if($photo->imgPath) {
-//
-//                    $photo->imgPath->saveAs('@frontend/web/images/animal/' . $animal->name . '_' . $animal->id . '.' . $file->extension);
-//                    $photo->imgPath = 'images/animal/' . $animal->name . '_' . $animal->id . '.' . $file->extension;
-//
-//                    if ($photo->save()) {
-//                        echo json_encode(array('status' => "Success",
-//                            'data' => $photo->attributes), JSON_PRETTY_PRINT);
-//                    } else {
-//                        echo json_encode(array('status' => "Failure",
-//                            'error_code' => 400,
-//                            'errors' => $photo->errors), JSON_PRETTY_PRINT);
-//                    }
-//                }
 
                 switch($body['animal_type']) {
                     case 'missingAnimal':
@@ -138,6 +178,9 @@ class AnimalController extends ActiveController
             $transaction->rollBack();
             return $e;
         }
+
+        \Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
+        return ['message' => $animal, 'code' => 201];
     }
 
     public function actionUpdate($id){
@@ -154,7 +197,7 @@ class AnimalController extends ActiveController
                 $animal =  Animal::findone($id);
 
                 if(!$animal)
-                    throw new \Exception("Animal id not found");
+                    throw new NotFoundHttpException('Animal not found');
 
                 $animal->name = $body['name'];
                 $animal->chipId = $body['chipId'];
