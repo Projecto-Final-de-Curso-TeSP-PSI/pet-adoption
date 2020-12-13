@@ -161,3 +161,7 @@ a.desc:after {
 .navbar-brand{
     padding: 5px !important;
 }
+
+.form-left-align{
+    padding-left: 0px;
+}
