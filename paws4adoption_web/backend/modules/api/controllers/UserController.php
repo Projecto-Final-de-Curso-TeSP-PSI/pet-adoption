@@ -89,6 +89,7 @@ class UserController extends ActiveController
      * @return mixed
      */
     public function actionLogin(){
+        
         $model = new LoginForm();
         $params = Yii::$app->request->post();
         $model->username = $params['username'];
