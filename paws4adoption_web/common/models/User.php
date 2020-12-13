@@ -37,10 +37,6 @@ class User extends \yii\db\ActiveRecord implements IdentityInterface
     const STATUS_INACTIVE = 9;
     const STATUS_ACTIVE = 10;
 
-    const SCENARIO_LOGIN = 'login';
-    const SCENARIO_REGISTER = 'register';
-    const SCENARIO_UPDATE = 'update';
-
     /**
      * {@inheritdoc}
      */
