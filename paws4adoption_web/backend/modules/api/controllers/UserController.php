@@ -89,15 +89,13 @@ class UserController extends ActiveController
      * @return mixed
      */
     public function actionLogin(){
-        
         $model = new LoginForm();
         $params = Yii::$app->request->post();
         $model->username = $params['username'];
         $model->password = $params['password'];
         if ($model->login()) {
             $response['message'] = 'You are now logged in!';
-            $response['user'] = \common\models\User::findByUsername($model->username);
-            //return [$response,$model];
+            $response['token'] = \common\models\User::findByUsername($model->username)->auth_key;
             return $response;
         }
         else {

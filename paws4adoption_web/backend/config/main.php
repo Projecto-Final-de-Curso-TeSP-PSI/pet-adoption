@@ -84,6 +84,9 @@ return [
                 [ //URL: USER
                     'class' => 'yii\rest\UrlRule',
                     'controller' => 'api/user',
+                    'extraPatterns' => [
+                        'POST login' => 'login'
+                    ]
                 ],
                 [ //URL: ORGANIZATION By District
                     'class' => 'yii\rest\UrlRule',
