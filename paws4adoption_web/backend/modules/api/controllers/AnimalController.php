@@ -69,49 +69,47 @@ class AnimalController extends ActiveController
     }
 
 
-    public function actionUpload()
-    {
-        $documentPath = realpath(Yii::$app->basePath . '/../frontend/web/images/animal') . '\\';
-        /*var_dump($documentPath);
-        die;*/
-
-        $postdata = fopen( $_FILES[ 'photo' ][ 'tmp_name' ], "r" );
-
-        /* Get file extension */
-
-        $extension = substr( $_FILES[ 'photo' ][ 'name' ], strrpos( $_FILES[ 'photo' ][ 'name' ], '.' ) );
-
-
-        /* Generate unique name */
-
-        $uniqueId = uniqid() . $extension;
-
-        $filename = $documentPath . $uniqueId;
-
-
-        /* Open a file for writing */
-
-        $fp = fopen( $filename, "w" );
-
-
-        /* Read the data 1 KB at a time
-
-          and write to the file */
-
-        while( $data = fread( $postdata, 1024 ) )
-
-            fwrite( $fp, $data );
-
-
-        /* Close the streams */
-
-        fclose( $fp );
-
-        fclose( $postdata );
-
-
-        return $uniqueId;
-    }
+//    public function actionUpload()
+//    {
+//        $documentPath = realpath(Yii::$app->basePath . '/../frontend/web/images/animal') . '\\';
+//
+//        $postdata = fopen( $_FILES[ 'photo' ][ 'tmp_name' ], "r" );
+//
+//        /* Get file extension */
+//
+//        $extension = substr( $_FILES[ 'photo' ][ 'name' ], strrpos( $_FILES[ 'photo' ][ 'name' ], '.' ) );
+//
+//
+//        /* Generate unique name */
+//
+//        $uniqueId = uniqid() . $extension;
+//
+//        $filename = $documentPath . $uniqueId;
+//
+//
+//        /* Open a file for writing */
+//
+//        $fp = fopen( $filename, "w" );
+//
+//
+//        /* Read the data 1 KB at a time
+//
+//          and write to the file */
+//
+//        while( $data = fread( $postdata, 1024 ) )
+//
+//            fwrite( $fp, $data );
+//
+//
+//        /* Close the streams */
+//
+//        fclose( $fp );
+//
+//        fclose( $postdata );
+//
+//
+//        return $uniqueId;
+//    }
 
     public function actionCreate(){
         $db = Yii::$app->db;
@@ -135,13 +133,11 @@ class AnimalController extends ActiveController
                 $animal->sex = $body['sex'];
                 $animal->save();
 
-            //TODO: fazer upload da foto $body->photo
-                $photo = new Photo();
-                $photo->id_animal = $animal->id;
-                $photo->caption = $animal->nature->name . " - " . $animal->name;
-                $photo->imgPath = 'images/animal/' . $this->actionUpload();
-                $photo->save();
-
+//                $photo = new Photo();
+//                $photo->id_animal = $animal->id;
+//                $photo->caption = $animal->nature->name . " - " . $animal->name;
+//                $photo->imgPath = 'images/animal/' . $this->actionUpload();
+//                $photo->save();
 
                 switch($body['animal_type']) {
                     case 'missingAnimal':

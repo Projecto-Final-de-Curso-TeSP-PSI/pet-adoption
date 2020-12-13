@@ -7,6 +7,7 @@ use backend\modules\api\models\AdoptionAnimal;
 use backend\modules\api\models\Animal;
 use backend\modules\api\models\FoundAnimal;
 use backend\modules\api\models\MissingAnimal;
+use common\models\Photo;
 use Yii;
 use yii\web\BadRequestHttpException;
 
@@ -28,11 +29,7 @@ class Utils
             $animal->sex = $body['sex'];
             $saveOk = $animal->save();
 
-//            var_dump($saveOk); die;
-
-//            if($saveOk)
-//                throw new BadRequestHttpException("Erro de dados enviados");
-
+            $savePhotoOk = self::createPhoto($animal);
 
             switch($animal_type) {
                 case 'missingAnimal':
@@ -73,8 +70,6 @@ class Utils
 
             return $e;
         }
-
-        return ['SaveError' => $saveOk];
     }
 
     public static function updateAnimal($id, $body, $animal_type){
@@ -182,5 +177,42 @@ class Utils
         $animal->save();
 
         return $animal;
+    }
+
+    private static function createPhoto($animal){
+        $photo = new Photo();
+        $photo->id_animal = $animal->id;
+        $photo->caption = $animal->nature->name . " - " . $animal->name;
+        $photo->imgPath = 'images/animal/' . self::uploadPhoto();
+        return $photo->save();
+    }
+
+    private static function uploadPhoto(){
+
+        $documentPath = realpath(Yii::$app->basePath . '/../frontend/web/images/animal') . '\\';
+
+        $postdata = fopen( $_FILES[ 'photo' ][ 'tmp_name' ], "r" );
+
+        /* Get file extension */
+        $extension = substr( $_FILES[ 'photo' ][ 'name' ], strrpos( $_FILES[ 'photo' ][ 'name' ], '.' ) );
+
+        /* Generate unique name */
+        $uniqueId = uniqid() . $extension;
+        $filename = $documentPath . $uniqueId;
+
+        /* Open a file for writing */
+        $fp = fopen( $filename, "w" );
+
+        /* Read the data 1 KB at a time and write to the file */
+        while($data = fread($postdata, 1024)){
+            fwrite( $fp, $data );
+        }
+
+        /* Close the streams */
+        fclose( $fp );
+        fclose( $postdata );
+
+        /* returns the uniqueId of the file to be saved later in the database */
+        return $uniqueId;
     }
 }
