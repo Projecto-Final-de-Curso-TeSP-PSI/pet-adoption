@@ -39,13 +39,19 @@ class MissingAnimalController extends Controller
         return [
             'access' => [
                 'class' => AccessControl::class,
-                'only' => ['create', 'update', 'delete', 'subnature'],
+                'only' => ['create', 'update', 'delete'],
                 'rules' => [
                     [
-                        'actions' => ['create', 'update', 'delete', 'subnature'],
+                        'actions' => ['create'],
                         'allow' => true,
-                        'roles' => ['@'],
-                    ]
+                        'roles' => ['createMissingAnimal'],
+                    ],
+                    [
+                        'actions' => ['update', 'delete'],
+                        'allow' => true,
+                        'roles' => ['manageMissingAnimal'],
+                        'roleParams' => ['missingAnimal' => MissingAnimal::findOne(Yii::$app->request->get('id'))],
+                    ],
                 ]
             ],
             'verbs' => [
@@ -129,7 +135,6 @@ class MissingAnimalController extends Controller
             }
         }
         return ['output' => '', 'selected' => ''];
-
 
     }
 

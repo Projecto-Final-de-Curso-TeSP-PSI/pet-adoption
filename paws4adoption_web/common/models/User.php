@@ -302,4 +302,8 @@ class User extends \yii\db\ActiveRecord implements IdentityInterface
     public function getFullName(){
         return $this->firstName . " " . $this->lastName;
     }
+
+    public function getAssociatedUser(){
+        return $this->hasOne(AssociatedUser::className(), ['id' => 'id']);
+    }
 }

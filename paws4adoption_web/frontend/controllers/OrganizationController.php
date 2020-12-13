@@ -131,14 +131,16 @@ class OrganizationController extends Controller
      */
     public function actionCreate()
     {
-        $model = new Organization();
+        $newOrganization = new Organization();
+        $newAddress = new Address();
 
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->organizationId]);
+        if ($newOrganization->load(Yii::$app->request->post()) && $newOrganization->save()) {
+            return $this->redirect(['view', 'id' => $newOrganization->id]);
         }
 
         return $this->render('create', [
-            'model' => $model,
+            'newOrganization' => $newOrganization,
+            'newAddress' => $newAddress
         ]);
     }
 

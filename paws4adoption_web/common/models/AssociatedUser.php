@@ -12,7 +12,7 @@ use Yii;
  * @property int $organization_id
  *
  * @property AdoptionAnimal[] $adoptionAnimals
- * @property User $id0
+ * @property User $user
  */
 class AssociatedUser extends \common\models\User
 {
@@ -61,11 +61,11 @@ class AssociatedUser extends \common\models\User
     }
 
     /**
-     * Gets query for [[Id0]].
+     * Gets query for [[User]].
      *
      * @return \yii\db\ActiveQuery
      */
-    public function getId0()
+    public function getUser()
     {
         return $this->hasOne(User::className(), ['id' => 'id']);
     }
