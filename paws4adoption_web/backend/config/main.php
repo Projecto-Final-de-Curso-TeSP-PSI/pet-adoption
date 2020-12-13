@@ -18,6 +18,7 @@ return [
             'class' => 'backend\modules\api\Module',
         ],
     ],
+
     'components' => [
         'request' => [
             'csrfParam' => '_csrf-backend',
@@ -81,55 +82,13 @@ return [
                         '{districtId}' => '<districtId:\\d+>'
                     ],
                 ],
-                [ //URL: DISTRICT WITH ORGANIZATION
-                    'class' => 'yii\rest\UrlRule',
-                    'controller' => 'api/district',
-                    'extraPatterns' => [
-                        'GET withorganizations' => 'withorganizations',
-                    ],
-                ],
-                [ //URL: DISTRICT WITH ORGANIZATION
-                    'class' => 'yii\rest\UrlRule',
-                    'controller' => 'api/district',
-                    'extraPatterns' => [
-                        'GET withadoptionanimals' => 'withadoptionanimals',
-                    ],
-                ],
-                [ //URL: DISTRICT WITH MISSING ANIMAL
-                    'class' => 'yii\rest\UrlRule',
-                    'controller' => 'api/district',
-                    'extraPatterns' => [
-                        'GET withmissinganimals' => 'withmissinganimals',
-                    ],
-                ],
-                [ //URL: DISTRICT WITH ANIMAL
-                    'class' => 'yii\rest\UrlRule',
-                    'controller' => 'api/district',
-                    'extraPatterns' => [
-                        'GET withfoundanimals' => 'withfoundanimals',
-                    ],
-                ],
-                [ //URL: MISSING ANIMAL
+                [ //SERVICE: MISSING ANIMAL
                     'class' => 'yii\rest\UrlRule',
                     'controller' => 'api/missing-animal',
                 ],
                 [ //SERVICE: ANIMALS
                     'class' => 'yii\rest\UrlRule',
                     'controller' => 'api/animal',
-                    'extraPatterns' => [
-                        //ADOPTION ANIMALS
-                        //        URL                  CONTROLLER ACTION(same convention as web)
-                        'GET adoption-animals'      => 'adoption-animals',
-
-                        //MISSING ANIMALS
-                        'GET missing-animals'       => 'missing-animals',
-
-                        //FOUND ANIMALS
-                        'GET found-animals'         => 'found-animals',
-                    ],
-                    'tokens' => [
-                        '{id}' => '<id:\\d+>',
-                    ],
                 ],
             ],
         ],

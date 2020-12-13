@@ -16,6 +16,7 @@ use Yii;
  * @property int $fur_color_id
  * @property int $size_id
  * @property string $sex
+ ** @property string $name
  *
  * @property AdoptionAnimal $adoptionAnimal
  * @property FurColor $furColor

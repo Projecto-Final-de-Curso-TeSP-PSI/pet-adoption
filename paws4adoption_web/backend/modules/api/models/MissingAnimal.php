@@ -18,6 +18,12 @@ class MissingAnimal extends \common\models\MissingAnimal{
         ];
     }
 
+
+    public function extraFields()
+    {
+        return ['animal'];
+    }
+
     /**
      * Override over the relation with the User model
      * @return \yii\db\ActiveQuery
@@ -27,8 +33,8 @@ class MissingAnimal extends \common\models\MissingAnimal{
         return $this->hasOne(\backend\modules\api\models\User::class, ['id' => 'owner_id']);
     }
 
-
-
-
+    public function  getAnimal(){
+        return $this->hasOne(\backend\modules\api\models\Animal::className(), ['id' => 'id']);
+    }
 
 }

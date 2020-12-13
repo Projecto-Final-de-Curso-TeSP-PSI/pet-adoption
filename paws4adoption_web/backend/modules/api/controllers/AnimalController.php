@@ -14,8 +14,6 @@ use common\models\Nature;
 use common\models\Photo;
 use common\models\Size;
 use common\models\User;
-use SebastianBergmann\Diff\Output\DiffOnlyOutputBuilder;
-use Symfony\Component\Yaml\Tests\A;
 use Yii;
 use yii\db\Exception;
 use yii\filters\auth\HttpBasicAuth;
@@ -68,19 +66,21 @@ class AnimalController extends ActiveController
             if($request->post() !== null){
 
                 $body = $request->post();
+//                var_dump($body); die;
 
                 //$animal->load(Yii::$app->request->post());
                 $animal = new \backend\modules\api\models\Animal();
                 $animal->name = $body['name'];
                 $animal->chipId = $body['chipId'];
                 $animal->description = $body['description'];
-                $animal->nature_id = Nature::getId($body['nature']);
-                $animal->fur_length_id = FurLength::getId($body['fur_length']);
-                $animal->fur_color_id = FurColor::getId($body['fur_color']);
-                $animal->size_id = Size::getId($body['size']);
+                $animal->nature_id = $body['nature_id'];
+                $animal->fur_length_id = $body['fur_length_id'];
+                $animal->fur_color_id = $body['fur_color_id'];
+                $animal->size_id = $body['size_id'];
                 $animal->sex = $body['sex'];
-
                 $animal->save();
+
+//                var_dump($animal); die;
 
 //                //TODO: fazer upload da foto $body->photo
 //                $photo = new Photo();
@@ -260,7 +260,8 @@ class AnimalController extends ActiveController
             }
 
             //delete the animal
-            $animal->delete();
+            $ret = $animal->delete();
+
 
             $transaction->commit();
         } catch (\Exception $e) {
@@ -279,8 +280,7 @@ class AnimalController extends ActiveController
 
         return \backend\modules\api\models\Animal::find()
             ->isAdoptionAnimal()
-            ->isAdopted()
-            ->isOnFat()
+            ->isAdopted(false)
             ->all();
     }
 

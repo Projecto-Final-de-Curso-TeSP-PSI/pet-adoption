@@ -13,7 +13,7 @@ class AdoptionAnimal extends \common\models\AdoptionAnimal {
             'id' => 'id',
             'is_on_fat' => 'is_on_fat',
             'organization',
-            'associated_user' => 'associatedUser'
+            'associatedUser'
         ];
     }
 
