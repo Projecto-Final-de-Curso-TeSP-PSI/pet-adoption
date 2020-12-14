@@ -3,6 +3,7 @@
 namespace frontend\controllers;
 
 use common\models\Address;
+use common\models\Animal;
 use common\models\District;
 use common\models\MissingAnimal;
 use Yii;
@@ -29,18 +30,19 @@ class OrganizationController extends Controller
         return [
             'access' => [
                 'class' => AccessControl::className(),
-                'only' => ['update', 'delete'],
+                'only' => ['create', 'update', 'delete'],
                 'rules' => [
                     [
                         'actions' => ['update', 'delete'],
                         'allow' => true,
                         'roles' => ['manageOrganization'],
+                        'roleParams' => ['organization_id' => Yii::$app->request->get('id')],
                     ],
                     [
                         // TODO: As actions de create e delete realizadas pelo admin devem estar no backoffice e não aqui.
                         'actions' => ['create'],
                         'allow' => true,
-                        'roles' => ['manageOrganization'],
+                        'roles' => ['createOrganizationRequest'],
                     ]
                 ]
             ],
@@ -129,62 +131,61 @@ class OrganizationController extends Controller
      */
     public function actionCreate()
     {
-        $organization = new Organization(['scenario' => Organization::SCENARIO_CREATE_ORGANIZATION]);
-        $newAddress = new Address();
+        $organization = new Organization();
+        $address = new Address();
 
         $db = Yii::$app->db;
-//        $transaction = $db->beginTransaction();
-//        try {
+        $transaction = $db->beginTransaction();
+        try {
 
             if (Yii::$app->request->post()) {
                 $post = Yii::$app->request->post();
 
-                if($newAddress->load($post) && $newAddress->save()){
+                if($address->load($post) && $address->save()){
                     $organization->load($post);
-                    $organization->address_id = $newAddress->id;
+                    //$organization->address_id = $address->id;
 
                     if($organization->save()){
 
-//                        $transaction->commit();
+                        $transaction->commit();
                         return $this->redirect(['site/index',
                             'id' => $organization->id,
                             'success_message' => 'Organização criada com sucesso']);
                     } else{
 
-//                        $transaction->rollBack();
+                        $transaction->rollBack();
                         return $this->render('create', [
                             'newOrganization' => $organization,
-                            'newAddress' => $newAddress,
+                            'newAddress' => $address,
                             'error_message' => 'Erro ao gravar a organização'
                         ]);
                     }
                 } else{
 
-//                    $transaction->rollBack();
+                    $transaction->rollBack();
                     return $this->render('create', [
                         'newOrganization' => $organization,
-                        'newAddress' => $newAddress,
-                        'error_message' => 'Erro ao gravar a morada da associação'
+                        'newAddress' => $address,
+                        'error_message' => 'Erro ao gravar a morada da associação',
                     ]);
                 }
             }
 
             return $this->render('create', [
                 'organization' => $organization,
-                'address' => $newAddress
+                'address' => $address,
+                'scenario' => Organization::SCENARIO_CREATE_ORGANIZATION,
             ]);
 
-//        } catch (\Exception $e) {
-//
-//            $transaction->rollBack();
-//            return $this->redirect(['site/index',
-//                'error_message' => $e->getMessage()]);
-//        } catch (\Throwable $e) {
-//
-//            $transaction->rollBack();
-//            return $this->redirect(['site/index',
-//                'error_message' => $e->getMessage()]);
-//        }
+        } catch (\Exception $e) {
+
+            $transaction->rollBack();
+            return $this->redirect('site/index');
+        } catch (\Throwable $e) {
+
+            $transaction->rollBack();
+            return $this->redirect('site/index');
+        }
     }
 
     /**
@@ -197,7 +198,7 @@ class OrganizationController extends Controller
     public function actionUpdate($id)
     {
         $organization = $this->findModel($id);
-        $organization->scenario = 'updateOrganization';  //#### SCENARIO LOAD
+        //$organization->scenario = Organization::SCENARIO_UPDATE_ORGANIZATION;  //#### SCENARIO LOAD
 
         $address = Address::findOne($organization->id);
 
@@ -210,13 +211,17 @@ class OrganizationController extends Controller
 
                 if($address->load($post) && $address->save()){
                     $organization->load($post);
+                    //$organization->scenario = Organization::SCENARIO_UPDATE_ORGANIZATION;  //#### SCENARIO LOAD
 
 
                     $organization->address_id = $address->id;
 
                     if($organization->save()){
                         $transaction->commit();
-                        return $this->redirect(['site/index', 'id' => $organization->id, 'success_message' => 'Organização criada com sucesso']);
+                        return $this->render('update',
+                            ['organization' => $organization,
+                            'address' => $address,
+                            ]);
                     } else{
 
                         $transaction->rollBack();
@@ -224,7 +229,6 @@ class OrganizationController extends Controller
                         return $this->render('update', [
                             'organization' => $organization,
                             'address' => $address,
-                            'error_message' => 'Erro ao gravar a organização',
                         ]);
                     }
                 } else{
@@ -234,7 +238,6 @@ class OrganizationController extends Controller
                     return $this->render('update', [
                         'organization' => $organization,
                         'address' => $address,
-                        'error_message' => 'Erro ao gravar a morada da associação'
                     ]);
                 }
 
@@ -263,9 +266,10 @@ class OrganizationController extends Controller
      */
     public function actionDelete($id)
     {
-        $this->findModel($id)->delete();
 
-        return $this->redirect(['index']);
+        $this->findModel($id)->status = Organization::INACTIVE;
+
+        return $this->redirect(['site/index']);
     }
 
     /**

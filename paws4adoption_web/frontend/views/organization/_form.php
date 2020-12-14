@@ -1,6 +1,7 @@
 <?php
 
 use common\models\District;
+use common\models\Organization;
 use frontend\assets\AppAsset;
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
@@ -28,7 +29,7 @@ AppAsset::register($this);
 
                 <?= $form->field($organization, 'name')->textInput(['maxlength' => true]) ?>
 
-                <?= $form->field($organization, 'nif')->textInput(['maxlength' => true, 'readonly' => ($organization->scenario == 'updateOrganization' ? true : false)]) ?>
+                <?= $form->field($organization, 'nif')->textInput(['maxlength' => true, 'readonly' => ($scenario == Organization::SCENARIO_UPDATE_ORGANIZATION ? true : false)]) ?>
 
                 <?= $form->field($organization, 'email')->textInput(['maxlength' => true]) ?>
 

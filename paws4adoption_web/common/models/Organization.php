@@ -23,8 +23,8 @@ class Organization extends \yii\db\ActiveRecord
     const ACTIVE = 1;
     const INACTIVE = 2;
 
-    const SCENARIO_CREATE_ORGANIZATION = 'createOrganization';
-    const SCENARIO_UPDATE_ORGANIZATION = 'updateOrganization';
+    const SCENARIO_CREATE_ORGANIZATION = 'createorganization';
+    const SCENARIO_UPDATE_ORGANIZATION = 'updateorganization';
 
     /**
      * {@inheritdoc}
@@ -33,6 +33,22 @@ class Organization extends \yii\db\ActiveRecord
     {
         return 'organizations';
     }
+
+    //SCENARIOS PARA UPDATE E CREATE
+    /*public function getCustomScenarios()
+    {
+        return [
+            self::SCENARIO_CREATE_ORGANIZATION,
+            self::SCENARIO_UPDATE_ORGANIZATION,
+        ];
+    }
+
+    public function scenarios()
+    {
+        $scenarios = $this->getCustomScenarios();
+        return $scenarios;
+    }*/
+
 
     /**
      * {@inheritdoc}

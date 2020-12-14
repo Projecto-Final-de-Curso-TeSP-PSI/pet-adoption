@@ -1,5 +1,6 @@
 <?php
 
+use common\models\Organization;
 use frontend\assets\AppAsset;
 use yii\helpers\Html;
 
@@ -11,22 +12,9 @@ use yii\helpers\Html;
 
 AppAsset::register($this);
 
+print_r(isset($error_message) ? $error_message : "nao veio");
 ?>
 <div class="organization-update">
-
-    <!-- Main Content Header -->
-    <div class="main-content-header">
-        <ol class="breadcrumb">
-            <li class="breadcrumb-item">
-                <a href="/">Paws4Adoption</a>
-            </li>
-            <li class="breadcrumb-item active">
-                <span class="active">Atualizar Associação</span>
-            </li>
-        </ol>
-    </div>
-    <!-- End Main Content Header -->
-
 
     <h1><?= Html::encode($this->title) ?></h1>
 
@@ -35,6 +23,7 @@ AppAsset::register($this);
         <?= $this->render('_form', [
             'organization' => $organization,
             'address' => $address,
+            'scenario' => Organization::SCENARIO_UPDATE_ORGANIZATION
         ]) ?>
 
     </div>

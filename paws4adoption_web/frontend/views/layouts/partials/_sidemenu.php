@@ -69,7 +69,7 @@ use common\models\AssociatedUser;
                         <a class="dropdown-item" href="<?= Yii::$app->request->baseUrl ?>/organization">
                             <i data-feather="list" class="icon"></i>
                             Lista de associações
-                        </a>yii migrate --migrationPath=@yii/rbac/migrations
+                        </a>
                     </div>
                 </div>
 
