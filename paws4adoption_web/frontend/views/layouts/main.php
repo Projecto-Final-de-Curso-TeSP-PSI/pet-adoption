@@ -41,6 +41,8 @@ AppAsset::register($this);
 <div class="main-content d-flex flex-column hide-sidemenu">
     <?php endif; ?>
 
+    <!-- Messages area -->
+    <?= Yii::$app->view->renderFile('@frontend/views/layouts/partials/_messages.php'); ?>
 
     <?= $content ?>
 

@@ -58,7 +58,7 @@ class Address extends \yii\db\ActiveRecord
             'door_number' => 'Número',
             'floor' => 'Andar',
             'postal_code' => 'Código Postal',
-            'street_code' => 'Código de Rua',
+            'street_code' => 'Extensão',
             'city' => 'Localidade',
             'district_id' => 'Distrito',
         ];

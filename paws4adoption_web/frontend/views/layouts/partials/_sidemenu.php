@@ -1,3 +1,8 @@
+<?php
+
+use common\models\AssociatedUser;
+
+?>
 <div class="sidemenu-area sidemenu-toggle default">
     <nav class="sidemenu navbar navbar-expand navbar-light hide-nav-title">
         <div class="navbar-collapse collapse">
@@ -46,10 +51,27 @@
                     <span class="title">Minha Lista</span>
                 </a>
 
-                <a class="nav-link" href="<?= Yii::$app->request->baseUrl ?>/organization/create">
-                    <i data-feather="file-plus" class="icon"></i>
-                    <span class="title">Regista Associação</span>
-                </a>
+                <div class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <div class="dropdown-title">
+                            <i data-feather="plus" class="icon"></i>
+                            <span class="title">
+                                Associações
+                                <i data-feather="chevron-right" class="icon fr"></i>
+                            </span>
+                        </div>
+                    </a>
+                    <div class="dropdown-menu">
+                        <a class="dropdown-item" href="<?= Yii::$app->request->baseUrl ?>/organization/create">
+                            <i data-feather="file-plus" class="icon"></i>
+                            <span class="title">Registar Associação</span>
+                        </a>
+                        <a class="dropdown-item" href="<?= Yii::$app->request->baseUrl ?>/organization">
+                            <i data-feather="list" class="icon"></i>
+                            Lista de associações
+                        </a>yii migrate --migrationPath=@yii/rbac/migrations
+                    </div>
+                </div>
 
                 <div class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -62,10 +84,6 @@
                         </div>
                     </a>
                     <div class="dropdown-menu">
-                        <a class="dropdown-item" href="<?= Yii::$app->request->baseUrl ?>/organization">
-                            <i data-feather="list" class="icon"></i>
-                            Lista de associações
-                        </a>
                         <a class="dropdown-item" href="<?= Yii::$app->request->baseUrl ?>/site/help">
                             <i data-feather="help-circle" class="icon"></i>
                             Como Ajudar

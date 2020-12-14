@@ -5,8 +5,6 @@ namespace frontend\controllers;
 use common\models\Address;
 use common\models\District;
 use common\models\MissingAnimal;
-use Couchbase\SearchQuery;
-use Dotenv\Repository\AdapterRepository;
 use Yii;
 use common\models\Organization;
 use common\models\OrganizationSearch;
@@ -31,18 +29,18 @@ class OrganizationController extends Controller
         return [
             'access' => [
                 'class' => AccessControl::className(),
-                'only' => ['create', 'update', 'delete'],
+                'only' => ['update', 'delete'],
                 'rules' => [
                     [
-                        'actions' => ['update'],
+                        'actions' => ['update', 'delete'],
                         'allow' => true,
-                        'roles' => ['associatedUser'],
+                        'roles' => ['manageOrganization'],
                     ],
                     [
                         // TODO: As actions de create e delete realizadas pelo admin devem estar no backoffice e não aqui.
-                        'actions' => ['create', 'delete'],
+                        'actions' => ['create'],
                         'allow' => true,
-                        'roles' => ['admin'],
+                        'roles' => ['manageOrganization'],
                     ]
                 ]
             ],
@@ -131,17 +129,62 @@ class OrganizationController extends Controller
      */
     public function actionCreate()
     {
-        $newOrganization = new Organization();
+        $organization = new Organization(['scenario' => Organization::SCENARIO_CREATE_ORGANIZATION]);
         $newAddress = new Address();
 
-        if ($newOrganization->load(Yii::$app->request->post()) && $newOrganization->save()) {
-            return $this->redirect(['view', 'id' => $newOrganization->id]);
-        }
+        $db = Yii::$app->db;
+//        $transaction = $db->beginTransaction();
+//        try {
 
-        return $this->render('create', [
-            'newOrganization' => $newOrganization,
-            'newAddress' => $newAddress
-        ]);
+            if (Yii::$app->request->post()) {
+                $post = Yii::$app->request->post();
+
+                if($newAddress->load($post) && $newAddress->save()){
+                    $organization->load($post);
+                    $organization->address_id = $newAddress->id;
+
+                    if($organization->save()){
+
+//                        $transaction->commit();
+                        return $this->redirect(['site/index',
+                            'id' => $organization->id,
+                            'success_message' => 'Organização criada com sucesso']);
+                    } else{
+
+//                        $transaction->rollBack();
+                        return $this->render('create', [
+                            'newOrganization' => $organization,
+                            'newAddress' => $newAddress,
+                            'error_message' => 'Erro ao gravar a organização'
+                        ]);
+                    }
+                } else{
+
+//                    $transaction->rollBack();
+                    return $this->render('create', [
+                        'newOrganization' => $organization,
+                        'newAddress' => $newAddress,
+                        'error_message' => 'Erro ao gravar a morada da associação'
+                    ]);
+                }
+            }
+
+            return $this->render('create', [
+                'organization' => $organization,
+                'address' => $newAddress
+            ]);
+
+//        } catch (\Exception $e) {
+//
+//            $transaction->rollBack();
+//            return $this->redirect(['site/index',
+//                'error_message' => $e->getMessage()]);
+//        } catch (\Throwable $e) {
+//
+//            $transaction->rollBack();
+//            return $this->redirect(['site/index',
+//                'error_message' => $e->getMessage()]);
+//        }
     }
 
     /**
@@ -153,15 +196,62 @@ class OrganizationController extends Controller
      */
     public function actionUpdate($id)
     {
-        $model = $this->findModel($id);
+        $organization = $this->findModel($id);
+        $organization->scenario = 'updateOrganization';  //#### SCENARIO LOAD
 
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->organizationId]);
+        $address = Address::findOne($organization->id);
+
+        $db = Yii::$app->db;
+        $transaction = $db->beginTransaction();
+        try {
+
+            if (Yii::$app->request->post()) {
+                $post = Yii::$app->request->post();
+
+                if($address->load($post) && $address->save()){
+                    $organization->load($post);
+
+
+                    $organization->address_id = $address->id;
+
+                    if($organization->save()){
+                        $transaction->commit();
+                        return $this->redirect(['site/index', 'id' => $organization->id, 'success_message' => 'Organização criada com sucesso']);
+                    } else{
+
+                        $transaction->rollBack();
+
+                        return $this->render('update', [
+                            'organization' => $organization,
+                            'address' => $address,
+                            'error_message' => 'Erro ao gravar a organização',
+                        ]);
+                    }
+                } else{
+
+                    $transaction->rollBack();
+
+                    return $this->render('update', [
+                        'organization' => $organization,
+                        'address' => $address,
+                        'error_message' => 'Erro ao gravar a morada da associação'
+                    ]);
+                }
+
+            }
+
+            return $this->render('update', [
+                'organization' => $organization,
+                'address' => $address,
+            ]);
+
+        } catch (\Exception $e) {
+            $transaction->rollBack();
+            return $e;
+        } catch (\Throwable $e) {
+            $transaction->rollBack();
+            return $this->redirect(['site/index', /*'id' => $newOrganization->id,*/ 'error_message' => $e->getMessage()]);
         }
-
-        return $this->render('update', [
-            'model' => $model,
-        ]);
     }
 
     /**

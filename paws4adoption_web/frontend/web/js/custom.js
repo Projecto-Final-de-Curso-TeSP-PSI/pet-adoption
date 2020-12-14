@@ -288,7 +288,30 @@
             $('.modal:visible').length && $(document.body).addClass('modal-open');
         });
 
+
+        //Button dismiss on messages
+        $('#success-message-dismiss').click(function dismiss_message(){
+
+            var x = document.getElementById("success-message");
+            if (x.style.display === "block") {
+                x.style.display = "none";
+            }
+        });
+
+        //Button dismiss on messages
+        $('#error-message-dismiss').click(function dismiss_message(){
+
+            var x = document.getElementById("error-message");
+            if (x.style.display === "block") {
+                x.style.display = "none";
+            }
+        });
+
+
+
     });
+
+
 
 	// Preloader JS
     jQuery(window).on('load', function() {
