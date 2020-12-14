@@ -29,7 +29,7 @@ class SignupAPI extends \frontend\models\SignupForm
             return false;
         }
 
-        $user = new User();
+        $user = new \backend\modules\api\models\User();
         $user->username = $this->username;
         $user->email = $this->email;
         $user->setPassword($this->password);
