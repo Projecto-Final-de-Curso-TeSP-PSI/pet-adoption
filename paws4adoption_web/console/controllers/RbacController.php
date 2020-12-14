@@ -14,7 +14,7 @@ class RbacController extends Controller
 
         //################### ADOPTION ANIMAL PERMISSIONS ###################
         // RULE
-        $rule = new \app\rbac\OrganizationAssociatedUserRule;
+        $rule = new \common\rbac\OrganizationAssociatedUserRule;
         $auth->add($rule);
 
         // CREATE
@@ -98,7 +98,7 @@ class RbacController extends Controller
         //################### MISSING ANIMAL PERMISSIONS ###################
 
         // RULE
-        $rule = new \console\rbac\PublisherUserRule();
+        $rule = new \common\rbac\PublisherUserRule();
         $auth->add($rule);
 
         // CREATE
@@ -157,7 +157,7 @@ class RbacController extends Controller
         //################### USER PERMISSIONS ###################
 
         // RULE
-        $rule = new \console\rbac\UserRule();
+        $rule = new \common\rbac\UserRule();
         $auth->add($rule);
 
         // MANAGE USER

@@ -1,7 +1,7 @@
 <?php
 
 
-namespace console\rbac;
+namespace common\rbac;
 
 
 

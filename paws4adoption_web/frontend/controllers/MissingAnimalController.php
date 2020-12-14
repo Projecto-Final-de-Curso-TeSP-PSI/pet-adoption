@@ -50,7 +50,7 @@ class MissingAnimalController extends Controller
                         'actions' => ['update', 'delete'],
                         'allow' => true,
                         'roles' => ['manageMissingAnimal'],
-                        'roleParams' => ['missingAnimal' => MissingAnimal::findOne(Yii::$app->request->get('id'))],
+                        'roleParams' => ['animal_type' => 'missingAnimal', 'animal_id' => Yii::$app->request->get('id')],
                     ],
                 ]
             ],

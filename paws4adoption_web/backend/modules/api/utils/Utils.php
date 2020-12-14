@@ -8,7 +8,9 @@ use backend\modules\api\models\Animal;
 use backend\modules\api\models\FoundAnimal;
 use backend\modules\api\models\MissingAnimal;
 use common\models\Photo;
+use http\Exception\BadMessageException;
 use Yii;
+use yii\db\Exception;
 use yii\web\BadRequestHttpException;
 
 class Utils
@@ -46,7 +48,6 @@ class Utils
                     $address->city = $body['city'];
                     $address->district_id = $body['district'];
                     $address->save();
-
                     $foundAnimal = new FoundAnimal();
                     $foundAnimal->id = $animal->id;
                     $foundAnimal->location = $address->id;
@@ -57,19 +58,22 @@ class Utils
                     $foundAnimal->save();
                     break;
             }
+
             $transaction->commit();
 
         } catch (\Exception $e) {
             $transaction->rollBack();
 //            var_dump($e); die;
 
-            return new BadRequestHttpException();
+            throw new BadRequestHttpException($e->getMessage(), $e->getCode(), $e);
         } catch (\Throwable $e) {
             $transaction->rollBack();
-//            var_dump($e); die;
+            var_dump($e); die;
 
-            return $e;
+            throw new BadRequestHttpException(null, null, $e);
         }
+
+        return $animal;
     }
 
     public static function updateAnimal($id, $body, $animal_type){
@@ -153,65 +157,87 @@ class Utils
             return $animal;
     }
 
-    public static function deleteAnimal($id){
-        $animal = Animal::findOne($id);
-        if($animal == null )
-            throw new BadRequestHttpException("Animal not found");
+    public static function deleteAnimal($id, $animal_type){
+        $db = Yii::$app->db;
+        $transaction = $db->beginTransaction();
+        try {
+            $animal = Animal::findOne($id);
+            if($animal == null )
+                throw new BadRequestHttpException("Animal is required");
 
-        //delete all photos of this animal
-        Photo::deleteAll(['id_animal' => $animal->id]);
+            //delete all photos of this animal
+            Photo::deleteAll(['id_animal' => $animal->id]);
 
-        //delete child animal
-        switch($animal->getType()){
-            case 'adoptionAnimal':
-                AdoptionAnimal::findOne($id)->delete();
-                break;
-            case 'missingAnimal':
-                MissingAnimal::findOne($id)->delete();
-                break;
-            case 'foundAnimal':
-                FoundAnimal::findOne($id)->delete();
-                break;
+            //delete child animal
+            switch($animal_type){
+                case 'missingAnimal':
+                    MissingAnimal::findOne($id)->delete();
+                    break;
+                case 'foundAnimal':
+                    FoundAnimal::findOne($id)->delete();
+                    break;
+            }
+
+            //delete the animal
+            if($animal->delete() === false){
+                //TODO: SEND EXCEPTION
+            };
+
+            $transaction->commit();
+        } catch (\Exception $e) {
+            $transaction->rollBack();
+            return $e;
+        } catch (\Throwable $e) {
+            $transaction->rollBack();
+            return $e;
         }
-
-        $animal->save();
 
         return $animal;
     }
 
     private static function createPhoto($animal){
-        $photo = new Photo();
-        $photo->id_animal = $animal->id;
-        $photo->caption = $animal->nature->name . " - " . $animal->name;
-        $photo->imgPath = 'images/animal/' . self::uploadPhoto();
-        return $photo->save();
+//        try {
+            $photo = new Photo();
+            $photo->id_animal = $animal->id;
+            $photo->caption = $animal->nature->name . " - " . $animal->name;
+            $photo->imgPath = 'images/animal/' . self::uploadPhoto();
+            return $photo->save();
+
+//        } catch (\Exception $e){
+//            throw new BadRequestHttpException($e->getMessage(), $e->getCode(), $e);
+//        }
     }
 
     private static function uploadPhoto(){
+//        try {
+            $documentPath = (Yii::$app->basePath . '..\frontend\web\images\animal') . '\\';
 
-        $documentPath = realpath(Yii::$app->basePath . '/../frontend/web/images/animal') . '\\';
+            $postdata = fopen($_FILES['photo']['tmp_name'], "r");
 
-        $postdata = fopen( $_FILES[ 'photo' ][ 'tmp_name' ], "r" );
 
-        /* Get file extension */
-        $extension = substr( $_FILES[ 'photo' ][ 'name' ], strrpos( $_FILES[ 'photo' ][ 'name' ], '.' ) );
+            /* Get file extension */
+            $extension = substr($_FILES['photo']['name'], strrpos($_FILES['photo']['name'], '.'));
 
-        /* Generate unique name */
-        $uniqueId = uniqid() . $extension;
-        $filename = $documentPath . $uniqueId;
+            /* Generate unique name */
+            $uniqueId = uniqid() . $extension;
+            $filename = $documentPath . $uniqueId;
+            var_dump($filename);
 
-        /* Open a file for writing */
-        $fp = fopen( $filename, "w" );
+            /* Open a file for writing */
+            $fp = fopen($filename, "w");
 
-        /* Read the data 1 KB at a time and write to the file */
-        while($data = fread($postdata, 1024)){
-            fwrite( $fp, $data );
-        }
+            /* Read the data 1 KB at a time and write to the file */
+            while ($data = fread($postdata, 1024)) {
+                fwrite($fp, $data);
+            }
 
-        /* Close the streams */
-        fclose( $fp );
-        fclose( $postdata );
-
+            /* Close the streams */
+            fclose($fp);
+            fclose($postdata);
+//        }
+//        catch (\Exception $e){
+//            throw new BadRequestHttpException("uploadPhoto - Error while saving photo - " . $e->getMessage());
+//        }
         /* returns the uniqueId of the file to be saved later in the database */
         return $uniqueId;
     }
