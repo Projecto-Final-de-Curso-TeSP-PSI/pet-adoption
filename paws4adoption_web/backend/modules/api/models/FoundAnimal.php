@@ -15,8 +15,14 @@ class FoundAnimal extends \common\models\FoundAnimal {
             'is_active' => 'is_active',
             'found_date' => 'found_date',
             'priority' => 'priority',
-            'publisher_user' => 'user'
+            'user_id',
+            'user'
         ];
+    }
+
+    public function extraFields()
+    {
+        return ['animal'];
     }
 
     /**
@@ -26,6 +32,10 @@ class FoundAnimal extends \common\models\FoundAnimal {
     public function getUser()
     {
         return $this->hasOne(\backend\modules\api\models\User::class, ['id' => 'user_id']);
+    }
+
+    public function  getAnimal(){
+        return $this->hasOne(\backend\modules\api\models\Animal::className(), ['id' => 'id']);
     }
 
 }

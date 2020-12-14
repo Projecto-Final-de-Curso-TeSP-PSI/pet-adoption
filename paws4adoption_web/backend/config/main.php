@@ -103,6 +103,10 @@ return [
                     'class' => 'yii\rest\UrlRule',
                     'controller' => 'api/missing-animal',
                 ],
+                [ //SERVICE: FOUND ANIMAL
+                    'class' => 'yii\rest\UrlRule',
+                    'controller' => 'api/found-animal',
+                ],
                 [ //SERVICE: ANIMALS
                     'class' => 'yii\rest\UrlRule',
                     'controller' => 'api/animal',
