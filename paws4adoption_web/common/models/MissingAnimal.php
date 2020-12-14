@@ -14,7 +14,7 @@ use Yii;
  * @property bool|null $is_missing
  * @property int $owner_id
  *
- * @property Animal $id0
+ * @property Animal $animal
  * @property User $owner
  */
 class MissingAnimal extends \common\models\Animal

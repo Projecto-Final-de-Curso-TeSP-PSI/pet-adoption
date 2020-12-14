@@ -4,11 +4,8 @@ use frontend\assets\AppAsset;
 use yii\helpers\Html;
 
 /* @var $this yii\web\View */
-/* @var $model common\models\Organization */
-
-$this->title = 'Associar Associação';
-$this->params['breadcrumbs'][] = ['label' => 'Organizations', 'url' => ['index']];
-$this->params['breadcrumbs'][] = $this->title;
+/* @var $newOrganization common\models\Organization */
+/* @var $newAddress common\models\Address */
 
 AppAsset::register($this);
 ?>
@@ -19,15 +16,16 @@ AppAsset::register($this);
             <a href="/">Paws4Adoption</a>
         </li>
         <li class="breadcrumb-item active">
-            <span class="active">Associar Associação</span>
+            <span class="active">Registar Associação</span>
         </li>
     </ol>
 </div>
 <!-- End Main Content Header -->
-<!-- End Main Content Header -->
+
 <div class="organization-create">
     <?= $this->render('_form', [
-        'model' => $model,
+        'organization' => $organization,
+        'address' => $address,
     ]) ?>
 
 </div>

@@ -19,6 +19,13 @@ use Yii;
  */
 class Organization extends \yii\db\ActiveRecord
 {
+    const REQUEST_PENDING = 0;
+    const ACTIVE = 1;
+    const INACTIVE = 2;
+
+    const SCENARIO_CREATE_ORGANIZATION = 'createOrganization';
+    const SCENARIO_UPDATE_ORGANIZATION = 'updateOrganization';
+
     /**
      * {@inheritdoc}
      */
@@ -49,10 +56,10 @@ class Organization extends \yii\db\ActiveRecord
     {
         return [
             'id' => 'ID',
-            'name' => 'Name',
+            'name' => 'Nome da organização',
             'nif' => 'Nif',
             'email' => 'Email',
-            'phone' => 'Phone',
+            'phone' => 'Telefone',
             'address_id' => 'Address ID',
         ];
     }
