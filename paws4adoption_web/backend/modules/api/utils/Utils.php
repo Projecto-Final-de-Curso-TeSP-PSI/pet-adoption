@@ -46,7 +46,7 @@ class Utils
                     $address = new Address();
                     $address->street = $body['street'];
                     $address->city = $body['city'];
-                    $address->district_id = $body['district'];
+                    $address->district_id = $body['district_id'];
                     $address->save();
                     $foundAnimal = new FoundAnimal();
                     $foundAnimal->id = $animal->id;
@@ -126,7 +126,7 @@ class Utils
 
                     $address->street = $body['street'];
                     $address->city = $body['city'];
-                    $address->district_id = $body['district'];
+                    $address->district_id = $body['district_id'];
                     $address->save();
 
                     //$foundAnimal = new FoundAnimal();
@@ -210,7 +210,7 @@ class Utils
 
     private static function uploadPhoto(){
 //        try {
-            $documentPath = (Yii::$app->basePath . '..\frontend\web\images\animal') . '\\';
+            $documentPath = realpath(Yii::$app->basePath . '/../frontend/web/images/animal') . '\\';
 
             $postdata = fopen($_FILES['photo']['tmp_name'], "r");
 
