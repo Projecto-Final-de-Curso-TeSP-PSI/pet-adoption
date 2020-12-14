@@ -130,7 +130,7 @@ class UserController extends ActiveController
     }
 
     public function actionDelete($id){
-        /*$db = Yii::$app->db;
+        $db = Yii::$app->db;
         $transaction = $db->beginTransaction();
 
         try {
@@ -152,7 +152,7 @@ class UserController extends ActiveController
         }
 
         $response['message'] = "User successfully deleted.";
-        return $response;*/
+        return $response;
     }
 
     /**
