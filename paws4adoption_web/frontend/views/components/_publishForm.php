@@ -51,16 +51,18 @@ AppAsset::register($this);
                 }
                 ?>
                 <hr>
-                <div class="userProfileForm">
-                    <?php $form = ActiveForm::begin(['options' => ['enctype' => 'multipart/form-data']]); ?>
+                <div class="CreateAnimalForm">
+                    <?php $form = ActiveForm::begin([
+                            'id' => 'createAnimal-form',
+                            'options' => ['enctype' => 'multipart/form-data']]); ?>
 
-                    <?= $form->field($animalModel, 'name')->textInput(['placeholder' => 'Insere o nome']) ?>
+                    <?= $form->field($animalModel, 'name', ['inputOptions' => ['id' => 'createFill-name']])->textInput(['placeholder' => 'Insere o nome']) ?>
 
-                    <?= $form->field($animalModel, 'chipId')->textInput(['placeholder' => 'Insere o Chip']) ?>
+                    <?= $form->field($animalModel, 'chipId', ['inputOptions' => ['id' => 'createFill-chipId']])->textInput(['placeholder' => 'Insere o Chip']) ?>
 
-                    <?= $form->field($animalModel, 'nature_id')->dropDownList($natureList, ['id' => 'nature-id']) ?>
+                    <?= $form->field($animalModel, 'nature_id', ['inputOptions' => ['id' => 'createFill-nature', 'name' => 'nature']])->dropDownList($natureList, ['prompt' => 'Escolha a natureza']) ?>
 
-                    <?= $form->field($animalModel, 'nature_id')->dropDownList($natureCat, ['prompt' => 'Escolha a raça ']) ?>
+                    <?= $form->field($animalModel, 'nature_id', ['inputOptions' => ['id' => 'createFill-breed']])->dropDownList($natureCat, ['prompt' => 'Escolha a raça ']) ?>
 
 
                     <? //= $form->field($animalModel, 'nature_id')->widget(DepDrop::classname(), [
@@ -72,34 +74,32 @@ AppAsset::register($this);
                     //],
                     //]) ?>
 
-                    <?= $form->field($animalModel, 'sex')->dropDownList($sex, ['prompt' => 'Escolha o sexo']) ?>
+                    <?= $form->field($animalModel, 'sex', ['inputOptions' => ['id' => 'createFill-sex']])->dropDownList($sex, ['prompt' => 'Escolha o sexo']) ?>
 
-                    <?= $form->field($animalModel, 'fur_length_id')->dropDownList($fulLength, ['prompt' => 'Escolha o tamanho do pelo']) ?>
+                    <?= $form->field($animalModel, 'fur_length_id', ['inputOptions' => ['id' => 'createFill-furLength']])->dropDownList($fulLength, ['prompt' => 'Escolha o tamanho do pelo']) ?>
 
-                    <?= $form->field($animalModel, 'fur_color_id')->dropDownList($fulColor, ['prompt' => 'Escolha a cor do pelo']) ?>
+                    <?= $form->field($animalModel, 'fur_color_id', ['inputOptions' => ['id' => 'createFill-furColor']])->dropDownList($fulColor, ['prompt' => 'Escolha a cor do pelo']) ?>
 
-                    <?= $form->field($animalModel, 'size_id')->dropDownList($size, ['prompt' => 'Escolha o Porte']) ?>
+                    <?= $form->field($animalModel, 'size_id', ['inputOptions' => ['id' => 'createFill-size']])->dropDownList($size, ['prompt' => 'Escolha o Porte']) ?>
                     <?php
                     switch ($typeCreate) {
                         case 'createMissingAnimal':
-                            echo $form->field($missingAnimalModel, 'missing_date')->widget(DatePicker::className(), [
+                            echo $form->field($missingAnimalModel, 'missing_date', ['inputOptions' => ['id' => 'createFill-missingDate']])->widget(DatePicker::className(), [
                                 'options' => ['placeholder' => 'dd/mm/aaaa'],
                                 'pluginOptions' => ['autoclose' => true, 'format' => 'dd/mm/yyyy',],
 
                             ]);
                             break;
                         case 'createFoundAnimal':
-                            echo $form->field($foundAnimalModel, 'found_date')->widget(DatePicker::className(), [
+                            echo $form->field($foundAnimalModel, 'found_date', ['inputOptions' => ['id' => 'createFill-foundDate']])->widget(DatePicker::className(), [
                                 'options' => ['placeholder' => 'dd/mm/aaaa'],
                                 'pluginOptions' => ['autoclose' => true, 'format' => 'dd/mm/yyyy',],
 
                             ]);
 
-                            echo $form->field($addressModel, 'street');
-                            echo $form->field($addressModel, 'city');
-                            echo $form->field($addressModel, 'district_id')->dropDownList(District::getData(), ['prompt' => 'Escolha o Distrito']);
-                            echo $form->field($foundAnimalModel, 'priority')->dropDownList($priority, ['prompt' => 'Escolha a prioridade de resgate']);
-
+                            echo $form->field($addressModel, 'street', ['inputOptions' => ['id' => 'createFill-street']]);
+                            echo $form->field($addressModel, 'city', ['inputOptions' => ['id' => 'createFill-city']]);
+                            echo $form->field($addressModel, 'district_id', ['inputOptions' => ['id' => 'createFill-district']])->dropDownList(District::getData(), ['prompt' => 'Escolha o Distrito']);
                             break;
                         default:
                             break;
@@ -108,9 +108,9 @@ AppAsset::register($this);
                     ?>
 
 
-                    <?= $form->field($animalModel, 'description')->textarea(['placeholder' => 'Insere informação que consideres relevantes a publicação.'], ['rows' => 3]) ?>
+                    <?= $form->field($animalModel, 'description', ['inputOptions' => ['id' => 'createFill-description']])->textarea(['placeholder' => 'Insere informação que consideres relevantes a publicação.'], ['rows' => 3]) ?>
 
-                    <?= $form->field($animalPhotoModel, 'imgPath')->widget(FileInput::classname(), [
+                    <?= $form->field($animalPhotoModel, 'imgPath', ['inputOptions' => ['id' => 'createFill-photo']])->widget(FileInput::classname(), [
                         'options' => ['accept' => 'image/*'],
                     ]) ?>
 
