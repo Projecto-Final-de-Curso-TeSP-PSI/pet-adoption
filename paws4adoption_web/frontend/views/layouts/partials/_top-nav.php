@@ -4,7 +4,7 @@ use yii\helpers\Html;
 <nav class="navbar navbar-expand fixed-top top-menu">
 
     <!-- Burger menu -->
-    <div class="burger-menu toggle-menu">
+    <div id="sideMenuBurguer" class="burger-menu toggle-menu">
         <span class="top-bar"></span>
         <span class="middle-bar"></span>
         <span class="bottom-bar"></span>

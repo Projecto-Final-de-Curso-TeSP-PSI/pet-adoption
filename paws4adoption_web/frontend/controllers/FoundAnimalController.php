@@ -99,7 +99,6 @@ class FoundAnimalController extends Controller
         $animalPhotoModel = new Photo();
         $natureList = ArrayHelper::map(Nature::find()->where(['parent_nature_id' => null])->all(), 'id', 'name');
         $sex = Animal::getSex();
-        $priority = FoundAnimal::getPriority();
         $natureCat = ArrayHelper::map(Nature::find()->where(['parent_nature_id' => 1])->all(), 'id', 'name');
         $natureDog = ArrayHelper::map(Nature::find()->where(['parent_nature_id' => 2])->all(), 'id', 'name');
         $fulLength = ArrayHelper::map(FurLength::find()->all(), 'id', 'fur_length');
@@ -121,6 +120,7 @@ class FoundAnimalController extends Controller
                         $foundAnimalModel->load($formData);
                         $foundAnimalModel->id = $animalModel->id;
                         $foundAnimalModel->is_active = true;
+                        $foundAnimalModel->priority = "Por classificar";
                         $foundAnimalModel->user_id = Yii::$app->user->id;
                         $foundAnimalModel->location = $addressModel->id;
 
@@ -146,7 +146,6 @@ class FoundAnimalController extends Controller
             'fulColor' => $fulColor,
             'size' => $size,
             'sex' => $sex,
-            'priority' => $priority
         ]);
     }
 

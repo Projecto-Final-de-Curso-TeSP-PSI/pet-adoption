@@ -223,7 +223,7 @@ CREATE TABLE `auth_assignment` (
 
 LOCK TABLES `auth_assignment` WRITE;
 /*!40000 ALTER TABLE `auth_assignment` DISABLE KEYS */;
-INSERT INTO `auth_assignment` VALUES ('admin','1',1607911303),('admin','2',1607911303),('associatedUser','3',1607911303),('associatedUser','4',1607911303),('associatedUser','5',1607911303),('associatedUser','6',1607911303),('associatedUser','7',1607911303),('associatedUser','8',1607911303),('user','10',1607911303),('user','11',1607911303),('user','12',1607911303),('user','13',1607911303),('user','14',1607911303),('user','15',1607911303),('user','16',1607911303),('user','17',1607911303),('user','18',1607911303),('user','19',1607911303),('user','20',1607911303),('user','9',1607911303);
+INSERT INTO `auth_assignment` VALUES ('admin','1',1607860857),('admin','2',1607860857),('associatedUser','3',1607860857),('associatedUser','4',1607860857),('associatedUser','5',1607860857),('associatedUser','6',1607860857),('associatedUser','7',1607860857),('associatedUser','8',1607860857),('user','10',1607860857),('user','11',1607860857),('user','12',1607860857),('user','13',1607860857),('user','14',1607860857),('user','15',1607860857),('user','16',1607860857),('user','17',1607860857),('user','18',1607860857),('user','19',1607860857),('user','20',1607860857),('user','9',1607860857);
 /*!40000 ALTER TABLE `auth_assignment` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -255,7 +255,7 @@ CREATE TABLE `auth_item` (
 
 LOCK TABLES `auth_item` WRITE;
 /*!40000 ALTER TABLE `auth_item` DISABLE KEYS */;
-INSERT INTO `auth_item` VALUES ('admin',1,NULL,NULL,NULL,1607911302,1607911302),('associatedUser',1,NULL,NULL,NULL,1607911302,1607911302),('createAdoptionAnimal',2,'Create Adoption Animal',NULL,NULL,1607911302,1607911302),('createAdoptionRequest',2,'Create adoption Request',NULL,NULL,1607911302,1607911302),('createFoundAnimal',2,'Create Found Animal',NULL,NULL,1607911302,1607911302),('createMissingAnimal',2,'Create a Missing Animal',NULL,NULL,1607911302,1607911302),('createOrganizationRequest',2,'Create an Organization',NULL,NULL,1607911302,1607911302),('manageAdoption',2,'Manage all the actions on the organization it belongs.',NULL,NULL,1607911302,1607911302),('manageAdoptionAnimal',2,'Manage Adoption Animal',NULL,NULL,1607911302,1607911302),('manageFoundAnimal',2,'Manage Found Animal',NULL,NULL,1607911302,1607911302),('manageMissingAnimal',2,'Manage a Missing Animal',NULL,NULL,1607911302,1607911302),('manageOrganization',2,'Manage all the actions over the organization',NULL,NULL,1607911302,1607911302),('manageOrganizationRequest',2,'Manage all the actions over the organization it belongs.',NULL,NULL,1607911302,1607911302),('manageOwnFoundAnimal',2,'Manage own Found Animal','isPublisherUser',NULL,1607911302,1607911302),('manageOwnMissingAnimal',2,'Manage own Missing Animal','isPublisherUser',NULL,1607911302,1607911302),('manageOwnOrgAdoption',2,'Manage all the actions over the adoptions of the organization it belongs.','isOrganizationAssociatedUser',NULL,1607911302,1607911302),('manageOwnOrgAdoptionAnimal',2,'Manage Adoption Animal on the organization it belongs','isOrganizationAssociatedUser',NULL,1607911302,1607911302),('manageOwnOrgOrganization',2,'Manage all the actions over the organization it belongs.','isOrganizationAssociatedUser',NULL,1607911302,1607911302),('manageOwnUser',2,'Manage own user','isUser',NULL,1607911302,1607911302),('manageUser',2,'Manage user',NULL,NULL,1607911302,1607911302),('user',1,NULL,NULL,NULL,1607911302,1607911302);
+INSERT INTO `auth_item` VALUES ('admin',1,NULL,NULL,NULL,1607860857,1607860857),('associatedUser',1,NULL,NULL,NULL,1607860857,1607860857),('createAdoptionAnimal',2,'Create Adoption Animal',NULL,NULL,1607860857,1607860857),('createAdoptionRequest',2,'Create adoption Request',NULL,NULL,1607860857,1607860857),('createFoundAnimal',2,'Create Found Animal',NULL,NULL,1607860857,1607860857),('createMissingAnimal',2,'Create a Missing Animal',NULL,NULL,1607860857,1607860857),('createOrganizationRequest',2,'Create an Organization',NULL,NULL,1607860857,1607860857),('manageAdoption',2,'Manage all the actions on the organization it belongs.',NULL,NULL,1607860857,1607860857),('manageAdoptionAnimal',2,'Manage Adoption Animal',NULL,NULL,1607860857,1607860857),('manageFoundAnimal',2,'Manage Found Animal',NULL,NULL,1607860857,1607860857),('manageMissingAnimal',2,'Manage a Missing Animal',NULL,NULL,1607860857,1607860857),('manageOrganization',2,'Manage all the actions over the organization',NULL,NULL,1607860857,1607860857),('manageOrganizationRequest',2,'Manage all the actions over the organization it belongs.',NULL,NULL,1607860857,1607860857),('manageOwnFoundAnimal',2,'Manage own Found Animal','isPublisherUser',NULL,1607860857,1607860857),('manageOwnMissingAnimal',2,'Manage own Missing Animal','isPublisherUser',NULL,1607860857,1607860857),('manageOwnOrgAdoption',2,'Manage all the actions over the adoptions of the organization it belongs.','isOrganizationAssociatedUser',NULL,1607860857,1607860857),('manageOwnOrgAdoptionAnimal',2,'Manage Adoption Animal on the organization it belongs','isOrganizationAssociatedUser',NULL,1607860857,1607860857),('manageOwnOrgOrganization',2,'Manage all the actions over the organization it belongs.','isOrganizationAssociatedUser',NULL,1607860857,1607860857),('manageOwnUser',2,'Manage own user','isUser',NULL,1607860857,1607860857),('manageUser',2,'Manage user',NULL,NULL,1607860857,1607860857),('user',1,NULL,NULL,NULL,1607860857,1607860857);
 /*!40000 ALTER TABLE `auth_item` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -308,7 +308,7 @@ CREATE TABLE `auth_rule` (
 
 LOCK TABLES `auth_rule` WRITE;
 /*!40000 ALTER TABLE `auth_rule` DISABLE KEYS */;
-INSERT INTO `auth_rule` VALUES ('isOrganizationAssociatedUser',_binary 'O:42:\"common\\rbac\\OrganizationAssociatedUserRule\":3:{s:4:\"name\";s:28:\"isOrganizationAssociatedUser\";s:9:\"createdAt\";i:1607911302;s:9:\"updatedAt\";i:1607911302;}',1607911302,1607911302),('isPublisherUser',_binary 'O:29:\"common\\rbac\\PublisherUserRule\":3:{s:4:\"name\";s:15:\"isPublisherUser\";s:9:\"createdAt\";i:1607911302;s:9:\"updatedAt\";i:1607911302;}',1607911302,1607911302),('isUser',_binary 'O:20:\"common\\rbac\\UserRule\":3:{s:4:\"name\";s:6:\"isUser\";s:9:\"createdAt\";i:1607911302;s:9:\"updatedAt\";i:1607911302;}',1607911302,1607911302);
+INSERT INTO `auth_rule` VALUES ('isOrganizationAssociatedUser',_binary 'O:39:\"app\\rbac\\OrganizationAssociatedUserRule\":3:{s:4:\"name\";s:28:\"isOrganizationAssociatedUser\";s:9:\"createdAt\";i:1607860857;s:9:\"updatedAt\";i:1607860857;}',1607860857,1607860857),('isPublisherUser',_binary 'O:30:\"console\\rbac\\PublisherUserRule\":3:{s:4:\"name\";s:15:\"isPublisherUser\";s:9:\"createdAt\";i:1607860857;s:9:\"updatedAt\";i:1607860857;}',1607860857,1607860857),('isUser',_binary 'O:21:\"console\\rbac\\UserRule\":3:{s:4:\"name\";s:6:\"isUser\";s:9:\"createdAt\";i:1607860857;s:9:\"updatedAt\";i:1607860857;}',1607860857,1607860857);
 /*!40000 ALTER TABLE `auth_rule` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -435,7 +435,7 @@ CREATE TABLE `migration` (
 
 LOCK TABLES `migration` WRITE;
 /*!40000 ALTER TABLE `migration` DISABLE KEYS */;
-INSERT INTO `migration` VALUES ('m000000_000000_base',1607911295),('m130524_201442_init',1607911295),('m190124_110200_add_verification_token_column_to_user_table',1607911295),('m140506_102106_rbac_init',1607911298),('m170907_052038_rbac_add_index_on_auth_assignment_user_id',1607911298),('m180523_151638_rbac_updates_indexes_without_prefix',1607911298),('m200409_110543_rbac_update_mssql_trigger',1607911298);
+INSERT INTO `migration` VALUES ('m000000_000000_base',1607860839),('m130524_201442_init',1607860839),('m190124_110200_add_verification_token_column_to_user_table',1607860839),('m140506_102106_rbac_init',1607860848),('m170907_052038_rbac_add_index_on_auth_assignment_user_id',1607860848),('m180523_151638_rbac_updates_indexes_without_prefix',1607860848),('m200409_110543_rbac_update_mssql_trigger',1607860848);
 /*!40000 ALTER TABLE `migration` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -629,4 +629,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2020-12-14  2:02:26
+-- Dump completed on 2020-12-13 12:04:31
