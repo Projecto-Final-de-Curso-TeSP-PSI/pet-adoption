@@ -130,7 +130,29 @@ class UserController extends ActiveController
     }
 
     public function actionDelete($id){
+        /*$db = Yii::$app->db;
+        $transaction = $db->beginTransaction();
 
+        try {
+            $user = \backend\modules\api\models\User::findIdentity($id);
+
+            if($user == null){
+                throw new NotFoundHttpException("User id not found.");
+            }
+
+            $user->status = \backend\modules\api\models\User::STATUS_DELETED;
+
+            $transaction->commit();
+        } catch (\Exception $e) {
+            $transaction->rollBack();
+            throw $e;
+        } catch (\Throwable $e) {
+            $transaction->rollBack();
+            throw $e;
+        }
+
+        $response['message'] = "User successfully deleted.";
+        return $response;*/
     }
 
     /**
