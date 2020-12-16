@@ -13,6 +13,7 @@ class RbacController extends Controller
 
 
         //################### ADOPTION ANIMAL PERMISSIONS ###################
+
         // RULE
         $rule = new \common\rbac\OrganizationAssociatedUserRule;
         $auth->add($rule);
@@ -32,11 +33,6 @@ class RbacController extends Controller
         $manageOwnOrgAdoptionAnimal->description = 'Manage Adoption Animal on the organization it belongs';
         $manageOwnOrgAdoptionAnimal->ruleName = $rule->name;
         $auth->add($manageOwnOrgAdoptionAnimal);
-
-//        $deleteOwnOrgAdoptionAnimal = $auth->createPermission('deleteOwnOrgAdoptionAnimal');
-//        $deleteOwnOrgAdoptionAnimal->description = 'Delete Adoption Animal on the organization it belongs';
-//        $deleteOwnOrgAdoptionAnimal->ruleName = $rule->name;
-//        $auth->add($deleteOwnOrgAdoptionAnimal);
 
         // ADD AS CHILD
         $auth->addChild($manageOwnOrgAdoptionAnimal, $manageAdoptionAnimal);
@@ -86,11 +82,6 @@ class RbacController extends Controller
         $manageOwnOrganization->ruleName = $rule->name;
         $auth->add($manageOwnOrganization);
 
-        // MANAGE ORGANIZATION REQUEST
-        $manageOwnOrganization = $auth->createPermission('manageOrganizationRequest');
-        $manageOwnOrganization->description = 'Manage all the actions over the organization it belongs.';
-        $auth->add($manageOwnOrganization);
-
 
         // ADD AS CHILD
         $auth->addChild($manageOwnOrganization, $manageOrganization);
@@ -117,13 +108,9 @@ class RbacController extends Controller
         $manageOwnMissingAnimal->ruleName = $rule->name;
         $auth->add($manageOwnMissingAnimal);
 
-//        $deleteOwnMissingAnimal = $auth->createPermission('deleteOwnMissingAnimal');
-//        $deleteOwnMissingAnimal->description = 'Delete own Missing Animal';
-//        $deleteOwnMissingAnimal->ruleName = $rule->name;
-//        $auth->add($deleteOwnMissingAnimal);
-
         // ADD AS CHILD
         $auth->addChild($manageOwnMissingAnimal, $manageMissingAnimal);
+
 
         //################### FOUND ANIMAL PERMISSIONS ###################
 
@@ -144,11 +131,6 @@ class RbacController extends Controller
         $manageOwnFoundAnimal->description = 'Manage own Found Animal';
         $manageOwnFoundAnimal->ruleName = $rule->name;
         $auth->add($manageOwnFoundAnimal);
-
-//        $deleteOwnFoundAnimal = $auth->createPermission('deleteOwnFoundAnimal');
-//        $deleteOwnFoundAnimal->description = 'Delete own Found Animal';
-//        $deleteOwnFoundAnimal->ruleName = $rule->name;
-//        $auth->add($deleteOwnFoundAnimal);
 
         // ADD AS CHILD
         $auth->addChild($manageOwnFoundAnimal, $manageFoundAnimal);
@@ -176,9 +158,12 @@ class RbacController extends Controller
 
 
         //################### USER ROLE ###################
-        // adiciona a role "user" e da a esta role a permissão para "publishMissingAnimal" e "publishFoundAnimal"
+
+        //ADD ROLE USER
         $user = $auth->createRole('user');
         $auth->add($user);
+
+        //ADD USER PERMISSIONS TO THE ASSOCIATED USER ROLE
         $auth->addChild($user, $createMissingAnimal);
         $auth->addChild($user, $manageOwnMissingAnimal);
 
@@ -197,7 +182,7 @@ class RbacController extends Controller
         $associatedUser = $auth->createRole('associatedUser');
         $auth->add($associatedUser);
 
-        //ADD USER PERMISSIONS TO THE ASSOCIATED USER ROLE
+        //ADD ASSOCIATED USER PERMISSIONS TO THE ASSOCIATED USER ROLE
         $auth->addChild($associatedUser, $user);
 
         //ADD PERMISSIONS TO THE ASSOCIATED USER ROLE
@@ -227,25 +212,25 @@ class RbacController extends Controller
 
         // Atribui roles para usuários. 1 and 2 são IDs retornados por IdentityInterface::getId()
         // normalmente implementado no seu model User.
-        $auth->assign($admin, 1); // Role de admin atribuído ao user com id 1 na base de dados (Simão);
-        $auth->assign($admin, 2); // Role de admin atribuído ao user com id 1 na base de dados (Simão);
-        $auth->assign($associatedUser, 3); // Role de admin atribuído ao user com id 3 na base de dados (Ricardo);
-        $auth->assign($associatedUser, 4); // Role de admin atribuído ao user com id 4 na base de dados (Cláudia);
-        $auth->assign($associatedUser, 5); // Role de admin atribuído ao user com id 4 na base de dados (Cláudia);
-        $auth->assign($associatedUser, 6); // Role de admin atribuído ao user com id 4 na base de dados (Cláudia);
-        $auth->assign($associatedUser, 7); // Role de admin atribuído ao user com id 4 na base de dados (Cláudia);
-        $auth->assign($associatedUser, 8); // Role de admin atribuído ao user com id 4 na base de dados (Cláudia);
-        $auth->assign($user, 9); // Role de admin atribuído ao user com id 4 na base de dados (Cláudia);
-        $auth->assign($user, 10); // Role de admin atribuído ao user com id 4 na base de dados (Cláudia);
-        $auth->assign($user, 11); // Role de admin atribuído ao user com id 4 na base de dados (Cláudia);
-        $auth->assign($user, 12); // Role de admin atribuído ao user com id 4 na base de dados (Cláudia);
-        $auth->assign($user, 13); // Role de admin atribuído ao user com id 4 na base de dados (Cláudia);
-        $auth->assign($user, 14); // Role de admin atribuído ao user com id 4 na base de dados (Cláudia);
-        $auth->assign($user, 15); // Role de admin atribuído ao user com id 4 na base de dados (Cláudia);
-        $auth->assign($user, 16); // Role de admin atribuído ao user com id 4 na base de dados (Cláudia);
-        $auth->assign($user, 17); // Role de admin atribuído ao user com id 4 na base de dados (Cláudia);
-        $auth->assign($user, 18); // Role de admin atribuído ao user com id 4 na base de dados (Cláudia);
-        $auth->assign($user, 19); // Role de admin atribuído ao user com id 4 na base de dados (Cláudia);
-        $auth->assign($user, 20); // Role de admin atribuído ao user com id 4 na base de dados (Cláudia);
+        $auth->assign($admin, 1);
+        $auth->assign($admin, 2);
+        $auth->assign($associatedUser, 3);
+        $auth->assign($associatedUser, 4);
+        $auth->assign($associatedUser, 5);
+        $auth->assign($associatedUser, 6);
+        $auth->assign($associatedUser, 7);
+        $auth->assign($associatedUser, 8);
+        $auth->assign($user, 9);
+        $auth->assign($user, 10);
+        $auth->assign($user, 11);
+        $auth->assign($user, 12);
+        $auth->assign($user, 13);
+        $auth->assign($user, 14);
+        $auth->assign($user, 15);
+        $auth->assign($user, 16);
+        $auth->assign($user, 17);
+        $auth->assign($user, 18);
+        $auth->assign($user, 19);
+        $auth->assign($user, 20);
     }
 }

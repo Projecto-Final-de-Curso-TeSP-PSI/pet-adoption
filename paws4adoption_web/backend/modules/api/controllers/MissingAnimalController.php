@@ -2,6 +2,7 @@
 
 namespace backend\modules\api\controllers;
 
+use backend\modules\api\exceptions\SaveAnimalException;
 use backend\modules\api\models\AdoptionAnimal;
 use backend\modules\api\models\Animal;
 use backend\modules\api\models\FoundAnimal;
@@ -81,38 +82,52 @@ class MissingAnimalController extends ActiveController
 
     public function actions(){
         $actions = parent::actions();
+        unset($actions['index']);
+        unset($actions['view']);
         unset($actions['create']);
         unset($actions['update']);
         unset($actions['delete']);
         return $actions;
     }
 
+    public function actionIndex(){
+        Yii::$app->response->statusCode = 200;
+        return MissingAnimal::find()
+            ->isStillMissing()
+            ->all();
+    }
+
+    public function actionView($id){
+        $missingAnimal = MissingAnimal::findOne($id);
+
+        if($missingAnimal == null || $missingAnimal->is_missing == false)
+            throw new NotFoundHttpException('Missing animal not found');
+
+        Yii::$app->response->statusCode = 200;
+        return $missingAnimal;
+    }
+
     public function actionCreate(){
-        try{
-            $this->checkAccess( 'create', null, null );
+        $post = Yii::$app->request->post();
 
-            $post = Yii::$app->request->post();
+        $animal = Utils::createAnimal($post, 'missingAnimal');
 
-
-            $animal = Utils::createAnimal($post, 'missingAnimal');
-        }
-        catch (\Exception $e){
-            throw new BadRequestHttpException($e->getMessage() , $e->getCode(), $e);
-        }
         Yii::$app->response->statusCode = 201;
         return $animal;
     }
 
     public function actionUpdate($id){
-        $this->checkAccess( 'update', null, ['id' => $id]);
+        $this->checkAccess('update', null, ['id' => $id]);
 
-        $request = Yii::$app->request;
+        $missingAnimal = MissingAnimal::findOne($id);
 
-        if ($request->post() === null)
-            return new BadRequestHttpException("Body data not sent");
+        if($missingAnimal == null || $missingAnimal->is_missing == false)
+            throw new NotFoundHttpException('Missing animal not found');
 
-        $post = $request->post();
-        $animal = Utils::updateAnimal($id, $post, 'missingAnimal');
+        $post = Yii::$app->request->post();
+//        var_dump($post); die;
+
+        $animal = Utils::updateAnimal($id, $post,'missingAnimal');
 
         Yii::$app->response->statusCode = 200;
         return $animal;
@@ -121,9 +136,19 @@ class MissingAnimalController extends ActiveController
     public function actionDelete($id){
         $this->checkAccess( 'delete', null, ['id' => $id]);
 
-        $animal = Utils::deleteAnimal($id, 'missingAnimal');
+        $missingAnimal = MissingAnimal::findOne($id);
+
+        if($missingAnimal == null || $missingAnimal->is_missing == false)
+            throw new NotFoundHttpException('Missing animal not found');
+
+        try{
+            $missingAnimal->is_missing = false;
+            $missingAnimal->save();
+        } catch (\Exception $e) {
+            throw new SaveAnimalException("Error on deleting animal on the database", 400, $e);
+        }
 
         Yii::$app->response->statusCode = 200;
-        return $animal;
+        return $missingAnimal;
     }
 }

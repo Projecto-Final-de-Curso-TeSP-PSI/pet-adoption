@@ -2,57 +2,60 @@
 
 namespace backend\modules\api\utils;
 
+use backend\modules\api\exceptions\PhotoSaveException;
+use backend\modules\api\exceptions\PhotoUploadException;
+use backend\modules\api\exceptions\SaveAnimalException;
+
 use backend\modules\api\models\Address;
-use backend\modules\api\models\AdoptionAnimal;
 use backend\modules\api\models\Animal;
 use backend\modules\api\models\FoundAnimal;
 use backend\modules\api\models\MissingAnimal;
 use common\models\Photo;
-use http\Exception\BadMessageException;
 use Yii;
-use yii\db\Exception;
-use yii\web\BadRequestHttpException;
+use yii\web\NotFoundHttpException;
 
 class Utils
 {
-    public static function createAnimal($body, $animal_type){
+    public static function createAnimal($post, $animal_type){
         $db = Yii::$app->db;
         $transaction = $db->beginTransaction();
         try
         {
             $animal = new \backend\modules\api\models\Animal();
-            $animal->name = $body['name'];
-            $animal->chipId = $body['chipId'];
-            $animal->description = $body['description'];
-            $animal->nature_id = $body['nature_id'];
-            $animal->fur_length_id = $body['fur_length_id'];
-            $animal->fur_color_id = $body['fur_color_id'];
-            $animal->size_id = $body['size_id'];
-            $animal->sex = $body['sex'];
-            $saveOk = $animal->save();
 
-            $savePhotoOk = self::createPhoto($animal);
+            $animal->name = $post['name'];
+            $animal->chipId = $post['chipId'];
+            $animal->description = $post['description'];
+            $animal->nature_id = $post['nature_id'];
+            $animal->fur_length_id = $post['fur_length_id'];
+            $animal->fur_color_id = $post['fur_color_id'];
+            $animal->size_id = $post['size_id'];
+            $animal->sex = $post['sex'];
+            $animal->save();
+
+            self::createPhoto($animal);
 
             switch($animal_type) {
                 case 'missingAnimal':
                     $missingAnimal = new MissingAnimal();
                     $missingAnimal->id = $animal->id;
                     $missingAnimal->is_missing = true;
-                    $missingAnimal->missing_date = $body['missing_date'];
+                    $missingAnimal->missing_date = $post['missing_date'];
                     $missingAnimal->owner_id = Yii::$app->user->id;
                     $missingAnimal->save();
                     break;
                 case 'foundAnimal':
                     $address = new Address();
-                    $address->street = $body['street'];
-                    $address->city = $body['city'];
-                    $address->district_id = $body['district_id'];
+                    $address->street = $post['street'];
+                    $address->city = $post['city'];
+                    $address->district_id = $post['district_id'];
                     $address->save();
+
                     $foundAnimal = new FoundAnimal();
                     $foundAnimal->id = $animal->id;
                     $foundAnimal->location = $address->id;
                     $foundAnimal->is_active = true;
-                    $foundAnimal->found_date = $body['found_date'];
+                    $foundAnimal->found_date = $post['found_date'];
                     $foundAnimal->priority = 'Por classificar';
                     $foundAnimal->user_id = Yii::$app->user->id;
                     $foundAnimal->save();
@@ -60,23 +63,21 @@ class Utils
             }
 
             $transaction->commit();
-
-        } catch (\Exception $e) {
+        } catch (PhotoUploadException $e){
             $transaction->rollBack();
-//            var_dump($e); die;
-
-            throw new BadRequestHttpException($e->getMessage(), $e->getCode(), $e);
-        } catch (\Throwable $e) {
+            throw  $e;
+        } catch(PhotoSaveException $e){
             $transaction->rollBack();
-            var_dump($e); die;
-
-            throw new BadRequestHttpException(null, null, $e);
+            throw $e;
+        }catch (\Exception $e) {
+            $transaction->rollBack();
+            throw new SaveAnimalException("Error on saving animal on the database", null, $e);
         }
 
         return $animal;
     }
 
-    public static function updateAnimal($id, $body, $animal_type){
+    public static function updateAnimal($id, $post, $animal_type){
 
         $db = Yii::$app->db;
         $transaction = $db->beginTransaction();
@@ -84,147 +85,166 @@ class Utils
         {
             $animal =  Animal::findOne($id);
             if($animal == null)
-                throw new \Exception("Animal id not found");
+                throw new NotFoundHttpException("Animal parent id not found");
 
-            $animal->name = $body['name'];
-            $animal->chipId = $body['chipId'];
-            $animal->description = $body['description'];
-            $animal->nature_id = $body['nature_id'];
-            $animal->fur_length_id = $body['fur_length_id'];
-            $animal->fur_color_id = $body['fur_color_id'];
-            $animal->size_id = $body['size_id'];
-            $animal->sex = $body['sex'];
+            $animal->name = $post['name'];
+            $animal->chipId = $post['chipId'];
+            $animal->description = $post['description'];
+            $animal->nature_id = $post['nature_id'];
+            $animal->fur_length_id = $post['fur_length_id'];
+            $animal->fur_color_id = $post['fur_color_id'];
+            $animal->size_id = $post['size_id'];
+            $animal->sex = $post['sex'];
+            $animal->save();
 
-//            if(!$animal->save()){
-//                throw new InvalidArgumentException("Erro ao gravar os dados");
-//            }
-
-
+            //self::createPhoto($animal);
 
             switch($animal_type) {
                 case "missingAnimal":
+                    $missingAnimal = MissingAnimal::findOne($id);
 
-
-//                    if(!$missingAnimal)
-//                        throw new \BadRequestHttpException("Animal not found");
-
-
-
-                    $animal->missingAnimal->is_missing = $body['is_missing'];
-                    $animal->missingAnimal->missing_date = $body['missing_date'];
-                    //$animal->missingAnimal->owner_id = Yii::$app->user->id;
-                    $animal->save();
-
-//                    var_dump($animal);
-//                    die;
-
+                    $missingAnimal->is_missing = $post['is_missing'];
+                    $missingAnimal->missing_date = $post['missing_date'];
+                    $missingAnimal->save();
                     break;
                 case 'foundAnimal':
-                    $address = Address::findOne($body['location']);
-                    if($address == null)
-                        $address = new Address();
+                    $foundAnimal = FoundAnimal::findOne($animal->id);
+                    //TODO: validação???
 
-                    $address->street = $body['street'];
-                    $address->city = $body['city'];
-                    $address->district_id = $body['district_id'];
+                    $address = Address::findOne($foundAnimal->location);
+                    //TODO: validação???
+
+                    $address->street = $post['street'];
+                    $address->city = $post['city'];
+                    $address->district_id = $post['district_id'];
                     $address->save();
 
-                    //$foundAnimal = new FoundAnimal();
-                    $foundAnimal = FoundAnimal::findOne($id);
-                    if(!$foundAnimal)
-                        throw new \Exception("Animal id not found");
-
-                    $foundAnimal->id = $animal->id;
-                    $foundAnimal->location = $address->id;
                     $foundAnimal->is_active = true;
-                    $foundAnimal->found_date = $body['found_date'];
-                    $foundAnimal->priority = 'Por classificar';
-                    $foundAnimal->user_id = Yii::$app->user->id;
+                    $foundAnimal->found_date = $post['found_date'];
+                    $foundAnimal->priority = $post['priority'];
                     $foundAnimal->save();
                     break;
             }
 
-                $transaction->commit();
-
-            } catch (\Exception $e) {
-                $transaction->rollBack();
-                return $e;
-            } catch (\Throwable $e) {
-                $transaction->rollBack();
-                return $e;
-            }
-
-            return $animal;
-    }
-
-    public static function deleteAnimal($id, $animal_type){
-        $db = Yii::$app->db;
-        $transaction = $db->beginTransaction();
-        try {
-            $animal = Animal::findOne($id);
-            if($animal == null )
-                throw new BadRequestHttpException("Animal is required");
-
-            //delete all photos of this animal
-            Photo::deleteAll(['id_animal' => $animal->id]);
-
-            //delete child animal
-            switch($animal_type){
-                case 'missingAnimal':
-                    MissingAnimal::findOne($id)->delete();
-                    break;
-                case 'foundAnimal':
-                    FoundAnimal::findOne($id)->delete();
-                    break;
-            }
-
-            //delete the animal
-            if($animal->delete() === false){
-                //TODO: SEND EXCEPTION
-            };
-
             $transaction->commit();
+        } catch(NotFoundHttpException $e){
+            $transaction->rollBack();
+            throw $e;
+        } catch (PhotoUploadException $e){
+            $transaction->rollBack();
+            throw  $e;
+        } catch(PhotoSaveException $e){
+            $transaction->rollBack();
+            throw $e;
         } catch (\Exception $e) {
             $transaction->rollBack();
-            return $e;
-        } catch (\Throwable $e) {
-            $transaction->rollBack();
-            return $e;
+            throw new SaveAnimalException("Error on saving animal on the database", null, $e);
         }
 
         return $animal;
     }
 
-    private static function createPhoto($animal){
+//    public static function deleteAnimal($animal, $animal_type){
+//        $db = Yii::$app->db;
+//        $transaction = $db->beginTransaction();
 //        try {
-            $photo = new Photo();
-            $photo->id_animal = $animal->id;
-            $photo->caption = $animal->nature->name . " - " . $animal->name;
-            $photo->imgPath = 'images/animal/' . self::uploadPhoto();
-            return $photo->save();
-
-//        } catch (\Exception $e){
-//            throw new BadRequestHttpException($e->getMessage(), $e->getCode(), $e);
+//
+//
+//
+//
+//            $animal = Animal::findOne($id);
+//            if($animal == null )
+//                throw new NotFoundHttpException("Animal not found: " . $animal_type);
+//
+//            //delete all photos of this animal
+//            Photo::deleteAll(['id_animal' => $animal->id]);
+//
+//            //delete child animal
+//            switch($animal_type){
+//                case 'missingAnimal':
+//                    MissingAnimal::findOne($id)->delete();
+//                    break;
+//                case 'foundAnimal':
+//                    FoundAnimal::findOne($id)->delete();
+//                    break;
+//            }
+//            $animal->delete();
+//
+//            $transaction->commit();
+//        } catch(NotFoundHttpException $e){
+//            throw $e;
+//        } catch (\Exception $e) {
+//            $transaction->rollBack();
+//            throw new SaveAnimalException("Error on deletin animal on the database", 400, $e);
 //        }
+//        return $animal;
+//    }
+
+    private static function createPhoto($animal){
+        $saveResult = null;
+        try {
+            $photo = new Photo();
+            $photo->caption = $animal->nature->name . " - " . $animal->name;
+            $photo->path = 'images/animal';
+
+            $result = self::uploadPhoto(uniqid());
+
+            if($result['saved'] == true){
+                $photo->name = $result['name'];
+                $photo->extension = $result['extension'];
+            }
+            else{
+                return false;
+            }
+            $photo->id_animal = $animal->id;
+
+            $result = $photo->save();
+        } catch (PhotoUploadException $e){
+            throw  $e;
+        } catch(\Exception $e){
+            throw new PhotoSaveException("Error on saving photo on the database");
+        }
+
+        return $result;
     }
 
-    private static function uploadPhoto(){
-//        try {
-            $documentPath = realpath(Yii::$app->basePath . '/../frontend/web/images/animal') . '\\';
+    private static function updatePhoto($animal){
+        $saveResult = null;
+        try {
+
+            $result = self::uploadPhoto($animal->photo->name);
+
+            if($result['saved'] == true){
+                $animal->photo->extension = $result['extension'];
+            }
+            else{
+                return false;
+            }
+
+            $result = $animal->save();
+        } catch (PhotoUploadException $e){
+            throw  $e;
+        } catch(\Exception $e){
+            throw new PhotoSaveException("Error on saving photo on the database", 400);
+        }
+        return $saveResult;
+    }
+
+    private static function uploadPhoto($uniqueId){
+        try {
+            $path = realpath(Yii::$app->basePath . '/../frontend/web/images/animal') . '\\';
 
             $postdata = fopen($_FILES['photo']['tmp_name'], "r");
-
 
             /* Get file extension */
             $extension = substr($_FILES['photo']['name'], strrpos($_FILES['photo']['name'], '.'));
 
             /* Generate unique name */
-            $uniqueId = uniqid() . $extension;
-            $filename = $documentPath . $uniqueId;
-            var_dump($filename);
+            $filename = $uniqueId . $extension;
+            $documentPath = $path . $filename;
 
             /* Open a file for writing */
-            $fp = fopen($filename, "w");
+            $fp = fopen($documentPath, "w");
 
             /* Read the data 1 KB at a time and write to the file */
             while ($data = fread($postdata, 1024)) {
@@ -234,11 +254,16 @@ class Utils
             /* Close the streams */
             fclose($fp);
             fclose($postdata);
-//        }
-//        catch (\Exception $e){
-//            throw new BadRequestHttpException("uploadPhoto - Error while saving photo - " . $e->getMessage());
-//        }
-        /* returns the uniqueId of the file to be saved later in the database */
-        return $uniqueId;
+        }
+        catch (\Exception $e){
+            throw  new PhotoUploadException("Error on uploading photo", null, $e);
+        }
+
+        /* returns an array e */
+        return [
+            'saved' => true,
+            'name' => $uniqueId,
+            'extension' => $extension
+        ];
     }
 }
