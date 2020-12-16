@@ -5,8 +5,14 @@ use yii\helpers\Html;
 use yii\widgets\ActiveForm;
 
 /* @var $this yii\web\View */
-/* @var $model common\models\MissingAnimalSearch */
+/* @var $animalMissingModel common\models\MissingAnimalSearch */
+/* @var $animalSearchModel common\models\AnimalSearch */
 /* @var $form yii\widgets\ActiveForm */
+
+/* @var $nature */
+/* @var $natureCat */
+/* @var $natureDog */
+/* @var $size */
 ?>
 
 <div class="missing-animal-search">
