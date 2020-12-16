@@ -8,8 +8,9 @@ use Yii;
  * This is the model class for table "photos".
  *
  * @property int $id
- * @property string|null $caption
- * @property string|null $imgPath
+ * @property string $caption
+ * @property string $name
+ * @property string $extension
  * @property int $id_animal
  *
  * @property Animal $animal
@@ -30,10 +31,11 @@ class Photo extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['id_animal'], 'required'],
+            [['caption', 'name', 'extension', 'id_animal'], 'required'],
             [['id_animal'], 'integer'],
             [['caption'], 'string', 'max' => 45],
-            [['imgPath'], 'string', 'max' => 255],
+            [['name'], 'string', 'max' => 50],
+            [['extension'], 'string', 'max' => 10],
             [['id_animal'], 'exist', 'skipOnError' => true, 'targetClass' => Animal::className(), 'targetAttribute' => ['id_animal' => 'id']],
         ];
     }
@@ -46,7 +48,8 @@ class Photo extends \yii\db\ActiveRecord
         return [
             'id' => 'ID',
             'caption' => 'Caption',
-            'imgPath' => 'Img Path',
+            'name' => 'Name',
+            'extension' => 'Extension',
             'id_animal' => 'Id Animal',
         ];
     }
@@ -59,5 +62,9 @@ class Photo extends \yii\db\ActiveRecord
     public function getAnimal()
     {
         return $this->hasOne(Animal::className(), ['id' => 'id_animal']);
+    }
+
+    public function getPhotoPath(){
+        return '@images/' . $this->name . '.' . $this->extension;
     }
 }

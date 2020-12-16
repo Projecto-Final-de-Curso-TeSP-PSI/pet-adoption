@@ -7,17 +7,20 @@ $animalId = $model->animal->id;
 $type = $model->animal->getType();
 $photos = $model->animal->photos;
 
-$imgPath = '@web/';
+$imgPath = null;
 
 foreach ($photos as $photo){
-    $imgPath .= $photo['imgPath'];
+    $imgPath = $photo->photoPath;
 }
+print_r($imgPath);
+
+//print_r(Yii::getAlias($photos[0]->photoPath)); die;
 
 ?>
 
 
 <div class="card mb-30">
-<?= Html::img($imgPath, ['alt' => 'Card Image', 'class' => 'card-img radius-0']); ?>
+<?= Html::img($imgPath,  ['alt' => 'Card Image', 'class' => 'card-img radius-0']); ?>
     <div class="card-body">
         <div class="card-title h5"><?= HtmlPurifier::process($model->animal->name) ?></div>
         <hr class="lineCard">
