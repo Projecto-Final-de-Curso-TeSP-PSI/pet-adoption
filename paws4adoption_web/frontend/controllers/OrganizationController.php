@@ -143,30 +143,29 @@ class OrganizationController extends Controller
 
                 if($address->load($post) && $address->save()){
                     $organization->load($post);
-                    //$organization->address_id = $address->id;
+                    $organization->address_id = $address->id;
 
                     if($organization->save()){
 
                         $transaction->commit();
-                        return $this->redirect(['site/index',
-                            'id' => $organization->id,
-                            'success_message' => 'Organização criada com sucesso']);
+                        Yii::$app->session->setFlash('Success', "Associação criada com sucesso.");
+                        return $this->redirect(['site/index']);
                     } else{
 
                         $transaction->rollBack();
+                        Yii::$app->session->setFlash('Error', "Erro ao criar associação.");
                         return $this->render('create', [
                             'newOrganization' => $organization,
                             'newAddress' => $address,
-                            'error_message' => 'Erro ao gravar a organização'
                         ]);
                     }
                 } else{
 
                     $transaction->rollBack();
+                    Yii::$app->session->setFlash('Error', "Erro ao criar associação.");
                     return $this->render('create', [
                         'newOrganization' => $organization,
-                        'newAddress' => $address,
-                        'error_message' => 'Erro ao gravar a morada da associação',
+                        'newAddress' => $address
                     ]);
                 }
             }
@@ -174,14 +173,9 @@ class OrganizationController extends Controller
             return $this->render('create', [
                 'organization' => $organization,
                 'address' => $address,
-                'scenario' => Organization::SCENARIO_CREATE_ORGANIZATION,
             ]);
 
         } catch (\Exception $e) {
-
-            $transaction->rollBack();
-            return $this->redirect('site/index');
-        } catch (\Throwable $e) {
 
             $transaction->rollBack();
             return $this->redirect('site/index');
@@ -198,7 +192,6 @@ class OrganizationController extends Controller
     public function actionUpdate($id)
     {
         $organization = $this->findModel($id);
-        //$organization->scenario = Organization::SCENARIO_UPDATE_ORGANIZATION;  //#### SCENARIO LOAD
 
         $address = Address::findOne($organization->id);
 
@@ -211,21 +204,18 @@ class OrganizationController extends Controller
 
                 if($address->load($post) && $address->save()){
                     $organization->load($post);
-                    //$organization->scenario = Organization::SCENARIO_UPDATE_ORGANIZATION;  //#### SCENARIO LOAD
-
-
-                    $organization->address_id = $address->id;
 
                     if($organization->save()){
+
                         $transaction->commit();
-                        return $this->render('update',
-                            ['organization' => $organization,
-                            'address' => $address,
-                            ]);
+                        Yii::$app->session->setFlash('Success', "Organização salva com sucesso.");
+                        return $this->redirect('../site/index',
+                            );
                     } else{
 
                         $transaction->rollBack();
 
+                        Yii::$app->session->setFlash('error', "Erro ao salvar organização.");
                         return $this->render('update', [
                             'organization' => $organization,
                             'address' => $address,
@@ -235,6 +225,7 @@ class OrganizationController extends Controller
 
                     $transaction->rollBack();
 
+                    Yii::$app->session->setFlash('error', "Erro salvar organização.");
                     return $this->render('update', [
                         'organization' => $organization,
                         'address' => $address,
@@ -267,9 +258,18 @@ class OrganizationController extends Controller
     public function actionDelete($id)
     {
 
-        $this->findModel($id)->status = Organization::INACTIVE;
+        $organization = $this->findModel($id);
+        $organization->status = Organization::INACTIVE;
 
-        return $this->redirect(['site/index']);
+        if($organization->save()){
+            Yii::$app->session->setFlash('Success', "Organização eliminada com sucesso.");
+            return $this->redirect(['site/index']);
+        }
+        else{
+            Yii::$app->session->setFlash('Error', "Erro ao eliminar organização.");
+            return $this->redirect(['site/index']);
+        }
+
     }
 
     /**
