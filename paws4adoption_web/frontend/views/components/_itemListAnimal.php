@@ -10,11 +10,8 @@ $photos = $model->animal->photos;
 $imgPath = null;
 
 foreach ($photos as $photo){
-    $imgPath = $photo->photoPath;
+    $imgPath = $photo->imgPath;
 }
-print_r($imgPath);
-
-//print_r(Yii::getAlias($photos[0]->photoPath)); die;
 
 ?>
 

@@ -64,7 +64,7 @@ class Photo extends \yii\db\ActiveRecord
         return $this->hasOne(Animal::className(), ['id' => 'id_animal']);
     }
 
-    public function getPhotoPath(){
+    public function getImgPath(){
         return '@images/' . $this->name . '.' . $this->extension;
     }
 }
