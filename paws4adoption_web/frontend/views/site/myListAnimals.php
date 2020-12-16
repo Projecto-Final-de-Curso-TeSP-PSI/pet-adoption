@@ -12,6 +12,7 @@ use yii\widgets\ListView;
 AppAsset::register($this);
 
 $this->title = 'Os meus animais perdidos';
+
 ?>
 
 <div class="container">
