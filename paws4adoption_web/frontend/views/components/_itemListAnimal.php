@@ -17,7 +17,14 @@ foreach ($photos as $photo){
 
 
 <div class="card mb-30">
-<?= Html::img($imgPath,  ['alt' => 'Card Image', 'class' => 'card-img radius-0']); ?>
+<?php
+    if($imgPath == null){
+       echo Html::img('@images/defaultImg.png',  ['alt' => 'Card Image', 'class' => 'card-img radius-0 image-animal']);
+    }else{
+        echo Html::img($imgPath,  ['alt' => 'Card Image', 'class' => 'card-img radius-0 image-animal']);
+    }
+
+ ?>
     <div class="card-body">
         <div class="card-title h5"><?= HtmlPurifier::process($model->animal->name) ?></div>
         <hr class="lineCard">
@@ -44,6 +51,7 @@ foreach ($photos as $photo){
                     ['title' => 'Detalhes do Animal',
                         'animalId' => $animalId,
                         'type' => $type,
+                        'imgPath' => $imgPath,
                         'name' => $model->animal->name,
                         'nature' => $model->animal->nature->nameByParentId,
                         'bread' => $model->animal->nature->name,
@@ -65,6 +73,7 @@ foreach ($photos as $photo){
                 echo Yii::$app->view->renderFile('@frontend/views/components/_modalAnimalDetails.php',
                     ['title' => 'Detalhes do Animal',
                         'animalId' => $animalId,
+                        'imgPath' => $imgPath,
                         'type' => $model->gettype(),
                         'name' => $model->animal->name,
                         'nature' => $model->animal->nature->nameByParentId,
@@ -90,7 +99,6 @@ foreach ($photos as $photo){
                     [
                         'title' => 'Contatos do dono',
                         'modalId' => $animalId,
-
                         'publisherUsername' => $model->owner->username,
                         'publisherContact' => $model->owner->phone,
                         'publisherEmail' => $model->owner->email,
@@ -103,6 +111,7 @@ foreach ($photos as $photo){
                 echo Yii::$app->view->renderFile('@frontend/views/components/_modalAnimalDetails.php',
                     ['title' => 'Detalhes do Animal',
                         'animalId' => $animalId,
+                        'imgPath' => $imgPath,
                         'type' => $model->animal->gettype(),
                         'name' => $model->animal->name,
                         'nature' => $model->animal->nature->nameByParentId,
@@ -118,7 +127,6 @@ foreach ($photos as $photo){
                         'foundDate' => $model->foundDate,
                         'location' => $model->location,
                         'description' => $model->animal->description,
-
                         'submitContact' => 'Contactar',
                         'closeText' => 'Fechar'
                     ]);

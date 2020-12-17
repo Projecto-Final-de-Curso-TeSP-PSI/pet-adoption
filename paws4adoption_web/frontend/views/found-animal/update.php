@@ -7,6 +7,7 @@ use yii\helpers\Html;
 /* @var $model common\models\FoundAnimal */
 /* @var $animalModel common\models\Animal */
 /* @var $addressModel common\models\Address */
+/* @var $newAnimalPhotoModel common\models\Photo */
 /* @var $natureList */
 /* @var $natureDog */
 /* @var $natureCat */
@@ -26,6 +27,7 @@ $typeUpdate = 'updateFoundAnimal';
             'typeUpdate' => $typeUpdate,
             'addressModel' => $addressModel,
             'animalModel' => $animalModel,
+            'newAnimalPhotoModel' => $newAnimalPhotoModel,
             'foundAnimalModel' => $model,
             'natureList' => $natureList,
             'natureDog' => $natureDog,

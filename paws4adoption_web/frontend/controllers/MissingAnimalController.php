@@ -75,7 +75,7 @@ class MissingAnimalController extends Controller
             $animalSearchModel = new AnimalSearch();
             $animalMissingDataProvider = $animalMissingSearchModel->search(Yii::$app->request->queryParams);
 
-            if (Yii::$app->request->get() != null){
+            if (Yii::$app->request->get() != null) {
 
                 $query = $this->queryBuilder(Yii::$app->request->get());
 
@@ -86,7 +86,7 @@ class MissingAnimalController extends Controller
                     ]
                 ]);
             }
-        } catch (\Exception $exception){
+        } catch (\Exception $exception) {
             // TODO: LIDAR COM A EXCEPÇÃO. O que acontece se for lançada uma excepção?
             throw $exception;
         }
@@ -160,20 +160,23 @@ class MissingAnimalController extends Controller
             $formData = Yii::$app->request->post();
 
             if ($animalModel->load($formData) && $animalModel->save()) {
-                $file = UploadedFile::getInstance($animalPhotoModel, 'imgPath');
-                $animalPhotoModel->imgPath = 'images/animal/' . $animalModel->name . '_' . $animalModel->id . '.' . $file->extension;
-                $animalPhotoModel->id_animal = $animalModel->id;
-                $animalPhotoModel->caption = $animalModel->nature->name . " - " . $animalModel->name;
-                $file->saveAs('@frontend/web/images/animal/' . $animalModel->name . '_' . $animalModel->id . '.' . $file->extension);
-                if ($animalPhotoModel->save()) {
-                    $missingAnimalModel->load($formData);
-                    $missingAnimalModel->id = $animalModel->id;
-                    $missingAnimalModel->is_missing = true;
-                    $missingAnimalModel->owner_id = Yii::$app->user->id;
-                    if ($missingAnimalModel->save()) {
-                        return $this->redirect(['site/my-list-animals']);
-                    }
+                if (UploadedFile::getInstance($animalPhotoModel, 'imgPath') != null) {
+                    $file = UploadedFile::getInstance($animalPhotoModel, 'imgPath');
+                    $animalPhotoModel->name = $animalModel->name . '_' . $animalModel->id;
+                    $animalPhotoModel->extension = $file->extension;
+                    $animalPhotoModel->id_animal = $animalModel->id;
+                    $animalPhotoModel->caption = $animalModel->nature->name . " - " . $animalModel->name;
+                    $file->saveAs('images/animal/' . $animalModel->name . '_' . $animalModel->id . '.' . $file->extension);
+                    $animalPhotoModel->save();
                 }
+                $missingAnimalModel->load($formData);
+                $missingAnimalModel->id = $animalModel->id;
+                $missingAnimalModel->is_missing = true;
+                $missingAnimalModel->owner_id = Yii::$app->user->id;
+                if ($missingAnimalModel->save()) {
+                    return $this->redirect(['site/my-list-animals']);
+                }
+
 
             }
         }
@@ -203,6 +206,7 @@ class MissingAnimalController extends Controller
     {
         $model = $this->findModel($id);
         $animalModel = $model->animal;
+        $newAnimalPhotoModel = new Photo();
 
         $natureList = ArrayHelper::map(Nature::find()->where(['parent_nature_id' => null])->all(), 'id', 'name');
         $sex = Animal::getSex();
@@ -214,10 +218,24 @@ class MissingAnimalController extends Controller
 
         if (Yii::$app->request->post()) {
             $formData = Yii::$app->request->post();
-            var_dump($formData);
 
             if ($animalModel->load($formData) && $animalModel->save()) {
                 $model->load($formData);
+                $file = UploadedFile::getInstance($newAnimalPhotoModel, 'imgPath');
+                $currentAnimalPhoto = Photo::findOne(['id_animal' => $id]);
+                if ($file != null) {
+                    $newAnimalPhotoModel->name = $animalModel->name . '_' . $animalModel->id;
+                    $newAnimalPhotoModel->extension = $file->extension;
+                    $newAnimalPhotoModel->id_animal = $animalModel->id;
+                    $newAnimalPhotoModel->caption = $animalModel->nature->name . " - " . $animalModel->name;
+                    if ($currentAnimalPhoto != null) {
+                        unlink(Yii::$app->basePath . '\web\images\animal\\' . $currentAnimalPhoto->name . '.' . $currentAnimalPhoto->extension);
+                        $currentAnimalPhoto->delete();
+                    }
+                    $file->saveAs('images/animal/' . $animalModel->name . '_' . $animalModel->id . '.' . $file->extension);
+                    //$animalModel->delete();
+                    $newAnimalPhotoModel->save();
+                }
                 if ($model->save()) {
                     return $this->redirect(['site/my-list-animals']);
                 }
@@ -228,6 +246,7 @@ class MissingAnimalController extends Controller
         return $this->render('update', [
             'model' => $model,
             'animalModel' => $animalModel,
+            'newAnimalPhotoModel' => $newAnimalPhotoModel,
             'natureList' => $natureList,
             'natureCat' => $natureCat,
             'natureDog' => $natureDog,
@@ -270,14 +289,15 @@ class MissingAnimalController extends Controller
         throw new NotFoundHttpException('The requested page does not exist.');
     }
 
-    private function queryBuilder($params){
+    private function queryBuilder($params)
+    {
 
         $parent_nature_id = $params['AnimalSearch']['parent_nature_id'];
         $natureCat_id = $params['AnimalSearch']['natureCat_id'];
         $natureDog_id = $params['AnimalSearch']['natureDog_id'];
         $size = $params['AnimalSearch']['size'];
 
-        if($parent_nature_id !== "" && $natureCat_id !== "" && $size !== ""){
+        if ($parent_nature_id !== "" && $natureCat_id !== "" && $size !== "") {
             $naturesIds = Nature::getChildsIdsByParentId($parent_nature_id);
 
             $query = MissingAnimal::find()
@@ -287,7 +307,7 @@ class MissingAnimalController extends Controller
 
             return $query;
 
-        } elseif ($parent_nature_id !== "" && $natureDog_id !== "" && $size !== ""){
+        } elseif ($parent_nature_id !== "" && $natureDog_id !== "" && $size !== "") {
             $naturesIds = Nature::getChildsIdsByParentId($parent_nature_id);
 
             $query = MissingAnimal::find()
@@ -297,7 +317,7 @@ class MissingAnimalController extends Controller
 
             return $query;
 
-        } elseif ($parent_nature_id !== "" && $natureCat_id !== ""){
+        } elseif ($parent_nature_id !== "" && $natureCat_id !== "") {
 
             $query = MissingAnimal::find()
                 ->innerJoinWith('animal')
@@ -305,7 +325,7 @@ class MissingAnimalController extends Controller
 
             return $query;
 
-        } elseif ($parent_nature_id !== "" && $natureDog_id !== ""){
+        } elseif ($parent_nature_id !== "" && $natureDog_id !== "") {
 
             $query = MissingAnimal::find()
                 ->innerJoinWith('animal')
@@ -313,7 +333,7 @@ class MissingAnimalController extends Controller
 
             return $query;
 
-        } elseif ($parent_nature_id !== "" && $size !== ""){
+        } elseif ($parent_nature_id !== "" && $size !== "") {
             $naturesIds = Nature::getChildsIdsByParentId($parent_nature_id);
 
             $query = MissingAnimal::find()
@@ -322,7 +342,7 @@ class MissingAnimalController extends Controller
 
             return $query;
 
-        } elseif ($parent_nature_id !== ""){
+        } elseif ($parent_nature_id !== "") {
             $naturesIds = Nature::getChildsIdsByParentId($parent_nature_id);
 
             $query = MissingAnimal::find()
@@ -331,7 +351,7 @@ class MissingAnimalController extends Controller
 
             return $query;
 
-        } elseif ($size !== ""){
+        } elseif ($size !== "") {
             $query = MissingAnimal::find()
                 ->innerJoinWith('animal')
                 ->where(['size_id' => $size]);

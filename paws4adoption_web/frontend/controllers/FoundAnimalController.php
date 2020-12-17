@@ -63,7 +63,7 @@ class FoundAnimalController extends Controller
             $animalSearchModel = new AnimalSearch();
             $animalFoundDataProvider = $animalFoundSearchModel->search(Yii::$app->request->queryParams);
 
-            if (Yii::$app->request->get() != null){
+            if (Yii::$app->request->get() != null) {
 
                 $query = $this->queryBuilder(Yii::$app->request->get());
 
@@ -74,7 +74,7 @@ class FoundAnimalController extends Controller
                     ]
                 ]);
             }
-        } catch (\Exception $e){
+        } catch (\Exception $e) {
             throw $e;
         }
 
@@ -113,6 +113,7 @@ class FoundAnimalController extends Controller
         $animalModel = new Animal();
         $foundAnimalModel = new FoundAnimal();
         $animalPhotoModel = new Photo();
+
         $natureList = ArrayHelper::map(Nature::find()->where(['parent_nature_id' => null])->all(), 'id', 'name');
         $sex = Animal::getSex();
         $natureCat = ArrayHelper::map(Nature::find()->where(['parent_nature_id' => 1])->all(), 'id', 'name');
@@ -125,12 +126,17 @@ class FoundAnimalController extends Controller
             $formData = Yii::$app->request->post();
 
             if ($animalModel->load($formData) && $animalModel->save()) {
-                $file = UploadedFile::getInstance($animalPhotoModel, 'imgPath');
-                $animalPhotoModel->imgPath = 'images/animal/' . $animalModel->name . '_' . $animalModel->id . '.' . $file->extension;
-                $animalPhotoModel->id_animal = $animalModel->id;
-                $animalPhotoModel->caption = $animalModel->nature->name . " - " . $animalModel->name;
-                $file->saveAs('@frontend/web/images/animal/' . $animalModel->name . '_' . $animalModel->id . '.' . $file->extension);
-                if ($animalPhotoModel->save()) {
+                if ($animalModel->load($formData) && $animalModel->save()) {
+                    if (UploadedFile::getInstance($animalPhotoModel, 'imgPath') != null) {
+                        $file = UploadedFile::getInstance($animalPhotoModel, 'imgPath');
+                        $animalPhotoModel->name = $animalModel->name . '_' . $animalModel->id;
+                        $animalPhotoModel->extension = $file->extension;
+                        $animalPhotoModel->id_animal = $animalModel->id;
+                        $animalPhotoModel->caption = $animalModel->nature->name . " - " . $animalModel->name;
+                        //Nao deu para usar o @images
+                        $file->saveAs('images/animal/' . $animalModel->name . '_' . $animalModel->id . '.' . $file->extension);
+                        $animalPhotoModel->save();
+                    }
                     $addressModel->load($formData);
                     if ($addressModel->save()) {
                         $foundAnimalModel->load($formData);
@@ -178,6 +184,7 @@ class FoundAnimalController extends Controller
         $animalModel = $model->animal;
         $addressid = $model->location;
         $addressModel = Address::findOne(['id' => $addressid]);
+        $newAnimalPhotoModel = new Photo();
 
 
         $natureList = ArrayHelper::map(Nature::find()->where(['parent_nature_id' => null])->all(), 'id', 'name');
@@ -191,12 +198,24 @@ class FoundAnimalController extends Controller
 
         if (Yii::$app->request->post()) {
             $formData = Yii::$app->request->post();
-            var_dump($formData);
-
             if ($animalModel->load($formData) && $animalModel->save()) {
+                $file = UploadedFile::getInstance($newAnimalPhotoModel, 'imgPath');
+                $currentAnimalPhoto = Photo::findOne(['id_animal' => $id]);
+                if ($file != null) {
+                    $newAnimalPhotoModel->name = $animalModel->name . '_' . $animalModel->id;
+                    $newAnimalPhotoModel->extension = $file->extension;
+                    $newAnimalPhotoModel->id_animal = $animalModel->id;
+                    $newAnimalPhotoModel->caption = $animalModel->nature->name . " - " . $animalModel->name;
+                    if($currentAnimalPhoto != null){
+                        unlink(Yii::$app->basePath . '\web\images\animal\\' . $currentAnimalPhoto->name . '.' . $currentAnimalPhoto->extension);
+                        $currentAnimalPhoto->delete();
+                    }
+                    $file->saveAs('images/animal/' . $animalModel->name . '_' . $animalModel->id . '.' . $file->extension);
+                    //$animalModel->delete();
+                    $newAnimalPhotoModel->save();
+                }
                 $addressModel->load($formData);
                 if ($addressModel->save()) {
-
                     $model->load($formData);
                     if ($model->save()) {
                         return $this->redirect(['site/my-list-animals']);
@@ -209,6 +228,7 @@ class FoundAnimalController extends Controller
             'model' => $model,
             'addressModel' => $addressModel,
             'animalModel' => $animalModel,
+            'newAnimalPhotoModel' => $newAnimalPhotoModel,
             'natureList' => $natureList,
             'natureCat' => $natureCat,
             'natureDog' => $natureDog,

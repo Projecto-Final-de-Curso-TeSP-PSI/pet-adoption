@@ -165,3 +165,9 @@ a.desc:after {
 .form-left-align{
     padding-left: 0px;
 }
+
+.image-animal{
+    object-fit: cover;
+    width: 100%;
+    height: 250px;
+}

@@ -29,6 +29,7 @@ use yii\helpers\Url;
 /* @var $submitFat */
 /* @var $submitContact */
 /* @var $closeText */
+/* @var $imgPath */
 
 
 ?>
@@ -45,8 +46,15 @@ use yii\helpers\Url;
                 </button>
             </div>
             <div class="modal-body">
+                <?php
+                if($imgPath == null){
+                    echo Html::img('@images/defaultImg.png',  ['alt' => 'Card Image', 'class' => 'card-img radius-0']);
+                }else{
+                    echo Html::img($imgPath,  ['alt' => 'Card Image', 'class' => 'card-img radius-0']);
+                }
 
-                <?= Html::img('@web/images/cards/1.jpg', ['alt' => 'Card Image', 'class' => 'card-img radius-0']); ?>
+                ?>
+
                 <div class="card-body">
                     <div class="card-title h5"><?= $name ?> </div>
                     <hr class="lineCard">

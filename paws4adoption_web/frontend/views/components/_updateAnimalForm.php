@@ -15,7 +15,7 @@ use kartik\file\FileInput;
 /* @var $animalModel common\models\Animal */
 /* @var $missingAnimalModel common\models\MissingAnimal */
 /* @var $foundAnimalModel common\models\FoundAnimal */
-/* @var $animalPhotoModel common\models\Photo */
+/* @var $newAnimalPhotoModel common\models\Photo */
 /* @var $form yii\widgets\ActiveForm */
 /* @var $natureList */
 /* @var $natureDog */
@@ -109,6 +109,10 @@ AppAsset::register($this);
 
 
                     <?= $form->field($animalModel, 'description')->textarea(['placeholder' => 'Insere informação que consideres relevantes a publicação.'], ['rows' => 3]) ?>
+
+                    <?= $form->field($newAnimalPhotoModel, 'imgPath', ['inputOptions' => ['id' => 'createFill-photo']])->widget(FileInput::classname(), [
+                        'options' => ['accept' => 'image/*'],
+                    ]) ?>
 
 
                     <div class="form-group">
