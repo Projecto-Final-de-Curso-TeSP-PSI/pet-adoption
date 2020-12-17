@@ -1,8 +1,8 @@
--- MySQL dump 10.13  Distrib 8.0.22, for Win64 (x86_64)
+-- MySQL dump 10.13  Distrib 8.0.22, for macos10.15 (x86_64)
 --
--- Host: localhost    Database: paws4adoption
+-- Host: 127.0.0.1    Database: paws4adoption
 -- ------------------------------------------------------
--- Server version	8.0.18
+-- Server version	5.7.30
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
@@ -24,17 +24,17 @@ DROP TABLE IF EXISTS `address`;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `address` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
-  `street` varchar(45) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `door_number` varchar(16) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `floor` varchar(16) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `street` varchar(45) DEFAULT NULL,
+  `door_number` varchar(16) DEFAULT NULL,
+  `floor` varchar(16) DEFAULT NULL,
   `postal_code` int(10) unsigned DEFAULT NULL,
   `street_code` int(10) unsigned DEFAULT NULL,
-  `city` varchar(45) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `city` varchar(45) DEFAULT NULL,
   `district_id` int(10) unsigned NOT NULL,
   PRIMARY KEY (`id`),
   KEY `fk_district_id_idx` (`district_id`),
   CONSTRAINT `fk_district_id` FOREIGN KEY (`district_id`) REFERENCES `districts` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=33 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=33 DEFAULT CHARSET=utf8mb4;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -58,7 +58,7 @@ CREATE TABLE `admin_users` (
   `id` int(10) unsigned NOT NULL,
   PRIMARY KEY (`id`),
   CONSTRAINT `fk_admin_user_id` FOREIGN KEY (`id`) REFERENCES `users` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -89,7 +89,7 @@ CREATE TABLE `adoption_animals` (
   CONSTRAINT `fk_adopt_animal_id` FOREIGN KEY (`id`) REFERENCES `animals` (`id`),
   CONSTRAINT `fk_associated_user_id` FOREIGN KEY (`associated_user_id`) REFERENCES `associated_users` (`id`),
   CONSTRAINT `fk_organization_id` FOREIGN KEY (`organization_id`) REFERENCES `organizations` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -111,7 +111,7 @@ DROP TABLE IF EXISTS `adoptions`;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `adoptions` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
-  `motivation` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  `motivation` text NOT NULL,
   `adoption_date` date DEFAULT NULL,
   `adopted_animal_id` int(10) unsigned NOT NULL,
   `adopter_id` int(10) unsigned NOT NULL,
@@ -120,7 +120,7 @@ CREATE TABLE `adoptions` (
   KEY `fk_adoption_animal_id` (`adopted_animal_id`),
   CONSTRAINT `fk_adopter_id` FOREIGN KEY (`adopter_id`) REFERENCES `users` (`id`),
   CONSTRAINT `fk_adoption_animal_id` FOREIGN KEY (`adopted_animal_id`) REFERENCES `adoption_animals` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -142,15 +142,15 @@ DROP TABLE IF EXISTS `animals`;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `animals` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
-  `chipId` varchar(15) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `chipId` varchar(15) DEFAULT NULL,
   `createdAt` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `description` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci,
+  `description` text,
   `nature_id` int(10) unsigned NOT NULL,
   `fur_length_id` int(10) unsigned NOT NULL,
   `fur_color_id` int(10) unsigned NOT NULL,
   `size_id` int(10) unsigned NOT NULL,
-  `sex` enum('M','F') CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
-  `name` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `sex` enum('M','F') NOT NULL,
+  `name` varchar(64) DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `fk_specie_id_idx` (`nature_id`),
   KEY `fk_fur_length_id_idx` (`fur_length_id`),
@@ -160,7 +160,7 @@ CREATE TABLE `animals` (
   CONSTRAINT `fk_fur_length_id` FOREIGN KEY (`fur_length_id`) REFERENCES `fur_lengths` (`id`),
   CONSTRAINT `fk_nature_id` FOREIGN KEY (`nature_id`) REFERENCES `nature` (`id`),
   CONSTRAINT `fk_size_id` FOREIGN KEY (`size_id`) REFERENCES `sizes` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=21 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=35 DEFAULT CHARSET=utf8mb4;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -169,7 +169,7 @@ CREATE TABLE `animals` (
 
 LOCK TABLES `animals` WRITE;
 /*!40000 ALTER TABLE `animals` DISABLE KEYS */;
-INSERT INTO `animals` VALUES (1,'647837364763743','2020-05-02 00:00:00','Cao muito manso mas tem medo de outros caes',68,3,7,1,'M','Lulu'),(2,'647837334763743','2020-05-07 00:00:00','Gato cheio de vida, muito irrequieto, ideal para quem tenha muito espaço em casa.',47,2,6,1,'M','Becas'),(3,'647837364865743','2020-05-12 00:00:00','O Jolly é um gato afável, sempre pronto a dormir uma sonena á janela',47,3,2,1,'M','Jolly'),(4,'647837374333453','2020-05-24 00:00:00','Gato de muito alimento, está cada vez mais fofo de gordo.',3,2,7,1,'M','Limao'),(5,'375963489569865','2020-06-04 00:00:00','O Jiancarlo é um gato assustado, necessita de ter o seu espaço',13,1,6,1,'M','Jiancarlo'),(6,'659637264928462','2020-06-06 00:00:00','O Pucci apesar de nao ter cauda, anda sempre em correrias',20,2,3,1,'M','Pucci'),(7,'623946928358962','2020-06-09 00:00:00','A Gispy só quer dormir todo o dia e toda a noite.',46,1,4,1,'M','Fausto'),(8,'670476094730704','2020-06-24 00:00:00','Cao muito manso mas tem medo de outros caes',55,3,5,1,'M','Miguel'),(9,'986795367634578','2020-07-02 00:00:00','O Afonso é muito enérgico, não para quieto',68,2,1,1,'M','Afonso'),(10,'979793874589795','2020-07-08 00:00:00','O Henriques apesar do seu tamanho imponente apenas quer dormir ao sol',60,3,5,1,'M','Henriques'),(11,'985787309457308','2020-07-09 00:00:00','O Freddy foi resgatado de uma casa em ruinas, abandonado, mas agora está pronto para outra familia que cuide bem dele',75,3,5,1,'M','Freddy'),(12,'985987687349867','2020-07-14 00:00:00','A Mason já foi uam cadela feliz, quer volta a fazê-la sorrir?!?!',83,3,2,1,'M','Manson'),(13,'784768479745654','2020-07-23 00:00:00','O Argulias é o cão mais atarefado do canil, está sempre a arrumar alguma coisa debaixo da terra, um osso ou um brinquedo.',68,3,1,1,'M','Argulias'),(14,'694786994857694','2020-07-27 00:00:00','O Esdrubal está connosco há 2 anos, venha dar um passeio com ele e verá que é o cão que procura.',72,3,2,1,'M','Esdrubal'),(15,'498689476897458','2020-08-02 00:00:00','Desde que o Buscapé chegou o canil nunca mais foi o mesmo, é o terror dos cães com sono.',107,3,5,1,'M','Buscapé'),(16,'498689476897458','2020-08-08 00:00:00','Apesar de ter pouca força nas pernas, o Alicate mexe-se muito, quem conseguir que o apanhe.',64,3,5,1,'M','Alicate'),(17,'498689476897458','2020-08-13 00:00:00','O Brutus é um são bernardo de tamanho imponente, mas não faz mal a ninguém, venha conhecê-lo.',101,2,5,1,'M','Brutus'),(18,'498689476897458','2020-08-19 00:00:00','A Geraldina chegou com uma ninhada de 4 patudos, já foram todos, quem a leva agora a ela??!',79,1,5,1,'M','Geraldina'),(19,'498689476897458','2020-08-26 00:00:00','Já não existem cães como o Ambrosio, vai buscar o jornal e dá a pata.',109,2,7,1,'M','Ambrosio'),(20,'498689476897458','2020-09-08 00:00:00','A fofa é uma caniche cheia de atividade, sempre pronta para passeios',68,3,1,1,'M','Fofa');
+INSERT INTO `animals` VALUES (1,'647837364763743','2020-05-02 00:00:00','Cao muito manso mas tem medo de outros caes',68,3,7,1,'M','Lulu'),(2,'647837334763743','2020-05-07 00:00:00','Gato cheio de vida, muito irrequieto, ideal para quem tenha muito espaço em casa.',47,2,6,1,'M','Becas'),(3,'647837364865743','2020-05-12 00:00:00','O Jolly é um gato afável, sempre pronto a dormir uma sonena á janela',47,3,2,1,'M','Jolly'),(4,'647837374333453','2020-05-24 00:00:00','Gato de muito alimento, está cada vez mais fofo de gordo.',3,2,7,1,'M','Limao'),(5,'375963489569865','2020-06-04 00:00:00','O Jiancarlo é um gato assustado, necessita de ter o seu espaço',13,1,6,1,'M','Jiancarlo'),(6,'659637264928462','2020-06-06 00:00:00','O Pucci apesar de nao ter cauda, anda sempre em correrias',20,2,3,1,'M','Pucci'),(7,'623946928358962','2020-06-09 00:00:00','A Gispy só quer dormir todo o dia e toda a noite.',46,1,4,1,'M','Fausto'),(8,'670476094730704','2020-06-24 00:00:00','Cao muito manso mas tem medo de outros caes',55,3,5,1,'M','Miguel'),(9,'986795367634578','2020-07-02 00:00:00','O Afonso é muito enérgico, não para quieto',68,2,1,1,'M','Afonso'),(10,'979793874589795','2020-07-08 00:00:00','O Henriques apesar do seu tamanho imponente apenas quer dormir ao sol',60,3,5,1,'M','Henriques'),(11,'985787309457308','2020-07-09 00:00:00','O Freddy foi resgatado de uma casa em ruinas, abandonado, mas agora está pronto para outra familia que cuide bem dele',75,3,5,1,'M','Freddy'),(12,'985987687349867','2020-07-14 00:00:00','A Mason já foi uam cadela feliz, quer volta a fazê-la sorrir?!?!',83,3,2,1,'M','Manson'),(13,'784768479745654','2020-07-23 00:00:00','O Argulias é o cão mais atarefado do canil, está sempre a arrumar alguma coisa debaixo da terra, um osso ou um brinquedo.',68,3,1,1,'M','Argulias'),(14,'694786994857694','2020-07-27 00:00:00','O Esdrubal está connosco há 2 anos, venha dar um passeio com ele e verá que é o cão que procura.',72,3,2,1,'M','Esdrubal'),(15,'498689476897458','2020-08-02 00:00:00','Desde que o Buscapé chegou o canil nunca mais foi o mesmo, é o terror dos cães com sono.',107,3,5,1,'M','Buscapé'),(16,'498689476897458','2020-08-08 00:00:00','Apesar de ter pouca força nas pernas, o Alicate mexe-se muito, quem conseguir que o apanhe.',64,3,5,1,'M','Alicate'),(17,'498689476897458','2020-08-13 00:00:00','O Brutus é um são bernardo de tamanho imponente, mas não faz mal a ninguém, venha conhecê-lo.',101,2,5,1,'M','Brutus'),(18,'498689476897458','2020-08-19 00:00:00','A Geraldina chegou com uma ninhada de 4 patudos, já foram todos, quem a leva agora a ela??!',79,1,5,1,'M','Geraldina'),(19,'498689476897458','2020-08-26 00:00:00','Já não existem cães como o Ambrosio, vai buscar o jornal e dá a pata.',109,2,7,1,'M','Ambrosio'),(20,'12154154656454','2020-09-08 00:00:00','LOALOasdasda',46,1,4,1,'M','Fausto12313');
 /*!40000 ALTER TABLE `animals` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -187,7 +187,7 @@ CREATE TABLE `associated_users` (
   PRIMARY KEY (`id`),
   KEY `associated_fk_org_id_idx` (`organization_id`),
   CONSTRAINT `fk_assoc_user_id` FOREIGN KEY (`id`) REFERENCES `users` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -321,9 +321,9 @@ DROP TABLE IF EXISTS `districts`;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `districts` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
-  `name` varchar(45) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `name` varchar(45) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=30 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=30 DEFAULT CHARSET=utf8mb4;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -345,16 +345,16 @@ DROP TABLE IF EXISTS `found_animals`;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `found_animals` (
   `id` int(10) unsigned NOT NULL,
-  `location` varchar(45) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `location` varchar(45) DEFAULT NULL,
   `is_active` bit(1) DEFAULT NULL,
   `found_date` date DEFAULT NULL,
-  `priority` enum('Alta','Media','Baixa','Por classificar') CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `priority` enum('Alta','Media','Baixa','Por classificar') DEFAULT NULL,
   `user_id` int(10) unsigned NOT NULL,
   PRIMARY KEY (`id`),
   KEY `fk_user_id_idx` (`user_id`),
   CONSTRAINT `fk_animal_id` FOREIGN KEY (`id`) REFERENCES `animals` (`id`),
   CONSTRAINT `fk_user_id` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -376,9 +376,9 @@ DROP TABLE IF EXISTS `fur_colors`;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `fur_colors` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
-  `fur_color` varchar(45) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  `fur_color` varchar(45) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8mb4;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -400,9 +400,9 @@ DROP TABLE IF EXISTS `fur_lengths`;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `fur_lengths` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
-  `fur_length` varchar(45) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  `fur_length` varchar(45) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -426,7 +426,7 @@ CREATE TABLE `migration` (
   `version` varchar(180) NOT NULL,
   `apply_time` int(11) DEFAULT NULL,
   PRIMARY KEY (`version`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -455,7 +455,7 @@ CREATE TABLE `missing_animals` (
   KEY `fk_owner_id_idx` (`owner_id`),
   CONSTRAINT `fk_missing_animal_id` FOREIGN KEY (`id`) REFERENCES `animals` (`id`),
   CONSTRAINT `fk_owner_id` FOREIGN KEY (`owner_id`) REFERENCES `users` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -464,7 +464,7 @@ CREATE TABLE `missing_animals` (
 
 LOCK TABLES `missing_animals` WRITE;
 /*!40000 ALTER TABLE `missing_animals` DISABLE KEYS */;
-INSERT INTO `missing_animals` VALUES (2,'2020-06-04',_binary '',12),(7,'2020-06-04',_binary '',14),(20,'2020-06-04',_binary '',16);
+INSERT INTO `missing_animals` VALUES (2,'2020-06-04',_binary '',12),(7,'2020-06-04',_binary '',14),(20,'2019-04-20',_binary '',16);
 /*!40000 ALTER TABLE `missing_animals` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -478,9 +478,9 @@ DROP TABLE IF EXISTS `nature`;
 CREATE TABLE `nature` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `parent_nature_id` int(10) unsigned DEFAULT NULL,
-  `name` varchar(45) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `name` varchar(45) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=113 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=113 DEFAULT CHARSET=utf8mb4;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -502,16 +502,16 @@ DROP TABLE IF EXISTS `organizations`;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `organizations` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
-  `name` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
-  `nif` varchar(9) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
-  `email` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `phone` varchar(9) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `name` varchar(64) NOT NULL,
+  `nif` varchar(9) NOT NULL,
+  `email` varchar(64) DEFAULT NULL,
+  `phone` varchar(9) DEFAULT NULL,
   `address_id` int(10) unsigned DEFAULT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `nif_UNIQUE` (`nif`),
   KEY `fk_address_id_idx` (`address_id`),
   CONSTRAINT `fk_address_id` FOREIGN KEY (`address_id`) REFERENCES `address` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8mb4;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -533,13 +533,14 @@ DROP TABLE IF EXISTS `photos`;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `photos` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
-  `caption` varchar(45) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `imgPath` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `caption` varchar(45) DEFAULT NULL,
+  `name` varchar(50) DEFAULT NULL,
+  `extension` varchar(10) DEFAULT NULL,
   `id_animal` int(10) unsigned NOT NULL,
   PRIMARY KEY (`id`),
   KEY `photos_animals_id_fk` (`id_animal`),
   CONSTRAINT `photos_animals_id_fk` FOREIGN KEY (`id_animal`) REFERENCES `animals` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=21 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=40 DEFAULT CHARSET=utf8mb4;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -548,7 +549,7 @@ CREATE TABLE `photos` (
 
 LOCK TABLES `photos` WRITE;
 /*!40000 ALTER TABLE `photos` DISABLE KEYS */;
-INSERT INTO `photos` VALUES (2,'Caniche - Lulu','images/animal/lulu_001.jpg',1),(3,'Gato - Joly','images/animal/jolly_001.jpg',3),(4,NULL,'images/animal/afonso_001.jpg',9),(5,NULL,'images/animal/Ambrosio_001.jpg',19),(6,NULL,'images/animal/Arguilias_001.jpg',13),(7,NULL,'images/animal/becas_001.jpg',2),(8,NULL,'images/animal/brutus_001.jpg',17),(9,NULL,'images/animal/Buscape_001.jpg',15),(10,NULL,'images/animal/Esdrubal_001.jpg',14),(11,NULL,'images/animal/fausto_001.jpg',7),(12,NULL,'images/animal/fofa_001.jpg',20),(13,NULL,'images/animal/freddy_001.jpg',11),(14,NULL,'images/animal/Geraldina_001.jpg',18),(15,NULL,'images/animal/henriques_001.jpg',10),(16,NULL,'images/animal/Jiancarlo_001.jpg',5),(17,NULL,'images/animal/limao_001.jpg',4),(18,NULL,'images/animal/manson_001.jpg',12),(19,NULL,'images/animal/miguel_001.jpg',8),(20,NULL,'images/animal/pucci_001.jpg',6);
+INSERT INTO `photos` VALUES (2,'Caniche - Lulu','lulu_001','jpg',1),(3,'Gato - Joly','jolly_001','jpg',3),(4,NULL,'afonso_001','jpg',9),(5,NULL,'Ambrosio_001','jpg',19),(6,NULL,'Argulias_001','jpg',13),(7,NULL,'becas_001','jpg',2),(8,NULL,'brutus_001','jpg',17),(9,NULL,'Buscape_001','jpg',15),(10,NULL,'Esdrubal_001','jpg',14),(11,NULL,'fausto_001','jpg',7),(12,NULL,'fofa_001','jpg',20),(13,NULL,'freddy_001','jpg',11),(14,NULL,'Geraldina_001','jpg',18),(15,NULL,'henriques_001','jpg',10),(16,NULL,'Jiancarlo_001','jpg',5),(17,NULL,'limao_001','jpg',4),(18,NULL,'manson_001','jpg',12),(19,NULL,'miguel_001','jpg',8),(20,NULL,'pucci_001','jpg',6);
 /*!40000 ALTER TABLE `photos` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -561,9 +562,9 @@ DROP TABLE IF EXISTS `sizes`;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `sizes` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
-  `size` varchar(45) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  `size` varchar(45) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -585,19 +586,19 @@ DROP TABLE IF EXISTS `users`;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `users` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
-  `firstName` varchar(45) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `lastName` varchar(45) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `email` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
-  `nif` varchar(9) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `phone` varchar(9) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `username` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
-  `auth_key` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
-  `password_hash` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
-  `password_reset_token` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `firstName` varchar(45) DEFAULT NULL,
+  `lastName` varchar(45) DEFAULT NULL,
+  `email` varchar(64) NOT NULL,
+  `nif` varchar(9) DEFAULT NULL,
+  `phone` varchar(9) DEFAULT NULL,
+  `username` varchar(255) NOT NULL,
+  `auth_key` varchar(32) NOT NULL,
+  `password_hash` varchar(255) NOT NULL,
+  `password_reset_token` varchar(255) DEFAULT NULL,
   `status` smallint(6) NOT NULL DEFAULT '10',
   `created_at` int(11) NOT NULL,
   `updated_at` int(11) NOT NULL,
-  `verification_token` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `verification_token` varchar(255) DEFAULT NULL,
   `address_id` int(10) unsigned DEFAULT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `email_UNIQUE` (`email`),
@@ -607,7 +608,7 @@ CREATE TABLE `users` (
   KEY `fk_address_id_idx` (`address_id`),
   KEY `fk_user_address_id_idx` (`address_id`),
   CONSTRAINT `fk_user_address_id` FOREIGN KEY (`address_id`) REFERENCES `address` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=27 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=27 DEFAULT CHARSET=utf8mb4;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -629,4 +630,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2020-12-14  2:02:26
+-- Dump completed on 2020-12-16  0:04:20
