@@ -15,14 +15,12 @@ use yii\widgets\ListView;
 /* @var $size */
 /* @var $organization */
 
-$this->title = 'Found Animals';
+$this->title = 'Animais Errantes';
 
 AppAsset::register($this);
 
 ?>
 <div class="container">
-
-
     <div class="divTitleButtonFilter">
         <h1><?= Html::encode($this->title) ?></h1>
 
@@ -49,7 +47,7 @@ AppAsset::register($this);
 <?= Yii::$app->view->renderFile('@frontend/views/components/_modal.php',
     ['title' => 'Filtro Animais Errantes',
         'content' => $this->render('_search', [
-            'animalModel' => $animalSearchModel,
+            'animalSearchModel' => $animalSearchModel,
             'animalFoundModel' => $animalFoundSearchModel,
             'dataProvider' => $dataProvider,
             'nature' => $nature,
@@ -57,6 +55,7 @@ AppAsset::register($this);
             'natureDog' => $natureDog,
             'size' => $size,
         ]),
+        'submitBtnId' => 'FoundAnimalFilterBtn',
         'submitText' => 'Filtrar',
         'closeText' => 'Fechar'
     ]); ?>

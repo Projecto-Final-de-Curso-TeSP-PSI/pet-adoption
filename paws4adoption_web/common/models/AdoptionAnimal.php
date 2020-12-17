@@ -106,5 +106,4 @@ class AdoptionAnimal extends \common\models\Animal
             ->select('address_id')
             ->column();
     }
-
 }

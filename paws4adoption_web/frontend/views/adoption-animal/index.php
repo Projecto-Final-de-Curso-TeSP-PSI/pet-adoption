@@ -48,7 +48,7 @@ AppAsset::register($this);
 <?= Yii::$app->view->renderFile('@frontend/views/components/_modal.php',
     ['title' => 'Filtro Animais para Adoção',
         'content' => $this->render('_search', [
-            'animalModel' => $animalSearchModel,
+            'animalSearchModel' => $animalSearchModel,
             'animalAdoptionModel' => $animalAdoptionSearchModel,
 //            'organizationModel' => $organizationSearchModel,
             'dataProvider' => $dataProvider,
@@ -56,8 +56,9 @@ AppAsset::register($this);
             'natureCat' => $natureCat,
             'natureDog' => $natureDog,
             'size' => $size,
-//            'organization' => $organization
+            'organization' => $organization
         ]),
+        'submitBtnId' => 'AdoptionAnimalFilterBtn',
         'submitText' => 'Filtrar',
         'closeText' => 'Fechar'
     ]); ?>

@@ -16,8 +16,9 @@ use yii\data\ActiveDataProvider;
 use yii\filters\AccessControl;
 use yii\helpers\ArrayHelper;
 use yii\web\Controller;
-use yii\web\NotFoundHttpException;
+use yii\web\NotAdoptionHttpException;
 use yii\filters\VerbFilter;
+use yii\web\NotFoundHttpException;
 
 /**
  * AdoptionAnimalController implements the CRUD actions for AdoptionAnimal model.
@@ -56,17 +57,25 @@ class AdoptionAnimalController extends Controller
      */
     public function actionIndex()
     {
-        $animalAdoptionSearchModel = new AnimalAdoptionSearch();
-        $animalSearchModel = new AnimalSearch();
-        $organizationSearchModel = new OrganizationSearch();
-        $animalAdoptionDataProvider = $animalAdoptionSearchModel->search(Yii::$app->request->queryParams);
+        try {
+            $animalAdoptionSearchModel = new AnimalAdoptionSearch();
+            $animalSearchModel = new AnimalSearch();
+            $organizationSearchModel = new OrganizationSearch();
+            $animalAdoptionDataProvider = $animalAdoptionSearchModel->search(Yii::$app->request->queryParams);
 
-        if (Yii::$app->request->post() != null){
+            if (Yii::$app->request->get() != null){
 
-            $post = Yii::$app->request->post();
+                $query = $this->queryBuilder(Yii::$app->request->get());
 
-            $query = AdoptionAnimal::find()->where(['']);
-
+                $animalAdoptionDataProvider = new ActiveDataProvider([
+                    'query' => $query,
+                    'pagination' => [
+                        'pageSize' => 10,
+                    ]
+                ]);
+            }
+        } catch (\Exception $e){
+            throw $e;
         }
 
         return $this->render('index', [
@@ -75,11 +84,11 @@ class AdoptionAnimalController extends Controller
             'organizationSearchModel' => $organizationSearchModel,
             'dataProvider' => $animalAdoptionDataProvider,
 
-            'nature' => ArrayHelper::map(Nature::find()->where(['parent_nature_id' => null ])->all(), 'id', 'name'),
-            'natureCat' => ArrayHelper::map(Nature::find()->where(['parent_nature_id' => 1 ])->all(), 'id', 'name'),
-            'natureDog' => ArrayHelper::map(Nature::find()->where(['parent_nature_id' =>  2 ])->all(), 'id', 'name'),
-            'size' => ArrayHelper::map(Size::find()->all(), 'id', 'size'),
-            'organization' => ArrayHelper::map(Organization::find()->all(), 'id', 'name')
+            'nature' => Nature::getParentNatureIds(),
+            'natureCat' => Nature::getExistingNatureCat(),
+            'natureDog' => Nature::getExistingNatureDog(),
+            'size' => Size::getData(),
+            'organization' => Organization::getOrganizationsWithAdoptionAnimals()
         ]);
 
     }
@@ -108,7 +117,7 @@ class AdoptionAnimalController extends Controller
      * Displays a single AdoptionAnimal model.
      * @param integer $id
      * @return mixed
-     * @throws NotFoundHttpException if the model cannot be found
+     * @throws NotFoundHttpException if the model cannot be Adoption
      */
     public function actionView($id)
     {
@@ -140,7 +149,7 @@ class AdoptionAnimalController extends Controller
      * If update is successful, the browser will be redirected to the 'view' page.
      * @param integer $id
      * @return mixed
-     * @throws NotFoundHttpException if the model cannot be found
+     * @throws NotFoundHttpException if the model cannot be Adoption
      */
     public function actionUpdate($id)
     {
@@ -160,7 +169,7 @@ class AdoptionAnimalController extends Controller
      * If deletion is successful, the browser will be redirected to the 'index' page.
      * @param integer $id
      * @return mixed
-     * @throws NotFoundHttpException if the model cannot be found
+     * @throws NotFoundHttpException if the model cannot be Adoption
      */
     public function actionDelete($id)
     {
@@ -171,10 +180,10 @@ class AdoptionAnimalController extends Controller
 
     /**
      * Finds the AdoptionAnimal model based on its primary key value.
-     * If the model is not found, a 404 HTTP exception will be thrown.
+     * If the model is not Adoption, a 404 HTTP exception will be thrown.
      * @param integer $id
      * @return AdoptionAnimal the loaded model
-     * @throws NotFoundHttpException if the model cannot be found
+     * @throws NotFoundHttpException if the model cannot be Adoption
      */
     protected function findModel($id)
     {
@@ -183,5 +192,137 @@ class AdoptionAnimalController extends Controller
         }
 
         throw new NotFoundHttpException('The requested page does not exist.');
+    }
+
+    private function queryBuilder($params)
+    {
+
+        $parent_nature_id = $params['AnimalSearch']['parent_nature_id'];
+        $natureCat_id = $params['AnimalSearch']['natureCat_id'];
+        $natureDog_id = $params['AnimalSearch']['natureDog_id'];
+        $size = $params['AnimalSearch']['size'];
+        $organization = $params['AnimalSearch']['organization'];
+
+        if ($parent_nature_id !== "" && $natureCat_id !== "" && $size !== "" && $organization !== ""){
+            $naturesIds = Nature::getChildsIdsByParentId($parent_nature_id);
+
+            $query = AdoptionAnimal::find()
+                ->innerJoinWith('animal')
+                ->where(['in', 'nature_id', $naturesIds])
+                ->where(['nature_id' => $natureCat_id, 'size_id' => $size, 'organization_id' => $organization]);
+            return $query;
+
+        } elseif ($parent_nature_id !== "" && $natureDog_id !== "" && $size !== "" && $organization !== "") {
+            $naturesIds = Nature::getChildsIdsByParentId($parent_nature_id);
+
+            $query = AdoptionAnimal::find()
+                ->innerJoinWith('animal')
+                ->where(['in', 'nature_id', $naturesIds])
+                ->where(['nature_id' => $natureDog_id, 'size_id' => $size, 'organization_id' => $organization]);
+            return $query;
+
+        } elseif ($parent_nature_id !== "" && $natureCat_id !== "" && $size !== "") {
+            $naturesIds = Nature::getChildsIdsByParentId($parent_nature_id);
+
+            $query = AdoptionAnimal::find()
+                ->innerJoinWith('animal')
+                ->where(['in', 'nature_id', $naturesIds])
+                ->where(['nature_id' => $natureCat_id, 'size_id' => $size]);
+            return $query;
+
+        } elseif ($parent_nature_id !== "" && $natureDog_id !== "" && $size !== "") {
+            $naturesIds = Nature::getChildsIdsByParentId($parent_nature_id);
+
+            $query = AdoptionAnimal::find()
+                ->innerJoinWith('animal')
+                ->where(['in', 'nature_id', $naturesIds])
+                ->where(['nature_id' => $natureDog_id, 'size_id' => $size]);
+            return $query;
+
+        } elseif ($parent_nature_id !== "" && $natureCat_id !== "" && $organization !== "") {
+            $naturesIds = Nature::getChildsIdsByParentId($parent_nature_id);
+
+            $query = AdoptionAnimal::find()
+                ->innerJoinWith('animal')
+                ->where(['in', 'nature_id', $naturesIds])
+                ->where(['nature_id' => $natureCat_id, 'organization_id' => $organization]);
+            return $query;
+
+        } elseif ($parent_nature_id !== "" && $natureDog_id !== "" && $organization !== "") {
+            $naturesIds = Nature::getChildsIdsByParentId($parent_nature_id);
+
+            $query = AdoptionAnimal::find()
+                ->innerJoinWith('animal')
+                ->where(['in', 'nature_id', $naturesIds])
+                ->where(['nature_id' => $natureDog_id, 'organization_id' => $organization]);
+            return $query;
+
+        } elseif ($parent_nature_id !== "" && $natureCat_id !== "") {
+
+            $query = AdoptionAnimal::find()
+                ->innerJoinWith('animal')
+                ->where(['nature_id' => $natureCat_id]);
+            return $query;
+
+        } elseif ($parent_nature_id !== "" && $natureDog_id !== "") {
+
+            $query = AdoptionAnimal::find()
+                ->innerJoinWith('animal')
+                ->where(['nature_id' => $natureDog_id]);
+            return $query;
+
+        } elseif ($parent_nature_id !== "" && $size !== "" && $organization !== "") {
+            $naturesIds = Nature::getChildsIdsByParentId($parent_nature_id);
+
+            $query = AdoptionAnimal::find()
+                ->innerJoinWith('animal')
+                ->where(['in', 'nature_id', $naturesIds])
+                ->andWhere(['size_id' => $size, 'organization_id' => $organization]);
+            return $query;
+
+        } elseif ($parent_nature_id !== "" && $size !== "") {
+            $naturesIds = Nature::getChildsIdsByParentId($parent_nature_id);
+
+            $query = AdoptionAnimal::find()
+                ->innerJoinWith('animal')
+                ->where(['in', 'nature_id', $naturesIds])
+                ->andWhere(['size_id' => $size]);
+            return $query;
+
+        } elseif ($parent_nature_id !== "" && $organization !== "") {
+            $naturesIds = Nature::getChildsIdsByParentId($parent_nature_id);
+
+            $query = AdoptionAnimal::find()
+                ->innerJoinWith('animal')
+                ->where(['in', 'nature_id', $naturesIds])
+                ->andWhere(['organization_id' => $organization]);
+            return $query;
+
+        } elseif ($parent_nature_id !== "") {
+            $naturesIds = Nature::getChildsIdsByParentId($parent_nature_id);
+
+            $query = AdoptionAnimal::find()
+                ->innerJoinWith('animal')
+                ->where(['in', 'nature_id', $naturesIds]);
+            return $query;
+
+        } elseif ($size !== "" && $organization !== "") {
+            $query = AdoptionAnimal::find()
+                ->innerJoinWith('animal')
+                ->where(['size_id' => $size, 'organization_id' => $organization]);
+            return $query;
+
+        } elseif ($size !== "") {
+            $query = AdoptionAnimal::find()
+                ->innerJoinWith('animal')
+                ->where(['size_id' => $size]);
+            return $query;
+
+        } elseif ($organization !== ""){
+            $query = AdoptionAnimal::find()
+                ->innerJoinWith('animal')
+                ->where(['organization_id' => $organization]);
+            return $query;
+        }
     }
 }

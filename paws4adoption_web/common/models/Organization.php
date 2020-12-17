@@ -3,6 +3,7 @@
 namespace common\models;
 
 use Yii;
+use yii\db\Query;
 
 /**
  * This is the model class for table "organizations".
@@ -107,4 +108,13 @@ class Organization extends \yii\db\ActiveRecord
             ->column();
     }
 
+    public static function getOrganizationsWithAdoptionAnimals(){
+        return self::find()
+            ->where(['in', 'id', (
+                new Query())->select('organization_id')
+                ->from('adoption_animals')
+                ->where(['not in', 'id', (
+                    new Query())->select('adopted_animal_id')
+                    ->from('adoptions')])])->all();
+    }
 }
