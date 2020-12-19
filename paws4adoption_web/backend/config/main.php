@@ -85,7 +85,7 @@ return [
                     'class' => 'yii\rest\UrlRule',
                     'controller' => 'api/user',
                     'extraPatterns' => [
-                        'POST login' => 'login'
+                        'POST token' => 'token',
                     ]
                 ],
                 [ //URL: ORGANIZATION By District
@@ -96,7 +96,8 @@ return [
                     ],
                     'tokens' => [
                         '{id}' => '<id:\\d+>',
-                        '{districtId}' => '<districtId:\\d+>'
+                        '{districtId}' => '<districtId:\\d+>',
+//                        '{username}' => '<username:\\w+>'
                     ],
                 ],
                 [ //SERVICE: MISSING ANIMAL

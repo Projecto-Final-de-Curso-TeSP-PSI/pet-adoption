@@ -6,14 +6,14 @@ use backend\modules\api\models\SignupAPI;
 use common\models\Address;
 use common\models\LoginForm;
 use common\models\User;
-use frontend\models\ProfileForm;
-use frontend\models\SignupForm;
 use Yii;
 use yii\db\Exception;
+use yii\filters\auth\CompositeAuth;
 use yii\filters\auth\HttpBasicAuth;
+use yii\filters\auth\HttpBearerAuth;
+use yii\filters\auth\QueryParamAuth;
 use yii\rest\ActiveController;
 use yii\web\NotFoundHttpException;
-use yii\web\Response;
 
 /**
  * Default controller for the `api` module
@@ -22,22 +22,23 @@ class UserController extends ActiveController
 {
     public $modelClass = 'backend\modules\api\models\User';
 
-    /*public function behaviors()
+    public function behaviors()
     {
       $behaviors =  parent::behaviors();
       $behaviors['authenticator'] = [
-        'class' => HttpBasicAuth::className(),
-        'auth' => [$this, 'auth']
+          'class' => HttpBasicAuth::class,
+          'except' => ['create'],
+          'auth' => [$this, 'auth'],
       ];
       return $behaviors;
-    }*/
+    }
 
-    /*public function auth($username, $password){
+    public function auth($username, $password){
         $user = User::findByUsername($username);
         if($user && $user->validatePassword($password)){
             return $user;
         }
-    }*/
+    }
 
     public function actions(){
         $actions = parent::actions();
@@ -156,24 +157,35 @@ class UserController extends ActiveController
     }
 
     /**
-     * User login.
+     * Returns the authenticated User token.
      *
      * @return mixed
+     * @throws \Exception
      */
-    public function actionLogin(){
-        $model = new LoginForm();
-        $params = Yii::$app->request->post();
-        $model->username = $params['username'];
-        $model->password = $params['password'];
-        if ($model->login()) {
-            $response['message'] = 'You are now logged in!';
-            $response['token'] = \common\models\User::findByUsername($model->username)->auth_key;
-            return $response;
+    public function actionToken(){
+        try{
+            $basicAuth = Yii::$app->request->headers['authorization'];
+            $username = $this->extractUsername($basicAuth);
+
+            $user = User::findByUsername($username);
+            $response['success'] = true;
+            $response['token'] = User::findByUsername($user->username)->auth_key;
+        } catch (\Exception $e){
+            throw $e;
         }
-        else {
-            $model->validate();
-            $response['errors'] = $model->getErrors();
-            return $response;
-        }
+
+        return $response;
+    }
+
+    /**
+     * Extracts the username from the Basic Auth
+     * @param $basicAuthToken
+     * @return false|string
+     */
+    private function extractUsername($basicAuthToken){
+        $base64str = substr($basicAuthToken, 6);
+        $text = base64_decode($base64str);
+        $strpos = strpos($text, ':');
+        return substr($text, 0, $strpos);
     }
 }
