@@ -77,7 +77,7 @@ class FoundAnimal extends \common\models\Animal
     }
 
     /**
-     * Gets query for [[Id0]].
+     * Gets query for [[Animal]].
      *
      * @return \yii\db\ActiveQuery
      */
@@ -97,13 +97,13 @@ class FoundAnimal extends \common\models\Animal
     }
 
     /**
-     * Gets query for [[User]].
+     * Gets query for [[Location]].
      *
      * @return \yii\db\ActiveQuery
      */
     public function getLocation()
     {
-        return $this->hasOne(User::className(), ['id' => 'address_id']);
+        return $this->hasOne(Address::className(), ['id' => 'location_id']);
     }
 
     /**

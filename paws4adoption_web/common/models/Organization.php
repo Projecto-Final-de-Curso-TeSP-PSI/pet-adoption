@@ -14,13 +14,14 @@ use yii\db\Query;
  * @property string|null $email
  * @property string|null $phone
  * @property int|null $address_id
+ * @property int|null $status
  *
  * @property AdoptionAnimal[] $adoptionAnimals
  * @property Address $address
  */
 class Organization extends \yii\db\ActiveRecord
 {
-    const REQUEST_PENDING = 0;
+    const APPROVAL_PENDING = 0;
     const ACTIVE = 1;
     const INACTIVE = 2;
 
@@ -35,29 +36,13 @@ class Organization extends \yii\db\ActiveRecord
         return 'organizations';
     }
 
-    //SCENARIOS PARA UPDATE E CREATE
-    /*public function getCustomScenarios()
-    {
-        return [
-            self::SCENARIO_CREATE_ORGANIZATION,
-            self::SCENARIO_UPDATE_ORGANIZATION,
-        ];
-    }
-
-    public function scenarios()
-    {
-        $scenarios = $this->getCustomScenarios();
-        return $scenarios;
-    }*/
-
-
     /**
      * {@inheritdoc}
      */
     public function rules()
     {
         return [
-            [['name', 'nif'], 'required'],
+            [['name', 'nif', 'address_id'], 'required'],
             [['address_id'], 'integer'],
             [['name', 'email'], 'string', 'max' => 64],
             [['nif', 'phone'], 'string', 'max' => 9],
@@ -117,4 +102,12 @@ class Organization extends \yii\db\ActiveRecord
                     new Query())->select('adopted_animal_id')
                     ->from('adoptions')])])->all();
     }
+    /**
+     * Overrides static method find, and sets that OrganizationQuery.php add's querying methods
+     * @return OrganizationQuery|\yii\db\ActiveQuery
+     */
+    public static function find(){
+        return new OrganizationQuery(get_called_class());
+    }
+
 }

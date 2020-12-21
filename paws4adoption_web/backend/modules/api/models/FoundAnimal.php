@@ -20,10 +20,10 @@ class FoundAnimal extends \common\models\FoundAnimal {
         ];
     }
 
-    public function extraFields()
-    {
-        return ['animal'];
-    }
+//    public function extraFields()
+//    {
+//        return ['animal'];
+//    }
 
     /**
      * Override over the relation with the User model
@@ -37,5 +37,11 @@ class FoundAnimal extends \common\models\FoundAnimal {
     public function  getAnimal(){
         return $this->hasOne(\backend\modules\api\models\Animal::className(), ['id' => 'id']);
     }
+
+    public function getLocation()
+    {
+        return $this->hasOne(\backend\modules\api\models\Address::className(), ['id' => 'location_id']);
+    }
+
 
 }

@@ -68,10 +68,10 @@ return [
             'class' => 'yii\swiftmailer\Mailer',
             'transport' => [
                 'class' => 'Swift_SmtpTransport',
-                'host' => 'smtp.mailtrap.io',
-                'username' => 'c80140978ca101',
-                'password' => '9a2b56ba99140f',
-                'port' => '2525',
+                'host' => 'smtp.gmail.com',
+                'username' => 'paws4adoption@gmail.com',
+                'password' => 'Sporting123',
+                'port' => '587',
                 'encryption' => 'tls',
             ],
         ],
@@ -86,7 +86,11 @@ return [
                     'controller' => 'api/user',
                     'extraPatterns' => [
                         'POST token' => 'token',
-                    ]
+                        'GET validation/{idvalidation}' => 'validation'
+                    ],
+                    'tokens' => [
+                      '{idvalidation}' => '<idvalidation:\\w+>',
+                    ],
                 ],
                 [ //URL: ORGANIZATION By District
                     'class' => 'yii\rest\UrlRule',
@@ -111,6 +115,12 @@ return [
                 [ //SERVICE: ANIMALS
                     'class' => 'yii\rest\UrlRule',
                     'controller' => 'api/animal',
+                    'ruleConfig' => [
+                        'class' => 'yii\web\UrlRule',
+                        'defaults' => [
+                            'expand' => 'adoptionAnimal, missingAnimal, foundAnimal',
+                        ],
+                    ],
                 ],
             ],
         ],
