@@ -4,17 +4,18 @@ namespace common\models;
 
 use Yii;
 
-/**
+/***
  * This is the model class for table "found_animals".
  *
  * @property int $id
- * @property string|null $location
- * @property bool|null $is_active
+ * @property int $location_id
+ * @property bool $is_active
  * @property string|null $found_date
- * @property string|null $priority
+ * @property string $priority
  * @property int $user_id
  *
- * @property Animal $missing-animal
+ * @property Animal $animal
+ * @property Address $location
  * @property User $user
  */
 class FoundAnimal extends \common\models\Animal
@@ -33,19 +34,16 @@ class FoundAnimal extends \common\models\Animal
     public function rules()
     {
         return [
-            //A data tem de ser um date time ou algo do genero para se usar o calendario
-            [['id', 'user_id', 'priority'], 'required'],
-            [['id', 'user_id'], 'integer'],
+            [['id', 'location_id', 'user_id'], 'required'],
+            [['id', 'location_id', 'user_id'], 'integer'],
             [['is_active'], 'boolean'],
             [['found_date'], 'safe'],
             [['priority'], 'string'],
-            //A localização leva um id e nao uma string
-            //[['location'], 'string', 'max' => 45],
             [['id'], 'unique'],
             [['id'], 'exist', 'skipOnError' => true, 'targetClass' => Animal::className(), 'targetAttribute' => ['id' => 'id']],
+            [['location_id'], 'exist', 'skipOnError' => true, 'targetClass' => Address::className(), 'targetAttribute' => ['location_id' => 'id']],
             [['user_id'], 'exist', 'skipOnError' => true, 'targetClass' => User::className(), 'targetAttribute' => ['user_id' => 'id']],
         ];
-
     }
 
     /**
@@ -55,16 +53,19 @@ class FoundAnimal extends \common\models\Animal
     {
         $parentAtributeLabels = parent::attributeLabels();
         $childAtributeLabels = [
-            'id' => 'ID',
-            'location' => 'Location',
-            'is_active' => 'Is Active',
-            'found_date' => 'Data de Encontro',
-            'priority' => 'Prioridade',
-            'user_id' => 'User ID',
+           'id' => 'ID',
+           'location_id' => 'Localização',
+           'is_active' => 'Ativo',
+           'found_date' => 'Data de Encontro',
+           'priority' => 'Prioridade',
+           'user_id' => 'User',
         ];
-        return array_merge($parentAtributeLabels, $childAtributeLabels);
-    }
+       return array_merge($parentAtributeLabels, $childAtributeLabels);
+   }
 
+    /**
+     * @return array with the priority enum
+     */
     public static function getPriority()
     {
         return [
@@ -106,22 +107,14 @@ class FoundAnimal extends \common\models\Animal
     }
 
     /**
-     * Gets query for [[FoundDate]].
-     *
-     * @return string
+     * @return array with all addresses id on the found animals
      */
-    public function getFoundDate()
-    {
-        return $this->found_date;
-    }
-
     public static function getAllAddressesIds()
     {
         return self::find()
             ->innerJoinWith('user')
             ->select('address_id')
+            ->distinct()
             ->column();
     }
-
-
 }
