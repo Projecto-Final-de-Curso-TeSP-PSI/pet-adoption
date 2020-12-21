@@ -56,31 +56,38 @@ class UserController extends ActiveController
      */
     public function actionCreate()
     {
-        $model = new SignupAPI();
-        $params = Yii::$app->request->post();
-        $model->username = $params['username'];
-        $model->password=$params['password'];
-        $model->email=$params['email'];
-        $model->firstName = $params['firstName'];
-        $model->lastName = $params['lastName'];
-        $model->nif = $params['nif'];
-        $model->phone = $params['phone'];
-        $model->street = $params['street'];
-        $model->door_number = $params['door_number'];
-        $model->floor = $params['floor'];
-        $model->postal_code = $params['postal_code'];
-        $model->street_code = $params['street_code'];
-        $model->city = $params['city'];
-        $model->district_id = $params['district_id'];
+        //TODO: Apanhar excepções!!
+        try {
+            $model = new SignupAPI();
+            $basicAuth = Yii::$app->request->headers['authorization'];
+            $credentials = $this->extractUsernameAndPassword($basicAuth);
+            $params = Yii::$app->request->post();
 
-        if ($model->signup()) {
-            Yii::$app->response->statusCode = 201;
-            $response['message'] = 'You are now a member!';
-            $response['user'] =\common\models\User::findByUsername($model->username);
-            return $response;
-        }
-        else {
-            throw new Exception("Something went terribly wrong.");
+            $model->username = $credentials['username'];
+            $model->password = $credentials['password'];
+
+            $model->email = $params['email'];
+            $model->firstName = $params['firstName'];
+            $model->lastName = $params['lastName'];
+            $model->nif = $params['nif'];
+            $model->phone = $params['phone'];
+            $model->street = $params['street'];
+            $model->door_number = $params['door_number'];
+            $model->floor = $params['floor'];
+            $model->postal_code = $params['postal_code'];
+            $model->street_code = $params['street_code'];
+            $model->city = $params['city'];
+            $model->district_id = $params['district_id'];
+
+            if ($model->signup()) {
+                Yii::$app->response->statusCode = 201;
+                return \backend\modules\api\models\User::findByUsername($model->username);
+            }
+            else {
+                throw new Exception("Something went terribly wrong.");
+            }
+        } catch (Exception $yiiDbException){
+            throw $yiiDbException;
         }
     }
 
@@ -165,7 +172,8 @@ class UserController extends ActiveController
     public function actionToken(){
         try{
             $basicAuth = Yii::$app->request->headers['authorization'];
-            $username = $this->extractUsername($basicAuth);
+            $credentials = $this->extractUsernameAndPassword($basicAuth);
+            $username = $credentials['username'];
 
             $user = User::findByUsername($username);
             $response['success'] = true;
@@ -182,10 +190,12 @@ class UserController extends ActiveController
      * @param $basicAuthToken
      * @return false|string
      */
-    private function extractUsername($basicAuthToken){
-        $base64str = substr($basicAuthToken, 6);
-        $text = base64_decode($base64str);
-        $strpos = strpos($text, ':');
-        return substr($text, 0, $strpos);
+    private function extractUsernameAndPassword($basicAuthToken){
+        $base64str = substr($basicAuthToken, 6); //returns the BasicAuth base64 encoded string without the word "Basic " of length 6.
+        $text = base64_decode($base64str); //decodes the base64 string into plain text;
+        $strpos = strpos($text, ':'); //finds the position of the ":" in the plain text;
+        $credentials['username'] = substr($text, 0, $strpos); //returns the username;
+        $credentials['password'] = substr($text, $strpos+1); //returns the password;
+        return $credentials;
     }
 }
