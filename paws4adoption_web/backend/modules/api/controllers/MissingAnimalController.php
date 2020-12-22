@@ -27,22 +27,22 @@ class MissingAnimalController extends ActiveController
 {
     public $modelClass = 'backend\modules\api\models\MissingAnimal';
 
-    public function behaviors()
-    {
-        $behaviors =  parent::behaviors();
-        $behaviors['authenticator'] = [
-            'class' => HttpBasicAuth::className(),
-//            'class' => CompositeAuth::className(),
-            'except' => ['index','view'],
-            'auth' => [$this, 'auth'],
-//            'authMethods' => [
-//                HttpBasicAuth::className(),
-//                HttpBearerAuth::className(),
-//                QueryParamAuth::className(),
-        ];
-
-        return $behaviors;
-    }
+//    public function behaviors()
+//    {
+//        $behaviors =  parent::behaviors();
+//        $behaviors['authenticator'] = [
+//            'class' => HttpBasicAuth::className(),
+////            'class' => CompositeAuth::className(),
+//            'except' => ['index','view'],
+//            'auth' => [$this, 'auth'],
+////            'authMethods' => [
+////                HttpBasicAuth::className(),
+////                HttpBearerAuth::className(),
+////                QueryParamAuth::className(),
+//        ];
+//
+//        return $behaviors;
+//    }
 
     public function auth($username, $password){
         $user = User::findByUsername($username);

@@ -118,7 +118,7 @@ return [
                     'ruleConfig' => [
                         'class' => 'yii\web\UrlRule',
                         'defaults' => [
-                            'expand' => 'adoptionAnimal, missingAnimal, foundAnimal',
+                            'expand' => 'adoptionAnimal, missingAnimal, foundAnimal, type, size, furLength, furColor, nature' ,
                         ],
                     ],
                 ],

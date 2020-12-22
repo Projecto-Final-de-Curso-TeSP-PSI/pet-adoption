@@ -23,7 +23,7 @@ class User extends \common\models\User{
             $fields['status']
         );
 
-        return array_merge($fields, ['address']);
+        return array_merge($fields, ['address', 'fullName']);
     }
 
     /**

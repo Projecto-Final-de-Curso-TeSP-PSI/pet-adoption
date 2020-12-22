@@ -95,9 +95,10 @@ class Address extends \yii\db\ActiveRecord
         return $this->hasMany(User::className(), ['address_id' => 'id']);
     }
 
-    public function getLocation(){
-        $this->hasOne(Address::className(), ['id' => 'location']);
+    public function getFoundAnimal(){
+        return $this->hasMany(FoundAnimal::className(), ['location_id' => 'id']);
     }
+
     public function getFullAddress(){
         $result = $this->street;
         $result .= $this->door_number != null ? " Nº " . $this->door_number : "";
