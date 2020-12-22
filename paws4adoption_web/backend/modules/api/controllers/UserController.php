@@ -72,8 +72,8 @@ class UserController extends ActiveController
             $model->nif = $params['nif'];
             $model->phone = $params['phone'];
             $model->street = $params['street'];
-            $model->door_number = $params['door_number'];
-            $model->floor = $params['floor'];
+            $model->door_number = isset($params['door_number']) ? $params['door_number'] : null;
+            $model->floor = isset($params['floor']) ? $params['floor'] : null;
             $model->postal_code = $params['postal_code'];
             $model->street_code = $params['street_code'];
             $model->city = $params['city'];

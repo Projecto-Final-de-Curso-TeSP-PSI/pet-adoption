@@ -40,9 +40,9 @@ class Address extends \yii\db\ActiveRecord
         return [
             
             [['postal_code', 'street_code', 'district_id'], 'integer'],
-            [['district_id'], 'required'],
+            [['street','postal_code', 'street_code', 'city', 'district_id'], 'required'],
             [['door_number', 'floor'], 'string', 'max' => 16],
-            [['street', 'city'], 'string', 'max' => 45],
+            [['street', 'city'], 'string', 'max' => 64],
             [['district_id'], 'exist', 'skipOnError' => true, 'targetClass' => District::className(), 'targetAttribute' => ['district_id' => 'id']],
             [['city'], 'required', 'on' => self::SCENARIO_FOUND_ANIMAL],
         ];
