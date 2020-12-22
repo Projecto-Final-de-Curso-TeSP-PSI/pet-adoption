@@ -38,6 +38,7 @@ class Address extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
+            
             [['postal_code', 'street_code', 'district_id'], 'integer'],
             [['district_id'], 'required'],
             [['door_number', 'floor'], 'string', 'max' => 16],
