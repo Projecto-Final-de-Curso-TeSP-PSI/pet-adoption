@@ -124,8 +124,8 @@ foreach ($photos as $photo){
                         'date' => $model->animal->createdAt,
                         'postBy' => $model->user->username,
                         'userId' => $model->user->id,
-                        'foundDate' => $model->foundDate,
-                        'location' => $model->location,
+                        'found_date' => $model->found_date,
+                        'location_id' => $model->location_id,
                         'description' => $model->animal->description,
                         'submitContact' => 'Contactar',
                         'closeText' => 'Fechar'

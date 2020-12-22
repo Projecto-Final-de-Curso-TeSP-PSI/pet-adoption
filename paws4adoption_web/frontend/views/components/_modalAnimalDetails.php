@@ -20,8 +20,8 @@ use yii\helpers\Url;
 /* @var $postBy */
 /* @var $description */
 /* @var $missingDate */
-/* @var $foundDate */
-/* @var $location */
+/* @var $found_date */
+/* @var $location_id */
 /* @var $ownerId */
 /* @var $userId */
 
@@ -85,8 +85,8 @@ use yii\helpers\Url;
                             echo '<p class="card-text pDate"><b>Desaparceu em: </b>' . $missingDate . '</p>';
                             break;
                         case 'foundAnimal':
-                            echo '<p class="card-text pDate"><b>Encontrado em: </b>' . $foundDate . '</p>';
-                            echo '<p class="card-text pDate"><b>Local: </b>' . $location . '</p>';
+                            echo '<p class="card-text pDate"><b>Encontrado em: </b>' . $found_date . '</p>';
+                            echo '<p class="card-text pDate"><b>Local: </b>' . $location_id . '</p>';
                             break;
                         default:
                             break;
