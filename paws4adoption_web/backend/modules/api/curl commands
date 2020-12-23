@@ -1,0 +1,9 @@
+##### USERS #####
+--- GET all users --- => Esta rota tem de ser bloqueada, não queremos devolver todos os users
+curl http://paws4adoption.web.back/api/users -u simaopedro:Sporting
+
+--- GET user by id ---
+curl http://paws4adoption.web.back/api/users/1 -u simaopedro:Sporting
+
+--- POST Create User ---
+curl -X POST http://paws4adoption.web.back/api/users -u qwerty8:Sporting -d "{\"firstName\": \"Qwerty8\",\"lastName\": \"Poiuy8\",\"email\": \"qwerty8@ipl.com\",\"nif\": \"888888888\",\"phone\": \"888888888\",\"street\": \"Rua das Rosas\",\"door_number\": \"8\",\"floor\": null,\"postal_code\": 2458,\"street_code\": 548,\"city\": \"Leiria\",\"district_id\": 10}}}"

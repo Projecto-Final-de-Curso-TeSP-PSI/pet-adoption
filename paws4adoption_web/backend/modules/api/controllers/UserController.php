@@ -56,12 +56,18 @@ class UserController extends ActiveController
      */
     public function actionCreate()
     {
+//        var_dump("Entrou no actionCreate");
+//        die;
         //TODO: Apanhar excepções!!
         try {
             $model = new SignupAPI();
             $basicAuth = Yii::$app->request->headers['authorization'];
             $credentials = $this->extractUsernameAndPassword($basicAuth);
-            $params = Yii::$app->request->post();
+
+            $params = Yii::$app->request;
+
+            var_dump($params);
+            die;
 
             $model->username = $credentials['username'];
             $model->password = $credentials['password'];
