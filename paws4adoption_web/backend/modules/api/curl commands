@@ -46,4 +46,105 @@ curl -X DELETE http://paws4adoption.web.back/api/users/1 -u simaopedro:Sporting
 
 
 
-##### Animals #####
+##### NATURES #####
+--- GET all species ---
+curl http://paws4adoption.web.back/api/natures/species
+
+--- GET sub-species by specie ---
+curl http://paws4adoption.web.back/api/natures/species/1/sub-species
+
+
+##### FUR-COLORS #####
+--- GET all fur colors ---
+curl http://paws4adoption.web.back/api/fur-colors
+
+
+##### FUR-LENGTHS #####
+--- GET all fur lengths ---
+curl http://paws4adoption.web.back/api/fur-lengths
+
+
+##### SIZE #####
+--- GET all sizes ---
+curl http://paws4adoption.web.back/api/sizes
+
+
+##### DISTRICTS #####
+--- GET all districts ---
+curl http://paws4adoption.web.back/api/districts
+
+
+##### ORGANIZATIONS #####
+--- GET all organizations
+curl http://paws4adoption.web.back/api/organizations
+
+--- GET organization by id ---
+curl http://paws4adoption.web.back/api/organizations/1
+
+
+##### ANIMALS #####
+--- GET all animals ---
+curl http://paws4adoption.web.back/api/animals
+
+--- GET animal by id ---
+curl http://paws4adoption.web.back/api/animals/1
+
+--- POST Create missing animal ---
+curl -X POST http://paws4adoption.web.back/api/missing-animals -H 'Authorization: Bearer hUMmy_-cb4hGriI5bUTQQVBIjS_Ug7Hq' -H 'Content-Type: application/json' -d '{
+    "name":"Trips",
+    "chipId":"154656454243765",
+    "description":"Testest etstetwefsd wertertfsd",
+    "nature_id":51,
+    "fur_length_id":1,
+    "fur_color_id":4,
+    "size_id":1,
+    "sex":"M",
+    "missing_date":"20201212"
+}'
+
+--- PUT Update missing animal ---
+curl -X PUT http://paws4adoption.web.back/api/missing-animals/22 -H 'Authorization: Bearer hUMmy_-cb4hGriI5bUTQQVBIjS_Ug7Hq' -H 'Content-Type: application/json' -d '{
+    "name":"Trips",
+    "chipId":"154656454243765",
+    "description":"Cao muito paciente e fiel",
+    "nature_id":51,
+    "fur_length_id":1,
+    "fur_color_id":4,
+    "size_id":1,
+    "sex":"M",
+    "missing_date":"20201212"
+}'
+
+--- DELETE missing animal ---
+curl -X DELETE http://paws4adoption.web.back/api/missing-animals/22 -H 'Authorization: Bearer hUMmy_-cb4hGriI5bUTQQVBIjS_Ug7Hq'
+
+--- POST Create found animal ---
+curl -X POST http://paws4adoption.web.back/api/found-animals -H 'Authorization: Bearer hUMmy_-cb4hGriI5bUTQQVBIjS_Ug7Hq' -H 'Content-Type: application/json' -d '{
+    "description":"Testest etstetwefsd wertertfsd",
+    "nature_id":51,
+    "fur_length_id":1,
+    "fur_color_id":4,
+    "size_id":1,
+    "sex":"M",
+    "district_id":1,
+    "street":"Rua de cima",
+    "city":"Minde",
+    "found_date":"20201212"
+}'
+
+--- PUT Update found animal ---
+curl -X PUT http://paws4adoption.web.back/api/found-animals/21 -H 'Authorization: Bearer hUMmy_-cb4hGriI5bUTQQVBIjS_Ug7Hq' -H 'Content-Type: application/json' -d '{
+    "description":"Apresenta ferimentos na pata traseira do lado esquerdo",
+    "nature_id":51,
+    "fur_length_id":1,
+    "fur_color_id":4,
+    "size_id":1,
+    "sex":"M",
+    "district_id":1,
+    "street":"Rua de cima",
+    "city":"Minde",
+    "found_date":"20201212"
+}'
+
+--- DELETE Found animal ---
+curl -X DELETE http://paws4adoption.web.back/api/found-animals/21 -H 'Authorization: Bearer hUMmy_-cb4hGriI5bUTQQVBIjS_Ug7Hq'
