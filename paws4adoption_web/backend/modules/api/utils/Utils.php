@@ -17,6 +17,16 @@ use yii\web\NotFoundHttpException;
 
 class Utils
 {
+    /**
+     * Creates one animal type on the database, as chosen by parameter
+     * @param $post
+     * @param $animal_type
+     * @return Animal
+     * @throws BadRequestHttpException
+     * @throws PhotoSaveException
+     * @throws PhotoUploadException
+     * @throws SaveAnimalException
+     */
     public static function createAnimal($post, $animal_type){
         $db = Yii::$app->db;
         $transaction = $db->beginTransaction();
@@ -24,8 +34,8 @@ class Utils
         {
             $animal = new \backend\modules\api\models\Animal();
 
-            $animal->name = $post['name'];
-            $animal->chipId = $post['chipId'];
+            $animal->name = isset($post['name']) ? $post['name'] : null;
+            $animal->chipId = isset($post['chipId']) ? $post['chipId'] : null;
             $animal->description = $post['description'];
             $animal->nature_id = $post['nature_id'];
             $animal->fur_length_id = $post['fur_length_id'];
@@ -65,7 +75,7 @@ class Utils
                     $foundAnimal->location_id = $address->id;
                     $foundAnimal->is_active = true;
                     $foundAnimal->found_date = $post['found_date'];
-                    $foundAnimal->priority = 'Por classificar';
+                    //$foundAnimal->priority = 'Por classificar';
                     $foundAnimal->user_id = Yii::$app->user->id;
 
                     if(!$foundAnimal->save())
@@ -89,10 +99,21 @@ class Utils
             throw new SaveAnimalException("Error on saving animal on the database", null, $e);
         }
 
-        //return $animal_type == 'foundAnimal' ? $foundAnimal : $missingAnimal;
         return $animal;
     }
 
+    /**
+     * Updates one animal type on the database, as chosen by parameter
+     * @param $id
+     * @param $post
+     * @param $animal_type
+     * @return Animal
+     * @throws BadRequestHttpException
+     * @throws NotFoundHttpException
+     * @throws PhotoSaveException
+     * @throws PhotoUploadException
+     * @throws SaveAnimalException
+     */
     public static function updateAnimal($id, $post, $animal_type){
 
         $db = Yii::$app->db;
@@ -100,14 +121,12 @@ class Utils
         try
         {
 
-            var_dump($post); die;
-
-            $animal =  Animal::findOne($id);
+            $animal =  \backend\modules\api\models\Animal::findOne($id);
             if($animal == null)
                 throw new NotFoundHttpException("Animal parent id not found");
 
-            $animal->name = $post['name'];
-            $animal->chipId = $post['chipId'];
+            $animal->name = isset($post['name']) ? $post['name'] : null;
+            $animal->chipId = isset($post['chipId']) ? $post['chipId'] : null;
             $animal->description = $post['description'];
             $animal->nature_id = $post['nature_id'];
             $animal->fur_length_id = $post['fur_length_id'];
@@ -150,7 +169,7 @@ class Utils
 
                     $foundAnimal->is_active = true;
                     $foundAnimal->found_date = $post['found_date'];
-                    $foundAnimal->priority = $post['priority'];
+                    //$foundAnimal->priority = $post['priority'];
                     if(!$foundAnimal->save())
                         throw new BadRequestHttpException("Error on saving found animal");
 
@@ -175,46 +194,16 @@ class Utils
             throw new SaveAnimalException("Error on saving animal on the database", null, $e);
         }
 
-        //return $animal_type == 'foundAnimal' ? $foundAnimal : $missingAnimal;
         return Animal::findOne($animal->id);
     }
 
-//    public static function deleteAnimal($animal, $animal_type){
-//        $db = Yii::$app->db;
-//        $transaction = $db->beginTransaction();
-//        try {
-//
-//
-//
-//
-//            $animal = Animal::findOne($id);
-//            if($animal == null )
-//                throw new NotFoundHttpException("Animal not found: " . $animal_type);
-//
-//            //delete all photos of this animal
-//            Photo::deleteAll(['id_animal' => $animal->id]);
-//
-//            //delete child animal
-//            switch($animal_type){
-//                case 'missingAnimal':
-//                    MissingAnimal::findOne($id)->delete();
-//                    break;
-//                case 'foundAnimal':
-//                    FoundAnimal::findOne($id)->delete();
-//                    break;
-//            }
-//            $animal->delete();
-//
-//            $transaction->commit();
-//        } catch(NotFoundHttpException $e){
-//            throw $e;
-//        } catch (\Exception $e) {
-//            $transaction->rollBack();
-//            throw new SaveAnimalException("Error on deletin animal on the database", 400, $e);
-//        }
-//        return $animal;
-//    }
-
+    /**
+     * Creates one photo on the server public assets and database
+     * @param $animal
+     * @return array|bool
+     * @throws PhotoSaveException
+     * @throws PhotoUploadException
+     */
     private static function createPhoto($animal){
 
         $saveResult = null;
@@ -246,6 +235,13 @@ class Utils
         return $result;
     }
 
+    /**
+     * Updates onhe photo on the server public assets and database
+     * @param $animal
+     * @return bool|null
+     * @throws PhotoSaveException
+     * @throws PhotoUploadException
+     */
     private static function updatePhoto($animal){
         $saveResult = null;
         try {
@@ -269,6 +265,12 @@ class Utils
         return $saveResult;
     }
 
+    /**
+     * Uploads one photo to the server
+     * @param $uniqueId
+     * @return array
+     * @throws PhotoUploadException
+     */
     private static function uploadPhoto($uniqueId){
         try {
 

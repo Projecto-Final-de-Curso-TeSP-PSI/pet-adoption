@@ -28,32 +28,74 @@ class AnimalController extends ActiveController
 {
     public $modelClass = 'backend\modules\api\models\Animal';
 
+    /**
+     * Overrides the actions method of the ActiveControllet parent classe
+     * @return array
+     */
     public function actions(){
         $actions = parent::actions();
+        unset($actions['index'], $actions['view']);
         unset($actions['create']);
         unset($actions['update']);
         unset($actions['delete']);
         return $actions;
     }
 
-    public function actionAdoptionAnimals(){
-        return \backend\modules\api\models\Animal::find()
-            ->isAdoptionAnimal()
-            ->isAdopted(false)
-            ->all();
-    }
+    /**
+     * Get's all animals that are active
+     * @return array|\yii\db\ActiveRecord[]
+     */
+    public function actionIndex(){
 
-    public function actionMissingAnimals($id = null){
-        return \backend\modules\api\models\Animal::find()
+        $missingAnimals = \backend\modules\api\models\Animal::find()
             ->isMissingAnimal()
-            ->isStillMissing()
+            ->isStillMissing(true)
             ->all();
+
+        $foundAnimals = \backend\modules\api\models\Animal::find()
+            ->isFoundAnimal()
+            ->isStillOnStreet(true)
+            ->all();
+
+
+        $animals = array_merge($missingAnimals, $foundAnimals);
+
+        return $animals;
     }
 
-    public function actionFoundAnimals($id = null){
-        return \backend\modules\api\models\Animal::find()
-            ->isFoundAnimal()
-            ->isStillOnStreet()
-            ->all();
+    /**
+     * Get's one animal according with the id sent
+     * @param $id
+     * @return \backend\modules\api\models\Animal
+     * @throws NotFoundHttpException
+     */
+    public function actionView($id){
+
+        $animal = \backend\modules\api\models\Animal::findOne($id);
+        if($animal == null){
+            throw new NotFoundHttpException('Animal not found');
+        }
+
+        switch($animal->getType()){
+
+            case 'adoptionAnimal':
+                $adoptionAnimal = $animal->adoptionAnimal;
+                if($adoptionAnimal->adoption != null && $adoptionAnimal->is_on_fat == false)
+                    throw new NotFoundHttpException('Animal not found');
+                break;
+
+            case 'missingAnimal':
+                if($animal->missingAnimal->is_missing == false)
+                    throw new NotFoundHttpException('Animal not found');
+                break;
+
+            case 'foundAnimal':
+                if($animal->foundAnimal->is_active == false)
+                    throw new NotFoundHttpException('Animal not found');
+                break;
+        }
+
+        Yii::$app->response->statusCode = 200;
+        return $animal;
     }
 }

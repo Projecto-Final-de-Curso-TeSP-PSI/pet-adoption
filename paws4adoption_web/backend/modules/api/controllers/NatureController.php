@@ -13,12 +13,22 @@ class NatureController extends ActiveController
 {
     public $modelClass = 'common\models\Nature';
 
+    /**
+     * Get's all species
+     * @return array|\yii\db\ActiveRecord[]
+     */
     public function actionSpecies(){
         return Nature::find()
             ->onCondition(['parent_nature_id' => null])
             ->all();
     }
 
+    /**
+     * Gets al sub-species within a specie identified by the id
+     * @param $id
+     * @return array|\yii\db\ActiveRecord[]
+     * @throws NotFoundHttpException
+     */
     public function actionSubSpecies($id){
 
         if(Nature::find()->where(['parent_nature_id' => $id])->one() == null)

@@ -96,14 +96,6 @@ return [
                 [ //URL: ORGANIZATION By District
                     'class' => 'yii\rest\UrlRule',
                     'controller' => 'api/organization',
-                    'extraPatterns' => [
-                        'GET district/{districtId}' => 'district',
-                    ],
-                    'tokens' => [
-                        '{id}' => '<id:\\d+>',
-                        '{districtId}' => '<districtId:\\d+>',
-//                        '{username}' => '<username:\\w+>'
-                    ],
                 ],
                 [ //SERVICE: MISSING-ANIMALS
                     'class' => 'yii\rest\UrlRule',
@@ -123,7 +115,7 @@ return [
                         'class' => 'yii\web\UrlRule',
                         'defaults' => [
                             'only' => 'create, update, delete',
-                            'expand' => 'animal, user',
+//                            'expand' => 'animal, user',
                         ],
                     ],
                 ],
@@ -143,12 +135,13 @@ return [
                     'controller' => 'api/nature',
                     'extraPatterns' => [
                         'GET species' => 'species',
-                        'GET sub-species/{id}' => 'sub-species'
+                        'GET species/{id}/subspecies' => 'sub-species'
                     ],
                     'ruleConfig' => [
                         'class' => 'yii\web\UrlRule',
                         'defaults' => [
-                            'only' => ['specie', 'sub-species'],
+                            'only' => ['specie', 'subspecies'],
+                            'per-page' => 100
                         ],
                     ],
                     'tokens' => [

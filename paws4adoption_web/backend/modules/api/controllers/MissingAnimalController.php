@@ -2,7 +2,7 @@
 
 namespace backend\modules\api\controllers;
 
-use backend\modules\api\exceptions\SaveAnimalException;
+use \backend\modules\api\exceptions\SaveAnimalException;
 
 use backend\modules\api\models\MissingAnimal;
 use common\models\Photo;
@@ -25,6 +25,10 @@ class MissingAnimalController extends ActiveController
 {
     public $modelClass = 'backend\modules\api\models\MissingAnimal';
 
+    /**
+     * Overrides the behaviours of the parent class
+     * @return array
+     */
     public function behaviors()
     {
         $behaviors = parent::behaviors();
@@ -42,6 +46,8 @@ class MissingAnimalController extends ActiveController
     }
 
     /**
+     * Override the checkAccess method of the ActiveController parent class
+     *
      * @param string $action
      * @param null $model
      * @param array $params
@@ -50,11 +56,12 @@ class MissingAnimalController extends ActiveController
      */
     public function checkAccess($action, $model = null, $params = []){
 
-        //Redundante, pois todos os users têm acesso a esta permissão
         if($action === 'create' && Yii::$app->user->can('createMissingAnimal') == false){
             throw new \yii\web\ForbiddenHttpException("You dont have permission to create missing animals");
         }
 
+        //Check if the user that is asking for the service has autorization to handle that record
+        //(only admin and the author for the creation of the animal)
         if(in_array($action, ['update', 'delete'])){
 
             $model = MissingAnimal::findOne($params['id']);
@@ -65,11 +72,14 @@ class MissingAnimalController extends ActiveController
             if(Yii::$app->user->can('manageMissingAnimal', ['animal_type' => 'missingAnimal', 'animal_id' => $params['id']]) == false){
                 throw new \yii\web\ForbiddenHttpException("You dont have permission to " . $action . " this record");
             }
-
         }
 
     }
 
+    /**
+     * Overrides the actions method of the ActiveControllet parent classe
+     * @return array
+     */
     public function actions(){
         $actions = parent::actions();
         unset($actions['index']);
@@ -80,13 +90,23 @@ class MissingAnimalController extends ActiveController
         return $actions;
     }
 
+    /**
+     * Get's all missing animals that are still missing
+     * @return array|\yii\db\ActiveRecord[]
+     */
     public function actionIndex(){
         Yii::$app->response->statusCode = 200;
-        return \backend\modules\api\models\MissingAnimal::find()
-            ->isStillMissing()
+        return \backend\modules\api\models\FoundAnimal::find()
+            ->onCondition(['is_missing' => true])
             ->all();
     }
 
+    /**
+     * Get's one missing animal according with the id sent
+     * @param $id
+     * @return MissingAnimal|null
+     * @throws NotFoundHttpException
+     */
     public function actionView($id){
         $missingAnimal = \backend\modules\api\models\MissingAnimal::findOne($id);
 
@@ -97,6 +117,11 @@ class MissingAnimalController extends ActiveController
         return $missingAnimal;
     }
 
+    /**
+     * Creates a missing animal
+     * @return \backend\modules\api\models\FoundAnimal|MissingAnimal
+     * @throws \Exception
+     */
     public function actionCreate(){
 
         try{
@@ -112,32 +137,54 @@ class MissingAnimalController extends ActiveController
         return $animal;
     }
 
+    /**
+     * Updates a missing animal
+     * @param $id
+     * @return \backend\modules\api\models\FoundAnimal|MissingAnimal|BadRequestHttpException|null
+     * @throws BadRequestHttpException
+     * @throws ForbiddenHttpException
+     * @throws NotFoundHttpException
+     * @throws SaveAnimalException
+     * @throws \backend\modules\api\exceptions\PhotoSaveException
+     * @throws \backend\modules\api\exceptions\PhotoUploadException
+     */
     public function actionUpdate($id){
+
         $this->checkAccess('update', null, ['id' => $id]);
 
         $missingAnimal = \backend\modules\api\models\MissingAnimal::findOne($id);
         if($missingAnimal == null || $missingAnimal->is_missing == false)
             throw new NotFoundHttpException('Missing animal not found');
 
-        $post = Yii::$app->request->post();
+        $request = Yii::$app->request;
 
+        if ($request->post() === null)
+            return new BadRequestHttpException("Body error");
+
+        $post = Yii::$app->request->post();
         $animal = Utils::updateAnimal($id, $post,'missingAnimal');
 
         Yii::$app->response->statusCode = 200;
         return $animal;
     }
 
+    /**
+     * Deletes a missing animal
+     * @param $id
+     * @return MissingAnimal|null
+     * @throws ForbiddenHttpException
+     * @throws NotFoundHttpException
+     * @throws SaveAnimalException
+     */
     public function actionDelete($id){
         $this->checkAccess( 'delete', null, ['id' => $id]);
 
         $missingAnimal = \backend\modules\api\models\MissingAnimal::findOne($id);
 
-        if($missingAnimal == null || $missingAnimal->is_missing == false)
-            throw new NotFoundHttpException('Missing animal not found');
-
         try {
-//            $missingAnimal->is_missing = false;
-//            $missingAnimal->save();
+
+            if($missingAnimal == null || $missingAnimal->is_missing == false)
+                throw new NotFoundHttpException('Missing animal not found');
 
             $missingAnimal->delete();
 

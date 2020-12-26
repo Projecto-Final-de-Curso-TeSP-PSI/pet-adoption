@@ -8,15 +8,15 @@ class MissingAnimal extends \common\models\MissingAnimal{
      * Override over the fields of the MissingAnimal model
      * @return array|false
      */
-//    public function fields(){
-//        return[
-//            'id' => 'id',
-//            'missing_date' => 'missing_date',
-//            'is_missing' => 'is_missing',
-//            'owner_id',
-//            'owner' => 'owner',
-//        ];
-//    }
+    public function fields(){
+        return[
+            'id' => 'id',
+            'missing_date',
+            'is_missing',
+            'owner_id',
+            'owner',
+        ];
+    }
 
 
     public function extraFields()

@@ -17,21 +17,11 @@ class OrganizationController extends ActiveController
 {
     public $modelClass = 'backend\modules\api\models\Organization';
 
-//    public function behaviors()
-//    {
-//      $behaviors =  parent::behaviors();
-//      $behaviors['authenticator'] = [
-//        'class' => HttpBasicAuth::className(),
-//        'auth' => [$this, 'auth']
-//        ];
-//      return $behaviors;
-//    }
-
 
     public function actions(){
         $actions = parent::actions();
 
-        unset($actions['index'], $actions['view']);
+        unset($actions['create'], $actions['update'], $actions['delete']);
 
     }
 
@@ -40,29 +30,11 @@ class OrganizationController extends ActiveController
     * @return array|\yii\db\ActiveRecord[]
     */
     public function actionIndex(){
+
         Yii::$app->response->statusCode = 200;
         return Organization::find()
             ->isActive(true)
             ->all();
-    }
-
-    /**
-    * Action that returns one active organization, according with the id sent
-    */
-    public function actionView(){
-
-    }
-
-
-    public function auth($username, $password){
-        $user = User::findByUsername($username);
-        if($user && $user->validatePassword($password)){
-            return $user;
-        }
-    }
-
-    public function actionDistrict($districtId){
-        return District::withOrganizations();
     }
 
 }
