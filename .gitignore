@@ -2,3 +2,5 @@
 **/.DS_Store
 
 paws4adoption_web/composer.lock
+
+.phpunit.result.cache
