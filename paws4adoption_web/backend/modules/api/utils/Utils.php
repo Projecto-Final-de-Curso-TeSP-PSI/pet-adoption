@@ -22,8 +22,6 @@ class Utils
         $transaction = $db->beginTransaction();
         try
         {
-
-
             $animal = new \backend\modules\api\models\Animal();
 
             $animal->name = $post['name'];
@@ -43,26 +41,18 @@ class Utils
 
             switch($animal_type) {
                 case 'missingAnimal':
-                    $missingAnimal = new MissingAnimal();
+                    $missingAnimal = new \backend\modules\api\models\MissingAnimal();
                     $missingAnimal->id = $animal->id;
                     $missingAnimal->is_missing = true;
                     $missingAnimal->missing_date = $post['missing_date'];
                     $missingAnimal->owner_id = Yii::$app->user->id;
 
-
-//                    $missingAnimal->save();
-//                    var_dump($missingAnimal->errors); die;
-
                     if(!$missingAnimal->save())
                         throw new BadRequestHttpException("Error on saving missing animal");
 
-
-//                    if(!self::createPhoto($animal))
-//                        throw new BadRequestHttpException("Error on creating photo");
-
                     break;
                 case 'foundAnimal':
-                    $address = new Address();
+                    $address = new \backend\modules\api\models\Address();
                     $address->street = $post['street'];
                     $address->city = $post['city'];
                     $address->district_id = $post['district_id'];
@@ -70,7 +60,7 @@ class Utils
                     if(!$address->save())
                         throw new BadRequestHttpException("Error on saving found address");
 
-                    $foundAnimal = new FoundAnimal();
+                    $foundAnimal = new \backend\modules\api\models\FoundAnimal();
                     $foundAnimal->id = $animal->id;
                     $foundAnimal->location_id = $address->id;
                     $foundAnimal->is_active = true;
@@ -99,6 +89,7 @@ class Utils
             throw new SaveAnimalException("Error on saving animal on the database", null, $e);
         }
 
+        //return $animal_type == 'foundAnimal' ? $foundAnimal : $missingAnimal;
         return $animal;
     }
 
@@ -108,6 +99,8 @@ class Utils
         $transaction = $db->beginTransaction();
         try
         {
+
+            var_dump($post); die;
 
             $animal =  Animal::findOne($id);
             if($animal == null)
@@ -125,16 +118,14 @@ class Utils
             if(!$animal->save())
                 throw new BadRequestHttpException("Erro on saving animal");
 
-            if(!self::updatePhoto($animal))
-                throw new BadRequestHttpException("Error on saving photo");
-
-            //self::createPhoto($animal);
+//            if(!self::updatePhoto($animal))
+//                throw new BadRequestHttpException("Error on saving photo");
 
             switch($animal_type) {
                 case "missingAnimal":
                     $missingAnimal = MissingAnimal::findOne($id);
 
-                    $missingAnimal->is_missing = $post['is_missing'];
+                    //$missingAnimal->is_missing = $post['is_missing'];
                     $missingAnimal->missing_date = $post['missing_date'];
 
                     if(!$missingAnimal->save())
@@ -146,7 +137,7 @@ class Utils
                     if($foundAnimal == null)
                         throw new BadRequestHttpException("Error on indexing found animal");
 
-                    $address = Address::findOne($foundAnimal->location);
+                    $address = Address::findOne($foundAnimal->location_id);
                     if($address == null)
                         throw new BadRequestHttpException("Error on indexing found animal address");
 
@@ -184,7 +175,8 @@ class Utils
             throw new SaveAnimalException("Error on saving animal on the database", null, $e);
         }
 
-        return $animal;
+        //return $animal_type == 'foundAnimal' ? $foundAnimal : $missingAnimal;
+        return Animal::findOne($animal->id);
     }
 
 //    public static function deleteAnimal($animal, $animal_type){

@@ -29,23 +29,16 @@ class MissingAnimalController extends ActiveController
     {
         $behaviors = parent::behaviors();
         $behaviors['authenticator'] = [
-//            'class' => HttpBasicAuth::className(),
             'class' => CompositeAuth::className(),
             'except' => ['index', 'view'],
-//            'auth' => [$this, 'auth'],
             'authMethods' => [
                 HttpBasicAuth::className(),
                 HttpBearerAuth::className(),
                 QueryParamAuth::className(),
             ],
         ];
-    }
 
-    public function auth($username, $password){
-        $user = User::findByUsername($username);
-        if($user && $user->validatePassword($password)){
-            return $user;
-        }
+        return $behaviors;
     }
 
     /**
@@ -106,15 +99,10 @@ class MissingAnimalController extends ActiveController
 
     public function actionCreate(){
 
-        var_dump('na funçaõ create');
-
         try{
             $post = Yii::$app->request->post();
 
-
             $animal = Utils::createAnimal($post, 'missingAnimal');
-
-
 
         } catch(\Exception $e){
             throw $e;

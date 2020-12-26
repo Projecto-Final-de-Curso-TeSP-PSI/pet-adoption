@@ -111,15 +111,21 @@ return [
                     'ruleConfig' => [
                         'class' => 'yii\web\UrlRule',
                         'defaults' => [
+                            'only' => 'create, update, delete',
                             'expand' => 'animal, owner',
-                            'only' => ['create', 'update', 'delete']
                         ],
                     ],
                 ],
                 [ //SERVICE: FOUND-ANIMALS
                     'class' => 'yii\rest\UrlRule',
                     'controller' => 'api/found-animal',
-                    'only' => ['create', 'update', 'delete']
+                    'ruleConfig' => [
+                        'class' => 'yii\web\UrlRule',
+                        'defaults' => [
+                            'only' => 'create, update, delete',
+                            'expand' => 'animal, user',
+                        ],
+                    ],
                 ],
                 [ //SERVICE: ANIMALS
                     'class' => 'yii\rest\UrlRule',
@@ -127,8 +133,8 @@ return [
                     'ruleConfig' => [
                         'class' => 'yii\web\UrlRule',
                         'defaults' => [
-                            'only' => ['index', 'view'],
-                            'expand' => 'adoptionAnimal, missingAnimal, foundAnimal, type, size, furLength, furColor, nature' ,
+                            'only' => 'index, view',
+                            'expand' => 'adoptionAnimal, missingAnimal, foundAnimal, type, size, furLength, furColor, nature',
                         ],
                     ],
                 ],

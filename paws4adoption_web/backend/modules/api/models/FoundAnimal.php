@@ -4,21 +4,21 @@ namespace backend\modules\api\models;
 
 class FoundAnimal extends \common\models\FoundAnimal {
 
-    /**
-     * Override over the fields of the FoundAnimal model
-     * @return array|false
-     */
-    public function fields(){
-        return[
-            'id',
-            'location',
-            'is_active',
-            'found_date',
-            'priority',
-            'user_id',
-            'user'
-        ];
-    }
+//    /**
+//     * Override over the fields of the FoundAnimal model
+//     * @return array|false
+//     */
+//    public function fields(){
+//        return[
+//            'id',
+//            'location',
+//            'is_active',
+//            'found_date',
+//            'priority',
+//            'user_id',
+//            'user'
+//        ];
+//    }
 
 //    public function extraFields()
 //    {
@@ -42,6 +42,5 @@ class FoundAnimal extends \common\models\FoundAnimal {
     {
         return $this->hasOne(\backend\modules\api\models\Address::className(), ['id' => 'location_id']);
     }
-
 
 }

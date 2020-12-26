@@ -24,31 +24,12 @@ class FoundAnimalController extends ActiveController
 {
     public $modelClass = 'backend\modules\api\models\FoundAnimal';
 
-//    public function behaviors()
-//    {
-//        $behaviors =  parent::behaviors();
-//        $behaviors['authenticator'] = [
-//            'class' => HttpBasicAuth::className(),
-//            'except' => ['index','view'],
-//            'auth' => [$this, 'auth'],
-//        ];
-//
-//        return $behaviors;
-//    }
-
-//    public function auth($username, $password){
-//        $user = User::findByUsername($username);
-//        if($user && $user->validatePassword($password)){
-//            return $user;
-//        }
-//    }
-
     public function behaviors()
     {
-        $behaviors =  parent::behaviors();
+        $behaviors = parent::behaviors();
         $behaviors['authenticator'] = [
             'class' => CompositeAuth::className(),
-            'except' => ['index','view'],
+            'except' => ['index', 'view'],
             'authMethods' => [
                 HttpBasicAuth::className(),
                 HttpBearerAuth::className(),
@@ -58,7 +39,6 @@ class FoundAnimalController extends ActiveController
 
         return $behaviors;
     }
-
 
     /**
      * @param string $action
@@ -91,10 +71,29 @@ class FoundAnimalController extends ActiveController
 
     public function actions(){
         $actions = parent::actions();
+        unset($actions['index']);
+        unset($actions['view']);
         unset($actions['create']);
         unset($actions['update']);
         unset($actions['delete']);
         return $actions;
+    }
+
+    public function actionIndex(){
+    Yii::$app->response->statusCode = 200;
+    return \backend\modules\api\models\FoundAnimal::find()
+        ->isStillOnStreet(true)
+        ->all();
+}
+
+    public function actionView($id){
+        $missingAnimal = \backend\modules\api\models\FoundAnimal::findOne($id);
+
+        if($missingAnimal == null || $missingAnimal->is_active == false)
+            throw new NotFoundHttpException('Missing animal not found');
+
+        Yii::$app->response->statusCode = 200;
+        return $missingAnimal;
     }
 
     public function actionCreate(){
@@ -131,6 +130,7 @@ class FoundAnimalController extends ActiveController
         return $animal;
     }
 
+
     public function actionDelete($id){
         $this->checkAccess( 'delete', null, ['id' => $id]);
 
@@ -139,4 +139,5 @@ class FoundAnimalController extends ActiveController
         Yii::$app->response->statusCode = 200;
         return $animal;
     }
+
 }
