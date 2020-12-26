@@ -6,4 +6,36 @@ curl http://paws4adoption.web.back/api/users -u simaopedro:Sporting
 curl http://paws4adoption.web.back/api/users/1 -u simaopedro:Sporting
 
 --- POST Create User ---
-curl -X POST http://paws4adoption.web.back/api/users -u qwerty8:Sporting -d "{\"firstName\": \"Qwerty8\",\"lastName\": \"Poiuy8\",\"email\": \"qwerty8@ipl.com\",\"nif\": \"888888888\",\"phone\": \"888888888\",\"street\": \"Rua das Rosas\",\"door_number\": \"8\",\"floor\": null,\"postal_code\": 2458,\"street_code\": 548,\"city\": \"Leiria\",\"district_id\": 10}}}"
+curl -X POST http://paws4adoption.web.back/api/users -u qwerty9:Sporting -H 'Content-Type: application/json' -d '{
+    "email":"qwerty9@ipl.pt",
+    "firstName":"Qwerty9",
+    "lastName":"Poiuy9",
+    "nif":"923412999",
+    "phone":"987698999",
+    "street":"Rua das Rosas",
+    "door_number":"9",
+    "floor":"2.frt",
+    "postal_code":2410,
+    "street_code":123,
+    "city":"Leiria",
+    "district_id":10
+}'
+
+--- PUT Update User ---
+curl -X PUT http://paws4adoption.web.back/api/users/1 -u simaopedro:Sporting -H 'Content-Type: application/json' -d '{
+    "email":"simaopedro@ipl.pt",
+    "firstName":"Simao",
+    "lastName":"Pedro",
+    "nif":"101010101",
+    "phone":"919191919",
+    "street":"Rua Principal",
+    "door_number":"7",
+    "floor":"2 esq",
+    "postal_code":2410,
+    "street_code":75,
+    "city":"Leiria",
+    "district_id":10
+}'
+
+--- DELETE Delete User ---
+curl -X DELETE http://paws4adoption.web.back/api/users/1 -u simaopedro:Sporting
