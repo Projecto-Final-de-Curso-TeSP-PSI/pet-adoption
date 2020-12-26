@@ -24,24 +24,41 @@ class FoundAnimalController extends ActiveController
 {
     public $modelClass = 'backend\modules\api\models\FoundAnimal';
 
+//    public function behaviors()
+//    {
+//        $behaviors =  parent::behaviors();
+//        $behaviors['authenticator'] = [
+//            'class' => HttpBasicAuth::className(),
+//            'except' => ['index','view'],
+//            'auth' => [$this, 'auth'],
+//        ];
+//
+//        return $behaviors;
+//    }
+
+//    public function auth($username, $password){
+//        $user = User::findByUsername($username);
+//        if($user && $user->validatePassword($password)){
+//            return $user;
+//        }
+//    }
+
     public function behaviors()
     {
         $behaviors =  parent::behaviors();
         $behaviors['authenticator'] = [
-            'class' => HttpBasicAuth::className(),
+            'class' => CompositeAuth::className(),
             'except' => ['index','view'],
-            'auth' => [$this, 'auth'],
+            'authMethods' => [
+                HttpBasicAuth::className(),
+                HttpBearerAuth::className(),
+                QueryParamAuth::className(),
+            ],
         ];
 
         return $behaviors;
     }
 
-    public function auth($username, $password){
-        $user = User::findByUsername($username);
-        if($user && $user->validatePassword($password)){
-            return $user;
-        }
-    }
 
     /**
      * @param string $action
@@ -71,7 +88,6 @@ class FoundAnimalController extends ActiveController
         }
 
     }
-
 
     public function actions(){
         $actions = parent::actions();

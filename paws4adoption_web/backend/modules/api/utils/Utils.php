@@ -12,6 +12,7 @@ use backend\modules\api\models\FoundAnimal;
 use backend\modules\api\models\MissingAnimal;
 use common\models\Photo;
 use Yii;
+use yii\web\BadRequestHttpException;
 use yii\web\NotFoundHttpException;
 
 class Utils
@@ -21,6 +22,8 @@ class Utils
         $transaction = $db->beginTransaction();
         try
         {
+
+
             $animal = new \backend\modules\api\models\Animal();
 
             $animal->name = $post['name'];
@@ -31,9 +34,12 @@ class Utils
             $animal->fur_color_id = $post['fur_color_id'];
             $animal->size_id = $post['size_id'];
             $animal->sex = $post['sex'];
-            $animal->save();
 
-            self::createPhoto($animal);
+            if(!$animal->save())
+                throw new BadRequestHttpException("Erro on saving animal");
+
+//            if(!self::createPhoto($animal))
+//                throw new BadRequestHttpException("Error on saving animal");
 
             switch($animal_type) {
                 case 'missingAnimal':
@@ -42,27 +48,46 @@ class Utils
                     $missingAnimal->is_missing = true;
                     $missingAnimal->missing_date = $post['missing_date'];
                     $missingAnimal->owner_id = Yii::$app->user->id;
-                    $missingAnimal->save();
+
+
+//                    $missingAnimal->save();
+//                    var_dump($missingAnimal->errors); die;
+
+                    if(!$missingAnimal->save())
+                        throw new BadRequestHttpException("Error on saving missing animal");
+
+
+//                    if(!self::createPhoto($animal))
+//                        throw new BadRequestHttpException("Error on creating photo");
+
                     break;
                 case 'foundAnimal':
                     $address = new Address();
                     $address->street = $post['street'];
                     $address->city = $post['city'];
                     $address->district_id = $post['district_id'];
-                    $address->save();
+
+                    if(!$address->save())
+                        throw new BadRequestHttpException("Error on saving found address");
 
                     $foundAnimal = new FoundAnimal();
                     $foundAnimal->id = $animal->id;
-                    $foundAnimal->location = $address->id;
+                    $foundAnimal->location_id = $address->id;
                     $foundAnimal->is_active = true;
                     $foundAnimal->found_date = $post['found_date'];
                     $foundAnimal->priority = 'Por classificar';
                     $foundAnimal->user_id = Yii::$app->user->id;
-                    $foundAnimal->save();
+
+                    if(!$foundAnimal->save())
+                        throw new BadRequestHttpException("Error on saving found animal");
+
                     break;
             }
 
             $transaction->commit();
+        } catch (BadRequestHttpException $e){
+            $transaction->rollBack();
+            throw $e;
         } catch (PhotoUploadException $e){
             $transaction->rollBack();
             throw  $e;
@@ -83,6 +108,7 @@ class Utils
         $transaction = $db->beginTransaction();
         try
         {
+
             $animal =  Animal::findOne($id);
             if($animal == null)
                 throw new NotFoundHttpException("Animal parent id not found");
@@ -95,7 +121,12 @@ class Utils
             $animal->fur_color_id = $post['fur_color_id'];
             $animal->size_id = $post['size_id'];
             $animal->sex = $post['sex'];
-            $animal->save();
+
+            if(!$animal->save())
+                throw new BadRequestHttpException("Erro on saving animal");
+
+            if(!self::updatePhoto($animal))
+                throw new BadRequestHttpException("Error on saving photo");
 
             //self::createPhoto($animal);
 
@@ -105,28 +136,40 @@ class Utils
 
                     $missingAnimal->is_missing = $post['is_missing'];
                     $missingAnimal->missing_date = $post['missing_date'];
-                    $missingAnimal->save();
+
+                    if(!$missingAnimal->save())
+                        throw new BadRequestHttpException("Error on saving missing animal");
+
                     break;
                 case 'foundAnimal':
                     $foundAnimal = FoundAnimal::findOne($animal->id);
-                    //TODO: validação???
+                    if($foundAnimal == null)
+                        throw new BadRequestHttpException("Error on indexing found animal");
 
                     $address = Address::findOne($foundAnimal->location);
-                    //TODO: validação???
+                    if($address == null)
+                        throw new BadRequestHttpException("Error on indexing found animal address");
+
 
                     $address->street = $post['street'];
                     $address->city = $post['city'];
                     $address->district_id = $post['district_id'];
-                    $address->save();
+                    if(!$address->save())
+                        throw new BadRequestHttpException("Error on saving found address");
 
                     $foundAnimal->is_active = true;
                     $foundAnimal->found_date = $post['found_date'];
                     $foundAnimal->priority = $post['priority'];
-                    $foundAnimal->save();
+                    if(!$foundAnimal->save())
+                        throw new BadRequestHttpException("Error on saving found animal");
+
                     break;
             }
 
             $transaction->commit();
+        } catch (BadRequestHttpException $e){
+            $transaction->rollBack();
+            throw $e;
         } catch(NotFoundHttpException $e){
             $transaction->rollBack();
             throw $e;
@@ -181,11 +224,11 @@ class Utils
 //    }
 
     private static function createPhoto($animal){
+
         $saveResult = null;
         try {
             $photo = new Photo();
             $photo->caption = $animal->nature->name . " - " . $animal->name;
-            $photo->path = 'images/animal';
 
             $result = self::uploadPhoto(uniqid());
 
@@ -196,9 +239,12 @@ class Utils
             else{
                 return false;
             }
+
             $photo->id_animal = $animal->id;
 
+
             $result = $photo->save();
+
         } catch (PhotoUploadException $e){
             throw  $e;
         } catch(\Exception $e){
@@ -211,6 +257,7 @@ class Utils
     private static function updatePhoto($animal){
         $saveResult = null;
         try {
+
 
             $result = self::uploadPhoto($animal->photo->name);
 
@@ -232,9 +279,11 @@ class Utils
 
     private static function uploadPhoto($uniqueId){
         try {
+
             $path = realpath(Yii::$app->basePath . '/../frontend/web/images/animal') . '\\';
 
             $postdata = fopen($_FILES['photo']['tmp_name'], "r");
+
 
             /* Get file extension */
             $extension = substr($_FILES['photo']['name'], strrpos($_FILES['photo']['name'], '.'));

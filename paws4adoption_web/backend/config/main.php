@@ -105,13 +105,21 @@ return [
 //                        '{username}' => '<username:\\w+>'
                     ],
                 ],
-                [ //SERVICE: MISSING ANIMAL
+                [ //SERVICE: MISSING-ANIMALS
                     'class' => 'yii\rest\UrlRule',
                     'controller' => 'api/missing-animal',
+                    'ruleConfig' => [
+                        'class' => 'yii\web\UrlRule',
+                        'defaults' => [
+                            'expand' => 'animal, owner',
+                            'only' => ['create', 'update', 'delete']
+                        ],
+                    ],
                 ],
-                [ //SERVICE: FOUND ANIMAL
+                [ //SERVICE: FOUND-ANIMALS
                     'class' => 'yii\rest\UrlRule',
                     'controller' => 'api/found-animal',
+                    'only' => ['create', 'update', 'delete']
                 ],
                 [ //SERVICE: ANIMALS
                     'class' => 'yii\rest\UrlRule',
@@ -119,7 +127,51 @@ return [
                     'ruleConfig' => [
                         'class' => 'yii\web\UrlRule',
                         'defaults' => [
+                            'only' => ['index', 'view'],
                             'expand' => 'adoptionAnimal, missingAnimal, foundAnimal, type, size, furLength, furColor, nature' ,
+                        ],
+                    ],
+                ],
+                [ //SERVICE: NATURE
+                    'class' => 'yii\rest\UrlRule',
+                    'controller' => 'api/nature',
+                    'extraPatterns' => [
+                        'GET species' => 'species',
+                        'GET sub-species/{id}' => 'sub-species'
+                    ],
+                    'ruleConfig' => [
+                        'class' => 'yii\web\UrlRule',
+                        'defaults' => [
+                            'only' => ['specie', 'sub-species'],
+                        ],
+                    ],
+                    'tokens' => [
+                        '{id}' => '<id:\\d+>',
+                    ],
+                ],
+                [ //SERVICE: FURLENGTH
+                    'class' => 'yii\rest\UrlRule',
+                    'controller' => 'api/fur-length',
+                    'only' => ['index']
+                ],
+                [ //SERVICE: FURCOLOR
+                    'class' => 'yii\rest\UrlRule',
+                    'controller' => 'api/fur-color',
+                    'only' => ['index']
+                ],
+                [ //SERVICE: SIZE
+                    'class' => 'yii\rest\UrlRule',
+                    'controller' => 'api/size',
+                    'only' => ['index']
+                ],
+                [ //SERVICE: DISTRICT
+                    'class' => 'yii\rest\UrlRule',
+                    'controller' => 'api/district',
+                    'ruleConfig' => [
+                        'class' => 'yii\web\UrlRule',
+                        'defaults' => [
+                            'only' => 'index',
+                            'per-page' => 100
                         ],
                     ],
                 ],

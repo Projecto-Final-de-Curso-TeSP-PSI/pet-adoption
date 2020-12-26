@@ -3,13 +3,10 @@
 namespace backend\modules\api\controllers;
 
 use backend\modules\api\exceptions\SaveAnimalException;
-use backend\modules\api\models\AdoptionAnimal;
-use backend\modules\api\models\Animal;
-use backend\modules\api\models\FoundAnimal;
+
 use backend\modules\api\models\MissingAnimal;
 use common\models\Photo;
 use common\models\User;
-use http\Client\Response;
 use Yii;
 use yii\filters\auth\CompositeAuth;
 use yii\filters\auth\HttpBasicAuth;
@@ -21,28 +18,27 @@ use yii\web\ForbiddenHttpException;
 use yii\web\JsonResponseFormatter;
 use yii\web\NotFoundHttpException;
 use backend\modules\api\utils\Utils;
+use function Symfony\Component\Console\Tests\Command\createClosure;
 
 
 class MissingAnimalController extends ActiveController
 {
     public $modelClass = 'backend\modules\api\models\MissingAnimal';
 
-//    public function behaviors()
-//    {
-//        $behaviors =  parent::behaviors();
-//        $behaviors['authenticator'] = [
+    public function behaviors()
+    {
+        $behaviors =  parent::behaviors();
+        $behaviors['authenticator'] = [
 //            'class' => HttpBasicAuth::className(),
-////            'class' => CompositeAuth::className(),
-//            'except' => ['index','view'],
+            'class' => CompositeAuth::className(),
+            'except' => ['index','view'],
 //            'auth' => [$this, 'auth'],
-////            'authMethods' => [
-////                HttpBasicAuth::className(),
-////                HttpBearerAuth::className(),
-////                QueryParamAuth::className(),
-//        ];
-//
-//        return $behaviors;
-//    }
+            'authMethods' => [
+                HttpBasicAuth::className(),
+                HttpBearerAuth::className(),
+                QueryParamAuth::className(),
+            ],
+        ];
 
     public function auth($username, $password){
         $user = User::findByUsername($username);
@@ -92,13 +88,13 @@ class MissingAnimalController extends ActiveController
 
     public function actionIndex(){
         Yii::$app->response->statusCode = 200;
-        return MissingAnimal::find()
+        return \backend\modules\api\models\MissingAnimal::find()
             ->isStillMissing()
             ->all();
     }
 
     public function actionView($id){
-        $missingAnimal = MissingAnimal::findOne($id);
+        $missingAnimal = \backend\modules\api\models\MissingAnimal::findOne($id);
 
         if($missingAnimal == null || $missingAnimal->is_missing == false)
             throw new NotFoundHttpException('Missing animal not found');
@@ -108,9 +104,20 @@ class MissingAnimalController extends ActiveController
     }
 
     public function actionCreate(){
-        $post = Yii::$app->request->post();
 
-        $animal = Utils::createAnimal($post, 'missingAnimal');
+        var_dump('na funçaõ create');
+
+        try{
+            $post = Yii::$app->request->post();
+
+
+            $animal = Utils::createAnimal($post, 'missingAnimal');
+
+
+
+        } catch(\Exception $e){
+            throw $e;
+        }
 
         Yii::$app->response->statusCode = 201;
         return $animal;
@@ -119,13 +126,11 @@ class MissingAnimalController extends ActiveController
     public function actionUpdate($id){
         $this->checkAccess('update', null, ['id' => $id]);
 
-        $missingAnimal = MissingAnimal::findOne($id);
-
+        $missingAnimal = \backend\modules\api\models\MissingAnimal::findOne($id);
         if($missingAnimal == null || $missingAnimal->is_missing == false)
             throw new NotFoundHttpException('Missing animal not found');
 
         $post = Yii::$app->request->post();
-//        var_dump($post); die;
 
         $animal = Utils::updateAnimal($id, $post,'missingAnimal');
 
@@ -136,15 +141,22 @@ class MissingAnimalController extends ActiveController
     public function actionDelete($id){
         $this->checkAccess( 'delete', null, ['id' => $id]);
 
-        $missingAnimal = MissingAnimal::findOne($id);
+        $missingAnimal = \backend\modules\api\models\MissingAnimal::findOne($id);
 
         if($missingAnimal == null || $missingAnimal->is_missing == false)
             throw new NotFoundHttpException('Missing animal not found');
 
-        try{
-            $missingAnimal->is_missing = false;
-            $missingAnimal->save();
+        try {
+//            $missingAnimal->is_missing = false;
+//            $missingAnimal->save();
+
+            $missingAnimal->delete();
+
+        } catch (NotFoundHttpException $e){
+            throw $e;
         } catch (\Exception $e) {
+            throw new SaveAnimalException("Error on deleting animal on the database", 400, $e);
+        } catch(\Throwable $e){
             throw new SaveAnimalException("Error on deleting animal on the database", 400, $e);
         }
 
