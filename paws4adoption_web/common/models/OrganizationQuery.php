@@ -2,11 +2,13 @@
 
 namespace common\models;
 
+use common\models\Organization;
 use yii\db\ActiveQuery;
 
 class OrganizationQuery extends ActiveQuery
 {
     public function isActive($status = true){
+
         return $status ?
             $this->andOnCondition(['status' => Organization::ACTIVE])
             : $this->andOnCondition(['!=', 'status', Organization::ACTIVE]);
