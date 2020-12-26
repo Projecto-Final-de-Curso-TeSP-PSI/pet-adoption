@@ -13,6 +13,7 @@ use yii\filters\auth\HttpBasicAuth;
 use yii\filters\auth\HttpBearerAuth;
 use yii\filters\auth\QueryParamAuth;
 use yii\rest\ActiveController;
+use yii\web\ForbiddenHttpException;
 use yii\web\NotFoundHttpException;
 
 /**
@@ -56,11 +57,11 @@ class UserController extends ActiveController
      */
     public function actionCreate()
     {
-        //TODO: Apanhar excepções!!
         try {
             $model = new SignupAPI();
             $basicAuth = Yii::$app->request->headers['authorization'];
             $credentials = $this->extractUsernameAndPassword($basicAuth);
+
             $params = Yii::$app->request->post();
 
             $model->username = $credentials['username'];
@@ -72,8 +73,8 @@ class UserController extends ActiveController
             $model->nif = $params['nif'];
             $model->phone = $params['phone'];
             $model->street = $params['street'];
-            $model->door_number = $params['door_number'];
-            $model->floor = $params['floor'];
+            $model->door_number = isset($params['door_number']) ? $params['door_number'] : null;
+            $model->floor = isset($params['floor']) ? $params['floor'] : null;
             $model->postal_code = $params['postal_code'];
             $model->street_code = $params['street_code'];
             $model->city = $params['city'];
@@ -133,7 +134,6 @@ class UserController extends ActiveController
         }
 
         Yii::$app->response->statusCode = 200;
-        Yii::$app->response->statusText = "User updated successfully.";
         return $user;
     }
 
@@ -149,6 +149,7 @@ class UserController extends ActiveController
             }
 
             $user->status = \backend\modules\api\models\User::STATUS_DELETED;
+            $user->save();
 
             $transaction->commit();
         } catch (\Exception $e) {
@@ -197,5 +198,16 @@ class UserController extends ActiveController
         $credentials['username'] = substr($text, 0, $strpos); //returns the username;
         $credentials['password'] = substr($text, $strpos+1); //returns the password;
         return $credentials;
+    }
+
+    public function checkAccess($action, $model = null, $params = [])
+    {
+        if($action === 'index'){
+            throw new ForbiddenHttpException("You dont have permission to list all the users.");
+        }
+
+//        if($action === 'view' && Yii::$app->user->can('') == false){
+//
+//        }
     }
 }

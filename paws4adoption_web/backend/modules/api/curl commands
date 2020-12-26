@@ -1,0 +1,49 @@
+##### USERS #####
+
+--- POST Create User ---
+curl -X POST http://paws4adoption.web.back/api/users -u qwerty9:Sporting -H 'Content-Type: application/json' -d '{
+    "email":"qwerty9@ipl.pt",
+    "firstName":"Qwerty9",
+    "lastName":"Poiuy9",
+    "nif":"923412999",
+    "phone":"987698999",
+    "street":"Rua das Rosas",
+    "door_number":"9",
+    "floor":"2.frt",
+    "postal_code":2410,
+    "street_code":123,
+    "city":"Leiria",
+    "district_id":10
+}'
+
+--- POST Authenticate user and return token ---
+curl -X POST http://paws4adoption.web.back/api/users/token -u simaopedro:Sporting
+
+--- GET all users --- => Esta rota está bloqueada. Não queremos devolver todos os users.
+curl http://paws4adoption.web.back/api/users -u simaopedro:Sporting
+
+--- GET user by id ---
+curl http://paws4adoption.web.back/api/users/1 -u simaopedro:Sporting
+
+--- PUT Update User ---
+curl -X PUT http://paws4adoption.web.back/api/users/1 -u simaopedro:Sporting -H 'Content-Type: application/json' -d '{
+    "email":"simaopedro@ipl.pt",
+    "firstName":"Simao",
+    "lastName":"Pedro",
+    "nif":"101010101",
+    "phone":"919191919",
+    "street":"Rua Principal",
+    "door_number":"7",
+    "floor":"2 esq",
+    "postal_code":2410,
+    "street_code":75,
+    "city":"Leiria",
+    "district_id":10
+}'
+
+--- DELETE Delete User ---
+curl -X DELETE http://paws4adoption.web.back/api/users/1 -u simaopedro:Sporting
+
+
+
+##### Animals #####

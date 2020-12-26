@@ -15,15 +15,15 @@ class OrganizationController extends ActiveController
 {
     public $modelClass = 'backend\modules\api\models\Organization';
 
-    public function behaviors()
-    {
-      $behaviors =  parent::behaviors();
-      $behaviors['authenticator'] = [
-        'class' => HttpBasicAuth::className(),
-        'auth' => [$this, 'auth']
-        ];
-      return $behaviors;
-    }
+//    public function behaviors()
+//    {
+//      $behaviors =  parent::behaviors();
+//      $behaviors['authenticator'] = [
+//        'class' => HttpBasicAuth::className(),
+//        'auth' => [$this, 'auth']
+//        ];
+//      return $behaviors;
+//    }
 
     public function auth($username, $password){
         $user = User::findByUsername($username);

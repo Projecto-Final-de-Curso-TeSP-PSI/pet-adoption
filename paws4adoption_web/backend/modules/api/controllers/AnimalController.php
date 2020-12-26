@@ -28,18 +28,18 @@ class AnimalController extends ActiveController
 {
     public $modelClass = 'backend\modules\api\models\Animal';
 
-    public function behaviors()
-    {
-        //TODO: Falta aplicar o RBAC
-
-        $behaviors =  parent::behaviors();
-        $behaviors['authenticator'] = [
-            'class' => HttpBasicAuth::className(),
-            'auth' => [$this, 'auth']
-        ];
-
-      return $behaviors;
-    }
+//    public function behaviors()
+//    {
+//        //TODO: Falta aplicar o RBAC
+//
+//        $behaviors =  parent::behaviors();
+//        $behaviors['authenticator'] = [
+//            'class' => HttpBasicAuth::className(),
+//            'auth' => [$this, 'auth']
+//        ];
+//
+//      return $behaviors;
+//    }
 
     public function auth($username, $password){
         $user = User::findByUsername($username);

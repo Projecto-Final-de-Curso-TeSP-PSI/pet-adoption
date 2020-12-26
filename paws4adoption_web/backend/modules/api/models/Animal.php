@@ -2,45 +2,46 @@
 
 namespace backend\modules\api\models;
 
+
 class Animal extends \common\models\Animal{
 
-    /**
-     * Override over fields method of the class ActiveController
-     * @return array|false
-     */
-    public function fields(){
-        $fields = [
-            'id',
-            'chipId',
-            'description',
-            'nature' => 'nature',
-            'fur_color' => 'furColor',
-            'fur_length' => 'furLength',
-            'size' => 'size',
-            'sex',
-            'name',
-            'type'
-
-
-//                switch($this->getType()){
-//                    case 'adoptionAnimal':
-//                        array_push($fields, 'adoptionAnimal');
-//                        break;
-//                    case 'missingAnimal':
-//                        array_push($fields, 'missingAnimal');
-//                        break;
-//                    case 'foundAnimal':
-//                        array_push($fields, 'foundAnimal');
-//                        break;
+//    /**
+//     * Override over fields method of the class ActiveController
+//     * @return array|false
+//     */
+//    public function fields(){
+//        $fields = [
+//            'id',
+//            'chipId',
+//            'description',
+//            'nature' => 'nature',
+//            'fur_color' => 'furColor',
+//            'fur_length' => 'furLength',
+//            'size' => 'size',
+//            'sex',
+//            'name',
+//            'type'
 //
-        ];
-
-        return $fields;
-    }
+//
+////                switch($this->getType()){
+////                    case 'adoptionAnimal':
+////                        array_push($fields, 'adoptionAnimal');
+////                        break;
+////                    case 'missingAnimal':
+////                        array_push($fields, 'missingAnimal');
+////                        break;
+////                    case 'foundAnimal':
+////                        array_push($fields, 'foundAnimal');
+////                        break;
+////
+//        ];
+//
+//        return $fields;
+//    }
 
     public function extraFields()
     {
-        return ['adoptionAnimal', 'missingAnimal', 'foundAnimal', 'type'];
+        return ['adoptionAnimal', 'missingAnimal', 'foundAnimal', 'type', 'nature', 'size', 'furLength', 'furColor'];
     }
 
     public function rules(){
@@ -75,6 +76,17 @@ class Animal extends \common\models\Animal{
     public function getFoundAnimal()
     {
         return $this->hasOne(\backend\modules\api\models\FoundAnimal::class, ['id' => 'id']);
+    }
+
+
+    /**
+     * Gets query for [[Nature]].
+     *
+     * @return \yii\db\ActiveQuery
+     */
+    public function getNature()
+    {
+        return $this->hasOne(\backend\modules\api\models\Nature::className(), ['id' => 'nature_id']);
     }
 
 }

@@ -27,22 +27,22 @@ class MissingAnimalController extends ActiveController
 {
     public $modelClass = 'backend\modules\api\models\MissingAnimal';
 
-    public function behaviors()
-    {
-        $behaviors =  parent::behaviors();
-        $behaviors['authenticator'] = [
-            'class' => HttpBasicAuth::className(),
-//            'class' => CompositeAuth::className(),
-            'except' => ['index','view'],
-            'auth' => [$this, 'auth'],
-//            'authMethods' => [
-//                HttpBasicAuth::className(),
-//                HttpBearerAuth::className(),
-//                QueryParamAuth::className(),
-        ];
-
-        return $behaviors;
-    }
+//    public function behaviors()
+//    {
+//        $behaviors =  parent::behaviors();
+//        $behaviors['authenticator'] = [
+//            'class' => HttpBasicAuth::className(),
+////            'class' => CompositeAuth::className(),
+//            'except' => ['index','view'],
+//            'auth' => [$this, 'auth'],
+////            'authMethods' => [
+////                HttpBasicAuth::className(),
+////                HttpBearerAuth::className(),
+////                QueryParamAuth::className(),
+//        ];
+//
+//        return $behaviors;
+//    }
 
     public function auth($username, $password){
         $user = User::findByUsername($username);
@@ -62,7 +62,7 @@ class MissingAnimalController extends ActiveController
 
         //Redundante, pois todos os users têm acesso a esta permissão
         if($action === 'create' && Yii::$app->user->can('createMissingAnimal') == false){
-            throw new \yii\web\ForbiddenHttpException("You dont have permition to create missing animals");
+            throw new \yii\web\ForbiddenHttpException("You dont have permission to create missing animals");
         }
 
         if(in_array($action, ['update', 'delete'])){
@@ -73,7 +73,7 @@ class MissingAnimalController extends ActiveController
             }
 
             if(Yii::$app->user->can('manageMissingAnimal', ['animal_type' => 'missingAnimal', 'animal_id' => $params['id']]) == false){
-                throw new \yii\web\ForbiddenHttpException("You dont have permition to " . $action . " this record");
+                throw new \yii\web\ForbiddenHttpException("You dont have permission to " . $action . " this record");
             }
 
         }

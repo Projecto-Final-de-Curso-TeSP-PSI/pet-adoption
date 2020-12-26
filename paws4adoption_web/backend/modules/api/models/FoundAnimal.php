@@ -10,11 +10,11 @@ class FoundAnimal extends \common\models\FoundAnimal {
      */
     public function fields(){
         return[
-            'id' => 'id',
-            'location' => 'location',
-            'is_active' => 'is_active',
-            'found_date' => 'found_date',
-            'priority' => 'priority',
+            'id',
+            'location',
+            'is_active',
+            'found_date',
+            'priority',
             'user_id',
             'user'
         ];
