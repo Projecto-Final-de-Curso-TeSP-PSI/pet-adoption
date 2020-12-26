@@ -27,11 +27,11 @@ class MissingAnimalController extends ActiveController
 
     public function behaviors()
     {
-        $behaviors =  parent::behaviors();
+        $behaviors = parent::behaviors();
         $behaviors['authenticator'] = [
 //            'class' => HttpBasicAuth::className(),
             'class' => CompositeAuth::className(),
-            'except' => ['index','view'],
+            'except' => ['index', 'view'],
 //            'auth' => [$this, 'auth'],
             'authMethods' => [
                 HttpBasicAuth::className(),
@@ -39,6 +39,7 @@ class MissingAnimalController extends ActiveController
                 QueryParamAuth::className(),
             ],
         ];
+    }
 
     public function auth($username, $password){
         $user = User::findByUsername($username);
