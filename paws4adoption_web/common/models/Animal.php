@@ -139,16 +139,30 @@ class Animal extends \yii\db\ActiveRecord
         $result = false;
 
         switch($this->getType()) {
+
             case 'adoptionAnimal':
-                //TODO: soft adoption animal delete
+                $condition = $this->getOldPrimaryKey(true);
+                $lock = $this->optimisticLock();
+                if ($lock !== null) {
+                    $condition[$lock] = $this->$lock;
+                }
+                $result = static::deleteAll($condition);
+                if ($lock !== null && !$result) {
+                    throw new StaleObjectException('The object being deleted is outdated.');
+                }
+                $this->setOldAttributes(null);
                 break;
+
             case "missingAnimal":
                 $missingAnimal = MissingAnimal::findOne($this->id);
                 $missingAnimal->is_missing = false;
                 $result = $missingAnimal->save();
                 break;
+
             case 'foundAnimal':
-                //TODO: soft found animal delete
+                $foundAnimal = FoundAnimal::findOne($this->id);
+                $foundAnimal->is_active = false;
+                $result = $foundAnimal->save();
                 break;
         }
 
