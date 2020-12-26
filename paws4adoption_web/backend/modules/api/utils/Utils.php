@@ -24,8 +24,8 @@ class Utils
         {
             $animal = new \backend\modules\api\models\Animal();
 
-            $animal->name = $post['name'];
-            $animal->chipId = $post['chipId'];
+            $animal->name = isset($post['name']) ? $post['name'] : null;
+            $animal->chipId = isset($post['chipId']) ? $post['chipId'] : null;
             $animal->description = $post['description'];
             $animal->nature_id = $post['nature_id'];
             $animal->fur_length_id = $post['fur_length_id'];
@@ -99,15 +99,12 @@ class Utils
         $transaction = $db->beginTransaction();
         try
         {
-
-            var_dump($post); die;
-
             $animal =  Animal::findOne($id);
             if($animal == null)
                 throw new NotFoundHttpException("Animal parent id not found");
 
-            $animal->name = $post['name'];
-            $animal->chipId = $post['chipId'];
+            $animal->name = isset($post['name']) ? $post['name'] : null;
+            $animal->chipId = isset($post['chipId']) ? $post['chipId'] : null;
             $animal->description = $post['description'];
             $animal->nature_id = $post['nature_id'];
             $animal->fur_length_id = $post['fur_length_id'];
@@ -150,7 +147,7 @@ class Utils
 
                     $foundAnimal->is_active = true;
                     $foundAnimal->found_date = $post['found_date'];
-                    $foundAnimal->priority = $post['priority'];
+                    //$foundAnimal->priority = $post['priority'];
                     if(!$foundAnimal->save())
                         throw new BadRequestHttpException("Error on saving found animal");
 
@@ -179,41 +176,38 @@ class Utils
         return Animal::findOne($animal->id);
     }
 
-//    public static function deleteAnimal($animal, $animal_type){
-//        $db = Yii::$app->db;
-//        $transaction = $db->beginTransaction();
-//        try {
-//
-//
-//
-//
-//            $animal = Animal::findOne($id);
-//            if($animal == null )
-//                throw new NotFoundHttpException("Animal not found: " . $animal_type);
-//
-//            //delete all photos of this animal
-//            Photo::deleteAll(['id_animal' => $animal->id]);
-//
-//            //delete child animal
-//            switch($animal_type){
-//                case 'missingAnimal':
-//                    MissingAnimal::findOne($id)->delete();
-//                    break;
-//                case 'foundAnimal':
-//                    FoundAnimal::findOne($id)->delete();
-//                    break;
-//            }
-//            $animal->delete();
-//
-//            $transaction->commit();
-//        } catch(NotFoundHttpException $e){
-//            throw $e;
-//        } catch (\Exception $e) {
-//            $transaction->rollBack();
-//            throw new SaveAnimalException("Error on deletin animal on the database", 400, $e);
-//        }
-//        return $animal;
-//    }
+    public static function deleteAnimal($id, $animal_type){
+        $db = Yii::$app->db;
+        $transaction = $db->beginTransaction();
+
+        try {
+            $animal = Animal::findOne($id);
+            if($animal == null )
+                throw new NotFoundHttpException("Animal not found: " . $animal_type);
+
+            //delete all photos of this animal
+            Photo::deleteAll(['id_animal' => $animal->id]);
+
+            //delete child animal
+            switch($animal_type){
+                case 'missingAnimal':
+                    MissingAnimal::findOne($id)->delete();
+                    break;
+                case 'foundAnimal':
+                    FoundAnimal::findOne($id)->delete();
+                    break;
+            }
+            $animal->delete();
+
+            $transaction->commit();
+        } catch(NotFoundHttpException $e){
+            throw $e;
+        } catch (\Exception $e) {
+            $transaction->rollBack();
+            throw new SaveAnimalException("Error on deletin animal on the database", 400, $e);
+        }
+        return $animal;
+    }
 
     private static function createPhoto($animal){
 

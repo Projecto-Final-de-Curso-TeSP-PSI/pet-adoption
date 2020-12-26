@@ -78,7 +78,6 @@ return [
 
         'urlManager' => [
             'enablePrettyUrl' => true,
-//            'enableStrictParsing' => true,
             'showScriptName' => false,
             'rules' => [
                 [ //URL: USER
@@ -96,13 +95,8 @@ return [
                 [ //URL: ORGANIZATION By District
                     'class' => 'yii\rest\UrlRule',
                     'controller' => 'api/organization',
-                    'extraPatterns' => [
-                        'GET district/{districtId}' => 'district',
-                    ],
                     'tokens' => [
                         '{id}' => '<id:\\d+>',
-                        '{districtId}' => '<districtId:\\d+>',
-//                        '{username}' => '<username:\\w+>'
                     ],
                 ],
                 [ //SERVICE: MISSING-ANIMALS
@@ -143,16 +137,16 @@ return [
                     'controller' => 'api/nature',
                     'extraPatterns' => [
                         'GET species' => 'species',
-                        'GET sub-species/{id}' => 'sub-species'
+                        'GET species/{id}/sub-species' => 'sub-species',
+                    ],
+                    'tokens' => [
+                        '{id}' => '<id:\\d+>',
                     ],
                     'ruleConfig' => [
                         'class' => 'yii\web\UrlRule',
                         'defaults' => [
                             'only' => ['specie', 'sub-species'],
                         ],
-                    ],
-                    'tokens' => [
-                        '{id}' => '<id:\\d+>',
                     ],
                 ],
                 [ //SERVICE: FURLENGTH
