@@ -200,6 +200,34 @@ class UserController extends ActiveController
         return $credentials;
     }
 
+
+    public function actionValidation($idvalidation){
+        try{
+            $model = new $this->modelClass;
+            $user = $model->find()->where(['verification_token' => $idvalidation])->one();
+            if(is_null($user)){
+                Yii::$app->response->statusCode = 401;
+                $message['Validation Process'] = 'Error';
+                $message['Error'] = 'Not known validation key';
+            } else{
+                $user->status = User::STATUS_ACTIVE;
+                if($user->save()){
+                    $message['Validation Process'] = 'SUCCESS';
+                } else{
+                    Yii::$app->response->statusCode = 401;
+                    $message['Validation result'] = 'Error';
+                    $message['Error'] = 'Not able to save user';
+                }
+            }
+        } catch (BadRequestHttpException $e){
+            throw $e;
+        } catch (\Exception $e){
+            throw new InvalidArgumentException();
+        }
+
+        return $message;
+    }
+
     public function checkAccess($action, $model = null, $params = [])
     {
         if($action === 'index'){
@@ -211,3 +239,4 @@ class UserController extends ActiveController
 //        }
     }
 }
+

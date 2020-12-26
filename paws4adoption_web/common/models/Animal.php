@@ -2,6 +2,9 @@
 
 namespace common\models;
 
+use backend\mosquitto\MosquittoCatcher;
+use backend\mosquitto\phpMQTT;
+use stdClass;
 use Yii;
 
 /**
@@ -93,6 +96,65 @@ class Animal extends \yii\db\ActiveRecord
             'size_id' => 'Porte',
             'sex' => 'Sexo',
         ];
+    }
+
+    public function afterDelete()
+    {
+        //parent::afterDelete();
+        $myObj=new stdClass();
+        $myObj->id = $this->id;
+        $myJSON = json_encode($myObj);
+        MosquittoCatcher::makePublish("DELETE",$myJSON);
+    }
+
+
+//            var_dump(['changed_attributes' => $changedAttributes, 'where' => 'overrride save Animal Model']); die;
+
+//        ﻿$myObj = new \stdClass();
+//        $myObj->id = $this->id;
+//        $myObj->name = $this->name;
+//        $myObj->chipId = $this->chipId;
+//        $myObj->description = $this->description;
+//        $myObj->nature_id = $this->nature_id;
+//        $myObj->nature->name = $this->nature->name;
+//        $myObj->fur_length_id = $this->furLength->fur_length;
+//        $myObj->fur_color_id = $this->furColor->fur_color;
+//        $myObj->size_id = $this->size->size;
+//        $myObj->sex = $this->sex;
+//
+//        $myJSON = json_encode($myObj);
+//        if($insert)
+//            $this->makePublish("INSERT",$myJSON);
+//        else
+//            $this->makePublish("UPDATE",$myJSON);
+
+
+    public function deleteInternal()
+    {
+
+        if (!$this->beforeDelete()) {
+            return false;
+        }
+
+        $result = false;
+
+        switch($this->getType()) {
+            case 'adoptionAnimal':
+                //TODO: soft adoption animal delete
+                break;
+            case "missingAnimal":
+                $missingAnimal = MissingAnimal::findOne($this->id);
+                $missingAnimal->is_missing = false;
+                $result = $missingAnimal->save();
+                break;
+            case 'foundAnimal':
+                //TODO: soft found animal delete
+                break;
+        }
+
+        $this->afterDelete();
+
+        return $result;
     }
 
     /**

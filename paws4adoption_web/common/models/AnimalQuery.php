@@ -21,7 +21,8 @@ class AnimalQuery extends ActiveQuery
     }
 
     public function isAdopted($status = true){
-        return $status ? $this->andWhere(['is not', 'aa.id', null]) : $this->andWhere(['is', 'aa.id', null]);
+        return $status ? $this->andWhere(['is not', 'aa.id', null])
+            : $this->andWhere(['is', 'aa.id', null]);
     }
 
     //###########  MISSING ANIMAL   ###########
@@ -45,8 +46,9 @@ class AnimalQuery extends ActiveQuery
     }
 
     public function isStillOnStreet($status = true){
-        return $this
-            ->andWhere(['fa.is_active' => $status]);
+        return $status ?
+            $this->andWhere(['fa.is_active' => $status])
+            : $this->andWhere(['is not', 'fa.is_active', 1]);
     }
 
 }

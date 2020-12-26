@@ -48,7 +48,7 @@ class MissingAnimal extends \common\models\Animal
         $today = date("d/m/Y");
         $inputDate = $this->$attribute;
 
-        if($inputDate < $today)
+        if($inputDate > $today)
             $this->addError($attribute, 'Data não pode estar no futuro.');
     }
 

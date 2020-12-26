@@ -42,8 +42,8 @@ class Organization extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['name', 'nif', 'address_id'], 'required'],
-            [['address_id'], 'integer'],
+            [['name', 'nif'], 'required'],
+            [['address_id', 'status'], 'integer'],
             [['name', 'email'], 'string', 'max' => 64],
             [['nif', 'phone'], 'string', 'max' => 9],
             [['nif'], 'unique'],
@@ -63,6 +63,7 @@ class Organization extends \yii\db\ActiveRecord
             'email' => 'Email',
             'phone' => 'Telefone',
             'address_id' => 'Address ID',
+            'status' => 'Estado',
         ];
     }
 
