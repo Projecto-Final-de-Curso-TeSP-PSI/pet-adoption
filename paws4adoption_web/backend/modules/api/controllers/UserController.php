@@ -13,6 +13,7 @@ use yii\filters\auth\HttpBasicAuth;
 use yii\filters\auth\HttpBearerAuth;
 use yii\filters\auth\QueryParamAuth;
 use yii\rest\ActiveController;
+use yii\web\ForbiddenHttpException;
 use yii\web\NotFoundHttpException;
 
 /**
@@ -56,18 +57,12 @@ class UserController extends ActiveController
      */
     public function actionCreate()
     {
-//        var_dump("Entrou no actionCreate");
-//        die;
-        //TODO: Apanhar excepções!!
         try {
             $model = new SignupAPI();
             $basicAuth = Yii::$app->request->headers['authorization'];
             $credentials = $this->extractUsernameAndPassword($basicAuth);
 
-            $params = Yii::$app->request;
-
-            var_dump($params);
-            die;
+            $params = Yii::$app->request->post();
 
             $model->username = $credentials['username'];
             $model->password = $credentials['password'];
@@ -139,7 +134,6 @@ class UserController extends ActiveController
         }
 
         Yii::$app->response->statusCode = 200;
-        Yii::$app->response->statusText = "User updated successfully.";
         return $user;
     }
 
@@ -155,6 +149,7 @@ class UserController extends ActiveController
             }
 
             $user->status = \backend\modules\api\models\User::STATUS_DELETED;
+            $user->save();
 
             $transaction->commit();
         } catch (\Exception $e) {
@@ -203,5 +198,16 @@ class UserController extends ActiveController
         $credentials['username'] = substr($text, 0, $strpos); //returns the username;
         $credentials['password'] = substr($text, $strpos+1); //returns the password;
         return $credentials;
+    }
+
+    public function checkAccess($action, $model = null, $params = [])
+    {
+        if($action === 'index'){
+            throw new ForbiddenHttpException("You dont have permission to list all the users.");
+        }
+
+//        if($action === 'view' && Yii::$app->user->can('') == false){
+//
+//        }
     }
 }

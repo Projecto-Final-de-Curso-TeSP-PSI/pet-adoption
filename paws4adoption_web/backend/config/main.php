@@ -89,7 +89,8 @@ return [
                         'GET validation/{idvalidation}' => 'validation'
                     ],
                     'tokens' => [
-                      '{idvalidation}' => '<idvalidation:\\w+>',
+                        '{id}' => '<id:\\d+>',
+                        '{idvalidation}' => '<idvalidation:\\w+>',
                     ],
                 ],
                 [ //URL: ORGANIZATION By District
