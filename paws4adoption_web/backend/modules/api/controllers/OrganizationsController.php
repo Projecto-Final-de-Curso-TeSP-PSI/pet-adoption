@@ -13,7 +13,7 @@ use yii\rest\ActiveController;
  * Default controller for the `api` module
  */
 
-class OrganizationController extends ActiveController
+class OrganizationsController extends ActiveController
 {
     public $modelClass = 'backend\modules\api\models\Organization';
 
@@ -23,6 +23,7 @@ class OrganizationController extends ActiveController
 
         unset($actions['create'], $actions['update'], $actions['delete']);
 
+        return $actions;
     }
 
     /**

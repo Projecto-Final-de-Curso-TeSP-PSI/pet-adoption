@@ -24,7 +24,7 @@ use yii\web\NotFoundHttpException;
 /**
  * Default controller for the `api` module
  */
-class AnimalController extends ActiveController
+class AnimalsController extends ActiveController
 {
     public $modelClass = 'backend\modules\api\models\Animal';
 

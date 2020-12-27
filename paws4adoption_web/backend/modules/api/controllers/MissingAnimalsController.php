@@ -21,7 +21,7 @@ use backend\modules\api\utils\Utils;
 use function Symfony\Component\Console\Tests\Command\createClosure;
 
 
-class MissingAnimalController extends ActiveController
+class MissingAnimalsController extends ActiveController
 {
     public $modelClass = 'backend\modules\api\models\MissingAnimal';
 

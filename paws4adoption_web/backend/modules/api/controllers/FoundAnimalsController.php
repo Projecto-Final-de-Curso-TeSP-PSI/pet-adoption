@@ -21,7 +21,7 @@ use backend\modules\api\utils\Utils;
 use yii\web\NotFoundHttpException;
 
 
-class FoundAnimalController extends ActiveController
+class FoundAnimalsController extends ActiveController
 {
     public $modelClass = 'backend\modules\api\models\FoundAnimal';
 

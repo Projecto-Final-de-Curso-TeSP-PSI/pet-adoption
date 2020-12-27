@@ -19,7 +19,7 @@ use yii\web\NotFoundHttpException;
 /**
  * Default controller for the `api` module
  */
-class UserController extends ActiveController
+class UsersController extends ActiveController
 {
     public $modelClass = 'backend\modules\api\models\User';
 

@@ -9,7 +9,7 @@ use yii\data\ActiveDataProvider;
 use yii\rest\ActiveController;
 use yii\web\NotFoundHttpException;
 
-class NatureController extends ActiveController
+class NaturesController extends ActiveController
 {
     public $modelClass = 'common\models\Nature';
 

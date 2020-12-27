@@ -15,7 +15,7 @@ use yii\rest\ActiveController;
 /**
  * Default controller for the `api` module
  */
-class DistrictController extends ActiveController
+class DistrictsController extends ActiveController
 {
     public $modelClass = 'common\models\District';
 }

@@ -28,19 +28,6 @@ return [
                 'application/json' => 'yii\web\JsonParser'
             ],
         ],
-        /*'response' => [
-            'class' => 'yii\web\Response',
-            'on beforeSend' => function ($event) {
-                $response = $event->sender;
-                if ($response->data !== null && Yii::$app->request->get('suppress_response_code')) {
-                    $response->data = [
-                        'success' => $response->isSuccessful,
-                        'data' => $response->data,
-                    ];
-                    $response->statusCode = 200;
-                }
-            },
-        ],*/
         'user' => [
             'identityClass' => 'common\models\user',
             'enableAutoLogin' => true,
@@ -75,14 +62,14 @@ return [
                 'encryption' => 'tls',
             ],
         ],
-
         'urlManager' => [
             'enablePrettyUrl' => true,
             'showScriptName' => false,
             'rules' => [
                 [ //URL: USER
                     'class' => 'yii\rest\UrlRule',
-                    'controller' => 'api/user',
+                    'controller' => 'api/users',
+                    'pluralize' => 'false',
                     'extraPatterns' => [
                         'POST token' => 'token',
                         'GET validation/{idvalidation}' => 'validation'
@@ -92,16 +79,15 @@ return [
                         '{idvalidation}' => '<idvalidation:\\w+>',
                     ],
                 ],
-                [ //URL: ORGANIZATION By District
+                [ //URL: ORGANIZATION
                     'class' => 'yii\rest\UrlRule',
-                    'controller' => 'api/organization',
-                    'tokens' => [
-                        '{id}' => '<id:\\d+>',
-                    ],
+                    'controller' => 'api/organizations',
+                    'pluralize' => 'false',
                 ],
                 [ //SERVICE: MISSING-ANIMALS
                     'class' => 'yii\rest\UrlRule',
-                    'controller' => 'api/missing-animal',
+                    'controller' => 'api/missing-animals',
+                    'pluralize' => 'false',
                     'ruleConfig' => [
                         'class' => 'yii\web\UrlRule',
                         'defaults' => [
@@ -112,18 +98,20 @@ return [
                 ],
                 [ //SERVICE: FOUND-ANIMALS
                     'class' => 'yii\rest\UrlRule',
-                    'controller' => 'api/found-animal',
+                    'controller' => 'api/found-animals',
+                    'pluralize' => 'false',
                     'ruleConfig' => [
                         'class' => 'yii\web\UrlRule',
                         'defaults' => [
                             'only' => 'create, update, delete',
-//                            'expand' => 'animal, user',
+                            'expand' => 'animal, user',
                         ],
                     ],
                 ],
                 [ //SERVICE: ANIMALS
                     'class' => 'yii\rest\UrlRule',
-                    'controller' => 'api/animal',
+                    'controller' => 'api/animals',
+                    'pluralize' => 'false',
                     'ruleConfig' => [
                         'class' => 'yii\web\UrlRule',
                         'defaults' => [
@@ -134,7 +122,8 @@ return [
                 ],
                 [ //SERVICE: NATURE
                     'class' => 'yii\rest\UrlRule',
-                    'controller' => 'api/nature',
+                    'controller' => 'api/natures',
+                    'pluralize' => 'false',
                     'extraPatterns' => [
                         'GET species' => 'species',
                         'GET species/{id}/sub-species' => 'sub-species',
@@ -145,29 +134,33 @@ return [
                     'ruleConfig' => [
                         'class' => 'yii\web\UrlRule',
                         'defaults' => [
-                            'only' => ['specie', 'subspecies'],
+                            'only' => ['species', 'subspecies'],
                             'per-page' => 100
                         ],
                     ],
                 ],
                 [ //SERVICE: FURLENGTH
                     'class' => 'yii\rest\UrlRule',
-                    'controller' => 'api/fur-length',
+                    'controller' => 'api/fur-lengths',
+                    'pluralize' => 'false',
                     'only' => ['index']
                 ],
                 [ //SERVICE: FURCOLOR
                     'class' => 'yii\rest\UrlRule',
-                    'controller' => 'api/fur-color',
+                    'controller' => 'api/fur-colors',
+                    'pluralize' => 'false',
                     'only' => ['index']
                 ],
                 [ //SERVICE: SIZE
                     'class' => 'yii\rest\UrlRule',
-                    'controller' => 'api/size',
-                    'only' => ['index']
+                    'controller' => 'api/sizes',
+                    'pluralize' => 'false',
+                    'only' => ['index'],
                 ],
                 [ //SERVICE: DISTRICT
                     'class' => 'yii\rest\UrlRule',
-                    'controller' => 'api/district',
+                    'controller' => 'api/districts',
+                    'pluralize' => 'false',
                     'ruleConfig' => [
                         'class' => 'yii\web\UrlRule',
                         'defaults' => [
