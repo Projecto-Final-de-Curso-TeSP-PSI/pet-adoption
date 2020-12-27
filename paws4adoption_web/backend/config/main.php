@@ -122,11 +122,11 @@ return [
                 ],
                 [ //SERVICE: NATURE
                     'class' => 'yii\rest\UrlRule',
-                    'controller' => 'api/natures',
+                    'controller' => 'api/species',
                     'pluralize' => 'false',
                     'extraPatterns' => [
-                        'GET species' => 'species',
-                        'GET species/{id}/sub-species' => 'sub-species',
+//                        'GET species' => 'species',
+                        'GET {id}/sub-species' => 'sub-species',
                     ],
                     'tokens' => [
                         '{id}' => '<id:\\d+>',
@@ -134,7 +134,7 @@ return [
                     'ruleConfig' => [
                         'class' => 'yii\web\UrlRule',
                         'defaults' => [
-                            'only' => ['species', 'subspecies'],
+                            'only' => ['index', 'sub-species'],
                             'per-page' => 100
                         ],
                     ],

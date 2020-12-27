@@ -9,15 +9,24 @@ use yii\data\ActiveDataProvider;
 use yii\rest\ActiveController;
 use yii\web\NotFoundHttpException;
 
-class NaturesController extends ActiveController
+class SpeciesController extends ActiveController
 {
     public $modelClass = 'common\models\Nature';
+
+    /**
+     * @return array
+     */
+    public function actions(){
+        $actions = parent::actions();
+        unset($actions['index']);
+        return $actions;
+    }
 
     /**
      * Get's all species
      * @return array|\yii\db\ActiveRecord[]
      */
-    public function actionSpecies(){
+    public function actionIndex(){
         return Nature::find()
             ->onCondition(['parent_nature_id' => null])
             ->all();
