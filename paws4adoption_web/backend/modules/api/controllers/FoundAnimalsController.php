@@ -121,7 +121,7 @@ class FoundAnimalsController extends ActiveController
 
     /**
      * Creates a found animal
-     * @return FoundAnimal|MissingAnimal
+     * @return Animal
      * @throws BadRequestHttpException
      */
     public function actionCreate(){
@@ -130,7 +130,6 @@ class FoundAnimalsController extends ActiveController
             $this->checkAccess( 'create', null, null );
 
             $post = Yii::$app->request->post();
-
 
             $animal = Utils::createAnimal($post, 'foundAnimal');
         }

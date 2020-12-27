@@ -2,9 +2,11 @@
 
 namespace common\models;
 
+use backend\mosquitto\MosquittoCatcher;
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
 use common\models\FoundAnimal;
+use yii\db\StaleObjectException;
 
 /**
  * FoundAnimalSearch represents the model behind the search form of `common\models\FoundAnimal`.

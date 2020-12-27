@@ -2,7 +2,9 @@
 
 namespace common\models;
 
+use backend\mosquitto\MosquittoCatcher;
 use Yii;
+use yii\db\StaleObjectException;
 
 /***
  * This is the model class for table "found_animals".
@@ -116,5 +118,56 @@ class FoundAnimal extends \common\models\Animal
             ->select('address_id')
             ->distinct()
             ->column();
+    }
+
+    public function afterSave($insert, $changedAttributes)
+    {
+        try {
+            if (!$insert) {
+                if (isset($changedAttributes['is_active'])) {
+                    return;
+                }
+            }
+
+            $myObj = new \stdClass();
+
+            $myObj->id = $this->id;
+            $myObj->description = $this->animal->description;
+            $myObj->nature_id = $this->animal->nature->name;
+            $myObj->fur_color_id = $this->animal->furColor->fur_color;
+            $myObj->fur_length_id = $this->animal->furLength->fur_length;
+            $myObj->size_id = $this->animal->size->size;
+            $myObj->sex = $this->animal->sex;
+
+            $myObj->is_active = $this->is_active;
+            $myObj->found_date = $this->found_date;
+            $myObj->street = $this->location->street;
+            $myObj->city = $this->location->city;
+            $myObj->district = $this->location->district->name;
+
+            $myJSON = json_encode($myObj);
+
+            if ($insert)
+                MosquittoCatcher::makePublish('NEW_POSTED_ANIMAL', $myJSON);
+
+        } catch (\Exception $e){
+            throw $e;
+        }
+    }
+
+    public function deleteInternal()
+    {
+
+        if (!$this->beforeDelete()) {
+            return false;
+        }
+
+        $foundAnimal = FoundAnimal::findOne($this->id);
+        $foundAnimal->is_active = false;
+        $result = $foundAnimal->save();
+
+        $this->afterDelete();
+
+        return $result;
     }
 }

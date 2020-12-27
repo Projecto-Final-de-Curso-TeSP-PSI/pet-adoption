@@ -85,6 +85,7 @@ class Utils
             }
 
             $transaction->commit();
+
         } catch (BadRequestHttpException $e){
             $transaction->rollBack();
             throw $e;

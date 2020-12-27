@@ -6,6 +6,7 @@ use backend\mosquitto\MosquittoCatcher;
 use backend\mosquitto\phpMQTT;
 use stdClass;
 use Yii;
+use yii\db\StaleObjectException;
 
 /**
  * This is the model class for table "animals".

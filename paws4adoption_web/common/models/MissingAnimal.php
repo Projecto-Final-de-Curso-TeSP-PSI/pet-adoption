@@ -108,4 +108,18 @@ class MissingAnimal extends \common\models\Animal
             ->column();
     }
 
+    public function deleteInternal()
+    {
+        if (!$this->beforeDelete()) {
+            return false;
+        }
+
+        $missingAnimal = MissingAnimal::findOne($this->id);
+        $missingAnimal->is_missing = false;
+        $result = $missingAnimal->save();
+
+        $this->afterDelete();
+
+        return $result;
+    }
 }
