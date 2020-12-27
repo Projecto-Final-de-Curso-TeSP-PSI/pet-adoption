@@ -66,7 +66,7 @@ return [
             'enablePrettyUrl' => true,
             'showScriptName' => false,
             'rules' => [
-                [ //URL: USER
+                [ //URL: USERS
                     'class' => 'yii\rest\UrlRule',
                     'controller' => 'api/users',
                     'pluralize' => 'false',
@@ -75,11 +75,11 @@ return [
                         'GET validation/{idvalidation}' => 'validation'
                     ],
                     'tokens' => [
-                        '{id}' => '<id:\\d+>',
+//                        '{id}' => '<id:\\d+>',
                         '{idvalidation}' => '<idvalidation:\\w+>',
                     ],
                 ],
-                [ //URL: ORGANIZATION
+                [ //URL: ORGANIZATIONS
                     'class' => 'yii\rest\UrlRule',
                     'controller' => 'api/organizations',
                     'pluralize' => 'false',
@@ -120,7 +120,7 @@ return [
                         ],
                     ],
                 ],
-                [ //SERVICE: NATURE
+                [ //SERVICE: NATURES
                     'class' => 'yii\rest\UrlRule',
                     'controller' => 'api/species',
                     'pluralize' => 'false',
@@ -139,25 +139,25 @@ return [
                         ],
                     ],
                 ],
-                [ //SERVICE: FURLENGTH
+                [ //SERVICE: FUR LENGTHS
                     'class' => 'yii\rest\UrlRule',
                     'controller' => 'api/fur-lengths',
                     'pluralize' => 'false',
                     'only' => ['index']
                 ],
-                [ //SERVICE: FURCOLOR
+                [ //SERVICE: FUR COLORS
                     'class' => 'yii\rest\UrlRule',
                     'controller' => 'api/fur-colors',
                     'pluralize' => 'false',
                     'only' => ['index']
                 ],
-                [ //SERVICE: SIZE
+                [ //SERVICE: SIZES
                     'class' => 'yii\rest\UrlRule',
                     'controller' => 'api/sizes',
                     'pluralize' => 'false',
                     'only' => ['index'],
                 ],
-                [ //SERVICE: DISTRICT
+                [ //SERVICE: DISTRICTS
                     'class' => 'yii\rest\UrlRule',
                     'controller' => 'api/districts',
                     'pluralize' => 'false',
