@@ -16,6 +16,8 @@ use yii\rest\ActiveController;
 use yii\web\ForbiddenHttpException;
 use yii\web\NotFoundHttpException;
 
+//TODO: Implement authorization requirements
+
 /**
  * Default controller for the `api` module
  */
