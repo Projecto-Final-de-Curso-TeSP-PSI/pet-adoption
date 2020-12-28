@@ -234,19 +234,33 @@ class UsersController extends ActiveController
         } catch (\Exception $e){
             throw new InvalidArgumentException();
         }
-
         return $message;
     }
 
+    /**
+     * @param string $action
+     * @param null $model
+     * @param array $params
+     * @throws ForbiddenHttpException
+     * @throws NotFoundHttpException
+     */
     public function checkAccess($action, $model = null, $params = [])
     {
         if($action === 'index'){
             throw new ForbiddenHttpException("You dont have permission to list all the users.");
         }
 
-//        if($action === 'view' && Yii::$app->user->can('') == false){
-//
-//        }
+        if(in_array($action, ['view', 'update', 'delete'])){
+
+            $model = User::findOne($params['id']);
+            if($model === null){
+                throw new \yii\web\NotFoundHttpException("User not found");
+            }
+
+            if(Yii::$app->user->can('manageUser', ['id' => $params['id']]) == false){
+                throw new \yii\web\ForbiddenHttpException("You dont have permission to " . $action . " this record");
+            }
+        }
     }
 }
 
