@@ -60,7 +60,7 @@ class MissingAnimalsController extends ActiveController
             throw new \yii\web\ForbiddenHttpException("You dont have permission to create missing animals");
         }
 
-        //Check if the user that is asking for the service has autorization to handle that record
+        //Check if the user that is asking for the service has authorization to handle that record
         //(only admin and the author for the creation of the animal)
         if(in_array($action, ['update', 'delete'])){
 

@@ -2,10 +2,12 @@
 
 namespace backend\modules\api\controllers;
 
+use backend\modules\api\models\MissingAnimal;
 use backend\modules\api\models\SignupAPI;
 use common\models\Address;
 use common\models\LoginForm;
 use common\models\User;
+use InvalidArgumentException;
 use Yii;
 use yii\db\Exception;
 use yii\filters\auth\CompositeAuth;
@@ -13,8 +15,10 @@ use yii\filters\auth\HttpBasicAuth;
 use yii\filters\auth\HttpBearerAuth;
 use yii\filters\auth\QueryParamAuth;
 use yii\rest\ActiveController;
+use yii\web\BadRequestHttpException;
 use yii\web\ForbiddenHttpException;
 use yii\web\NotFoundHttpException;
+use yii\web\UnauthorizedHttpException;
 
 //TODO: Implement authorization requirements
 
@@ -27,13 +31,17 @@ class UsersController extends ActiveController
 
     public function behaviors()
     {
-      $behaviors =  parent::behaviors();
-      $behaviors['authenticator'] = [
-          'class' => HttpBasicAuth::class,
-          'except' => ['create'],
-          'auth' => [$this, 'auth'],
-      ];
-      return $behaviors;
+        $behaviors =  parent::behaviors();
+        $behaviors['authenticator'] = [
+            'class' => CompositeAuth::className(),
+            'except' => ['index', 'token'],
+            'authMethods' => [
+                HttpBasicAuth::className(),
+                HttpBearerAuth::className(),
+                QueryParamAuth::className(),
+            ],
+        ];
+        return $behaviors;
     }
 
     public function auth($username, $password){
@@ -174,17 +182,17 @@ class UsersController extends ActiveController
      */
     public function actionToken(){
         try{
-            $basicAuth = Yii::$app->request->headers['authorization'];
-            $credentials = $this->extractUsernameAndPassword($basicAuth);
-            $username = $credentials['username'];
+            $post = Yii::$app->request->post();
 
-            $user = User::findByUsername($username);
+            $user = $this->auth($post['username'], $post['password']);
+            if ($user === null){
+                throw new UnauthorizedHttpException('Wrong username or password');
+            }
             $response['success'] = true;
             $response['token'] = User::findByUsername($user->username)->auth_key;
         } catch (\Exception $e){
             throw $e;
         }
-
         return $response;
     }
 

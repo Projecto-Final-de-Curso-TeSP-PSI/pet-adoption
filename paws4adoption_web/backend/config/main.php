@@ -75,7 +75,7 @@ return [
                         'GET validation/{idvalidation}' => 'validation'
                     ],
                     'tokens' => [
-//                        '{id}' => '<id:\\d+>',
+                        '{id}' => '<id:\\d+>',
                         '{idvalidation}' => '<idvalidation:\\w+>',
                     ],
                 ],
@@ -125,7 +125,6 @@ return [
                     'controller' => 'api/species',
                     'pluralize' => 'false',
                     'extraPatterns' => [
-//                        'GET species' => 'species',
                         'GET {id}/sub-species' => 'sub-species',
                     ],
                     'tokens' => [
