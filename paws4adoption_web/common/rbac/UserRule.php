@@ -19,9 +19,9 @@ class UserRule extends \yii\rbac\Rule
     public function execute($user, $item, $params)
     {
 
-        //If the parameter passed is a foundAnimal, check if it as been published by the User
-        if (isset($params['user'])) {
-            return $params['user']->id == $user;
+        //If the parameter passed is a id, check if it matches with the id of the authenticated user
+        if (isset($params['id'])) {
+            return $params['id'] == $user;
         }
 
         //More params can be added to the rule
