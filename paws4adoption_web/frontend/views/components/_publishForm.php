@@ -85,15 +85,15 @@ AppAsset::register($this);
                     switch ($typeCreate) {
                         case 'createMissingAnimal':
                             echo $form->field($missingAnimalModel, 'missing_date', ['inputOptions' => ['id' => 'createFill-missingDate']])->widget(DatePicker::className(), [
-                                'options' => ['placeholder' => 'dd/mm/aaaa'],
-                                'pluginOptions' => ['autoclose' => true, 'format' => 'dd/mm/yyyy',],
+                                'options' => ['placeholder' => 'yyyy-mm-dd'],
+                                'pluginOptions' => ['autoclose' => true, 'format' => 'yyyy-mm-dd',],
 
                             ]);
                             break;
                         case 'createFoundAnimal':
                             echo $form->field($foundAnimalModel, 'found_date', ['inputOptions' => ['id' => 'createFill-foundDate']])->widget(DatePicker::className(), [
-                                'options' => ['placeholder' => 'dd/mm/aaaa'],
-                                'pluginOptions' => ['autoclose' => true, 'format' => 'dd/mm/yyyy',],
+                                'options' => ['placeholder' => 'aaaa/mm/dd'],
+                                'pluginOptions' => ['autoclose' => true, 'format' => 'yyyy-mm-dd',],
 
                             ]);
 

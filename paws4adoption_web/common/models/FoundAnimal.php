@@ -45,7 +45,17 @@ class FoundAnimal extends \common\models\Animal
             [['id'], 'exist', 'skipOnError' => true, 'targetClass' => Animal::className(), 'targetAttribute' => ['id' => 'id']],
             [['location_id'], 'exist', 'skipOnError' => true, 'targetClass' => Address::className(), 'targetAttribute' => ['location_id' => 'id']],
             [['user_id'], 'exist', 'skipOnError' => true, 'targetClass' => User::className(), 'targetAttribute' => ['user_id' => 'id']],
+            ['found_date', 'validateDate']
         ];
+    }
+
+    public function validateDate($attribute, $params, $validator){
+        $today = date("Y-m-d");
+
+        $inputDate = $this->$attribute;
+
+        if($inputDate > $today)
+            $this->addError($attribute, 'Data não pode estar no futuro.');
     }
 
     /**

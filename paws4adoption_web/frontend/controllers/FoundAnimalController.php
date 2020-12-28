@@ -144,7 +144,7 @@ class FoundAnimalController extends Controller
                         $foundAnimalModel->is_active = true;
                         $foundAnimalModel->priority = "Por classificar";
                         $foundAnimalModel->user_id = Yii::$app->user->id;
-                        $foundAnimalModel->location = $addressModel->id;
+                        $foundAnimalModel->location_id = $addressModel->id;
 
                         if ($foundAnimalModel->save()) {
                             return $this->redirect(['site/my-list-animals']);
