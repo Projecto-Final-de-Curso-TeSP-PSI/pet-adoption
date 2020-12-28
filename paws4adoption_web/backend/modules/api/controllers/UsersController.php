@@ -99,13 +99,13 @@ class UsersController extends ActiveController
     {
         try {
             $model = new SignupAPI();
-            $basicAuth = Yii::$app->request->headers['authorization'];
-            $credentials = $this->extractUsernameAndPassword($basicAuth);
+//            $basicAuth = Yii::$app->request->headers['authorization'];
+//            $credentials = $this->extractUsernameAndPassword($basicAuth);
 
             $params = Yii::$app->request->post();
 
-            $model->username = $credentials['username'];
-            $model->password = $credentials['password'];
+            $model->username = $params['username'];
+            $model->password = $params['password'];
 
             $model->email = $params['email'];
             $model->firstName = $params['firstName'];
@@ -229,9 +229,9 @@ class UsersController extends ActiveController
      */
     public function actionToken(){
         try{
-            $post = Yii::$app->request->post();
+            $params = Yii::$app->request->post();
 
-            $user = $this->auth($post['username'], $post['password']);
+            $user = $this->auth($params['username'], $params['password']);
             if ($user === null){
                 throw new UnauthorizedHttpException('Wrong username or password');
             }
