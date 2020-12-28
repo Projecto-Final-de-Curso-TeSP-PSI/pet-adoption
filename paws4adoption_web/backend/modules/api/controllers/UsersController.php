@@ -44,19 +44,49 @@ class UsersController extends ActiveController
         return $behaviors;
     }
 
-    public function auth($username, $password){
+    /**
+     * @param $username
+     * @param $password
+     * @return User
+     */
+    private function auth($username, $password){
         $user = User::findByUsername($username);
         if($user && $user->validatePassword($password)){
             return $user;
         }
     }
 
+    /**
+     * Unsets the Yii2 selected actions
+     * @return array
+     */
     public function actions(){
         $actions = parent::actions();
+        unset($actions['view']);
         unset($actions['create']);
         unset($actions['update']);
         unset($actions['delete']);
         return $actions;
+    }
+
+    /**
+     * Get's one user according with the id sent
+     * @param $id
+     * @return \backend\modules\api\models\User|null
+     * @throws NotFoundHttpException
+     * @throws ForbiddenHttpException
+     */
+    public function actionView($id){
+
+        $this->checkAccess('view', null, ['id' => $id]);
+
+        $user = \backend\modules\api\models\User::findOne($id);
+
+        if($user === null || $user->status != \backend\modules\api\models\User::STATUS_ACTIVE)
+            throw new NotFoundHttpException('User not found');
+
+        Yii::$app->response->statusCode = 200;
+        return $user;
     }
 
     /**
@@ -69,13 +99,13 @@ class UsersController extends ActiveController
     {
         try {
             $model = new SignupAPI();
-            $basicAuth = Yii::$app->request->headers['authorization'];
-            $credentials = $this->extractUsernameAndPassword($basicAuth);
+//            $basicAuth = Yii::$app->request->headers['authorization'];
+//            $credentials = $this->extractUsernameAndPassword($basicAuth);
 
             $params = Yii::$app->request->post();
 
-            $model->username = $credentials['username'];
-            $model->password = $credentials['password'];
+            $model->username = $params['username'];
+            $model->password = $params['password'];
 
             $model->email = $params['email'];
             $model->firstName = $params['firstName'];
@@ -102,8 +132,14 @@ class UsersController extends ActiveController
         }
     }
 
-    
+    /**
+     * @param $id
+     * @return User|\Exception|\Throwable|\yii\web\IdentityInterface
+     * @throws ForbiddenHttpException
+     */
     public function actionUpdate($id){
+
+        $this->checkAccess('update', null, ['id' => $id]);
 
         $db = Yii::$app->db;
         $transaction = $db->beginTransaction();
@@ -147,7 +183,18 @@ class UsersController extends ActiveController
         return $user;
     }
 
+    /**
+     * @param $id
+     * @return mixed
+     * @throws Exception
+     * @throws ForbiddenHttpException
+     * @throws NotFoundHttpException
+     * @throws \Throwable
+     */
     public function actionDelete($id){
+
+        $this->checkAccess('delete', null, ['id' => $id]);
+
         $db = Yii::$app->db;
         $transaction = $db->beginTransaction();
 
@@ -182,9 +229,9 @@ class UsersController extends ActiveController
      */
     public function actionToken(){
         try{
-            $post = Yii::$app->request->post();
+            $params = Yii::$app->request->post();
 
-            $user = $this->auth($post['username'], $post['password']);
+            $user = $this->auth($params['username'], $params['password']);
             if ($user === null){
                 throw new UnauthorizedHttpException('Wrong username or password');
             }
@@ -196,21 +243,12 @@ class UsersController extends ActiveController
         return $response;
     }
 
+
     /**
-     * Extracts the username from the Basic Auth
-     * @param $basicAuthToken
-     * @return false|string
+     * @param $idvalidation
+     * @return mixed
+     * @throws BadRequestHttpException
      */
-    private function extractUsernameAndPassword($basicAuthToken){
-        $base64str = substr($basicAuthToken, 6); //returns the BasicAuth base64 encoded string without the word "Basic " of length 6.
-        $text = base64_decode($base64str); //decodes the base64 string into plain text;
-        $strpos = strpos($text, ':'); //finds the position of the ":" in the plain text;
-        $credentials['username'] = substr($text, 0, $strpos); //returns the username;
-        $credentials['password'] = substr($text, $strpos+1); //returns the password;
-        return $credentials;
-    }
-
-
     public function actionValidation($idvalidation){
         try{
             $model = new $this->modelClass;
@@ -234,19 +272,33 @@ class UsersController extends ActiveController
         } catch (\Exception $e){
             throw new InvalidArgumentException();
         }
-
         return $message;
     }
 
+    /**
+     * @param string $action
+     * @param null $model
+     * @param array $params
+     * @throws ForbiddenHttpException
+     * @throws NotFoundHttpException
+     */
     public function checkAccess($action, $model = null, $params = [])
     {
         if($action === 'index'){
             throw new ForbiddenHttpException("You dont have permission to list all the users.");
         }
 
-//        if($action === 'view' && Yii::$app->user->can('') == false){
-//
-//        }
+        if(in_array($action, ['view', 'update', 'delete'])){
+
+            $model = User::findOne($params['id']);
+            if($model === null){
+                throw new \yii\web\NotFoundHttpException("User not found");
+            }
+
+            if(Yii::$app->user->can('manageUser', ['id' => $params['id']]) == false){
+                throw new \yii\web\ForbiddenHttpException("You dont have permission to " . $action . " this record");
+            }
+        }
     }
 }
 

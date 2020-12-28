@@ -161,7 +161,7 @@ class FoundAnimal extends \common\models\Animal
                 MosquittoCatcher::makePublish('NEW_POSTED_ANIMAL', $myJSON);
 
         } catch (\Exception $e){
-            throw $e;
+            return;
         }
     }
 
