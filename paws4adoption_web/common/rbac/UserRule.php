@@ -3,8 +3,6 @@
 
 namespace common\rbac;
 
-
-
 use common\models\AssociatedUser;
 use yii\rbac\Item;
 
