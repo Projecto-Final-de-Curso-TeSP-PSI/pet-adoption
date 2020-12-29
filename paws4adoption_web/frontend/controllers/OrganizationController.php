@@ -33,17 +33,16 @@ class OrganizationController extends Controller
                 'only' => ['create', 'update', 'delete'],
                 'rules' => [
                     [
+                        'actions' => ['create'],
+                        'allow' => true,
+                        'roles' => ['createOrganizationRequest'],
+                    ],
+                    [
                         'actions' => ['update', 'delete'],
                         'allow' => true,
                         'roles' => ['manageOrganization'],
                         'roleParams' => ['organization_id' => Yii::$app->request->get('id')],
                     ],
-                    [
-                        // TODO: As actions de create e delete realizadas pelo admin devem estar no backoffice e não aqui.
-                        'actions' => ['create'],
-                        'allow' => true,
-                        'roles' => ['createOrganizationRequest'],
-                    ]
                 ]
             ],
             'verbs' => [
@@ -191,6 +190,7 @@ class OrganizationController extends Controller
      */
     public function actionUpdate($id)
     {
+        //$res = Yii::$app->user->can('manageOrganization', ['organization_id' => $id]);
         $organization = $this->findModel($id);
 
         $address = Address::findOne($organization->id);
@@ -209,8 +209,7 @@ class OrganizationController extends Controller
 
                         $transaction->commit();
                         Yii::$app->session->setFlash('Success', "Organização salva com sucesso.");
-                        return $this->redirect('../site/index',
-                            );
+                        return $this->redirect('../site/index');
                     } else{
 
                         $transaction->rollBack();
