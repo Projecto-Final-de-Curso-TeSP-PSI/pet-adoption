@@ -20,7 +20,7 @@ use yii\db\StaleObjectException;
  * @property int $fur_color_id
  * @property int $size_id
  * @property string $sex
- ** @property string $name
+ * @property string $name
  *
  * @property AdoptionAnimal $adoptionAnimal
  * @property FurColor $furColor
@@ -34,6 +34,7 @@ use yii\db\StaleObjectException;
 class Animal extends \yii\db\ActiveRecord
 {
     const SCENARIO_MISSING_ANIMAL = 'missingAnimal';
+    const SCENARIO_ADOPTION_ANIMAL = 'adoptionAnimal';
 
     /**
      * {@inheritdoc}
@@ -76,6 +77,7 @@ class Animal extends \yii\db\ActiveRecord
             [['nature_id'], 'exist', 'skipOnError' => true, 'targetClass' => Nature::className(), 'targetAttribute' => ['nature_id' => 'id']],
             [['size_id'], 'exist', 'skipOnError' => true, 'targetClass' => Size::className(), 'targetAttribute' => ['size_id' => 'id']],
             [['name'], 'required', 'on' => self::SCENARIO_MISSING_ANIMAL],
+            [['name', 'description', 'sex'], 'required', 'on' => self::SCENARIO_ADOPTION_ANIMAL],
         ];
     }
 
