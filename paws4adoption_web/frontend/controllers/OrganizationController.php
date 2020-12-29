@@ -132,7 +132,7 @@ class OrganizationController extends Controller
     public function actionCreate()
     {
         $organization = new Organization();
-        $address = new Address();
+        $address = new Address(['scenario' => Address::SCENARIO_ADDRESS]);
 
         $db = Yii::$app->db;
         $transaction = $db->beginTransaction();
