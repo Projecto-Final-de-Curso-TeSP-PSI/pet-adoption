@@ -37,17 +37,17 @@ AppAsset::register($this);
                 <?php
                 switch ($typeCreate) {
                     case 'createMissingAnimal':
-                        echo "<h1>Pubicação Animal Desaparcido</h1>";
-                        echo "<p>O seu Animal desaparceu?<br>Publique para que as outras pessoas possam ter conhecimento</p>";
+                        echo "<h1>Publicação de Animal Desaparcido</h1>";
+                        echo "<p>O seu animal desaparceu?<br>Publique para que as outras pessoas possam ter conhecimento.</p>";
                         break;
                     case 'createFoundAnimal':
-                        echo "<h1>Pubicação Animal Errante</h1>";
-                        echo "<p>Encontrou um animal?<br>Publique para que as outras pessoas possam ter conhecimento e ajudar</p>";
-                        echo "<p>Quando uma publicação de animal errante é feita, será enviado um pedido de resgate para as associações do destrito onde foi avistado</p>";
+                        echo "<h1>Publicação de Animal Errante</h1>";
+                        echo "<p>Encontrou um animal?<br>Publique para que as outras pessoas possam ter conhecimento e ajudar.</p>";
+                        echo "<p>Quando uma publicação de animal errante é feita, será enviado um pedido de resgate para as associações do distrito onde foi avistado o animal.</p>";
                         break;
-                    default:
+                    case 'createAdoptionAnimal':
+                        echo "<h1>Publicação de Animal para Adopção </h1>";
                         break;
-
                 }
                 ?>
                 <hr>
@@ -56,14 +56,30 @@ AppAsset::register($this);
                             'id' => 'createAnimal-form',
                             'options' => ['enctype' => 'multipart/form-data']]); ?>
 
-                    <?= $form->field($animalModel, 'name', ['inputOptions' => ['id' => 'createFill-name']])->textInput(['placeholder' => 'Insere o nome']) ?>
+                    <?= $form->field($animalModel, 'name',
+                        [
+                            'inputOptions' => ['id' => 'createFill-name']
+                        ])->textInput(['placeholder' => 'Insere o nome']) ?>
 
-                    <?= $form->field($animalModel, 'chipId', ['inputOptions' => ['id' => 'createFill-chipId']])->textInput(['placeholder' => 'Insere o Chip']) ?>
+                    <?= $form->field($animalModel, 'chipId',
+                        [
+                            'inputOptions' => ['id' => 'createFill-chipId']
+                        ])->textInput(['placeholder' => 'Insere o Chip']) ?>
 
-                    <?= $form->field($animalModel, 'nature_id', ['inputOptions' => ['id' => 'createFill-nature', 'name' => 'nature']])->dropDownList($natureList, ['prompt' => 'Escolha a natureza']) ?>
+                    <?= $form->field($animalModel, 'nature_id',
+                        ['inputOptions' => ['id' => 'createFill-nature', 'name' => 'nature']])
+                        ->dropDownList($natureList, ['prompt' => 'Escolha a natureza'])
+                        ->label('Espécie')?>
 
-                    <?= $form->field($animalModel, 'nature_id', ['inputOptions' => ['id' => 'createFill-breed']])->dropDownList($natureCat, ['prompt' => 'Escolha a raça ']) ?>
+                    <?= $form->field($animalModel, 'nature_id',
+                        ['inputOptions' => ['id' => 'createFill-breed']])
+                        ->dropDownList($natureCat, ['prompt' => 'Escolha a raça '])
+                        ->label('Raça de Gato')?>
 
+                    <?= $form->field($animalModel, 'nature_id',
+                        ['inputOptions' => ['id' => 'createFill-breed']])
+                        ->dropDownList($natureDog, ['prompt' => 'Escolha a raça '])
+                        ->label('Raça de Cão')?>
 
                     <? //= $form->field($animalModel, 'nature_id')->widget(DepDrop::classname(), [
                     //'id' => 'sub-nature-id',
@@ -74,13 +90,26 @@ AppAsset::register($this);
                     //],
                     //]) ?>
 
-                    <?= $form->field($animalModel, 'sex', ['inputOptions' => ['id' => 'createFill-sex']])->dropDownList($sex, ['prompt' => 'Escolha o sexo']) ?>
+                    <?= $form->field($animalModel, 'sex',
+                        [
+                            'inputOptions' => ['id' => 'createFill-sex']
+                        ])->dropDownList($sex, ['prompt' => 'Escolha o sexo']) ?>
 
-                    <?= $form->field($animalModel, 'fur_length_id', ['inputOptions' => ['id' => 'createFill-furLength']])->dropDownList($fulLength, ['prompt' => 'Escolha o tamanho do pelo']) ?>
+                    <?= $form->field($animalModel, 'fur_length_id',
+                        [
+                            'inputOptions' => ['id' => 'createFill-furLength']
+                        ])->dropDownList($fulLength, ['prompt' => 'Escolha o tamanho do pelo']) ?>
 
-                    <?= $form->field($animalModel, 'fur_color_id', ['inputOptions' => ['id' => 'createFill-furColor']])->dropDownList($fulColor, ['prompt' => 'Escolha a cor do pelo']) ?>
+                    <?= $form->field($animalModel, 'fur_color_id',
+                        [
+                            'inputOptions' => ['id' => 'createFill-furColor']
+                        ])->dropDownList($fulColor, ['prompt' => 'Escolha a cor do pelo']) ?>
 
-                    <?= $form->field($animalModel, 'size_id', ['inputOptions' => ['id' => 'createFill-size']])->dropDownList($size, ['prompt' => 'Escolha o Porte']) ?>
+                    <?= $form->field($animalModel, 'size_id',
+                        [
+                            'inputOptions' => ['id' => 'createFill-size']
+                        ])->dropDownList($size, ['prompt' => 'Escolha o Porte']) ?>
+
                     <?php
                     switch ($typeCreate) {
                         case 'createMissingAnimal':
@@ -101,18 +130,22 @@ AppAsset::register($this);
                             echo $form->field($addressModel, 'city', ['inputOptions' => ['id' => 'createFill-city']]);
                             echo $form->field($addressModel, 'district_id', ['inputOptions' => ['id' => 'createFill-district']])->dropDownList(District::getData(), ['prompt' => 'Escolha o Distrito']);
                             break;
-                        default:
-                            break;
-
                     }
                     ?>
 
 
-                    <?= $form->field($animalModel, 'description', ['inputOptions' => ['id' => 'createFill-description']])->textarea(['placeholder' => 'Insere informação que consideres relevantes a publicação.'], ['rows' => 3]) ?>
+                    <?= $form->field($animalModel, 'description',
+                        [
+                            'inputOptions' => ['id' => 'createFill-description']
+                        ])->textarea(['placeholder' => 'Insere informação que consideres relevantes para a publicação.'], ['rows' => 3]) ?>
 
-                    <?= $form->field($animalPhotoModel, 'imgPath', ['inputOptions' => ['id' => 'createFill-photo']])->widget(FileInput::classname(), [
-                        'options' => ['accept' => 'image/*'],
-                    ]) ?>
+                    <?= $form->field($animalPhotoModel, 'imgPath',
+                        [
+                            'inputOptions' => ['id' => 'createFill-photo']
+                        ])->widget(FileInput::classname(),
+                        [
+                            'options' => ['accept' => 'image/*'],
+                        ]) ?>
 
                     <div class="form-group">
                         <?= Html::submitButton('Publicar', ['class' => 'btn btn-success']) ?>
@@ -120,8 +153,8 @@ AppAsset::register($this);
 
                     <?php ActiveForm::end(); ?>
                     <hr>
-                    <p><b>Para editar ou eleminar uma publicação já feita aceda à </b><a
-                                href="<?= Yii::$app->request->baseUrl ?>/site/my-list-animals"><b> Minha lista </a></a>
+                    <p><b>Para editar ou eliminar uma publicação já feita aceda à </b>
+                        <a href="<?= Yii::$app->request->baseUrl ?>/site/my-list-animals"><b> Minha lista </a></a>
                     </p>
 
                 </div><!-- userProfileForm -->
