@@ -36,9 +36,15 @@ class AdoptionAnimalController extends Controller
                 'only' => ['create', 'update', 'delete'],
                 'rules' => [
                     [
-                        'actions' => ['create', 'update', 'delete'],
+                        'actions' => ['create'],
                         'allow' => true,
-                        'roles' => ['associatedUser']
+                        'roles' => ['createAdoptionAnimal']
+                    ],
+                    [
+                        'actions' => ['update', 'delete'],
+                        'allow' => true,
+                        'roles' => ['manageAdoptionAnimal'],
+                        'roleParams' => ['organization_id' => Yii::$app->request->get('id')]
                     ]
                 ]
             ],
