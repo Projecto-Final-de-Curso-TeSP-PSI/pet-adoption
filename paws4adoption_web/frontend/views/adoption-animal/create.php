@@ -4,20 +4,32 @@ use frontend\assets\AppAsset;
 use yii\helpers\Html;
 
 /* @var $this yii\web\View */
-/* @var $model common\models\AdoptionAnimal */
+/* @var $animalModel common\models\AdoptionAnimal */
+/* @var $adoptionAnimalModel common\models\AdoptionAnimal */
+/* @var $animalPhotoModel common\models\Photo */
+/* @var $natureList */
+/* @var $natureDog */
+/* @var $natureCat */
+/* @var $fulLength */
+/* @var $fulColor */
+/* @var $size */
+/* @var $sex */
 
-$this->title = 'Publicar Animal para Adopção';
-$this->params['breadcrumbs'][] = ['label' => 'Adoption Animals', 'url' => ['index']];
-$this->params['breadcrumbs'][] = $this->title;
 AppAsset::register($this);
+$typeCreate = 'createAdoptionAnimal'
 ?>
-
-<div class="adoption-animal-create">
-
-    <h1><?= Html::encode($this->title) ?></h1>
-
-    <?= $this->render('adoptionAnimalForm', [
-        'model' => $model,
+<div class="container">
+    <?= $this->render('../components/_PublishForm', [
+        'typeCreate' => $typeCreate,
+        'animalModel' => $animalModel,
+        'adoptionAnimalModel' => $adoptionAnimalModel,
+        'animalPhotoModel' => $animalPhotoModel,
+        'natureList' => $natureList,
+        'natureDog' => $natureDog,
+        'natureCat' => $natureCat,
+        'fulLength' => $fulLength,
+        'fulColor' => $fulColor,
+        'size' => $size,
+        'sex' => $sex,
     ]) ?>
-
 </div>
