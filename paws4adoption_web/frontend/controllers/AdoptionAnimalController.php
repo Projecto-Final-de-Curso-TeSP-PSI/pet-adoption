@@ -6,10 +6,15 @@ use backend\models\AdoptionAnimalForm;
 use common\models\Animal;
 use common\models\AnimalAdoptionSearch;
 use common\models\AnimalSearch;
+use common\models\AssociatedUser;
+use common\models\FurColor;
+use common\models\FurLength;
 use common\models\Nature;
 use common\models\Organization;
 use common\models\OrganizationSearch;
+use common\models\Photo;
 use common\models\Size;
+use common\models\User;
 use Yii;
 use common\models\AdoptionAnimal;
 use yii\data\ActiveDataProvider;
@@ -19,6 +24,7 @@ use yii\web\Controller;
 use yii\web\NotAdoptionHttpException;
 use yii\filters\VerbFilter;
 use yii\web\NotFoundHttpException;
+use yii\web\UploadedFile;
 
 /**
  * AdoptionAnimalController implements the CRUD actions for AdoptionAnimal model.
@@ -100,23 +106,23 @@ class AdoptionAnimalController extends Controller
     }
 
 
-    /**
-     * Displays AnimalsList page.
-     *
-     * @return mixed
-     */
-    public function actionListAnimals()
-    {
-        $dataProvider = new ActiveDataProvider([
-            'query' => Animal::find()->orderBy('id DESC'),
-            'pagination' => [
-                'pageSize' => 10,
-            ],
-        ]);
-        //var_dump($dataProvider->getModels());
-
-        return $this->render('listAnimals', ['dataProvider' => $dataProvider]);
-    }
+//    /**
+//     * Displays AnimalsList page.
+//     *
+//     * @return mixed
+//     */
+//    public function actionListAnimals()
+//    {
+//        $dataProvider = new ActiveDataProvider([
+//            'query' => Animal::find()->orderBy('id DESC'),
+//            'pagination' => [
+//                'pageSize' => 10,
+//            ],
+//        ]);
+//        //var_dump($dataProvider->getModels());
+//
+//        return $this->render('listAnimals', ['dataProvider' => $dataProvider]);
+//    }
 
 
     /**
@@ -139,14 +145,56 @@ class AdoptionAnimalController extends Controller
      */
     public function actionCreate()
     {
-        $model = new AdoptionAnimalForm();
+        $animalModel = new Animal(['scenario' => Animal::SCENARIO_MISSING_ANIMAL]);
+        $adoptionAnimalModel = new AdoptionAnimal();
+        $animalPhotoModel = new Photo();
+        $natureList = ArrayHelper::map(Nature::find()->where(['parent_nature_id' => null])->all(), 'id', 'name');
+        $sex = Animal::getSex();
+        $natureCat = ArrayHelper::map(Nature::find()->where(['parent_nature_id' => 1])->all(), 'id', 'name');
+        $natureDog = ArrayHelper::map(Nature::find()->where(['parent_nature_id' => 2])->all(), 'id', 'name');
+        $fulLength = ArrayHelper::map(FurLength::find()->all(), 'id', 'fur_length');
+        $fulColor = ArrayHelper::map(FurColor::find()->all(), 'id', 'fur_color');
+        $size = ArrayHelper::map(Size::find()->all(), 'id', 'size');
 
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id]);
+        if (Yii::$app->request->post()) {
+            $formData = Yii::$app->request->post();
+
+            if ($animalModel->load($formData) && $animalModel->save()) {
+                if (UploadedFile::getInstance($animalPhotoModel, 'imgPath') != null) {
+                    $file = UploadedFile::getInstance($animalPhotoModel, 'imgPath');
+                    $animalPhotoModel->name = $animalModel->name . '_' . $animalModel->id;
+                    $animalPhotoModel->extension = $file->extension;
+                    $animalPhotoModel->id_animal = $animalModel->id;
+                    $animalPhotoModel->caption = $animalModel->nature->name . " - " . $animalModel->name;
+                    $file->saveAs('images/animal/' . $animalModel->name . '_' . $animalModel->id . '.' . $file->extension);
+                    $animalPhotoModel->save();
+                }
+
+                $loggedUserId = Yii::$app->user->id;
+                $loggedAssociatedUser = AssociatedUser::findOne($loggedUserId);
+
+                $adoptionAnimalModel->load($formData);
+                $adoptionAnimalModel->id = $animalModel->id;
+                $adoptionAnimalModel->is_on_fat = false;
+                $adoptionAnimalModel->organization_id = $loggedAssociatedUser->organization_id;
+                $adoptionAnimalModel->associated_user_id = $loggedUserId;
+                if ($adoptionAnimalModel->save()) {
+                    return $this->redirect(['/']);
+                }
+            }
         }
 
         return $this->render('create', [
-            'model' => $model,
+            'animalModel' => $animalModel,
+            'adoptionAnimalModel' => $adoptionAnimalModel,
+            'animalPhotoModel' => $animalPhotoModel,
+            'natureList' => $natureList,
+            'natureCat' => $natureCat,
+            'natureDog' => $natureDog,
+            'fulLength' => $fulLength,
+            'fulColor' => $fulColor,
+            'size' => $size,
+            'sex' => $sex
         ]);
     }
 
