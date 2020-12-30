@@ -1,7 +1,9 @@
 <?php
 namespace backend\controllers;
 
+use common\models\User;
 use Yii;
+use yii\helpers\ArrayHelper;
 use yii\web\Controller;
 use yii\filters\VerbFilter;
 use yii\filters\AccessControl;
@@ -28,7 +30,7 @@ class SiteController extends Controller
                     [
                         'actions' => ['logout', 'index'],
                         'allow' => true,
-                        'roles' => ['@'],
+                        'roles' => ['admin'],
                     ],
                 ],
             ],
@@ -76,15 +78,36 @@ class SiteController extends Controller
 
         $this->layout = 'blank';
 
+        $post = Yii::$app->request->post();
         $model = new LoginForm();
-        if ($model->load(Yii::$app->request->post()) && $model->login()) {
-            return $this->goBack();
-        } else {
-            $model->password = '';
+        $model->load($post);
 
-            return $this->render('login', [
-                'model' => $model,
-            ]);
+        //Get username from the post
+        $username = ArrayHelper::getValue($post, 'LoginForm.username' );
+        if($username == null)
+            return $this->render('login', ['model' => $model]);
+
+        //Get user by username | if not found go back to login
+        $user = User::findByUsername($username);
+
+        if($user == null){
+            $model->password = '';
+            return $this->redirect(['site/login']);
+            //  return $this->render('login', ['model' => $model]);
+        }
+
+        //Get user role by user id
+        $auth = Yii::$app->getAuthManager();
+
+        $userRole = $auth->getRolesByUser($user->id);
+
+        if(isset($userRole['admin']) && $model->login())
+            return $this->goBack();
+        else {
+            $model->password = '';
+            Yii::$app->session->setFlash('Error', "Acesso exclusivo para administradores");
+            //return $this->render('login', ['model' => $model]);
+            return $this->redirect(['login']);
         }
     }
 

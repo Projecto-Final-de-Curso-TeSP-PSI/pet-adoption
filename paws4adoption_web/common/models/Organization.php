@@ -64,6 +64,7 @@ class Organization extends \yii\db\ActiveRecord
             'phone' => 'Telefone',
             'address_id' => 'Address ID',
             'status' => 'Estado',
+            'address' => 'Morada'
         ];
     }
 

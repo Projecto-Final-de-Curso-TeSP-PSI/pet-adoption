@@ -4,6 +4,8 @@
 /* @var $content string */
 
 use backend\assets\AppAsset;
+use http\Url;
+use kartik\sidenav\SideNav;
 use yii\helpers\Html;
 use yii\bootstrap\Nav;
 use yii\bootstrap\NavBar;
@@ -27,43 +29,83 @@ AppAsset::register($this);
 <?php $this->beginBody() ?>
 
 <div class="wrap">
-    <?php
-    NavBar::begin([
+
+    <?php NavBar::begin([
         'brandLabel' => Yii::$app->name,
         'brandUrl' => Yii::$app->homeUrl,
         'options' => [
-            'class' => 'navbar-inverse navbar-fixed-top',
-        ],
-    ]);
-    $menuItems = [
-        ['label' => 'Home', 'url' => ['/site/index']],
-    ];
-    if (Yii::$app->user->isGuest) {
-        $menuItems[] = ['label' => 'Login', 'url' => ['/site/login']];
-    } else {
-        $menuItems[] = '<li>'
-            . Html::beginForm(['/site/logout'], 'post')
-            . Html::submitButton(
+            'class' => 'navbar-inverse navbar-static-top',
+            ],
+        ]);
+
+        $menuItems = [
+            [
+                'label' => 'Home',
+                'url' => ['/site/index']
+            ],
+        ];
+
+        if (Yii::$app->user->isGuest) {
+            $menuItems[] = ['label' => 'Login', 'url' => ['/site/login']];
+            } else {
+            $menuItems[] = '<li>'
+                . Html::beginForm(['/site/logout'], 'post')
+                . Html::submitButton(
                 'Logout (' . Yii::$app->user->identity->username . ')',
                 ['class' => 'btn btn-link logout']
-            )
-            . Html::endForm()
-            . '</li>';
-    }
-    echo Nav::widget([
+                )
+                . Html::endForm()
+                . '</li>';
+            }
+
+        echo Nav::widget([
         'options' => ['class' => 'navbar-nav navbar-right'],
         'items' => $menuItems,
-    ]);
+        ]);
+
     NavBar::end();
     ?>
 
+    <div class="sidebar-nav navbar-collapse">
+        <div class="navbar-nav">
+
+            <?=  SideNav::widget([
+                'options'=> ['class' => 'sidebar-nav navbar-collapse' ],
+                'type' => SideNav::TYPE_DEFAULT,
+                'heading' => 'MENU',
+                'linkTemplate' => '<a href="{url}" title="{label}">{icon}<span class="nav-label">{label}</span></a>',
+                'items' => [
+                    [
+                        'url' => ['site/index'],
+                        'label' => 'Admin',
+                        'icon' => 'home'
+                    ],
+                    [
+                        'url' => ['user/index'],
+                        'label' => 'Utilizadores',
+                        'icon' => 'align-right',
+                    ],
+                    [
+                        'label' => 'Associações',
+                        'icon' => 'question-sign',
+                        'items' => [
+                            ['label' => 'Gerir Associações', 'icon'=>'info-sign', 'url'=>['organization/index']],
+                            ['label' => 'Pendentes aprovação', 'icon'=>'phone', 'url'=>['organization/pending']],
+                        ],
+                    ],
+                ]
+            ]); ?>
+
+        </div>
+    </div>
+
     <div class="container">
-        <?= Breadcrumbs::widget([
-            'links' => isset($this->params['breadcrumbs']) ? $this->params['breadcrumbs'] : [],
-        ]) ?>
-        <?= Alert::widget() ?>
+        <!-- Messages area -->
+        <?= Yii::$app->view->renderFile('@frontend/views/layouts/partials/_messages.php'); ?>
+
         <?= $content ?>
     </div>
+
 </div>
 
 <footer class="footer">

@@ -9,7 +9,11 @@ use yii\bootstrap\ActiveForm;
 
 $this->title = 'Login';
 ?>
+
+<!-- Messages area -->
+
 <div class="site-login">
+    <?= Yii::$app->view->renderFile('@frontend/views/layouts/partials/_messages.php'); ?>
     <h1><?= Html::encode($this->title) ?></h1>
 
     <p>Please fill out the following fields to login:</p>
