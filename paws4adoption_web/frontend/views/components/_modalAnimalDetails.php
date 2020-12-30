@@ -82,7 +82,7 @@ use yii\helpers\Url;
                     <?php
                     switch ($type) {
                         case 'missingAnimal':
-                            echo '<p class="card-text pDate"><b>Desaparceu em: </b>' . $missingDate . '</p>';
+                            echo '<p class="card-text pDate"><b>Desapareceu em: </b>' . $missingDate . '</p>';
                             break;
                         case 'foundAnimal':
                             echo '<p class="card-text pDate"><b>Encontrado em: </b>' . $found_date . '</p>';
