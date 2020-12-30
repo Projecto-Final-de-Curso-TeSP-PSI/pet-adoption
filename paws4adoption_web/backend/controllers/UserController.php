@@ -2,6 +2,7 @@
 
 namespace backend\controllers;
 
+use backend\modules\api\models\Address;
 use Yii;
 use common\models\User;
 use backend\models\UserSearch;
@@ -31,12 +32,6 @@ class UserController extends Controller
                     ],
                 ],
             ],
-//            'verbs' => [
-//                'class' => VerbFilter::className(),
-//                'actions' => [
-//                    'delete' => ['POST'],
-//                ],
-//            ],
         ];
     }
 
@@ -68,25 +63,6 @@ class UserController extends Controller
         ]);
     }
 
-//
-//    /**
-//     * Creates a new User model.
-//     * If creation is successful, the browser will be redirected to the 'view' page.
-//     * @return mixed
-//     */
-//    public function actionCreate()
-//    {
-//        $model = new User();
-//
-//        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-//            return $this->redirect(['view', 'id' => $model->id]);
-//        }
-//
-//        return $this->render('create', [
-//            'model' => $model,
-//        ]);
-//    }
-
     /**
      * Updates an existing User model.
      * If update is successful, the browser will be redirected to the 'view' page.
@@ -98,28 +74,29 @@ class UserController extends Controller
     {
         $model = $this->findModel($id);
 
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
+        $db = Yii::$app->db;
+        $transaction = $db->beginTransaction();
+
+        try{
+            $post = Yii::$app->request->post();
+            if (!$model->load($post) || !$model->save())
+                throw new \Exception("Error");
+
+            $address = Address::findOne($model->address_id);
+            if(!$address->load($post) || !$address->save())
+                throw new \Exception("Error");
+
+            $transaction->commit();
             return $this->redirect(['view', 'id' => $model->id]);
+
+        } catch(\Exception $e){
+            $transaction->rollBack();
+            return $this->render('update', [
+                'model' => $model,
+            ]);
         }
 
-        return $this->render('update', [
-            'model' => $model,
-        ]);
     }
-
-//    /**
-//     * Deletes an existing User model.
-//     * If deletion is successful, the browser will be redirected to the 'index' page.
-//     * @param integer $id
-//     * @return mixed
-//     * @throws NotFoundHttpException if the model cannot be found
-//     */
-//    public function actionDelete($id)
-//    {
-//        $this->findModel($id)->delete();
-//
-//        return $this->redirect(['index']);
-//    }
 
     /**
      * Finds the User model based on its primary key value.
@@ -137,6 +114,11 @@ class UserController extends Controller
         throw new NotFoundHttpException('The requested page does not exist.');
     }
 
+    /**
+     * Block the user that is received by parameter
+     * @param $id
+     * @return \yii\web\Response
+     */
     public function  actionBlock($id){
         $user = User::findOne($id);
         if($user != null){
