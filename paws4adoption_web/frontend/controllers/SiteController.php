@@ -2,6 +2,7 @@
 namespace frontend\controllers;
 
 use common\models\AdoptionAnimal;
+use common\models\AssociatedUser;
 use common\models\FoundAnimal;
 use common\models\MissingAnimal;
 use common\models\MissingAnimalSearch;
@@ -212,6 +213,21 @@ class SiteController extends Controller
         return $this->render('myListAnimals', [
             'dataProviderMissingAnimal' => $dataProviderMissingAnimal,
             'dataProviderFoundAnimal' => $dataProviderFoundAnimal,
+        ]);
+    }
+
+    public function actionMyOrgAdoptionAnimals(){
+        $loggedUserId = Yii::$app->user->id;
+        $loggedAssociatedUser = AssociatedUser::findOne($loggedUserId);
+        $organizationId = $loggedAssociatedUser->organization_id;
+
+        $dataProviderAdoptionAnimal = new ActiveDataProvider([
+            'query' => AdoptionAnimal::find()->where(['organization_id' => $organizationId]),
+            'pagination' => false,
+        ]);
+
+        return $this->render('myOrgAdoptionAnimalsList', [
+            'dataProviderAdoptionAnimal' => $dataProviderAdoptionAnimal
         ]);
     }
 
