@@ -82,6 +82,14 @@ use common\models\AssociatedUser;
                     </div>
                 </div>
 
+                <?php
+                if (Yii::$app->user->can('createAdoptionAnimal')) {
+                    echo '<a class="nav-link" href="' . Yii::$app->request->baseUrl . '/site/my-org-adoption-animals">.
+                    <i data-feather="archive" class="icon"></i>
+                    <span class="title">Animais da Associação</span>
+                    </a>';
+                } ?>
+
                 <div class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                         <div class="dropdown-title">
