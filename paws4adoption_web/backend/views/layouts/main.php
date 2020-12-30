@@ -90,7 +90,7 @@ AppAsset::register($this);
                         'icon' => 'question-sign',
                         'items' => [
                             ['label' => 'Gerir Associações', 'icon'=>'info-sign', 'url'=>['organization/index']],
-                            ['label' => 'Pendentes aprovação', 'icon'=>'phone', 'url'=>['organization/pending']],
+                            ['label' => 'Pendentes aprovação', 'icon'=>'phone', 'url'=>['organization/approval-pending']],
                         ],
                     ],
                 ]

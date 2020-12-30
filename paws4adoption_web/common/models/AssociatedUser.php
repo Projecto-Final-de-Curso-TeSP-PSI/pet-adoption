@@ -3,6 +3,7 @@
 namespace common\models;
 
 use Yii;
+use yii\db\ActiveRecord;
 
 /**
  * This is the model class for table "associated_users".
@@ -14,7 +15,7 @@ use Yii;
  * @property AdoptionAnimal[] $adoptionAnimals
  * @property User $user
  */
-class AssociatedUser extends \common\models\User
+class AssociatedUser extends ActiveRecord //extends \common\models\User
 {
     /**
      * {@inheritdoc}

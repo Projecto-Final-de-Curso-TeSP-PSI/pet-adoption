@@ -1,5 +1,6 @@
 <?php
 
+use yii\bootstrap\ButtonDropdown;
 use yii\helpers\Html;
 use yii\grid\GridView;
 use yii\helpers\Url;
@@ -15,12 +16,6 @@ $this->params['breadcrumbs'][] = $this->title;
 <div class="user-index">
 
     <h1><?= Html::encode($this->title) ?></h1>
-
-    <p>
-        <?= Html::a('Create User', ['create'], ['class' => 'btn btn-success']) ?>
-    </p>
-
-    <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
 
     <?= GridView::widget([
         'dataProvider' => $dataProvider,
@@ -47,14 +42,31 @@ $this->params['breadcrumbs'][] = $this->title;
             [
                 'header' => 'Ação',
                 'content' => function($model, $key, $index, $column) {
-                    return Html::a(
-                        '<i class="fa fa-euro">' . ($model->status === User::STATUS_ACTIVE ? 'Bloquear' : 'Desbloquear') . '</i>',
-                        Url::to(['user/block', 'id' => $model->id]),
-                        [  'class' => $model->status == User::STATUS_ACTIVE ? 'btn btn-danger btn-xs' : 'btn btn-success btn-xs'],
+                    if($key == Yii::$app->user->id){
+                        return Html::a(
+                            '<i class="fa fa-euro">' . ($model->status === User::STATUS_ACTIVE ? 'Bloquear' : 'Desbloquear') . '</i>',
+                            Url::to(['user/block', 'id' => $model->id]),
+                            [
+                                'class' => $model->status == User::STATUS_ACTIVE ? 'btn btn-danger btn-xs' : 'btn btn-success btn-xs',
+                                'data' => [
+                                    'confirm' => 'Tem a certeza que pretende bloquear-se a si próprio? Ficará sem acesso ao backoffice!',
+                                    'method' => 'post',
+                                ]
+                            ]
                         );
+                    } else {
+                        return Html::a(
+                            '<i class="fa fa-euro">' . ($model->status === User::STATUS_ACTIVE ? 'Bloquear' : 'Desbloquear') . '</i>',
+                            Url::to(['user/block', 'id' => $model->id]),
+                            [  'class' => $model->status == User::STATUS_ACTIVE ? 'btn btn-danger btn-xs' : 'btn btn-success btn-xs'],
+                            );
+                    }
                 },
             ],
-            ['class' => 'yii\grid\ActionColumn'],
+            [
+                'class' => 'yii\grid\ActionColumn',
+                'template' => '{view} {update}',
+            ],
         ],
     ]); ?>
 

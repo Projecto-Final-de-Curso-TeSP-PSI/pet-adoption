@@ -26,10 +26,17 @@ use yii\web\IdentityInterface;
  * @property string|null $verification_token
  * @property int|null $address_id
  *
- * @property Adoption[] $adoptions
+ * @property AdminUser $adminUser
+ * @property AssociatedUser $associatedUser
+
  * @property FoundAnimal[] $foundAnimals
  * @property MissingAnimal[] $missingAnimals
+ *
+ * @property Adoption[] $adoptions
+ * @property Organization[] $organizations
+ *
  * @property Address $address
+ *
  */
 class User extends \yii\db\ActiveRecord implements IdentityInterface
 {
@@ -99,7 +106,7 @@ class User extends \yii\db\ActiveRecord implements IdentityInterface
             'updated_at' => 'Updated At',
             'verification_token' => 'Verification Token',
             'address_id' => 'Address ID',
-            'fullname' => 'Nome'
+            'fullName' => 'Nome completo'
         ];
     }
 
@@ -326,7 +333,19 @@ class User extends \yii\db\ActiveRecord implements IdentityInterface
         }
     }
 
+    /**
+     * Gets query for [[AssociatedUser]].
+     * @return \yii\db\ActiveQuery
+     */
     public function getAssociatedUser(){
         return $this->hasOne(AssociatedUser::className(), ['id' => 'id']);
+    }
+
+    /**
+     * Gets query for [[Founded Organizations]].
+     * @return \yii\db\ActiveQuery
+     */
+    public function getFoundedOrganizations(){
+        return $this->hasMany(Organization::className(), ['founder_id' => 'id']);
     }
 }
