@@ -40,12 +40,13 @@ class MissingAnimal extends \common\models\Animal
             [['id'], 'unique'],
             [['id'], 'exist', 'skipOnError' => true, 'targetClass' => Animal::className(), 'targetAttribute' => ['id' => 'id']],
             [['owner_id'], 'exist', 'skipOnError' => true, 'targetClass' => User::className(), 'targetAttribute' => ['owner_id' => 'id']],
-            ['missing_date', 'validateDate']
+            ['missing_date', 'validateDate',]
         ];
     }
 
     public function validateDate($attribute, $params, $validator){
-        $today = date("d/m/Y");
+        $today = date("Y-m-d");
+
         $inputDate = $this->$attribute;
 
         if($inputDate > $today)

@@ -37,13 +37,22 @@ use common\models\AssociatedUser;
                     <div class="dropdown-menu">
                         <a class="dropdown-item" href="<?= Yii::$app->request->baseUrl ?>/missing-animal/create">
                             <i data-feather="frown" class="icon"></i>
-                            Animal Desaparcido
+                            Animal Desaparecido
                         </a>
                         <a class="dropdown-item" href="<?= Yii::$app->request->baseUrl ?>/found-animal/create">
                             <i data-feather="flag" class="icon"></i>
                             Animal Errante
                         </a>
+                        <?php
+                            if (Yii::$app->user->can('createAdoptionAnimal')) {
+                                echo '<a class="dropdown-item" href="' . Yii::$app->request->baseUrl . '/adoption-animal/create">.
+                                <i data-feather="flag" class="icon"></i>
+                                Animal para Adopção
+                                </a>';
+                            }
+                        ?>
                     </div>
+
                 </div>
 
                 <a class="nav-link" href="<?= Yii::$app->request->baseUrl ?>/site/my-list-animals">

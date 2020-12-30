@@ -75,7 +75,7 @@ return [
                         'GET validation/{idvalidation}' => 'validation'
                     ],
                     'tokens' => [
-//                        '{id}' => '<id:\\d+>',
+                        '{id}' => '<id:\\d+>',
                         '{idvalidation}' => '<idvalidation:\\w+>',
                     ],
                 ],
@@ -100,10 +100,16 @@ return [
                     'class' => 'yii\rest\UrlRule',
                     'controller' => 'api/found-animals',
                     'pluralize' => 'false',
+                    'extraPatterns' => [
+                        'GET district/{id}' => 'district'
+                    ],
+                    'tokens' => [
+                        '{id}' => '<id:\\d+>',
+                    ],
                     'ruleConfig' => [
                         'class' => 'yii\web\UrlRule',
                         'defaults' => [
-                            'only' => 'create, update, delete',
+                            'only' => 'create, update, delete, district',
                             'expand' => 'animal, user',
                         ],
                     ],
@@ -125,7 +131,6 @@ return [
                     'controller' => 'api/species',
                     'pluralize' => 'false',
                     'extraPatterns' => [
-//                        'GET species' => 'species',
                         'GET {id}/sub-species' => 'sub-species',
                     ],
                     'tokens' => [

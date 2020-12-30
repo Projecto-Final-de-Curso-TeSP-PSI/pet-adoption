@@ -23,6 +23,7 @@ use Yii;
 class Address extends \yii\db\ActiveRecord
 {
     const SCENARIO_FOUND_ANIMAL = 'foundAnimal';
+    const SCENARIO_ADDRESS = 'foundAnimal';
 
     /**
      * {@inheritdoc}
@@ -40,11 +41,12 @@ class Address extends \yii\db\ActiveRecord
         return [
             
             [['postal_code', 'street_code', 'district_id'], 'integer'],
-            [['street','postal_code', 'street_code', 'city', 'district_id'], 'required'],
+            [['street', 'city', 'district_id'], 'required'],
             [['door_number', 'floor'], 'string', 'max' => 16],
             [['street', 'city'], 'string', 'max' => 64],
             [['district_id'], 'exist', 'skipOnError' => true, 'targetClass' => District::className(), 'targetAttribute' => ['district_id' => 'id']],
             [['city'], 'required', 'on' => self::SCENARIO_FOUND_ANIMAL],
+            [['postal_code', 'street_code'], 'required', 'on' => self::SCENARIO_ADDRESS],
         ];
     }
 
