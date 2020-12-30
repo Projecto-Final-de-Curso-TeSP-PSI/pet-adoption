@@ -11,13 +11,15 @@ use yii\db\Query;
  * @property int $id
  * @property string $name
  * @property string $nif
- * @property string|null $email
- * @property string|null $phone
- * @property int|null $address_id
- * @property int|null $status
+ * @property string $email
+ * @property string $phone
+ * @property int $address_id
+ * @property int $founder_id
+ * @property int $status
  *
  * @property AdoptionAnimal[] $adoptionAnimals
  * @property Address $address
+ * @property User $founder
  */
 class Organization extends \yii\db\ActiveRecord
 {
@@ -42,12 +44,13 @@ class Organization extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['name', 'nif'], 'required'],
-            [['address_id', 'status'], 'integer'],
+            [['name', 'nif', 'email', 'phone', 'address_id', 'founder_id'], 'required'],
+            [['address_id', 'founder_id', 'status'], 'integer'],
             [['name', 'email'], 'string', 'max' => 64],
             [['nif', 'phone'], 'string', 'max' => 9],
             [['nif'], 'unique'],
             [['address_id'], 'exist', 'skipOnError' => true, 'targetClass' => Address::className(), 'targetAttribute' => ['address_id' => 'id']],
+            [['founder_id'], 'exist', 'skipOnError' => true, 'targetClass' => User::className(), 'targetAttribute' => ['founder_id' => 'id']],
         ];
     }
 
@@ -64,7 +67,9 @@ class Organization extends \yii\db\ActiveRecord
             'phone' => 'Telefone',
             'address_id' => 'Address ID',
             'status' => 'Estado',
-            'address' => 'Morada'
+            'address' => 'Morada',
+            'founder_id' => 'Founder id',
+            'founder' => 'Fundador'
         ];
     }
 
@@ -88,6 +93,27 @@ class Organization extends \yii\db\ActiveRecord
         return $this->hasOne(Address::className(), ['id' => 'address_id']);
     }
 
+    /**
+     * Gets query for [[AssociatedUsers]].
+     *
+     * @return \yii\db\ActiveQuery
+     */
+    public function getAssociatedUsers(){
+        return $this->hasMany(AssociatedUser::className(), ['id' => 'organization_id']);
+    }
+
+    /**
+     * Gets query for [[Founder]].
+     * @return \yii\db\ActiveQuery
+     */
+    public function  getFounder(){
+        return $this->hasOne(User::className(), ['id' => 'founder_id']);
+    }
+
+    /**
+     * Gets an array with all address id
+     * @return array
+     */
     public static function getAllAddressesIds(){
         return self::find()
             ->select('address_id')
@@ -108,6 +134,7 @@ class Organization extends \yii\db\ActiveRecord
      * Overrides static method find, and sets that OrganizationQuery.php add's querying methods
      * @return OrganizationQuery|\yii\db\ActiveQuery
      */
+
     public static function find(){
         return new OrganizationQuery(get_called_class());
     }

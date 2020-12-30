@@ -18,4 +18,8 @@ class OrganizationQuery extends ActiveQuery
         return $this->andOnCondition(['status' => Organization::APPROVAL_PENDING]);
     }
 
+    public function isNotApprovalPendind(){
+        return $this->andOnCondition(['!=', 'status', Organization::APPROVAL_PENDING]);
+    }
+
 }

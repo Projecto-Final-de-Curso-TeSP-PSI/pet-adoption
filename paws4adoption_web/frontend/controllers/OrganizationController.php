@@ -66,31 +66,35 @@ class OrganizationController extends Controller
             $searchModel = new OrganizationSearch();
             $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
+            $query = Organization::find()->isActive(true);
+
             $request = Yii::$app->request;
 
             if( $request->post() != null) {
 
                 $requestDistrictId = ArrayHelper::getValue($request->post(), 'District.id' );
                 if($requestDistrictId == "all") {
-                    $query = Organization::find();
+                    $query = Organization::find()->isActive(true);
                 } else {
-                    $query = Organization::find()
+                    $query = Organization::find()->isActive(true)
                         ->innerJoinWith('address')
                         ->where(['in', 'district_id', $requestDistrictId]);
                 }
 
-                $dataProvider = new ActiveDataProvider([
-                    'query' => $query,
-                    'pagination' => [
-                        'pageSize' => 10,
-                    ],
-                    'sort' => [
-                        'defaultOrder' => [
-                            'name' => SORT_ASC,
-                        ]
-                    ],
-                ]);
             }
+
+            //custom data provider
+            $dataProvider = new ActiveDataProvider([
+                'query' => $query,
+                'pagination' => [
+                    'pageSize' => 10,
+                ],
+                'sort' => [
+                    'defaultOrder' => [
+                        'name' => SORT_ASC,
+                    ]
+                ],
+            ]);
 
             //Generate list with all districs that have organizations
             $districts = District::withOrganizations();
@@ -143,6 +147,7 @@ class OrganizationController extends Controller
                 if($address->load($post) && $address->save()){
                     $organization->load($post);
                     $organization->address_id = $address->id;
+                    $organization->founder_id = Yii::$app->user->id;
 
                     if($organization->save()){
 

@@ -84,6 +84,7 @@ class SiteController extends Controller
 
         //Get username from the post
         $username = ArrayHelper::getValue($post, 'LoginForm.username' );
+
         if($username == null)
             return $this->render('login', ['model' => $model]);
 
@@ -98,7 +99,6 @@ class SiteController extends Controller
 
         //Get user role by user id
         $auth = Yii::$app->getAuthManager();
-
         $userRole = $auth->getRolesByUser($user->id);
 
         if(isset($userRole['admin']) && $model->login())
