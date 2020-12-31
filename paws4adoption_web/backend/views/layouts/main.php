@@ -93,6 +93,23 @@ AppAsset::register($this);
                             ['label' => 'Pendentes aprovação', 'icon'=>'phone', 'url'=>['organization/approval-pending']],
                         ],
                     ],
+                    [
+                        'label' => 'Atributos Animal',
+                        'icon' => 'question-sign',
+                        'items' => [
+                            ['label' => 'Espécie', 'icon'=>'phone', 'url'=>['nature/index']],
+                            ['label' => 'Cor Pêlo', 'icon'=>'info-sign', 'url'=>['fur-color/index']],
+                            ['label' => 'Comprimento Pêlo', 'icon'=>'phone', 'url'=>['fur-length/index']],
+                            ['label' => 'Porte', 'icon'=>'phone', 'url'=>['size/index']],
+                        ],
+                    ],
+                    [
+                        'label' => 'Atributos Geográficos',
+                        'icon' => 'question-sign',
+                        'items' => [
+                            ['label' => 'Distrito', 'icon'=>'phone', 'url'=>['district/index']],
+                        ],
+                    ],
                 ]
             ]); ?>
 

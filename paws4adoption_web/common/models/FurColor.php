@@ -50,7 +50,7 @@ class FurColor extends \yii\db\ActiveRecord
     {
         return [
             'id' => 'ID',
-            'fur_color' => 'Fur Color',
+            'fur_color' => 'Côr',
         ];
     }
 

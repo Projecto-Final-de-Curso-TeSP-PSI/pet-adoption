@@ -35,6 +35,12 @@ class OrganizationSearch extends Organization
         return Model::scenarios();
     }
 
+    public function attributes()
+    {
+        // add related fields to searchable attributes
+        return array_merge(parent::attributes(), ['address']);
+    }
+
     /**
      * Creates data provider instance with search query applied
      *
@@ -47,7 +53,8 @@ class OrganizationSearch extends Organization
         $query = Organization::find();
 
         //TODO: comentar
-        $query->joinWith(['address as address']);
+//        $query->joinWith(['address as address']);
+        $query->joinWith(['address' => function($query) { $query->from(['address' => 'city']); }]);
 
         // add conditions that should always apply here
 

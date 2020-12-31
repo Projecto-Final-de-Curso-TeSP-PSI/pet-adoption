@@ -50,7 +50,7 @@ class Size extends \yii\db\ActiveRecord
     {
         return [
             'id' => 'ID',
-            'size' => 'Size',
+            'size' => 'Porte',
         ];
     }
 

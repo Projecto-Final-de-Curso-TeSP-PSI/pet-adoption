@@ -49,7 +49,7 @@ class FurLength extends \yii\db\ActiveRecord
     {
         return [
             'id' => 'ID',
-            'fur_length' => 'Fur Length',
+            'fur_length' => 'Tamanho',
         ];
     }
 

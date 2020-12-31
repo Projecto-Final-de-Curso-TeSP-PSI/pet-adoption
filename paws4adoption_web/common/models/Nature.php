@@ -44,7 +44,7 @@ class Nature extends \yii\db\ActiveRecord
         return [
             'id' => 'ID',
             'parent_nature_id' => 'Parent Nature ID',
-            'name' => 'Name',
+            'name' => 'Espécie',
         ];
     }
 
