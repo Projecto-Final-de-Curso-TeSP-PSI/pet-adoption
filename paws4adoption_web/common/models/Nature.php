@@ -2,6 +2,7 @@
 
 namespace common\models;
 
+use phpDocumentor\Reflection\Types\Integer;
 use Yii;
 use yii\helpers\ArrayHelper;
 
@@ -16,6 +17,21 @@ use yii\helpers\ArrayHelper;
  */
 class Nature extends \yii\db\ActiveRecord
 {
+    const SCENARIO_SPECIE = 'specie';
+    const SCENARIO_SUB_SPECIE = 'sub-specie';
+
+    /**
+     * Set the default scenarios
+     * @return array
+     */
+    public function scenarios()
+    {
+        $scenarios = parent::scenarios();
+        $scenarios[self::SCENARIO_SPECIE] = ['name'];
+        $scenarios[self::SCENARIO_SUB_SPECIE] = ['name', 'parent_nature_id'];
+        return $scenarios;
+    }
+
     /**
      * {@inheritdoc}
      */
@@ -30,9 +46,10 @@ class Nature extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['parent_nature_id'], 'required'],
-            [['parent_nature_id'], 'integer'],
+            [['name'], 'required'],
             [['name'], 'string', 'max' => 45],
+            [['parent_nature_id'], 'integer'],
+            [['parent_nature_id'], 'required', 'on' => self::SCENARIO_SUB_SPECIE],
         ];
     }
 
@@ -67,6 +84,11 @@ class Nature extends \yii\db\ActiveRecord
         return $this->findOne(['id' => $this->parent_nature_id])->name;
     }
 
+    /**
+     * Get's the id by the nature name
+     * @param $nature
+     * @return mixed
+     */
     public static function getId($nature){
         $instance = self::find()
             ->where(['name' => $nature])
@@ -74,6 +96,10 @@ class Nature extends \yii\db\ActiveRecord
         return $instance->id;
     }
 
+    /**
+     * Get's all parent nature id's
+     * @return array|\yii\db\ActiveRecord[]
+     */
     public static function getParentNatureIds(){
         return self::find()->where(['parent_nature_id' => null])->all();
     }
@@ -106,9 +132,24 @@ class Nature extends \yii\db\ActiveRecord
             ->all();
     }
 
+    /**
+     * Get's all child id's from the parent id that comes by parameter
+     * @param $parentNatureId
+     * @return array
+     */
     public static function getChildsIdsByParentId($parentNatureId)
     {
         // Devolve array
         return self::find()->where(['parent_nature_id' => $parentNatureId])->select('id')->column();
     }
+
+    /**
+     * Get's an array with all id and name of all parents species
+     * @return array
+     */
+    public static function getParentsArray()
+    {
+        return ArrayHelper::map(Nature::find()->where(['parent_nature_id' => null])->all(), 'id', 'name');
+    }
+
 }

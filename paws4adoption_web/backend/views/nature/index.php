@@ -28,15 +28,17 @@ use yii\helpers\Url;
 
                 'rowOptions' => function($model,$index,$key){
                     return ['id' => $model['id'],
-                        'onclick' => '
-                        var pjaxContainer = $(this).attr(\'pjax-container\');
-                        
-                        $.get(
-                            "'.Url::toRoute('refresh-subspecies').'", { id:' . $model['id'].' } )
-                           .done(function( data ) {
-                               $.pjax.reload({container:\'#idofyourpjaxwidget\'});
-                           } 
-                        );'
+                        'onclick' =>
+                        '
+//                              var pjaxContainer = $(this).attr(\'pjax-container\');
+//                        
+//                              $.get(
+//                                  "'.Url::toRoute('refresh-subspecies').'", { id:' . $model['id'].' } 
+//                              ).done(function( data ) {
+//                                  $.pjax.reload({container:\'#idofyourpjaxwidget\'});
+//                              } 
+//                        );
+                        '
                     ];
                 },
                 'columns' => [

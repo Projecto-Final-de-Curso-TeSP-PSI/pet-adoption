@@ -7,6 +7,7 @@ use common\models\Nature;
 use backend\models\NatureSearch;
 use yii\data\ActiveDataProvider;
 use yii\filters\AccessControl;
+use yii\helpers\ArrayHelper;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
@@ -16,6 +17,7 @@ use yii\filters\VerbFilter;
  */
 class NatureController extends Controller
 {
+
     /**
      * {@inheritdoc}
      */
@@ -85,10 +87,17 @@ class NatureController extends Controller
      */
     public function actionCreateSpecie()
     {
-        $model = new Nature();
+        $model = new Nature(['scenario' => Nature::SCENARIO_SPECIE]);
 
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id]);
+        $post = Yii::$app->request->post();
+
+        if($post != null){
+            $model->load($post);
+            $model->parent_nature_id = null;
+
+            if ($model->save()) {
+                return $this->redirect(['index']);
+            }
         }
 
         return $this->render('create-specie', [
@@ -101,12 +110,16 @@ class NatureController extends Controller
      * If creation is successful, the browser will be redirected to the 'view' page.
      * @return mixed
      */
-    public function actionCreateSubSpecie($specieId)
+    public function actionCreateSubSpecie()
     {
-        $model = new Nature();
+        $model = new Nature(['scenario' => Nature::SCENARIO_SUB_SPECIE]);
 
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id]);
+        $post = Yii::$app->request->post();
+
+        if($post != null){
+            if($model->load($post) &&$model->save()){
+                return $this->redirect(['index']);
+            }
         }
 
         return $this->render('create-sub-specie', [
@@ -126,7 +139,7 @@ class NatureController extends Controller
         $model = $this->findModel($id);
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id]);
+            return $this->redirect(['index']);
         }
 
         return $this->render('update', [
@@ -143,11 +156,23 @@ class NatureController extends Controller
      */
     public function actionDelete($id)
     {
-        $this->findModel($id)->delete();
-
+        try{
+            $this->findModel($id)->delete();
+        } catch(\Exception $e){
+            Yii::$app->session->setFlash('Error', "Não é possível apagar este elemento");
+            return $this->redirect(['index']);
+        } catch (\Throwable $e) {
+            Yii::$app->session->setFlash('Error', "Não é possível apagar este elemento");
+            return $this->redirect(['index']);
+        }
         return $this->redirect(['index']);
     }
 
+    /**
+     * Refreshs the subspecie table acording with the selected specie
+     * @param $id
+     * @return string
+     */
     public function actionRefreshSubspecies($id){
         $searchModel = new NatureSearch();
 
