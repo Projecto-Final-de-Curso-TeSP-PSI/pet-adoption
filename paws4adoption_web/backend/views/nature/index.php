@@ -44,17 +44,19 @@ use yii\helpers\Url;
                 'columns' => [
                     ['class' => 'yii\grid\SerialColumn'],
                     'name',
-                    ['class' => 'yii\grid\ActionColumn'],
                     [
-                        'class' => 'yii\grid\RadioButtonColumn',
-                        'radioOptions' => function($model, $keys, $index, $column){
-                            return [
-                                'onchange' => "var selectedKey = $keys;"
-                            ];
-                        },
-                    ]
-
+                        'class' => 'yii\grid\ActionColumn',
+                        'template' => '{update} {delete}'
+                    ],
                 ],
+//                    [
+//                        'class' => 'yii\grid\RadioButtonColumn',
+//                        'radioOptions' => function($model, $keys, $index, $column){
+//                            return [
+//                                'onchange' => "var selectedKey = $keys;"
+//                            ];
+//                        },
+//                    ]
             ]); ?>
         </div>
 
@@ -73,7 +75,10 @@ use yii\helpers\Url;
                     'columns' => [
                         ['class' => 'yii\grid\SerialColumn'],
                         'name',
-                        ['class' => 'yii\grid\ActionColumn'],
+                        [
+                            'class' => 'yii\grid\ActionColumn',
+                            'template' => '{update} {delete}'
+                        ],
                     ],
                 ]); ?>
 

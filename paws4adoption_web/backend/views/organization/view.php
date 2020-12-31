@@ -14,7 +14,7 @@ $this->title = 'Detalhes da Organização';
     <h1><?= Html::encode($this->title) ?></h1>
 
     <p>
-        <?= Html::a('Update', ['update', 'id' => $model->id], ['class' => 'btn btn-primary']) ?>
+        <?= Html::a('Atualizar', ['update', 'id' => $model->id], ['class' => 'btn btn-primary']) ?>
         <?= Html::a('Voltar', ['index'], ['class' => 'btn btn-success']) ?>
     </p>
 
@@ -27,7 +27,6 @@ $this->title = 'Detalhes da Organização';
             'email:email',
             'phone',
             'address_id',
-            'status',
             'address.street',
             'address.door_number',
             'address.floor',

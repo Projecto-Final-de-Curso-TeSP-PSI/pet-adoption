@@ -16,33 +16,37 @@ $this->title = 'Detalhes do User';
 
     <p>
         <?= Html::a('Update', ['update', 'id' => $model->id], ['class' => 'btn btn-primary']) ?>
+        <?= Html::a('Voltar', ['index'], ['class' => 'btn btn-success']) ?>
     </p>
 
-    <?= DetailView::widget([
-        'model' => $model,
-        'attributes' => [
-            'id',
-            'firstName',
-            'lastName',
-            'email:email',
-            'nif',
-            'phone',
-            'username',
-            'auth_key',
-            'password_hash',
-            'password_reset_token',
-            'status',
-            'created_at',
-            'updated_at',
-            'verification_token',
-            'address.street',
-            'address.door_number',
-            'address.floor',
-            'address.postal_code',
-            'address.street_code',
-            'address.city',
-            'address.district.name',
-        ],
-    ]) ?>
+    <div class="wrap">
+        <?= DetailView::widget([
+            'model' => $model,
+            'attributes' => [
+                'id',
+                'firstName',
+                'lastName',
+                'email:email',
+                'nif',
+                'phone',
+                'username',
+                'auth_key',
+                'password_hash',
+                'password_reset_token',
+                'status',
+                'created_at',
+                'updated_at',
+                'verification_token',
+                'address.street',
+                'address.door_number',
+                'address.floor',
+                'address.postal_code',
+                'address.street_code',
+                'address.city',
+                'address.district.name',
+            ],
+        ]) ?>
+    </div>
+
 
 </div>

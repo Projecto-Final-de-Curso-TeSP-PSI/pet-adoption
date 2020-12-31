@@ -17,15 +17,37 @@ $this->title = 'Organizações';
     <h1><?= Html::encode($this->title) ?></h1>
 
     <?= GridView::widget([
+        'tableOptions' => [
+            'class' => 'table table-striped',
+        ],
+        'options' => [
+            'class' => 'table-responsive',
+        ],
         'dataProvider' => $dataProvider,
         'filterModel' => $searchModel,
         'columns' => [
             ['class' => 'yii\grid\SerialColumn'],
             'name',
-            'nif',
-            'email:email',
-            'phone',
-            'address.city',
+            [
+                'headerOptions' => ['class' => 'hidden-xs hidden-sm'],
+                'attribute' => 'nif',
+                'contentOptions' => ['class' => 'hidden-xs hidden-sm'],
+            ],
+            [
+                'headerOptions' => ['class' => 'hidden-xs hidden-sm'],
+                'attribute' => 'email',
+                'contentOptions' => ['class' => 'hidden-xs hidden-sm'],
+            ],
+            [
+                'headerOptions' => ['class' => 'hidden-xs hidden-sm  hidden-md'],
+                'attribute' => 'phone',
+                'contentOptions' => ['class' => 'hidden-xs hidden-sm  hidden-md'],
+            ],
+            [
+                'headerOptions' => ['class' => 'hidden-xs hidden-sm hidden-md'],
+                'attribute' => 'address.city',
+                'contentOptions' => ['class' => 'hidden-xs hidden-sm  hidden-md'],
+            ],
             [
                 'header' => 'Estado',
                 'content' => function($model) {

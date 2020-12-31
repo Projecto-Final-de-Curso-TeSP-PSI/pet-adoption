@@ -66,62 +66,74 @@ AppAsset::register($this);
     NavBar::end();
     ?>
 
-    <div class="sidebar-nav navbar-collapse">
-        <div class="navbar-nav">
+    <div class="row">
+        <div class="col-sm-2">
 
-            <?=  SideNav::widget([
-                'options'=> ['class' => 'sidebar-nav navbar-collapse' ],
-                'type' => SideNav::TYPE_DEFAULT,
-                'heading' => 'MENU',
-                'linkTemplate' => '<a href="{url}" title="{label}">{icon}<span class="nav-label">{label}</span></a>',
-                'items' => [
-                    [
-                        'url' => ['site/index'],
-                        'label' => 'Admin',
-                        'icon' => 'home'
-                    ],
-                    [
-                        'url' => ['user/index'],
-                        'label' => 'Utilizadores',
-                        'icon' => 'align-right',
-                    ],
-                    [
-                        'label' => 'Associações',
-                        'icon' => 'question-sign',
+            <div class="sidebar-nav navbar-collapse">
+                <div class="navbar-nav">
+
+                    <?=  SideNav::widget([
+                        'options'=> ['class' => 'sidebar-nav navbar-collapse' ],
+                        'type' => SideNav::TYPE_DEFAULT,
+                        'heading' => 'MENU',
+                        'linkTemplate' => '<a href="{url}" title="{label}">{icon}<span class="nav-label">{label}</span></a>',
                         'items' => [
-                            ['label' => 'Gerir Associações', 'icon'=>'info-sign', 'url'=>['organization/index']],
-                            ['label' => 'Pendentes aprovação', 'icon'=>'phone', 'url'=>['organization/approval-pending']],
-                        ],
-                    ],
-                    [
-                        'label' => 'Atributos Animal',
-                        'icon' => 'question-sign',
-                        'items' => [
-                            ['label' => 'Espécie', 'icon'=>'phone', 'url'=>['nature/index']],
-                            ['label' => 'Cor Pêlo', 'icon'=>'info-sign', 'url'=>['fur-color/index']],
-                            ['label' => 'Comprimento Pêlo', 'icon'=>'phone', 'url'=>['fur-length/index']],
-                            ['label' => 'Porte', 'icon'=>'phone', 'url'=>['size/index']],
-                        ],
-                    ],
-                    [
-                        'label' => 'Atributos Geográficos',
-                        'icon' => 'question-sign',
-                        'items' => [
-                            ['label' => 'Distrito', 'icon'=>'phone', 'url'=>['district/index']],
-                        ],
-                    ],
-                ]
-            ]); ?>
+                            [
+                                'url' => ['site/index'],
+                                'label' => 'Admin',
+                                'icon' => 'home'
+                            ],
+                            [
+                                'url' => ['user/index'],
+                                'label' => 'Utilizadores',
+                                'icon' => 'align-right',
+                            ],
+                            [
+                                'label' => 'Associações',
+                                'icon' => 'question-sign',
+                                'items' => [
+                                    ['label' => 'Gerir Associações', 'icon'=>'info-sign', 'url'=>['organization/index']],
+                                    ['label' => 'Pendentes aprovação', 'icon'=>'phone', 'url'=>['organization/approval-pending']],
+                                ],
+                            ],
+                            [
+                                'label' => 'Atributos Animal',
+                                'icon' => 'question-sign',
+                                'items' => [
+                                    ['label' => 'Espécie', 'icon'=>'phone', 'url'=>['nature/index']],
+                                    ['label' => 'Cor Pêlo', 'icon'=>'info-sign', 'url'=>['fur-color/index']],
+                                    ['label' => 'Comprimento Pêlo', 'icon'=>'phone', 'url'=>['fur-length/index']],
+                                    ['label' => 'Porte', 'icon'=>'phone', 'url'=>['size/index']],
+                                ],
+                            ],
+                            [
+                                'label' => 'Atributos Geográficos',
+                                'icon' => 'question-sign',
+                                'items' => [
+                                    ['label' => 'Distrito', 'icon'=>'phone', 'url'=>['district/index']],
+                                ],
+                            ],
+                        ]
+                    ]); ?>
+
+                </div>
+            </div>
+
+        </div>
+
+        <div class="col-sm-10">
+
+            <div class="container">
+                <!-- Messages area -->
+                <?= Yii::$app->view->renderFile('@frontend/views/layouts/partials/_messages.php'); ?>
+
+                <?= $content ?>
+            </div>
 
         </div>
     </div>
 
-    <div class="container">
-        <!-- Messages area -->
-        <?= Yii::$app->view->renderFile('@frontend/views/layouts/partials/_messages.php'); ?>
 
-        <?= $content ?>
-    </div>
 
 </div>
 
