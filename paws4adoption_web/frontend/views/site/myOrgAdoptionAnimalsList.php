@@ -27,7 +27,7 @@ $this->title = 'Animais para adotar na minha associação';
                         <a class="nav-link tabLink active" data-toggle="tab" href="#demo_three_profile">Animais para adoptar</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link tabLink" data-toggle="tab" href="#demo_three_contact">Pedidos de Adoção</a>
+                        <a class="nav-link tabLink" data-toggle="tab" href="#demo_three_contact">Animais com Pedidos de Adoção</a>
                     </li>
                 </ul>
 

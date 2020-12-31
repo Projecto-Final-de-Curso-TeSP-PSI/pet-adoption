@@ -104,9 +104,16 @@ use yii\helpers\Url;
                 switch($type){
 
                     case 'adoptionAnimal':
-                        echo '<button id="btnModalSubmit" type="button" class="btn btn-primary"> ' . $submitAdoption . '</button>';
-                        echo '<button id="btnModalSubmit" type="button" class="btn btn-primary"> ' . $submitFat . '</button>';
-                        echo '<button type="button" class="btn btn-secondary" data-dismiss="modal"> ' . $closeText . '</button>';
+
+                        if (Yii::$app->user->can('manageAdoptionAnimal')){
+                            echo Html::a('Editar', ['adoption-animal/update', 'id' => Html::encode($animalId)], [
+                                'class' => 'btn btn-primary',
+                                'title' => 'Editar animal',
+                            ]);
+                        } else {
+                            echo '<button id="btnModalSubmit" type="button" class="btn btn-primary"> ' . $submitAdoption . '</button>';
+                            echo '<button id="btnModalSubmit" type="button" class="btn btn-primary"> ' . $submitFat . '</button>';
+                        }
                         break;
 
                     case 'missingAnimal':
@@ -127,8 +134,7 @@ use yii\helpers\Url;
                                 ]
                             );
 
-                        }
-                        else{
+                        } else{
                             echo Html::button( Html::encode($submitContact), [
                                     'class' => 'btn btn-primary',
                                     'title' => 'Contatos Publicador',
@@ -157,8 +163,7 @@ use yii\helpers\Url;
                                 ]
                             );
 
-                        }
-                        else{
+                        } else{
                             echo Html::button( Html::encode($submitContact), [
                                     'class' => 'btn btn-primary',
                                     'title' => 'Contatos Publicador',
@@ -168,7 +173,6 @@ use yii\helpers\Url;
                             );
                         }
                         break;
-                    default:
                 }
 
                 echo Html::button(Html::encode($closeText), [

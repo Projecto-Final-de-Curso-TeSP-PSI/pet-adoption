@@ -226,22 +226,16 @@ class SiteController extends Controller
         $loggedAssociatedUser = AssociatedUser::findOne($loggedUserId);
         $organizationId = $loggedAssociatedUser->organization_id;
 
-        $query1 = AdoptionAnimal::find()->where(['organization_id' => $organizationId]);
-
-        $query2 = AdoptionAnimal::find()
-            ->innerJoinWith('adoption ad')
-            ->where(['is', 'ad.adoption_date', null])
-            ->andWhere(['organization_id' => $organizationId]);
-
-
         $dataProviderAdoptionAnimal = new ActiveDataProvider([
-            'query' => $query1,
+            'query' => AdoptionAnimal::find()->where(['organization_id' => $organizationId]),
             'pagination' => false,
         ]);
 
-
         $dataProviderAnimalsWithAdoptionRequests = new ActiveDataProvider([
-            'query' => $query2,
+            'query' => AdoptionAnimal::find()
+                ->innerJoinWith('adoption ad')
+                ->where(['is', 'ad.adoption_date', null])
+                ->andWhere(['organization_id' => $organizationId]),
             'pagination' => false,
         ]);
 
