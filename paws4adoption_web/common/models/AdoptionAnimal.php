@@ -95,7 +95,7 @@ class AdoptionAnimal extends \common\models\Animal
      */
     public function getAdoption()
     {
-        return $this->hasOne(Adoption::className(), ['id' => 'id']);
+        return $this->hasOne(Adoption::className(), ['adopted_animal_id' => 'id']);
     }
 
     public static function getAllAddressesIds(){

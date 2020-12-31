@@ -15,6 +15,7 @@ use frontend\models\VerifyEmailForm;
 use Yii;
 use yii\base\InvalidArgumentException;
 use yii\data\ActiveDataProvider;
+use yii\db\Query;
 use yii\web\BadRequestHttpException;
 use yii\web\Controller;
 use yii\filters\VerbFilter;
@@ -193,7 +194,7 @@ class SiteController extends Controller
     }
 
     /**
-     * Displays My List Animals Publish.
+     * Displays My List of Animals Published.
      *
      * @return mixed
      */
@@ -216,6 +217,10 @@ class SiteController extends Controller
         ]);
     }
 
+    /**
+     * Returns to the view a list of all adoption animals in the organization where the user is associated
+     * @return string
+     */
     public function actionMyOrgAdoptionAnimals(){
         $loggedUserId = Yii::$app->user->id;
         $loggedAssociatedUser = AssociatedUser::findOne($loggedUserId);
@@ -226,8 +231,17 @@ class SiteController extends Controller
             'pagination' => false,
         ]);
 
+        $dataProviderAnimalsWithAdoptionRequests = new ActiveDataProvider([
+            'query' => AdoptionAnimal::find()
+                ->innerJoinWith('adoption ad')
+                ->where(['is', 'ad.adoption_date', null])
+                ->andWhere(['organization_id' => $organizationId]),
+            'pagination' => false,
+        ]);
+
         return $this->render('myOrgAdoptionAnimalsList', [
-            'dataProviderAdoptionAnimal' => $dataProviderAdoptionAnimal
+            'dataProviderAdoptionAnimal' => $dataProviderAdoptionAnimal,
+            'dataProviderAnimalsWithAdoptionRequests' => $dataProviderAnimalsWithAdoptionRequests,
         ]);
     }
 
