@@ -134,9 +134,10 @@ class NatureController extends Controller
      * @return mixed
      * @throws NotFoundHttpException if the model cannot be found
      */
-    public function actionUpdate($id)
+    public function actionUpdate($id, $scenario)
     {
         $model = $this->findModel($id);
+        $model->scenario = $scenario;
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             return $this->redirect(['index']);

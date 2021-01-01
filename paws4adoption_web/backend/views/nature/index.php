@@ -30,14 +30,13 @@ use yii\helpers\Url;
                     return ['id' => $model['id'],
                         'onclick' =>
                         '
-//                              var pjaxContainer = $(this).attr(\'pjax-container\');
-//                        
-//                              $.get(
-//                                  "'.Url::toRoute('refresh-subspecies').'", { id:' . $model['id'].' } 
-//                              ).done(function( data ) {
-//                                  $.pjax.reload({container:\'#idofyourpjaxwidget\'});
-//                              } 
-//                        );
+                              var pjaxContainer = $(this).attr(\'pjax-container\');
+                              $.get(
+                                  "'.Url::toRoute('refresh-subspecies').'", { id:' . $model['id'].' } 
+                              ).done(function( data ) {
+                                  $.pjax.reload({container:\'#idofyourpjaxwidget\'});
+                              } 
+                        );
                         '
                     ];
                 },
@@ -46,7 +45,17 @@ use yii\helpers\Url;
                     'name',
                     [
                         'class' => 'yii\grid\ActionColumn',
-                        'template' => '{update} {delete}'
+                        'template' => '{update} {delete}',
+                        'urlCreator' => function ($action, $model, $key, $index) {
+                            if ($action === 'update') {
+                                $url = 'update?id=' . $key . '&scenario=' . \common\models\Nature::SCENARIO_SPECIE;
+                                return $url;
+                            }
+                            if ($action === 'delete') {
+                                $url = Url::to('delete?id=' . $key);
+                                return $url;
+                            }
+                        },
                     ],
                 ],
 //                    [
@@ -77,7 +86,17 @@ use yii\helpers\Url;
                         'name',
                         [
                             'class' => 'yii\grid\ActionColumn',
-                            'template' => '{update} {delete}'
+                            'template' => '{update} {delete}',
+                            'urlCreator' => function ($action, $model, $key, $index) {
+                                if ($action === 'update') {
+                                    $url = 'update?id=' . $key . '&scenario=' . \common\models\Nature::SCENARIO_SUB_SPECIE;
+                                    return $url;
+                                }
+                                if ($action === 'delete') {
+                                    $url = Url::to('delete?id=' . $key);
+                                    return $url;
+                                }
+                            },
                         ],
                     ],
                 ]); ?>

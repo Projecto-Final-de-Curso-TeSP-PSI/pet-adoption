@@ -5,10 +5,7 @@ use yii\helpers\Html;
 /* @var $this yii\web\View */
 /* @var $model common\models\Nature */
 
-$this->title = 'Update Nature: ' . $model->name;
-$this->params['breadcrumbs'][] = ['label' => 'Natures', 'url' => ['index']];
-$this->params['breadcrumbs'][] = ['label' => $model->name, 'url' => ['view', 'id' => $model->id]];
-$this->params['breadcrumbs'][] = 'Update';
+$this->title = $model->scenario == \common\models\Nature::SCENARIO_SPECIE ? 'Atualizar Espécie' : 'Atualizar Sub-Espécie';
 ?>
 <div class="nature-update">
 
