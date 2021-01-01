@@ -21,4 +21,14 @@ return[
         'city' => 'Leiria',
         'district_id' => 1,
     ],
+    'address2' => [
+        'id' => 3,
+        'street' => 'Rua dos Gatos',
+        'door_number' => '22',
+        'floor' => '',
+        'postal_code' => 2395,
+        'street_code' => 666,
+        'city' => 'Minde',
+        'district_id' => 7,
+    ],
 ];

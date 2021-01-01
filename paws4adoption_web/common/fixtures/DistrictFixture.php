@@ -7,5 +7,5 @@ use yii\test\ActiveFixture;
 
 class DistrictFixture extends ActiveFixture
 {
-    public $modelClass = 'common\models\district';
+    public $modelClass = 'common\models\District';
 }
