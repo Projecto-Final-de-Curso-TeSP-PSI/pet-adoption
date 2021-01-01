@@ -421,4 +421,6 @@ class AdoptionAnimalController extends Controller
             return $query;
         }
     }
+
+    
 }
