@@ -4,7 +4,7 @@ use frontend\assets\AppAsset;
 use yii\helpers\Html;
 
 /* @var $this yii\web\View */
-/* @var $model common\models\FoundAnimal */
+/* @var $model common\models\MissingAnimal */
 /* @var $animalModel common\models\Animal */
 /* @var $newAnimalPhotoModel common\models\Photo */
 /* @var $natureList */
@@ -19,7 +19,7 @@ AppAsset::register($this);
 
 $typeUpdate = 'updateMissingAnimal';
 ?>
-<div class="found-animal-update">
+<div class="missing-animal-update">
     <div class="container">
         <?= $this->render('../components/_updateAnimalForm', [
             'typeUpdate' => $typeUpdate,

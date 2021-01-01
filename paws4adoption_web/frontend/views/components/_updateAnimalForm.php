@@ -36,6 +36,7 @@ AppAsset::register($this);
             <div class="profile-settings-form mb-30">
                 <?php
                 switch ($typeUpdate) {
+                    case 'updateAdoptionAnimal':
                     case 'updateMissingAnimal':
                         echo "<h1>Editar " . $animalModel->name . "</h1>";
                         break;
@@ -43,8 +44,6 @@ AppAsset::register($this);
                         echo "<h1>Editar Errante</h1>";
                         echo "<p>Encontrou um animal?<br>Publique para que as outras pessoas possam ter conhecimento e ajudar</p>";
                         echo "<p>Quando uma publicação de animal errante é feita, será enviado um pedido de resgate para as associações do destrito onde foi avistado</p>";
-                        break;
-                    default:
                         break;
 
                 }
@@ -58,19 +57,7 @@ AppAsset::register($this);
 
                     <?= $form->field($animalModel, 'chipId')->textInput(['placeholder' => 'Insere o Chip']) ?>
 
-                    <?= $form->field($animalModel, 'nature_id')->dropDownList($natureList, ['id' => 'nature-id']) ?>
-
-                    <?= $form->field($animalModel, 'nature_id')->dropDownList($natureCat, ['prompt' => 'Escolha a raça ']) ?>
-
-
-                    <? //= $form->field($animalModel, 'nature_id')->widget(DepDrop::classname(), [
-                    //'id' => 'sub-nature-id',
-                    //'pluginOptions' => [
-                    //'depends' => ['nature-id'],
-                    //'placeholder' => 'Select...',
-                    //'url' => Url::to(['subnature']),
-                    //],
-                    //]) ?>
+                    <?= $form->field($animalModel, 'nature_id')->dropDownList(['Raças Gato' => $natureCat, 'Raças Cão' => $natureDog], ['prompt' => 'Escolha a raça']) ?>
 
                     <?= $form->field($animalModel, 'sex')->dropDownList($sex, ['prompt' => 'Escolha o sexo']) ?>
 
@@ -101,9 +88,6 @@ AppAsset::register($this);
                             echo $form->field($foundAnimalModel, 'priority')->dropDownList($priority, ['prompt' => 'Escolha a prioridade de resgate']);
 
                             break;
-                        default:
-                            break;
-
                     }
                     ?>
 
@@ -121,8 +105,8 @@ AppAsset::register($this);
 
                     <?php ActiveForm::end(); ?>
                     <hr>
-                    <p><b>Para editar ou eleminar uma publicação já feita aceda à </b><a
-                                href="<?= Yii::$app->request->baseUrl ?>/site/my-list-animals"><b> Minha lista </a></a>
+                    <p><b>Para editar ou eleminar uma publicação já feita aceda à </b>
+                        <a href="<?= Yii::$app->request->baseUrl ?>/site/my-list-animals"><b>Minha lista</b></a>
                     </p>
 
                 </div><!-- userProfileForm -->

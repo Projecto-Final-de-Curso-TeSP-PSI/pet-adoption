@@ -104,16 +104,8 @@ use yii\helpers\Url;
                 switch($type){
 
                     case 'adoptionAnimal':
-
-                        if (Yii::$app->user->can('manageAdoptionAnimal')){
-                            echo Html::a('Editar', ['adoption-animal/update', 'id' => Html::encode($animalId)], [
-                                'class' => 'btn btn-primary',
-                                'title' => 'Editar animal',
-                            ]);
-                        } else {
-                            echo '<button id="btnModalSubmit" type="button" class="btn btn-primary"> ' . $submitAdoption . '</button>';
-                            echo '<button id="btnModalSubmit" type="button" class="btn btn-primary"> ' . $submitFat . '</button>';
-                        }
+                        echo '<button id="btnModalSubmit" type="button" class="btn btn-primary"> ' . $submitAdoption . '</button>';
+                        echo '<button id="btnModalSubmit" type="button" class="btn btn-primary"> ' . $submitFat . '</button>';
                         break;
 
                     case 'missingAnimal':

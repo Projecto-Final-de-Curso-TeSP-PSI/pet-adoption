@@ -19,25 +19,21 @@ class OrganizationAssociatedUserRule extends \yii\rbac\Rule
     {
 //        var_dump($params);
 
-        //If the parameter passed is a adoptionAnimal, check if the user associated to that organization
-        if (isset($params['animal_type'])) {
 
-            //If the parameter passed is a adoption, check if the user is associated to that organization
-            if($params['animal_type'] == 'adoptionAnimal'){
-                return AdoptionAnimal::findOne($params['animal_id']) == AssociatedUser::findOne($user)->organization_id;
-            }
-
-            //If the parameter passed is a missing animal, check if the user is associated to that organization
-//            if ($params['animal_type'] == 'missingAnimal') {
-//                return MissingAnimal::findOne($params['animal_id']) == AssociatedUser::findOne($user)->organization_id;
+//        if (isset($params['animal_type'])) {
+//
+//            if($params['animal_type'] == 'adoptionAnimal'){
+//                return AdoptionAnimal::findOne($params['animal_id']) == AssociatedUser::findOne($user)->organization_id;
 //            }
-        }
-
 
 
         //If the parameter passed is a organization, check if the user is associated to that organization
         if (isset($params['organization_id'])) {
             return $params['organization_id'] == AssociatedUser::findOne($user)->organization_id;
+        }
+
+        if (isset($params['animal_id'])){
+            return AdoptionAnimal::findOne($params['animal_id'])->organization_id == AssociatedUser::findOne($user)->organization_id;
         }
 
         //more params can be added to the rule

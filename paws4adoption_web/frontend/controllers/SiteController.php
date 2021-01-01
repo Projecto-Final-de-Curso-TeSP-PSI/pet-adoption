@@ -2,6 +2,8 @@
 namespace frontend\controllers;
 
 use common\models\AdoptionAnimal;
+use common\models\AnimalAdoptionSearch;
+use common\models\AnimalSearch;
 use common\models\AssociatedUser;
 use common\models\FoundAnimal;
 use common\models\MissingAnimal;
@@ -226,22 +228,26 @@ class SiteController extends Controller
         $loggedAssociatedUser = AssociatedUser::findOne($loggedUserId);
         $organizationId = $loggedAssociatedUser->organization_id;
 
+        $searchAdoptionAnimalModel = new AnimalAdoptionSearch();
+        $searchAnimalModel = new AnimalSearch();
+
         $dataProviderAdoptionAnimal = new ActiveDataProvider([
             'query' => AdoptionAnimal::find()->where(['organization_id' => $organizationId]),
             'pagination' => false,
         ]);
 
-        $dataProviderAnimalsWithAdoptionRequests = new ActiveDataProvider([
-            'query' => AdoptionAnimal::find()
-                ->innerJoinWith('adoption ad')
-                ->where(['is', 'ad.adoption_date', null])
-                ->andWhere(['organization_id' => $organizationId]),
-            'pagination' => false,
-        ]);
+//        $dataProviderAnimalsWithAdoptionRequests = new ActiveDataProvider([
+//            'query' => AdoptionAnimal::find()
+//                ->innerJoinWith('adoption ad')
+//                ->where(['is', 'ad.adoption_date', null])
+//                ->andWhere(['organization_id' => $organizationId]),
+//            'pagination' => false,
+//        ]);
 
         return $this->render('myOrgAdoptionAnimalsList', [
+            'searchAdoptionAnimalModel' => $searchAdoptionAnimalModel,
             'dataProviderAdoptionAnimal' => $dataProviderAdoptionAnimal,
-            'dataProviderAnimalsWithAdoptionRequests' => $dataProviderAnimalsWithAdoptionRequests,
+//            'dataProviderAnimalsWithAdoptionRequests' => $dataProviderAnimalsWithAdoptionRequests,
         ]);
     }
 

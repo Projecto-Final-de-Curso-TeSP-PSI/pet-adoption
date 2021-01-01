@@ -184,4 +184,10 @@ class AdoptionController extends Controller
             'title' => $title
         ]);
     }
+
+    public static function getAdoptionRequestsByAnimal($id){
+        return count(Adoption::find()
+            ->where(['adopted_animal_id' => $id, 'adoption_date' => null])
+            ->all());
+    }
 }
