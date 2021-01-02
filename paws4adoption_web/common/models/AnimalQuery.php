@@ -13,7 +13,7 @@ class AnimalQuery extends ActiveQuery
 
         return $this
             ->joinWith('adoptionAnimal aa ')
-            ->andWhere(['is not', 'ma.id', null]);
+            ->andWhere(['is not', 'aa.id', null]);
     }
 
     public function isOnFat($status = true){

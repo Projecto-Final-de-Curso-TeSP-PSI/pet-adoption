@@ -91,7 +91,9 @@ class AdoptionAnimalController extends Controller
                         'pageSize' => 10,
                     ]
                 ]);
-            }
+            } /*else {
+                $query =
+            }*/
         } catch (\Exception $e){
             throw $e;
         }
@@ -446,8 +448,15 @@ class AdoptionAnimalController extends Controller
 
         $searchAdoptionAnimalModel = new AnimalAdoptionSearch();
 
+        $query = AdoptionAnimal::find()
+            ->andWhere(['organization_id' => $organizationId])
+            ->joinWith('adoption')
+            ->andWhere(['is', 'adoption_date', null]);
+
+//        $queryResult = $query->all();
+
         $dataProviderAdoptionAnimal = new ActiveDataProvider([
-            'query' => AdoptionAnimal::find()->where(['organization_id' => $organizationId]),
+            'query' => $query,
             'pagination' => false,
         ]);
 
@@ -457,12 +466,4 @@ class AdoptionAnimalController extends Controller
         ]);
 
     }
-
-//    private function getOrgId(){
-//        if (AssociatedUser::findOne(Yii::$app->user->id) == null){
-//            throw new ForbiddenHttpException(
-//                'Não está associado a nenhuma organização, pelo que não tem acesso à página que está a tentar aceder.');
-//        }
-//        return AssociatedUser::findOne(Yii::$app->user->id)->organization_id;
-//    }
 }
