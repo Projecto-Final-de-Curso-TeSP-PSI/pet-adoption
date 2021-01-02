@@ -34,6 +34,12 @@ class UserController extends Controller
                     ],
                 ],
             ],
+            'verbs' => [
+                'class' => VerbFilter::className(),
+                'actions' => [
+                    'logout' => ['post'],
+                ],
+            ],
         ];
     }
 
@@ -140,6 +146,11 @@ class UserController extends Controller
         }
     }
 
+    /**
+     * Set's or unsets an user with Admin permissions
+     * @param $user_id
+     * @return \yii\web\Response
+     */
     public function actionSetUnsetAdmin($user_id){
 
         $user = User::findOne($user_id);
@@ -165,6 +176,4 @@ class UserController extends Controller
 
 
     }
-
-
 }
