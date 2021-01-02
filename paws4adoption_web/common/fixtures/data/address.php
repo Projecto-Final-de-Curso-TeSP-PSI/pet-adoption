@@ -21,7 +21,7 @@ return[
         'city' => 'Leiria',
         'district_id' => 1,
     ],
-    'address2' => [
+    'address3' => [
         'id' => 3,
         'street' => 'Rua dos Gatos',
         'door_number' => '22',

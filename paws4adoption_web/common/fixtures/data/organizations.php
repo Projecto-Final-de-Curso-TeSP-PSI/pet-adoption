@@ -22,7 +22,7 @@ return [
     'organization3' => [
         'name' => 'Apa',
         'nif' => '525689569',
-        'email' => 'apa@gmail.com',
+        'email' => 'apa@gmail2.com',
         'phone' => '912568968',
         'address_id' => 3,
         'founder_id' => 4,

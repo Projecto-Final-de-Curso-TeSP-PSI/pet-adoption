@@ -10,19 +10,15 @@ class OrganizationTest extends \Codeception\Test\Unit
 
     /**
      * @var \common\tests\UnitTester $tester
-     * @var \common\models\Organization $organization
+     * @var Organization $organization
      */
 
     protected $organization1;
     protected $organization2;
+    protected $organization3;
+
 
     protected $tester;
-
-    public function _fixtures(){
-
-
-
-    }
 
     protected function _before()
     {
@@ -35,8 +31,9 @@ class OrganizationTest extends \Codeception\Test\Unit
             ]
         ]);
 
-        $this->organization1 = new \common\models\Organization();
-        $this->organization2 = new \common\models\Organization();
+        $this->organization1 = new Organization();
+        $this->organization2 = new Organization();
+        $this->organization3 = new Organization();
 
     }
 
@@ -143,18 +140,16 @@ class OrganizationTest extends \Codeception\Test\Unit
         $this->organization2 = $this->tester->grabFixture('organization', 'organization2');
         $this->organization3 = $this->tester->grabFixture('organization', 'organization3');
 
-        //$this->organization1->address_id = 1;
-
         $this->assertEquals('Associação Zoófila Leiria', $this->organization1->name);
         $this->assertEquals( '505126580', $this->organization1->nif);
         $this->assertEquals( 'azl@gmail.com', $this->organization1->email);
         $this->assertEquals(912356896, $this->organization1->phone);
         $this->assertEquals(1, $this->organization1->address_id);
-        $this->assertEquals(\common\models\Organization::ACTIVE, $this->organization1->status);
+        $this->assertEquals(Organization::ACTIVE, $this->organization1->status);
 
-        $this->assertTrue($this->organization1->validate());
-        $this->assertTrue($this->organization2->validate());
-        $this->assertTrue($this->organization3->validate());
+        $this->assertTrue($this->organization1->validate(), json_encode($this->organization2->errors));
+        $this->assertTrue($this->organization2->validate(), json_encode($this->organization2->errors));
+        $this->assertTrue($this->organization3->validate(), json_encode($this->organization2->errors));
 
     }
 
