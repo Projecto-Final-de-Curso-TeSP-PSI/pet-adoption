@@ -79,6 +79,12 @@ use common\models\AssociatedUser;
                             <i data-feather="list" class="icon"></i>
                             Lista de associações
                         </a>
+                        <?php if(Yii::$app->user->can('associatedUser')){ ?>
+                            <a class="dropdown-item" href="<?= Yii::$app->request->baseUrl . '/organization/associate-manage?id=' . AssociatedUser::getOrgIdByUserId(Yii::$app->user->id)?>">
+                                <i data-feather="list" class="icon"></i>
+                                Gerir Utilizadores Associação
+                            </a>
+                        <?php } ?>
                     </div>
                 </div>
 

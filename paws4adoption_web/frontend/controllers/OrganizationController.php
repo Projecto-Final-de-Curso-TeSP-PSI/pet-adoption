@@ -2,10 +2,14 @@
 
 namespace frontend\controllers;
 
+use common\classes\RoleManager;
 use common\models\Address;
 use common\models\Animal;
+use common\models\AssociatedUser;
 use common\models\District;
 use common\models\MissingAnimal;
+use common\models\User;
+use common\models\UserSearch;
 use Yii;
 use common\models\Organization;
 use common\models\OrganizationSearch;
@@ -14,6 +18,7 @@ use yii\db\Exception;
 use yii\filters\AccessControl;
 use yii\helpers\ArrayHelper;
 use yii\web\Controller;
+use yii\web\ForbiddenHttpException;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 
@@ -30,7 +35,7 @@ class OrganizationController extends Controller
         return [
             'access' => [
                 'class' => AccessControl::className(),
-                'only' => ['create', 'update', 'delete'],
+                'only' => ['create', 'update', 'delete', 'associate-manage'],
                 'rules' => [
                     [
                         'actions' => ['create'],
@@ -38,12 +43,12 @@ class OrganizationController extends Controller
                         'roles' => ['createOrganizationRequest'],
                     ],
                     [
-                        'actions' => ['update', 'delete'],
+                        'actions' => ['update', 'delete', 'associate-manage'],
                         'allow' => true,
                         'roles' => ['manageOrganization'],
                         'roleParams' => ['organization_id' => Yii::$app->request->get('id')],
                     ],
-                ]
+                ],
             ],
             'verbs' => [
                 'class' => VerbFilter::className(),
@@ -280,7 +285,7 @@ class OrganizationController extends Controller
      * Finds the Organization model based on its primary key value.
      * If the model is not found, a 404 HTTP exception will be thrown.
      * @param integer $id
-     * @return Organization the loaded model
+     * @return Organization The loaded model
      * @throws NotFoundHttpException if the model cannot be found
      */
     protected function findModel($id)
@@ -296,19 +301,64 @@ class OrganizationController extends Controller
      * @param $id
      * @return string
      */
-    public function actionOrganizationFilter1($id){
+    public function actionAssociateManage($id){
+        $searchModel = new UserSearch;
+        $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
-        $districts = District::findOne($id);
+        $query = User::find()
+            ->andOnCondition(['status' => User::STATUS_ACTIVE])
+            ->joinWith('associatedUser')
+            ->andWhere(['organization_id' => $id])
+            ->andWhere(['isActive' => true]);
 
-        $cities = Address::find()->where(['in', 'district_id', $id])->all();
+        //custom data provider
+        $dataProvider = new ActiveDataProvider([
+            'query' => $query,
+            'pagination' => [
+                'pageSize' => 10,
+            ],
+            'sort' => [
+                'defaultOrder' => [
+                    'firstName' => SORT_ASC,
+                ]
+            ],
+        ]);
 
-        $addressIds = $cities->find()->select('id')->all();
-        $organizations = Organization::find()->where(['in', 'address_id', $addressIds])->all();
-
-        return $this->render('index', [
-            'filter1' => $districts,
-            'filter2' => $cities,
-            'filter3' => $organizations
+        return $this->render('associate-manage', [
+            'searchModel' => $searchModel,
+            'dataProvider' => $dataProvider,
         ]);
     }
+
+
+    public function actionAssociateAdd($id){
+
+    }
+
+    /**
+     * @param $id
+     * @return \yii\web\Response
+     * @throws ForbiddenHttpException
+     */
+    public function actionAssociateRemove($id){
+
+//        var_dump('no associate-remove');
+
+        if(!Yii::$app->user->can('manageOrganization',  ['organization_id' => AssociatedUser::findOne($id)->organization_id]))
+            throw new ForbiddenHttpException("Como admin, não tem uma organização associada");
+
+        $organization_id = AssociatedUser::getOrgIdByUserId($id);
+
+        if(RoleManager::revokeRole(RoleManager::ASSOCIATED_USER_ROLE, $id)){
+            Yii::$app->session->setFlash('Success', "Utilizador removido com sucesso!");
+        }
+        else{
+            Yii::$app->session->setFlash('Error', "Erro ao remover user da associação!");
+        }
+
+        return $this->redirect((['organization/associate-manage', 'id' => $organization_id]));
+
+    }
+
+
 }
