@@ -58,18 +58,20 @@ $this->title = 'Animais para adotar na minha associação';
                         'template' => '{view} {update} {delete}',
                         'buttons' => [
                             'view' => function($url, $model, $key) {     // render your custom button
-                                return  Html::a('Ver', Url::toRoute(['adoption-animal/view', 'id' => Html::encode($key)]),
-                                    [
-                                        'class' => 'btn btn-info',
-                                        'title' => 'Editar animal',
-                                    ]
-                                );
+                                if (AdoptionController::getAdoptionRequestsByAnimal($model->id) !== 0){
+                                    return  Html::a('Ver pedidos', Url::toRoute(['adoption-animal/view', 'id' => Html::encode($key)]),
+                                        [
+                                            'class' => 'btn btn-info',
+                                            'title' => 'Ver todos os pedidos de adoção deste animal',
+                                        ]
+                                    );
+                                }
                             },
                             'update' => function($url, $model, $key) {     // render your custom button
                                 return  Html::a('Editar', Url::toRoute(['adoption-animal/update', 'id' => Html::encode($key)]),
                                     [
                                         'class' => 'btn btn-primary',
-                                        'title' => 'Editar animal',
+                                        'title' => 'Editar este animal',
                                     ]
                                 );
                             },
@@ -77,7 +79,7 @@ $this->title = 'Animais para adotar na minha associação';
                                 return  Html::a('Eliminar', Url::toRoute(['adoption-animal/delete', 'id' => Html::encode($key)]),
                                     [
                                         'class' => 'btn btn-danger',
-                                        'title' => 'Editar animal',
+                                        'title' => 'Eliminar este animal',
                                     ]
                                 );
                             },
