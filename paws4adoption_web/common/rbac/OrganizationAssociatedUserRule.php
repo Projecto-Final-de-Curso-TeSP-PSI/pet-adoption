@@ -17,6 +17,8 @@ class OrganizationAssociatedUserRule extends \yii\rbac\Rule
      */
     public function execute($user, $item, $params)
     {
+//        var_dump($params);
+//        die;
         //If the parameter passed is a organization, check if the user is associated to that organization
         if (isset($params['organization_id'])) {
             return $params['organization_id'] == AssociatedUser::findOne($user)->organization_id;

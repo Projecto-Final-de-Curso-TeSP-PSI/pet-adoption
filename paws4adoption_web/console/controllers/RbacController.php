@@ -205,6 +205,7 @@ class RbacController extends Controller
         //ADD PERMISSIONS TO THE ADMIN ROLE
         $auth->addChild($admin, $manageMissingAnimal);
         $auth->addChild($admin, $manageFoundAnimal);
+        $auth->addChild($admin, $manageAdoptionAnimal);
         $auth->addChild($admin, $manageAdoption);
         $auth->addChild($admin, $manageOrganization);
         $auth->addChild($admin, $manageUser);

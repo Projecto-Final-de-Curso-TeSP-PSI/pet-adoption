@@ -21,6 +21,7 @@ class PublisherUserRule extends \yii\rbac\Rule
     public function execute($user, $item, $params)
     {
 
+        var_dump($params);
             //If the parameter passed is a adoptionAnimal, check if it as been published by the User
             if($params['animal_type'] == 'missingAnimal'){
 

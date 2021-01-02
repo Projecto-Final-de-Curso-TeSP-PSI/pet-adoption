@@ -21,7 +21,7 @@ use yii\data\ActiveDataProvider;
 use yii\filters\AccessControl;
 use yii\helpers\ArrayHelper;
 use yii\web\Controller;
-use yii\web\NotAdoptionHttpException;
+use yii\web\ForbiddenHttpException;
 use yii\filters\VerbFilter;
 use yii\web\NotFoundHttpException;
 use yii\web\UploadedFile;
@@ -56,7 +56,7 @@ class AdoptionAnimalController extends Controller
                         'actions' => ['my-org-adoption-animals'],
                         'allow' => true,
                         'roles' => ['manageAdoptionAnimal'],
-                        'roleParams' => ['organization_id' => AssociatedUser::findOne(Yii::$app->user->id)->organization_id]
+                        'roleParams' => ['organization_id' => $this->getOrgId()]
                     ]
                 ]
             ],
@@ -67,6 +67,14 @@ class AdoptionAnimalController extends Controller
                 ],
             ],
         ];
+    }
+
+    private function getOrgId(){
+        if (AssociatedUser::findOne(Yii::$app->user->id) == null){
+            throw new ForbiddenHttpException(
+                'Não está associado a nenhuma organização, pelo que não tem acesso à página que está a tentar aceder.');
+        }
+        return AssociatedUser::findOne(Yii::$app->user->id)->organization_id;
     }
 
     /**
@@ -449,5 +457,6 @@ class AdoptionAnimalController extends Controller
             'searchAdoptionAnimalModel' => $searchAdoptionAnimalModel,
             'dataProviderAdoptionAnimal' => $dataProviderAdoptionAnimal,
         ]);
+
     }
 }
