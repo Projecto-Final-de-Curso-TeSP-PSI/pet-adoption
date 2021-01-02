@@ -39,7 +39,7 @@ class AdoptionAnimalController extends Controller
         return [
             'access' => [
                 'class' => AccessControl::class,
-                'only' => ['create', 'update', 'delete', 'my-org-adoption-animals'],
+                'only' => ['create', 'update', 'delete', /*'my-org-adoption-animals'*/],
                 'rules' => [
                     [
                         'actions' => ['create'],
@@ -52,12 +52,12 @@ class AdoptionAnimalController extends Controller
                         'roles' => ['manageAdoptionAnimal'],
                         'roleParams' => ['animal_id' => Yii::$app->request->get('id')]
                     ],
-                    [
+                    /*[
                         'actions' => ['my-org-adoption-animals'],
                         'allow' => true,
                         'roles' => ['manageAdoptionAnimal'],
                         'roleParams' => ['organization_id' => $this->getOrgId()]
-                    ]
+                    ]*/
                 ]
             ],
             'verbs' => [
@@ -67,14 +67,6 @@ class AdoptionAnimalController extends Controller
                 ],
             ],
         ];
-    }
-
-    private function getOrgId(){
-        if (AssociatedUser::findOne(Yii::$app->user->id) == null){
-            throw new ForbiddenHttpException(
-                'Não está associado a nenhuma organização, pelo que não tem acesso à página que está a tentar aceder.');
-        }
-        return AssociatedUser::findOne(Yii::$app->user->id)->organization_id;
     }
 
     /**
@@ -444,6 +436,12 @@ class AdoptionAnimalController extends Controller
     public function actionMyOrgAdoptionAnimals(){
         $loggedUserId = Yii::$app->user->id;
         $loggedAssociatedUser = AssociatedUser::findOne($loggedUserId);
+
+        if ($loggedAssociatedUser == null){
+            throw new ForbiddenHttpException(
+                'Não está associado a nenhuma organização, pelo que não tem acesso à página que está a tentar aceder.');
+        }
+
         $organizationId = $loggedAssociatedUser->organization_id;
 
         $searchAdoptionAnimalModel = new AnimalAdoptionSearch();
@@ -459,4 +457,12 @@ class AdoptionAnimalController extends Controller
         ]);
 
     }
+
+//    private function getOrgId(){
+//        if (AssociatedUser::findOne(Yii::$app->user->id) == null){
+//            throw new ForbiddenHttpException(
+//                'Não está associado a nenhuma organização, pelo que não tem acesso à página que está a tentar aceder.');
+//        }
+//        return AssociatedUser::findOne(Yii::$app->user->id)->organization_id;
+//    }
 }
