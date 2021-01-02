@@ -182,9 +182,6 @@ class RbacController extends Controller
         $associatedUser = $auth->createRole('associatedUser');
         $auth->add($associatedUser);
 
-        //ADD ASSOCIATED USER PERMISSIONS TO THE ASSOCIATED USER ROLE
-        $auth->addChild($associatedUser, $user);
-
         //ADD PERMISSIONS TO THE ASSOCIATED USER ROLE
         $auth->addChild($associatedUser, $createAdoptionAnimal);
         $auth->addChild($associatedUser, $manageOwnOrgAdoptionAnimal);
@@ -197,6 +194,9 @@ class RbacController extends Controller
         //ADD ROLE ADMIN
         $admin = $auth->createRole('admin');
         $auth->add($admin);
+
+        //ADD USER PERMISSIONS TO THE ADMIN USER ROLE
+        $auth->addChild($admin, $user);
 
         //ADD ASSOCIATED USER PERMISSIONS TO THE ADMIN ROLE
         $auth->addChild($admin, $associatedUser);
@@ -215,11 +215,17 @@ class RbacController extends Controller
         // normalmente implementado no seu model User.
         $auth->assign($admin, 1);
         $auth->assign($admin, 2);
+        $auth->assign($user, 3);
         $auth->assign($associatedUser, 3);
+        $auth->assign($user, 4);
         $auth->assign($associatedUser, 4);
+        $auth->assign($user, 5);
         $auth->assign($associatedUser, 5);
+        $auth->assign($user, 6);
         $auth->assign($associatedUser, 6);
+        $auth->assign($user, 7);
         $auth->assign($associatedUser, 7);
+        $auth->assign($user, 8);
         $auth->assign($associatedUser, 8);
         $auth->assign($user, 9);
         $auth->assign($user, 10);

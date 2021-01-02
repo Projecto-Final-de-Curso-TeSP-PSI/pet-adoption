@@ -135,6 +135,11 @@ class Organization extends \yii\db\ActiveRecord
      * @return OrganizationQuery|\yii\db\ActiveQuery
      */
 
+    /**
+     * Override to the ActiveRecord find() static function,
+     * and states that OrganizationQuery class will be the class who will define the find() method
+     * @return OrganizationQuery|\yii\db\ActiveQuery
+     */
     public static function find(){
         return new OrganizationQuery(get_called_class());
     }
