@@ -3,10 +3,12 @@
 namespace backend\controllers;
 
 use backend\modules\api\models\Address;
+use common\classes\RoleManager;
 use Yii;
 use common\models\User;
 use backend\models\UserSearch;
 use yii\filters\AccessControl;
+use yii\rbac\Role;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
@@ -26,7 +28,7 @@ class UserController extends Controller
                 'class' => AccessControl::className(),
                 'rules' => [
                     [
-                        'actions' => ['index', 'view', 'update', 'block'],
+                        'actions' => ['index', 'view', 'update', 'block', 'set-unset-admin'],
                         'allow' => true,
                         'roles' => ['@'],
                     ],
@@ -119,7 +121,7 @@ class UserController extends Controller
      * @param $id
      * @return \yii\web\Response
      */
-    public function  actionBlock($id){
+    public function actionBlock($id){
         $user = User::findOne($id);
         if($user != null){
 
@@ -137,4 +139,32 @@ class UserController extends Controller
             return $this->redirect(['user/index']);
         }
     }
+
+    public function actionSetUnsetAdmin($user_id){
+
+        $user = User::findOne($user_id);
+        if($user != null){
+
+            $userHasAdminRole = RoleManager::userHasRole(RoleManager::ADMIN_ROLE, $user_id);
+
+            if($userHasAdminRole){
+                if(RoleManager::revokeRole(RoleManager::ADMIN_ROLE, $user_id))
+                    Yii::$app->session->setFlash('Success', "Permissão de utilizador Admin removida com sucesso");
+                else
+                    Yii::$app->session->setFlash('Error', "Erro ao remover permissão Admin");
+            } else{
+                if(RoleManager::addRole(RoleManager::ADMIN_ROLE, $user_id))
+                    Yii::$app->session->setFlash('Success', "Permissão de utilizador Admin adicionada com sucesso");
+                else
+                    Yii::$app->session->setFlash('Error', "Erro ao adiciona permissão Admin");
+            }
+
+        }
+
+        return $this->redirect(['user/index']);
+
+
+    }
+
+
 }

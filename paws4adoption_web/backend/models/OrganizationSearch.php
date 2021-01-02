@@ -22,7 +22,7 @@ class OrganizationSearch extends Organization
     {
         return [
             [['id', 'address_id', 'status'], 'integer'],
-            [['name', 'nif', 'email', 'phone', 'address'], 'safe'],
+            [['name', 'nif', 'email', 'phone', 'city'], 'safe'],
         ];
     }
 

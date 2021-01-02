@@ -4,6 +4,7 @@ namespace backend\controllers;
 
 use backend\modules\api\models\Address;
 use backend\modules\api\models\User;
+use common\Classes\RoleManager;
 use common\models\AssociatedUser;
 use Facebook\WebDriver\Exception\ElementClickInterceptedException;
 use Yii;
@@ -197,8 +198,8 @@ class OrganizationController extends Controller
     }
 
     /**
-     * Accepts an organization
-     * @param $id
+     * Accepts an organization, add's it's founder to teh associated user descendency, and add's also associated user role to it's founder
+     * @param integer $id The id of the organization to be approved
      * @return \yii\web\Response
      */
     public function actionApproveOrganization($id){
@@ -209,43 +210,12 @@ class OrganizationController extends Controller
             $organization = Organization::findOne($id);
             if($organization != null){
                 $organization->status = Organization::ACTIVE;
+
                 if(!$organization->save()){
                     throw new Exception("Error on saving new organization status");
                 }
 
-                //Set associatedUser role to the founder user
-                $founder_id = $organization->founder->id;
-                $auth = Yii::$app->getAuthManager();
-
-                //Check if founder has user role
-                $isUser = false;
-                $founderRoles = $auth->getRolesByUser($founder_id);
-                foreach ($founderRoles as $role){
-                    if($role->name == 'user'){
-                        $isUser = true;
-                    }
-                }
-
-                //If founder as user role, then revokes that role, and assigns associatedUserRole
-                if($isUser){
-
-                    $userRole = $auth->getRole('user');
-                    $auth->revoke($userRole, $founder_id);
-
-                    $associatedUserRole = $auth->getRole('associatedUser');
-                    $auth->assign($associatedUserRole, $founder_id);
-
-                }
-
-                //Set user as Associated User
-                $newAssociatedUser = new AssociatedUser();
-                $newAssociatedUser->id = $founder_id;
-                $newAssociatedUser->isActive = true;
-                $newAssociatedUser->organization_id = $organization->id;
-
-                $save = $newAssociatedUser->save();
-                if(!$save){
-                    $transaction->rollBack();
+                if(!RoleManager::addRole(RoleManager::ASSOCIATED_USER_ROLE, $organization->founder_id, $organization->id)){
                     throw new Exception("Error on saving new organization status");
                 }
 
@@ -257,7 +227,7 @@ class OrganizationController extends Controller
             Yii::$app->session->setFlash('Error', "Erro ao atualizar associação");
             return $this->redirect(['organization/approval-pending']);
         }
-
+        Yii::$app->session->setFlash('Success', "Organização adicionada com sucesso");
         return $this->redirect(['organization/index']);
     }
 
@@ -274,23 +244,31 @@ class OrganizationController extends Controller
         try{
             $reprovedOrganization = Organization::findOne($id);
             if($reprovedOrganization == null)
-                throw new Exception();
+                throw new Exception("Organização não encontrada");
 
             $address = Address::findOne($reprovedOrganization->address_id);
             if($address == null)
-                throw new Exception();
+                throw new Exception("Morada da organização não encontrada");
 
-            $reprovedOrganization->delete();
-            $address->delete();
+
+            if(!$reprovedOrganization->delete())
+                throw new Exception("Erro ao remover a organização");
+
+            if(!$address->delete())
+                throw new Exception("Erro ao remover a morada da organização");
 
             $transaction->commit();
         } catch(\Exception $e){
             $transaction->rollBack();
-            Yii::$app->session->setFlash('Error', "Erro ao apagar a associação!");
+            Yii::$app->session->setFlash('Error', "Erro ao reprovar a associação!");
+            return $this->redirect(['organization/approval-pending']);
+        } catch(\Throwable $e){
+            $transaction->rollBack();
+            Yii::$app->session->setFlash('Error', "Erro ao reprovar a associação!");
             return $this->redirect(['organization/approval-pending']);
         }
 
-        Yii::$app->session->setFlash('Success', "Oragnização eliminada com sucesso!");
+        Yii::$app->session->setFlash('Success', "Organização reprovada com sucesso!");
         return $this->redirect(['organization/approval-pending']);
     }
 }

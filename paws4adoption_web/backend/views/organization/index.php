@@ -16,6 +16,7 @@ $this->title = 'Organizações';
 
     <h1><?= Html::encode($this->title) ?></h1>
 
+    <?php \yii\widgets\Pjax::begin(['id' => 'pjax-container'] ); ?>
     <?= GridView::widget([
         'tableOptions' => [
             'class' => 'table table-striped',
@@ -74,5 +75,6 @@ $this->title = 'Organizações';
             ],
         ],
     ]); ?>
+    <?php \yii\widgets\Pjax::end(); ?>
 
 </div>

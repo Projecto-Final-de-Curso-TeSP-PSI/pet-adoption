@@ -1,5 +1,6 @@
 <?php
 
+use common\classes\RoleManager;
 use yii\bootstrap\ButtonDropdown;
 use yii\helpers\Html;
 use yii\grid\GridView;
@@ -21,7 +22,6 @@ $this->params['breadcrumbs'][] = $this->title;
         'dataProvider' => $dataProvider,
         'filterModel' => $searchModel,
         'columns' => [
-            ['class' => 'yii\grid\SerialColumn'],
             'id',
             'firstName',
             'lastName',
@@ -31,11 +31,11 @@ $this->params['breadcrumbs'][] = $this->title;
             'username',
             'created_at',
             [
-                'header' => 'Estado',
+                'header' => 'Gerir Utilizador',
                 'content' => function($model) {
                     return  Html::tag('span',
                         $model->status == User::STATUS_ACTIVE ? 'Ativo' : 'Inactivo',
-                        ['class' => $model->status == User::STATUS_ACTIVE ? 'btn btn-success btn-xs' : 'btn btn-success btn-xs']
+                        ['class' => $model->status == User::STATUS_ACTIVE ? 'btn btn-success btn-xs' : 'btn btn-danger btn-xs']
                     );
                 }
             ],
@@ -59,6 +59,41 @@ $this->params['breadcrumbs'][] = $this->title;
                             '<i class="fa fa-euro">' . ($model->status === User::STATUS_ACTIVE ? 'Bloquear' : 'Desbloquear') . '</i>',
                             Url::to(['user/block', 'id' => $model->id]),
                             [  'class' => $model->status == User::STATUS_ACTIVE ? 'btn btn-danger btn-xs' : 'btn btn-success btn-xs'],
+                            );
+                    }
+                },
+            ],
+            [
+                'header' => 'Gerir Admin',
+                'content' => function($model, $key, $index, $column) {
+                    $userHasAdminRole = RoleManager::userHasRole(RoleManager::ADMIN_ROLE, $key);
+                    return  Html::tag('span',
+                        $userHasAdminRole ? 'Admin' : '-',
+                        ['class' => $userHasAdminRole ? 'btn btn-info btn-xs' : '']
+                    );
+                }
+            ],
+            [
+                'header' => 'Ação',
+                'content' => function($model, $key, $index, $column) {
+                    $userHasAdminRole = RoleManager::userHasRole(RoleManager::ADMIN_ROLE, $key);
+                    if($key == Yii::$app->user->id){
+                        return Html::a(
+                            $userHasAdminRole ? 'Remover' : 'Tornar Adicionar',
+                            Url::to(['user/set-unset-admin', 'user_id' => $key]),
+                            [
+                                'class' =>  $userHasAdminRole ? 'btn btn-danger btn-xs' : 'btn btn-success btn-xs',
+                                'data' => [
+                                    'confirm' => 'Tem a certeza que pretende remover permissão de Admin a si próprio? Ficará sem acesso ao backoffice!',
+                                    'method' => 'post',
+                                ]
+                            ]
+                        );
+                    } else {
+                        return Html::a(
+                            $userHasAdminRole? 'Remover' : 'Tornar Admin',
+                            Url::to(['user/set-unset-admin', 'user_id' => $key]),
+                            [  'class' => $userHasAdminRole ? 'btn btn-danger btn-xs' : 'btn btn-success btn-xs'],
                             );
                     }
                 },
