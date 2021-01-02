@@ -84,7 +84,7 @@ use common\models\AssociatedUser;
 
                 <?php
                 if (Yii::$app->user->can('createAdoptionAnimal')) {
-                    echo '<a class="nav-link" href="' . Yii::$app->request->baseUrl . '/site/my-org-adoption-animals">
+                    echo '<a class="nav-link" href="' . Yii::$app->request->baseUrl . '/adoption-animal/my-org-adoption-animals">
                     <i data-feather="archive" class="icon"></i>
                     <span class="title">Animais da Associação</span>
                     </a>';

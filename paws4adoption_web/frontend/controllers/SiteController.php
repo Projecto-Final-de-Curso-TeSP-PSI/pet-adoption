@@ -220,38 +220,6 @@ class SiteController extends Controller
     }
 
     /**
-     * Returns to the view a list of all adoption animals in the organization where the user is associated
-     * @return string
-     */
-    public function actionMyOrgAdoptionAnimals(){
-        $loggedUserId = Yii::$app->user->id;
-        $loggedAssociatedUser = AssociatedUser::findOne($loggedUserId);
-        $organizationId = $loggedAssociatedUser->organization_id;
-
-        $searchAdoptionAnimalModel = new AnimalAdoptionSearch();
-        $searchAnimalModel = new AnimalSearch();
-
-        $dataProviderAdoptionAnimal = new ActiveDataProvider([
-            'query' => AdoptionAnimal::find()->where(['organization_id' => $organizationId]),
-            'pagination' => false,
-        ]);
-
-//        $dataProviderAnimalsWithAdoptionRequests = new ActiveDataProvider([
-//            'query' => AdoptionAnimal::find()
-//                ->innerJoinWith('adoption ad')
-//                ->where(['is', 'ad.adoption_date', null])
-//                ->andWhere(['organization_id' => $organizationId]),
-//            'pagination' => false,
-//        ]);
-
-        return $this->render('myOrgAdoptionAnimalsList', [
-            'searchAdoptionAnimalModel' => $searchAdoptionAnimalModel,
-            'dataProviderAdoptionAnimal' => $dataProviderAdoptionAnimal,
-//            'dataProviderAnimalsWithAdoptionRequests' => $dataProviderAnimalsWithAdoptionRequests,
-        ]);
-    }
-
-    /**
      * Signs user up.
      *
      * @return mixed

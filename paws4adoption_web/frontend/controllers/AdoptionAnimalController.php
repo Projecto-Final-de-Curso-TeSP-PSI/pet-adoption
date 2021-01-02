@@ -39,7 +39,7 @@ class AdoptionAnimalController extends Controller
         return [
             'access' => [
                 'class' => AccessControl::class,
-                'only' => ['create', 'update', 'delete'],
+                'only' => ['create', 'update', 'delete', 'my-org-adoption-animals'],
                 'rules' => [
                     [
                         'actions' => ['create'],
@@ -51,6 +51,12 @@ class AdoptionAnimalController extends Controller
                         'allow' => true,
                         'roles' => ['manageAdoptionAnimal'],
                         'roleParams' => ['animal_id' => Yii::$app->request->get('id')]
+                    ],
+                    [
+                        'actions' => ['my-org-adoption-animals'],
+                        'allow' => true,
+                        'roles' => ['manageAdoptionAnimal'],
+                        'roleParams' => ['organization_id' => AssociatedUser::findOne(Yii::$app->user->id)->organization_id]
                     ]
                 ]
             ],
@@ -133,6 +139,7 @@ class AdoptionAnimalController extends Controller
      */
     public function actionView($id)
     {
+        //ToDo: Alterar a vista a renderizar para uma lista dos pedidos de adoção de um animal em específico
         return $this->render('view', [
             'model' => $this->findModel($id),
         ]);
@@ -422,5 +429,25 @@ class AdoptionAnimalController extends Controller
         }
     }
 
-    
+    /**
+     * Returns to the view a list of all adoption animals in the organization where the user is associated
+     * @return string
+     */
+    public function actionMyOrgAdoptionAnimals(){
+        $loggedUserId = Yii::$app->user->id;
+        $loggedAssociatedUser = AssociatedUser::findOne($loggedUserId);
+        $organizationId = $loggedAssociatedUser->organization_id;
+
+        $searchAdoptionAnimalModel = new AnimalAdoptionSearch();
+
+        $dataProviderAdoptionAnimal = new ActiveDataProvider([
+            'query' => AdoptionAnimal::find()->where(['organization_id' => $organizationId]),
+            'pagination' => false,
+        ]);
+
+        return $this->render('myOrgAdoptionAnimalsList', [
+            'searchAdoptionAnimalModel' => $searchAdoptionAnimalModel,
+            'dataProviderAdoptionAnimal' => $dataProviderAdoptionAnimal,
+        ]);
+    }
 }
