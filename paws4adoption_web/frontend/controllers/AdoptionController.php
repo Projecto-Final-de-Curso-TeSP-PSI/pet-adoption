@@ -2,6 +2,8 @@
 
 namespace frontend\controllers;
 
+use Cassandra\Date;
+use common\models\Address;
 use common\models\AdoptionAnimal;
 use common\models\User;
 use frontend\models\AdoptionRequestForm;
@@ -77,26 +79,42 @@ class AdoptionController extends Controller
      * If creation is successful, the browser will be redirected to the 'view' page.
      * @return mixed
      */
-    public function actionCreate()
+    public function actionCreate($id, $type)
     {
         $model = new Adoption();
-        $model->scenario = 'fat';
+
+        $adopterId = Yii::$app->user->id;
+        $adopter = User::findOne(['id' => $adopterId]);
+        $loggedUser_id = \Yii::$app->user->id;
+        $model->adopter_id = $loggedUser_id;
+        $model->adopted_animal_id = $id;
+
+        if($type == 'adoption'){
+            $model->adoption_date = date("Y-m-d");
+        }
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
+
             return $this->redirect(['view', 'id' => $model->id]);
         }
 
 
-        $loggedUser_id = \Yii::$app->user->id;
-        $model->adopter_id = $loggedUser_id;
-        $model->adopted_animal_id = 1;
+        if ($type == 'fat') {
+            $model->scenario = 'fat';
 
-        return $this->render('create', [
-            'model' => $model,
-            'title' => 'Formulário submissão de pedido de acolhimento temporário (FAT)'
-        ]);
-
-
+            return $this->render('create', [
+                'adoptionModel' => $model,
+                'title' => 'Formulário submissão de pedido de acolhimento temporário (FAT)',
+                'adopter' => $adopter,
+            ]);
+        } else {
+            $model->scenario = 'adoption';
+            return $this->render('create', [
+                'adoptionModel' => $model,
+                'title' => 'Formulário submissão de pedido de adoção',
+                'adopter' => $adopter,
+            ]);
+        }
     }
 
     /**
@@ -149,7 +167,8 @@ class AdoptionController extends Controller
         throw new NotFoundHttpException('The requested page does not exist.');
     }
 
-    public function actionSubmitAdoptionRequest(){
+    public function actionSubmitAdoptionRequest()
+    {
         $model = new Adoption();
         $model->scenario = 'adoption';
         $title = 'Formalização de proposta de adoção';
@@ -167,7 +186,8 @@ class AdoptionController extends Controller
         ]);
     }
 
-    public function actionSubmitFatRequest(){
+    public function actionSubmitFatRequest()
+    {
         $model = new Adoption();
         $model->scenario = 'fat';
         $title = 'Formalização de proposta de acolhimento temporário';
@@ -183,5 +203,12 @@ class AdoptionController extends Controller
             'model' => $model,
             'title' => $title
         ]);
+    }
+
+    public static function getAdoptionRequestsByAnimal($id)
+    {
+        return count(Adoption::find()
+            ->where(['adopted_animal_id' => $id, 'adoption_date' => null])
+            ->all());
     }
 }

@@ -39,7 +39,7 @@ class AdoptionAnimalController extends Controller
         return [
             'access' => [
                 'class' => AccessControl::class,
-                'only' => ['create', 'update', 'delete'],
+                'only' => ['create', 'update', 'delete', 'my-org-adoption-animals'],
                 'rules' => [
                     [
                         'actions' => ['create'],
@@ -50,7 +50,13 @@ class AdoptionAnimalController extends Controller
                         'actions' => ['update', 'delete'],
                         'allow' => true,
                         'roles' => ['manageAdoptionAnimal'],
-                        'roleParams' => ['organization_id' => Yii::$app->request->get('id')]
+                        'roleParams' => ['animal_id' => Yii::$app->request->get('id')]
+                    ],
+                    [
+                        'actions' => ['my-org-adoption-animals'],
+                        'allow' => true,
+                        'roles' => ['manageAdoptionAnimal'],
+                        'roleParams' => ['organization_id' => AssociatedUser::findOne(Yii::$app->user->id)->organization_id]
                     ]
                 ]
             ],
@@ -133,6 +139,7 @@ class AdoptionAnimalController extends Controller
      */
     public function actionView($id)
     {
+        //ToDo: Alterar a vista a renderizar para uma lista dos pedidos de adoção de um animal em específico
         return $this->render('view', [
             'model' => $this->findModel($id),
         ]);
@@ -179,7 +186,7 @@ class AdoptionAnimalController extends Controller
                 $adoptionAnimalModel->organization_id = $loggedAssociatedUser->organization_id;
                 $adoptionAnimalModel->associated_user_id = $loggedUserId;
                 if ($adoptionAnimalModel->save()) {
-                    return $this->redirect(['/']);
+                    return $this->redirect(['site/my-org-adoption-animals']);
                 }
             }
         }
@@ -208,13 +215,55 @@ class AdoptionAnimalController extends Controller
     public function actionUpdate($id)
     {
         $model = $this->findModel($id);
+        $animalModel = $model->animal;
+        $newAnimalPhotoModel = new Photo();
 
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id]);
+        $natureList = ArrayHelper::map(Nature::find()->where(['parent_nature_id' => null])->all(), 'id', 'name');
+        $sex = Animal::getSex();
+        $natureCat = ArrayHelper::map(Nature::find()->where(['parent_nature_id' => 1])->all(), 'id', 'name');
+        $natureDog = ArrayHelper::map(Nature::find()->where(['parent_nature_id' => 2])->all(), 'id', 'name');
+        $fulLength = ArrayHelper::map(FurLength::find()->all(), 'id', 'fur_length');
+        $fulColor = ArrayHelper::map(FurColor::find()->all(), 'id', 'fur_color');
+        $size = ArrayHelper::map(Size::find()->all(), 'id', 'size');
+
+        if (Yii::$app->request->post()) {
+            $formData = Yii::$app->request->post();
+
+            if ($animalModel->load($formData) && $animalModel->save()) {
+                $model->load($formData);
+                $file = UploadedFile::getInstance($newAnimalPhotoModel, 'imgPath');
+                $currentAnimalPhoto = Photo::findOne(['id_animal' => $id]);
+                if ($file != null) {
+                    $newAnimalPhotoModel->name = $animalModel->name . '_' . $animalModel->id;
+                    $newAnimalPhotoModel->extension = $file->extension;
+                    $newAnimalPhotoModel->id_animal = $animalModel->id;
+                    $newAnimalPhotoModel->caption = $animalModel->nature->name . " - " . $animalModel->name;
+                    if ($currentAnimalPhoto != null) {
+                        unlink(Yii::$app->basePath . '\web\images\animal\\' . $currentAnimalPhoto->name . '.' . $currentAnimalPhoto->extension);
+                        $currentAnimalPhoto->delete();
+                    }
+                    $file->saveAs('images/animal/' . $animalModel->name . '_' . $animalModel->id . '.' . $file->extension);
+                    //$animalModel->delete();
+                    $newAnimalPhotoModel->save();
+                }
+                if ($model->save()) {
+                    return $this->redirect(['site/my-org-adoption-animals']);
+                }
+            }
         }
+
 
         return $this->render('update', [
             'model' => $model,
+            'animalModel' => $animalModel,
+            'newAnimalPhotoModel' => $newAnimalPhotoModel,
+            'natureList' => $natureList,
+            'natureCat' => $natureCat,
+            'natureDog' => $natureDog,
+            'fulLength' => $fulLength,
+            'fulColor' => $fulColor,
+            'size' => $size,
+            'sex' => $sex,
         ]);
     }
 
@@ -378,5 +427,27 @@ class AdoptionAnimalController extends Controller
                 ->where(['organization_id' => $organization]);
             return $query;
         }
+    }
+
+    /**
+     * Returns to the view a list of all adoption animals in the organization where the user is associated
+     * @return string
+     */
+    public function actionMyOrgAdoptionAnimals(){
+        $loggedUserId = Yii::$app->user->id;
+        $loggedAssociatedUser = AssociatedUser::findOne($loggedUserId);
+        $organizationId = $loggedAssociatedUser->organization_id;
+
+        $searchAdoptionAnimalModel = new AnimalAdoptionSearch();
+
+        $dataProviderAdoptionAnimal = new ActiveDataProvider([
+            'query' => AdoptionAnimal::find()->where(['organization_id' => $organizationId]),
+            'pagination' => false,
+        ]);
+
+        return $this->render('myOrgAdoptionAnimalsList', [
+            'searchAdoptionAnimalModel' => $searchAdoptionAnimalModel,
+            'dataProviderAdoptionAnimal' => $dataProviderAdoptionAnimal,
+        ]);
     }
 }

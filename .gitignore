@@ -6,3 +6,5 @@ paws4adoption_web/composer.lock
 .phpunit.result.cache
 
 paws4adoption_web/frontend/web/images/animal/
+
+paws4adoption_web/frontend/web/images/animal.7z

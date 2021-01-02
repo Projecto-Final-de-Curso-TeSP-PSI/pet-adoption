@@ -22,13 +22,6 @@ class Adoption extends \yii\db\ActiveRecord
     const SCENARIO_ADOPTION = 'adoption';
     const SCENARIO_FAT = 'fat';
 
-    public function scenarios()
-    {
-        return [
-            self::SCENARIO_ADOPTION => ['id', 'motivation', 'adopted_animal_id', 'adopter_id'],
-            self::SCENARIO_FAT => ['id', 'motivation', 'adopted_animal_id', 'adopter_id']
-        ];
-    }
 
     /**
      * {@inheritdoc}§

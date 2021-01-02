@@ -2,6 +2,8 @@
 namespace frontend\controllers;
 
 use common\models\AdoptionAnimal;
+use common\models\AnimalAdoptionSearch;
+use common\models\AnimalSearch;
 use common\models\AssociatedUser;
 use common\models\FoundAnimal;
 use common\models\MissingAnimal;
@@ -214,34 +216,6 @@ class SiteController extends Controller
         return $this->render('myListAnimals', [
             'dataProviderMissingAnimal' => $dataProviderMissingAnimal,
             'dataProviderFoundAnimal' => $dataProviderFoundAnimal,
-        ]);
-    }
-
-    /**
-     * Returns to the view a list of all adoption animals in the organization where the user is associated
-     * @return string
-     */
-    public function actionMyOrgAdoptionAnimals(){
-        $loggedUserId = Yii::$app->user->id;
-        $loggedAssociatedUser = AssociatedUser::findOne($loggedUserId);
-        $organizationId = $loggedAssociatedUser->organization_id;
-
-        $dataProviderAdoptionAnimal = new ActiveDataProvider([
-            'query' => AdoptionAnimal::find()->where(['organization_id' => $organizationId]),
-            'pagination' => false,
-        ]);
-
-        $dataProviderAnimalsWithAdoptionRequests = new ActiveDataProvider([
-            'query' => AdoptionAnimal::find()
-                ->innerJoinWith('adoption ad')
-                ->where(['is', 'ad.adoption_date', null])
-                ->andWhere(['organization_id' => $organizationId]),
-            'pagination' => false,
-        ]);
-
-        return $this->render('myOrgAdoptionAnimalsList', [
-            'dataProviderAdoptionAnimal' => $dataProviderAdoptionAnimal,
-            'dataProviderAnimalsWithAdoptionRequests' => $dataProviderAnimalsWithAdoptionRequests,
         ]);
     }
 
