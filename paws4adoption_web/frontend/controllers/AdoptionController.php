@@ -5,6 +5,7 @@ namespace frontend\controllers;
 use Cassandra\Date;
 use common\models\Address;
 use common\models\AdoptionAnimal;
+use common\models\Animal;
 use common\models\User;
 use frontend\models\AdoptionRequestForm;
 use Yii;
@@ -62,6 +63,15 @@ class AdoptionController extends Controller
     }
 
     /**
+     * Success page.
+     * @return mixed
+     */
+    public function actionSuccess()
+    {
+        return $this->render('success');
+    }
+
+    /**
      * Displays a single Adoption model.
      * @param integer $id
      * @return mixed
@@ -76,26 +86,23 @@ class AdoptionController extends Controller
 
     /**
      * Creates a new Adoption model.
-     * If creation is successful, the browser will be redirected to the 'view' page.
+     * If creation is successful, the browser will be redirected to the 'AdoptionAnimal/index' page.
      * @return mixed
      */
     public function actionCreate($id, $type)
     {
         $model = new Adoption();
-
         $adopterId = Yii::$app->user->id;
         $adopter = User::findOne(['id' => $adopterId]);
-        $loggedUser_id = \Yii::$app->user->id;
-        $model->adopter_id = $loggedUser_id;
+        $model->adopter_id = $adopterId;
         $model->adopted_animal_id = $id;
+        $model->adoption_date = date("Y-m-d");
+        $model->type = $type;
 
-        if($type == 'adoption'){
-            $model->adoption_date = date("Y-m-d");
-        }
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
 
-            return $this->redirect(['view', 'id' => $model->id]);
+            return $this->redirect('success');
         }
 
 
