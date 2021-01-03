@@ -56,7 +56,7 @@ class Adoption extends \yii\db\ActiveRecord
                 return [
                     'id' => 'ID',
                     'motivation' => 'Motivação para o pedido de adoção',
-                    'adoption_date' => 'Adoption Date',
+//                    'adoption_date' => 'Adoption Date',
                     'adopted_animal_id' => 'Animal a adotar',
                     'adopter_id' => 'Adotante',
                 ];
@@ -65,7 +65,7 @@ class Adoption extends \yii\db\ActiveRecord
                 return [
                     'id' => 'ID',
                     'motivation' => 'Motivação para o pedido de acolhimento temporário',
-                    'adoption_date' => 'Data do acolhimento',
+//                    'adoption_date' => 'Data do acolhimento',
                     'adopted_animal_id' => 'Animal a acolher',
                     'adopter_id' => 'Acolhedor temporário',
                 ];

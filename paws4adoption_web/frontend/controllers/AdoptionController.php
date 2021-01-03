@@ -96,7 +96,7 @@ class AdoptionController extends Controller
         $adopter = User::findOne(['id' => $adopterId]);
         $model->adopter_id = $adopterId;
         $model->adopted_animal_id = $id;
-        $model->adoption_date = date("Y-m-d");
+//        $model->adoption_date = date("Y-m-d");
         $model->type = $type;
 
 
