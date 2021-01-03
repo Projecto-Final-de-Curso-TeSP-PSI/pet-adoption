@@ -62,6 +62,7 @@ class UsersController extends ActiveController
      */
     public function actions(){
         $actions = parent::actions();
+        unset($actions['index']);
         unset($actions['view']);
         unset($actions['create']);
         unset($actions['update']);
@@ -243,7 +244,6 @@ class UsersController extends ActiveController
         }
         return $response;
     }
-
 
     /**
      * @param $idvalidation

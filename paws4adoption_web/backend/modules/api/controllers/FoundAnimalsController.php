@@ -86,44 +86,15 @@ class FoundAnimalsController extends ActiveController
      * Overrides the actions method of the ActiveControllet parent classe
      * @return array
      */
-    public function actions()
-    {
+    public function actions(){
         $actions = parent::actions();
-        unset($actions['index']);
-        unset($actions['view']);
-        unset($actions['create']);
-        unset($actions['update']);
-        unset($actions['delete']);
-        return $actions;
-    }
-
-    /**
-     * Get's all active found animals that are still active
-     * @return array|\yii\db\ActiveRecord[]
-     */
-    public function actionIndex()
-    {
-        Yii::$app->response->statusCode = 200;
-        return \backend\modules\api\models\FoundAnimal::find()
-            ->onCondition(['is_active' => true])
-            ->all();
-    }
-
-    /**
-     * Get's one found animal according with the id sent
-     * @param $id
-     * @return FoundAnimal|null
-     * @throws NotFoundHttpException
-     */
-    public function actionView($id)
-    {
-        $foundAnimal = \backend\modules\api\models\FoundAnimal::findOne($id);
-
-        if ($foundAnimal == null || $foundAnimal->is_active == false)
-            throw new NotFoundHttpException('Found animal not found');
-
-        Yii::$app->response->statusCode = 200;
-        return $foundAnimal;
+        unset(
+            $actions['index'],
+            $actions['view'],
+            $actions['create'],
+            $actions['update'],
+            $actions['delete']
+        );
     }
 
     /**

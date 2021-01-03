@@ -92,33 +92,6 @@ class MissingAnimalsController extends ActiveController
     }
 
     /**
-     * Get's all missing animals that are still missing
-     * @return array|\yii\db\ActiveRecord[]
-     */
-    public function actionIndex(){
-        Yii::$app->response->statusCode = 200;
-        return \backend\modules\api\models\FoundAnimal::find()
-            ->onCondition(['is_missing' => true])
-            ->all();
-    }
-
-    /**
-     * Get's one missing animal according with the id sent
-     * @param $id
-     * @return MissingAnimal|null
-     * @throws NotFoundHttpException
-     */
-    public function actionView($id){
-        $missingAnimal = \backend\modules\api\models\MissingAnimal::findOne($id);
-
-        if($missingAnimal == null || $missingAnimal->is_missing == false)
-            throw new NotFoundHttpException('Missing animal not found');
-
-        Yii::$app->response->statusCode = 200;
-        return $missingAnimal;
-    }
-
-    /**
      * Creates a missing animal
      * @return \backend\modules\api\models\FoundAnimal|MissingAnimal
      * @throws \Exception

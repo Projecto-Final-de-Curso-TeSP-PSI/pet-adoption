@@ -126,7 +126,7 @@ return [
                         ],
                     ],
                 ],
-                [ //SERVICE: NATURES
+                [ //SERVICE: SPECIES
                     'class' => 'yii\rest\UrlRule',
                     'controller' => 'api/species',
                     'pluralize' => 'false',
@@ -148,19 +148,16 @@ return [
                     'class' => 'yii\rest\UrlRule',
                     'controller' => 'api/fur-lengths',
                     'pluralize' => 'false',
-                    'only' => ['index']
                 ],
                 [ //SERVICE: FUR COLORS
                     'class' => 'yii\rest\UrlRule',
                     'controller' => 'api/fur-colors',
                     'pluralize' => 'false',
-                    'only' => ['index']
                 ],
                 [ //SERVICE: SIZES
                     'class' => 'yii\rest\UrlRule',
                     'controller' => 'api/sizes',
                     'pluralize' => 'false',
-                    'only' => ['index'],
                 ],
                 [ //SERVICE: DISTRICTS
                     'class' => 'yii\rest\UrlRule',
