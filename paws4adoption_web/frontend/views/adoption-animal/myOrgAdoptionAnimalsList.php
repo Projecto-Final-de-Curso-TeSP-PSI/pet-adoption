@@ -45,7 +45,7 @@ $this->title = 'Animais para adotar na minha associação';
                     [
                         'header' => 'Pedidos de adopção',
                         'content' => function($model){
-                            $count = AdoptionController::getAdoptionRequestsByAnimal($model->id);
+                            $count = count(AdoptionController::getAdoptionRequestsByAnimal($model->id));
                             return Html::tag(
                                 null,
                                 $count
@@ -58,7 +58,7 @@ $this->title = 'Animais para adotar na minha associação';
                         'template' => '{view} {update} {delete}',
                         'buttons' => [
                             'view' => function($url, $model, $key) {     // render your custom button
-                                if (AdoptionController::getAdoptionRequestsByAnimal($model->id) !== 0){
+                                if (count(AdoptionController::getAdoptionRequestsByAnimal($model->id)) !== 0){
                                     return  Html::a('Ver pedidos', Url::toRoute(['adoption-animal/view', 'id' => Html::encode($key)]),
                                         [
                                             'class' => 'btn btn-info',

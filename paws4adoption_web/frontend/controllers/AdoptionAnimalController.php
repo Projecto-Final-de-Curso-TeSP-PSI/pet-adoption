@@ -3,6 +3,7 @@
 namespace frontend\controllers;
 
 use backend\models\AdoptionAnimalForm;
+use common\models\Adoption;
 use common\models\Animal;
 use common\models\AnimalAdoptionSearch;
 use common\models\AnimalSearch;
@@ -141,9 +142,17 @@ class AdoptionAnimalController extends Controller
      */
     public function actionView($id)
     {
-        //ToDo: Alterar a vista a renderizar para uma lista dos pedidos de adoção de um animal em específico
+        $query = Adoption::find()
+            ->where(['adopted_animal_id' => $id, 'adoption_date' => null]);
+
+        $dataProvider = new ActiveDataProvider([
+            'query' => $query,
+            'pagination' => false,
+        ]);
+
         return $this->render('view', [
             'model' => $this->findModel($id),
+            'dataProvider' => $dataProvider,
         ]);
     }
 
