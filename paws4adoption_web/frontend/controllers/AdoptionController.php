@@ -220,8 +220,23 @@ class AdoptionController extends Controller
 
     public static function getAdoptionRequestsByAnimal($id)
     {
-        return count(Adoption::find()
+        return Adoption::find()
             ->where(['adopted_animal_id' => $id, 'adoption_date' => null])
-            ->all());
+            ->all();
+    }
+
+    public function actionAcceptAdoptionRequest($id, $animal_id){
+
+        $adoptedAnimal = $this->findModel($id);
+        $adoptedAnimal->adoption_date = date("Y-m-d");
+        $adoptedAnimal->save();
+
+        $rejectedAdoptionRequests = self::getAdoptionRequestsByAnimal($animal_id);
+
+        foreach ($rejectedAdoptionRequests as $rejectedAdoptionRequest){
+            $rejectedAdoptionRequest->delete();
+        }
+
+        return $this->redirect(['adoption-animal/my-org-adoption-animals']);
     }
 }
