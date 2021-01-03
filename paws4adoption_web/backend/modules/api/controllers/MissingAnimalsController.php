@@ -4,6 +4,7 @@ namespace backend\modules\api\controllers;
 
 use \backend\modules\api\exceptions\SaveAnimalException;
 
+use backend\modules\api\models\Animal;
 use backend\modules\api\models\MissingAnimal;
 use common\models\Photo;
 use common\models\User;
@@ -145,7 +146,7 @@ class MissingAnimalsController extends ActiveController
     /**
      * Deletes a missing animal
      * @param $id
-     * @return MissingAnimal|null
+     * @return Animal
      * @throws ForbiddenHttpException
      * @throws NotFoundHttpException
      * @throws SaveAnimalException
@@ -171,6 +172,6 @@ class MissingAnimalsController extends ActiveController
         }
 
         Yii::$app->response->statusCode = 200;
-        return $missingAnimal;
+        return Animal::findOne($missingAnimal->id);
     }
 }

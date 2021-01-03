@@ -198,39 +198,6 @@ class Utils
         return Animal::findOne($animal->id);
     }
 
-    public static function deleteAnimal($id, $animal_type){
-        $db = Yii::$app->db;
-        $transaction = $db->beginTransaction();
-
-        try {
-            $animal = Animal::findOne($id);
-            if($animal == null )
-                throw new NotFoundHttpException("Animal not found: " . $animal_type);
-
-            //delete all photos of this animal
-            Photo::deleteAll(['id_animal' => $animal->id]);
-
-            //delete child animal
-            switch($animal_type){
-                case 'missingAnimal':
-                    MissingAnimal::findOne($id)->delete();
-                    break;
-                case 'foundAnimal':
-                    FoundAnimal::findOne($id)->delete();
-                    break;
-            }
-            $animal->delete();
-
-            $transaction->commit();
-        } catch(NotFoundHttpException $e){
-            throw $e;
-        } catch (\Exception $e) {
-            $transaction->rollBack();
-            throw new SaveAnimalException("Error on deletin animal on the database", 400, $e);
-        }
-        return $animal;
-    }
-
     /**
      * Creates one photo on the server public assets and database
      * @param $animal

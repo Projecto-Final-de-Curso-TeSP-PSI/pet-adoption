@@ -18,4 +18,15 @@ use yii\rest\ActiveController;
 class DistrictsController extends ActiveController
 {
     public $modelClass = 'common\models\District';
+
+    public function actions(){
+        $actions = parent::actions();
+        unset(
+            $actions['view'],
+            $actions['create'],
+            $actions['update'],
+            $actions['delete']
+        );
+        return $actions;
+    }
 }

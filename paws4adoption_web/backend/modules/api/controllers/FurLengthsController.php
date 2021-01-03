@@ -18,5 +18,6 @@ class FurLengthsController extends ActiveController
             $actions['update'],
             $actions['delete']
         );
+        return $actions;
     }
 }

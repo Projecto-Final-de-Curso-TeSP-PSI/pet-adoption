@@ -95,6 +95,7 @@ class FoundAnimalsController extends ActiveController
             $actions['update'],
             $actions['delete']
         );
+        return $actions;
     }
 
     /**
@@ -155,7 +156,7 @@ class FoundAnimalsController extends ActiveController
     /**
      * Deletes a found animal
      * @param $id
-     * @return FoundAnimal|null
+     * @return Animal
      * @throws ForbiddenHttpException
      * @throws NotFoundHttpException
      * @throws SaveAnimalException
@@ -182,7 +183,7 @@ class FoundAnimalsController extends ActiveController
         }
 
         Yii::$app->response->statusCode = 200;
-        return $foundAnimal;
+        return Animal::findOne($foundAnimal->id);
     }
 
     public function actionDistrict($id)

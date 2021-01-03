@@ -18,5 +18,6 @@ class SizesController extends ActiveController
             $actions['update'],
             $actions['delete']
         );
+        return $actions;
     }
 }

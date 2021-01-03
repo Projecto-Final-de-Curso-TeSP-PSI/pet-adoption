@@ -17,15 +17,16 @@ class SpeciesController extends ActiveController
      * @return array
      */
     public function actions(){
-    $actions = parent::actions();
-    unset(
-        $actions['index'],
-        $actions['view'],
-        $actions['create'],
-        $actions['update'],
-        $actions['delete']
-    );
-}
+        $actions = parent::actions();
+        unset(
+            $actions['index'],
+            $actions['view'],
+            $actions['create'],
+            $actions['update'],
+            $actions['delete']
+        );
+        return $actions;
+    }
 
     /**
      * Get's all species
