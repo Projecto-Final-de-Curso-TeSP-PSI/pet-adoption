@@ -189,3 +189,14 @@ a.btn{
     text-align: center;
     vertical-align: middle !important;
 }
+
+.priorityBaixa{
+    background-color: rgba(99, 153, 89, 0.22);
+}
+
+.priorityMedia{
+    background-color: rgba(206, 192, 106, 0.23);
+}
+.priorityAlta{
+    background-color: rgba(255, 0, 0, 0.2);
+}

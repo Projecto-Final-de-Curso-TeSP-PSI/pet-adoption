@@ -4,10 +4,17 @@ namespace frontend\controllers;
 
 use common\classes\RoleManager;
 use common\models\Address;
+use common\models\AdoptionAnimal;
 use common\models\Animal;
+use common\models\AnimalAdoptionSearch;
 use common\models\AssociatedUser;
+use common\models\AnimalSearch;
 use common\models\District;
+use common\models\FoundAnimal;
+use common\models\FoundAnimalSearch;
 use common\models\MissingAnimal;
+use common\models\Nature;
+use common\models\Size;
 use common\models\User;
 use common\models\UserSearch;
 use Yii;
@@ -21,6 +28,7 @@ use yii\web\Controller;
 use yii\web\ForbiddenHttpException;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
+use function Sodium\add;
 
 /**
  * OrganizationController implements the CRUD actions for Organization model.
@@ -129,6 +137,38 @@ class OrganizationController extends Controller
     {
         return $this->render('view', [
             'model' => $this->findModel($id),
+        ]);
+    }
+
+    public function actionRescue(){
+
+        $loggedUserId = Yii::$app->user->id;
+        $loggedAssociatedUser = AssociatedUser::findOne($loggedUserId);
+
+        if ($loggedAssociatedUser == null){
+            throw new ForbiddenHttpException(
+                'Não está associado a nenhuma organização, pelo que não tem acesso à página que está a tentar aceder.');
+        }
+
+        $organizationId = $loggedAssociatedUser->organization_id;
+        $organization = Organization::findOne($organizationId);
+        $orgDistrict = $organization->address->district_id;
+
+        $searchFoundAnimalModel = new FoundAnimalSearch();
+
+        $addresses = Address::find()->where(['district_id' => $orgDistrict])->select('id');
+        $foundAnimalsModel = FoundAnimal::find()->where(['location_id' => $addresses]);
+
+
+
+        $dataProviderFoundAnimal = new ActiveDataProvider([
+            'query' => $foundAnimalsModel,
+            'pagination' => false,
+        ]);
+
+        return $this->render('rescue', [
+            'dataProviderFoundAnimal' => $dataProviderFoundAnimal,
+            'searchFoundAnimalModel' => $searchFoundAnimalModel,
         ]);
     }
 
@@ -285,7 +325,7 @@ class OrganizationController extends Controller
      * Finds the Organization model based on its primary key value.
      * If the model is not found, a 404 HTTP exception will be thrown.
      * @param integer $id
-     * @return Organization The loaded model
+     * @return Organization the loaded model
      * @throws NotFoundHttpException if the model cannot be found
      */
     protected function findModel($id)
