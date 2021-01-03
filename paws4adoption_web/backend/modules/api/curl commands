@@ -1,7 +1,9 @@
 ##### USERS #####
 
 --- POST Create User ---
-curl -X POST http://paws4adoption.web.back/api/users -u qwerty9:Sporting -H 'Content-Type: application/json' -d '{
+curl -X POST http://paws4adoption.web.back/api/users -H 'Content-Type: application/json' -d '{
+    "username":"qwerty9",
+    "password":"Sporting",
     "email":"qwerty9@ipl.pt",
     "firstName":"Qwerty9",
     "lastName":"Poiuy9",
@@ -16,17 +18,17 @@ curl -X POST http://paws4adoption.web.back/api/users -u qwerty9:Sporting -H 'Con
     "district_id":10
 }'
 
---- POST Authenticate user and return token ---
-curl -X POST http://paws4adoption.web.back/api/users/token -u simaopedro:Sporting
-
---- GET all users --- => Esta rota está bloqueada. Não queremos devolver todos os users.
-curl http://paws4adoption.web.back/api/users -u simaopedro:Sporting
+--- POST Return token ---
+curl -X POST http://paws4adoption.web.back/api/users/token -H 'Content-Type: application/json' -d '{
+    "username":"qwerty9",
+    "password":"Sporting"
+}'
 
 --- GET user by id ---
-curl http://paws4adoption.web.back/api/users/1 -u simaopedro:Sporting
+curl http://paws4adoption.web.back/api/users/1 -H 'Authorization: Bearer ozFqrgfw1RzFo-RJJUXCx9CI87lv5vDN'
 
 --- PUT Update User ---
-curl -X PUT http://paws4adoption.web.back/api/users/1 -u simaopedro:Sporting -H 'Content-Type: application/json' -d '{
+curl -X PUT http://paws4adoption.web.back/api/users/1 -H 'Authorization: Bearer ozFqrgfw1RzFo-RJJUXCx9CI87lv5vDN' -H 'Content-Type: application/json' -d '{
     "email":"simaopedro@ipl.pt",
     "firstName":"Simao",
     "lastName":"Pedro",
@@ -42,7 +44,7 @@ curl -X PUT http://paws4adoption.web.back/api/users/1 -u simaopedro:Sporting -H 
 }'
 
 --- DELETE Delete User ---
-curl -X DELETE http://paws4adoption.web.back/api/users/1 -u simaopedro:Sporting
+curl -X DELETE http://paws4adoption.web.back/api/users/1 -H 'Authorization: Bearer ozFqrgfw1RzFo-RJJUXCx9CI87lv5vDN'
 
 
 
@@ -90,7 +92,7 @@ curl http://paws4adoption.web.back/api/animals
 curl http://paws4adoption.web.back/api/animals/1
 
 --- POST Create missing animal ---
-curl -X POST http://paws4adoption.web.back/api/missing-animals -H 'Authorization: Bearer hUMmy_-cb4hGriI5bUTQQVBIjS_Ug7Hq' -H 'Content-Type: application/json' -d '{
+curl -X POST http://paws4adoption.web.back/api/missing-animals -H 'Authorization: Bearer ozFqrgfw1RzFo-RJJUXCx9CI87lv5vDN' -H 'Content-Type: application/json' -d '{
     "name":"Trips",
     "chipId":"154656454243765",
     "description":"Testest etstetwefsd wertertfsd",
@@ -103,7 +105,7 @@ curl -X POST http://paws4adoption.web.back/api/missing-animals -H 'Authorization
 }'
 
 --- PUT Update missing animal ---
-curl -X PUT http://paws4adoption.web.back/api/missing-animals/22 -H 'Authorization: Bearer hUMmy_-cb4hGriI5bUTQQVBIjS_Ug7Hq' -H 'Content-Type: application/json' -d '{
+curl -X PUT http://paws4adoption.web.back/api/missing-animals/22 -H 'Authorization: Bearer ozFqrgfw1RzFo-RJJUXCx9CI87lv5vDN' -H 'Content-Type: application/json' -d '{
     "name":"Trips",
     "chipId":"154656454243765",
     "description":"Cao muito paciente e fiel",
@@ -116,10 +118,10 @@ curl -X PUT http://paws4adoption.web.back/api/missing-animals/22 -H 'Authorizati
 }'
 
 --- DELETE missing animal ---
-curl -X DELETE http://paws4adoption.web.back/api/missing-animals/22 -H 'Authorization: Bearer hUMmy_-cb4hGriI5bUTQQVBIjS_Ug7Hq'
+curl -X DELETE http://paws4adoption.web.back/api/missing-animals/22 -H 'Authorization: Bearer ozFqrgfw1RzFo-RJJUXCx9CI87lv5vDN'
 
 --- POST Create found animal ---
-curl -X POST http://paws4adoption.web.back/api/found-animals -H 'Authorization: Bearer hUMmy_-cb4hGriI5bUTQQVBIjS_Ug7Hq' -H 'Content-Type: application/json' -d '{
+curl -X POST http://paws4adoption.web.back/api/found-animals -H 'Authorization: Bearer ozFqrgfw1RzFo-RJJUXCx9CI87lv5vDN' -H 'Content-Type: application/json' -d '{
     "description":"Testest etstetwefsd wertertfsd",
     "nature_id":51,
     "fur_length_id":1,
@@ -133,7 +135,7 @@ curl -X POST http://paws4adoption.web.back/api/found-animals -H 'Authorization: 
 }'
 
 --- PUT Update found animal ---
-curl -X PUT http://paws4adoption.web.back/api/found-animals/21 -H 'Authorization: Bearer hUMmy_-cb4hGriI5bUTQQVBIjS_Ug7Hq' -H 'Content-Type: application/json' -d '{
+curl -X PUT http://paws4adoption.web.back/api/found-animals/21 -H 'Authorization: Bearer ozFqrgfw1RzFo-RJJUXCx9CI87lv5vDN' -H 'Content-Type: application/json' -d '{
     "description":"Apresenta ferimentos na pata traseira do lado esquerdo",
     "nature_id":51,
     "fur_length_id":1,
@@ -147,4 +149,4 @@ curl -X PUT http://paws4adoption.web.back/api/found-animals/21 -H 'Authorization
 }'
 
 --- DELETE Found animal ---
-curl -X DELETE http://paws4adoption.web.back/api/found-animals/21 -H 'Authorization: Bearer hUMmy_-cb4hGriI5bUTQQVBIjS_Ug7Hq'
+curl -X DELETE http://paws4adoption.web.back/api/found-animals/21 -H 'Authorization: Bearer ozFqrgfw1RzFo-RJJUXCx9CI87lv5vDN'
