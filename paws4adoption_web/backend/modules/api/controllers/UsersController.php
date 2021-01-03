@@ -34,7 +34,7 @@ class UsersController extends ActiveController
         $behaviors =  parent::behaviors();
         $behaviors['authenticator'] = [
             'class' => CompositeAuth::className(),
-            'except' => ['index', 'token'],
+            'except' => ['index', 'token', 'validation', 'create'],
             'authMethods' => [
                 HttpBasicAuth::className(),
                 HttpBearerAuth::className(),
@@ -51,7 +51,7 @@ class UsersController extends ActiveController
      */
     private function auth($username, $password){
         $user = User::findByUsername($username);
-        if($user && $user->validatePassword($password)){
+        if($user && $user->status == User::STATUS_ACTIVE && $user->validatePassword($password)){
             return $user;
         }
     }
@@ -122,6 +122,7 @@ class UsersController extends ActiveController
 
             if ($model->signup()) {
                 Yii::$app->response->statusCode = 201;
+
                 return \backend\modules\api\models\User::findByUsername($model->username);
             }
             else {

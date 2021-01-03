@@ -68,7 +68,7 @@ class User extends \yii\db\ActiveRecord implements IdentityInterface
     public function rules()
     {
         return [
-            [['firstName', 'lastName', 'email', 'nif', 'username', 'auth_key', 'password_hash', 'created_at', 'updated_at'], 'required'],
+            [['firstName', 'lastName', 'email', 'nif', 'username', 'auth_key', 'password_hash'], 'required'],
             [['status', 'created_at', 'updated_at', 'address_id'], 'integer'],
             [['firstName', 'lastName'], 'string', 'max' => 45],
             [['email'], 'string', 'max' => 64],
@@ -80,7 +80,7 @@ class User extends \yii\db\ActiveRecord implements IdentityInterface
             [['username'], 'unique'],
             [['password_reset_token'], 'unique'],
             [['address_id'], 'exist', 'skipOnError' => true, 'targetClass' => Address::className(), 'targetAttribute' => ['address_id' => 'id']],
-            ['status', 'default', 'value' => self::STATUS_ACTIVE],
+            ['status', 'default', 'value' => self::STATUS_INACTIVE],
             ['status', 'in', 'range' => [self::STATUS_ACTIVE, self::STATUS_INACTIVE, self::STATUS_DELETED]],
         ];
     }
@@ -174,7 +174,7 @@ class User extends \yii\db\ActiveRecord implements IdentityInterface
      */
     public static function findByUsername($username)
     {
-        return static::findOne(['username' => $username, 'status' => self::STATUS_ACTIVE]);
+        return static::findOne(['username' => $username]);
     }
 
     /**
