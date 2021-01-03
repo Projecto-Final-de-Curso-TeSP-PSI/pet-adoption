@@ -1,39 +1,67 @@
 <?php
 
+use yii\grid\GridView;
 use yii\helpers\Html;
-use yii\widgets\DetailView;
+use yii\helpers\Url;
 
 /* @var $this yii\web\View */
 /* @var $model common\models\AdoptionAnimal */
+/* @var $dataProvider */
+/* @var $searchModel */
 
-$this->title = $model->id;
-$this->params['breadcrumbs'][] = ['label' => 'Adoption Animals', 'url' => ['index']];
-$this->params['breadcrumbs'][] = $this->title;
+$this->title = $model->animal->name;
 \yii\web\YiiAsset::register($this);
 ?>
-<div class="adoption-animal-view">
 
-    <h1><?= Html::encode($this->title) ?></h1>
-
-    <p>
-        <?= Html::a('Update', ['update', 'id' => $model->id], ['class' => 'btn btn-primary']) ?>
-        <?= Html::a('Delete', ['delete', 'id' => $model->id], [
-            'class' => 'btn btn-danger',
-            'data' => [
-                'confirm' => 'Are you sure you want to delete this item?',
-                'method' => 'post',
-            ],
-        ]) ?>
-    </p>
-
-    <?= DetailView::widget([
-        'model' => $model,
-        'attributes' => [
-            'id',
-            'is_on_fat:boolean',
-            'organization_id',
-            'associated_user_id',
-        ],
-    ]) ?>
-
+<div class="container">
+    <div class="card mb-30 divTab">
+        <div class="card-body">
+            <h2 class="title"><?= 'Pedidos de adoção para '.$this->title ?></h2>
+            <?= Html::img('@images/'. $model->animal->photos[0]->name . '.jpg',  ['alt' => 'Card Image', 'class' => 'card-img radius-0 image-animal-grid']);?>
+            <?= GridView::widget([
+                'dataProvider' => $dataProvider,
+                'columns' => [
+                    'id',
+                    'adopter.fullName',
+                    'motivation',
+                    [
+                        'header' => 'Ações',
+                        'class' => 'yii\grid\ActionColumn',
+                        'template' => '{approve} {reject}',
+                        'buttons' => [
+                            'approve' => function($url, $model, $key) {     // render your custom button
+                                return  Html::a('Aprovar',
+                                    Url::toRoute([
+                                        'adoption/accept-adoption-request',
+                                        'id' => Html::encode($key),
+                                        'animal_id' => $model->adoptedAnimal->id
+                                    ]),
+                                    [
+                                        'class' => 'btn btn-success',
+                                        'title' => 'Aprovar este pedido de adoção',
+                                    ]
+                                );
+                            },
+                            'reject' => function($url, $model, $key) {     // render your custom button
+                                return Html::a('Rejeitar',
+                                    Url::toRoute([
+                                        'adoption/delete',
+                                        'id' => Html::encode($key),
+                                        'animal_id' => $model->adoptedAnimal->id
+                                    ]),
+                                    [
+                                        'class' => 'btn btn-danger',
+                                        'title' => 'Rejeitar este pedido de adopção',
+                                        'data' => [
+                                            'method' => 'post',
+                                        ],
+                                    ]
+                                );
+                            },
+                        ],
+                    ],
+                ],
+            ]); ?>
+        </div>
+    </div>
 </div>

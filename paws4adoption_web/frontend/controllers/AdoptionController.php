@@ -96,7 +96,7 @@ class AdoptionController extends Controller
         $adopter = User::findOne(['id' => $adopterId]);
         $model->adopter_id = $adopterId;
         $model->adopted_animal_id = $id;
-        $model->adoption_date = date("Y-m-d");
+//        $model->adoption_date = date("Y-m-d");
         $model->type = $type;
 
 
@@ -151,11 +151,17 @@ class AdoptionController extends Controller
      * @return mixed
      * @throws NotFoundHttpException if the model cannot be found
      */
-    public function actionDelete($id)
+    public function actionDelete($id, $animal_id)
     {
         $this->findModel($id)->delete();
 
-        return $this->redirect(['index']);
+        $count = count(self::getAdoptionRequestsByAnimal($animal_id));
+
+        if ($count > 0){
+            return $this->redirect(['adoption-animal/view?id='.$animal_id]);
+        }
+
+        return $this->redirect(['adoption-animal/my-org-adoption-animals']);
     }
 
     /**
@@ -214,8 +220,23 @@ class AdoptionController extends Controller
 
     public static function getAdoptionRequestsByAnimal($id)
     {
-        return count(Adoption::find()
+        return Adoption::find()
             ->where(['adopted_animal_id' => $id, 'adoption_date' => null])
-            ->all());
+            ->all();
+    }
+
+    public function actionAcceptAdoptionRequest($id, $animal_id){
+
+        $adoptedAnimal = $this->findModel($id);
+        $adoptedAnimal->adoption_date = date("Y-m-d");
+        $adoptedAnimal->save();
+
+        $rejectedAdoptionRequests = self::getAdoptionRequestsByAnimal($animal_id);
+
+        foreach ($rejectedAdoptionRequests as $rejectedAdoptionRequest){
+            $rejectedAdoptionRequest->delete();
+        }
+
+        return $this->redirect(['adoption-animal/my-org-adoption-animals']);
     }
 }
