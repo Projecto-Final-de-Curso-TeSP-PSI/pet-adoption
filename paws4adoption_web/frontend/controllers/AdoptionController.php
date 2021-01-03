@@ -151,11 +151,17 @@ class AdoptionController extends Controller
      * @return mixed
      * @throws NotFoundHttpException if the model cannot be found
      */
-    public function actionDelete($id)
+    public function actionDelete($id, $animal_id)
     {
         $this->findModel($id)->delete();
 
-        return $this->redirect(['index']);
+        $count = count(self::getAdoptionRequestsByAnimal($animal_id));
+
+        if ($count > 0){
+            return $this->redirect(['adoption-animal/view?id='.$animal_id]);
+        }
+
+        return $this->redirect(['adoption-animal/my-org-adoption-animals']);
     }
 
     /**
