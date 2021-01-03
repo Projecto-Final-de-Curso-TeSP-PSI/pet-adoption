@@ -51,9 +51,12 @@ class SignupAPI extends \frontend\models\SignupForm
         $userAddress->district_id = $this->district_id;
         $userAddress->save();
 
+        
         $user->address_id = $userAddress->id;
 
-        if($user->save(false)){
+
+
+        if($user->save()){
             // atribuição do papel de user por default a todos os utilizadores registados
             $auth = Yii::$app->getAuthManager();
             $userRole = $auth->getRole('user');
