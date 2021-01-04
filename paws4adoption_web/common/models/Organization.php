@@ -69,7 +69,8 @@ class Organization extends \yii\db\ActiveRecord
             'status' => 'Estado',
             'address' => 'Morada',
             'founder_id' => 'Founder id',
-            'founder' => 'Fundador'
+            'founder' => 'Fundador',
+            'city' => 'Cidade'
         ];
     }
 
@@ -134,6 +135,14 @@ class Organization extends \yii\db\ActiveRecord
      * Overrides static method find, and sets that OrganizationQuery.php add's querying methods
      * @return OrganizationQuery|\yii\db\ActiveQuery
      */
+
+    /**
+     * Get's the city of the organization
+     * @return string|null
+     */
+    public function getCity(){
+        return $this->address->city;
+    }
 
     /**
      * Override to the ActiveRecord find() static function,

@@ -24,6 +24,8 @@ use yii\data\ActiveDataProvider;
 use yii\db\Exception;
 use yii\filters\AccessControl;
 use yii\helpers\ArrayHelper;
+use yii\helpers\Html;
+use yii\web\BadRequestHttpException;
 use yii\web\Controller;
 use yii\web\ForbiddenHttpException;
 use yii\web\NotFoundHttpException;
@@ -46,12 +48,17 @@ class OrganizationController extends Controller
                 'only' => ['create', 'update', 'delete', 'associate-manage'],
                 'rules' => [
                     [
+                        'actions' => ['associate-manage', 'associate-remove', 'associate-add'],
+                        'allow' => true,
+                        'roles' => ['@'],
+                    ],
+                    [
                         'actions' => ['create'],
                         'allow' => true,
                         'roles' => ['createOrganizationRequest'],
                     ],
                     [
-                        'actions' => ['update', 'delete', 'associate-manage'],
+                        'actions' => ['update', 'delete'],
                         'allow' => true,
                         'roles' => ['manageOrganization'],
                         'roleParams' => ['organization_id' => Yii::$app->request->get('id')],
@@ -341,21 +348,28 @@ class OrganizationController extends Controller
      * @param $id
      * @return string
      */
-    public function actionAssociateManage($id){
+    public function actionAssociateManage(){
+
+        //Verify if user has associatedUser relation, therefore also as an organization assigned
+        $user = AssociatedUser::findOne(Yii::$app->user->id);
+        if($user == null)
+            throw new ForbiddenHttpException("Não está associado a nenhuma organização");
+
         $searchModel = new UserSearch;
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
+        //Query's all users of the same organization of the logged user
         $query = User::find()
             ->andOnCondition(['status' => User::STATUS_ACTIVE])
             ->joinWith('associatedUser')
-            ->andWhere(['organization_id' => $id])
+            ->andWhere(['organization_id' => $user->organization_id])
             ->andWhere(['isActive' => true]);
 
         //custom data provider
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
             'pagination' => [
-                'pageSize' => 10,
+                'pageSize' => 1,
             ],
             'sort' => [
                 'defaultOrder' => [
@@ -382,10 +396,13 @@ class OrganizationController extends Controller
      */
     public function actionAssociateRemove($id){
 
-//        var_dump('no associate-remove');
+        //Verify if user has associatedUser relation, therefore also as an organization assigned
+        $user = AssociatedUser::findOne(Yii::$app->user->id);
+        if($user == null)
+            throw new ForbiddenHttpException("Não está associado a nenhuma organização");
 
         if(!Yii::$app->user->can('manageOrganization',  ['organization_id' => AssociatedUser::findOne($id)->organization_id]))
-            throw new ForbiddenHttpException("Como admin, não tem uma organização associada");
+            throw new ForbiddenHttpException("Não tem uma organização associada");
 
         $organization_id = AssociatedUser::getOrgIdByUserId($id);
 
@@ -395,10 +412,8 @@ class OrganizationController extends Controller
         else{
             Yii::$app->session->setFlash('Error', "Erro ao remover user da associação!");
         }
-
-        return $this->redirect((['organization/associate-manage', 'id' => $organization_id]));
+        return $this->redirect(['organization/associate-manage']);
 
     }
-
 
 }
