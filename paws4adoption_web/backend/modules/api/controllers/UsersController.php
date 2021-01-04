@@ -20,8 +20,6 @@ use yii\web\ForbiddenHttpException;
 use yii\web\NotFoundHttpException;
 use yii\web\UnauthorizedHttpException;
 
-//TODO: Implement authorization requirements
-
 /**
  * Default controller for the `api` module
  */
@@ -34,7 +32,7 @@ class UsersController extends ActiveController
         $behaviors =  parent::behaviors();
         $behaviors['authenticator'] = [
             'class' => CompositeAuth::className(),
-            'except' => ['index', 'token', 'validation', 'create'],
+            'except' => ['token', 'validation', 'create'],
             'authMethods' => [
                 HttpBasicAuth::className(),
                 HttpBearerAuth::className(),
