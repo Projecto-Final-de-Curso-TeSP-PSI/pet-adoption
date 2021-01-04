@@ -32,10 +32,11 @@ class SignupCest
         $I->fillField('SignupForm[username]', 'catarina.cardoso');
         $I->fillField('SignupForm[email]', 'catarina.cardoso@trigenius.pt');
         $I->fillField('SignupForm[password]', 'Porto123#');
-        $I->click(Locator::find('button', ['type' => 'submit']));
+        $I->click(Locator::find('button', ['name' => 'login-button']));
 
+        $I->wait(2);
         $I->seeInCurrentUrl('/');
-        $I->seeInDatabase('users', ['username' => 'ricardo.lopes', 'email' => 'ricardo.lopes@trigenius.pt']);
+        $I->seeInDatabase('users', ['username' => 'catarina.cardoso', 'email' => 'catarina.cardoso@trigenius.pt']);
 
     }
 }

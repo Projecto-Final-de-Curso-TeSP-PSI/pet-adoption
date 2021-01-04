@@ -32,7 +32,7 @@ class LoginCest
         $I->fillField('LoginForm[password]', 'Sporting');
         $I->click('login-button');
 
-        $I->wait(1);
-        $I->see('Simão Pedro');
+        $I->wait(2);
+        $I->see('Simão Pedro', Locator::find('span', ['class' => 'name']));
     }
 }

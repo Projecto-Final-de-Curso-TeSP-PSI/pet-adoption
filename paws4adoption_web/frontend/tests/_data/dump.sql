@@ -1,8 +1,8 @@
--- MySQL dump 10.13  Distrib 8.0.22, for macos10.15 (x86_64)
+-- MySQL dump 10.13  Distrib 8.0.22, for Win64 (x86_64)
 --
--- Host: 127.0.0.1    Database: paws4adoption
+-- Host: localhost    Database: paws4adoption
 -- ------------------------------------------------------
--- Server version	5.7.30
+-- Server version	8.0.18
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
@@ -34,7 +34,7 @@ CREATE TABLE `address` (
   PRIMARY KEY (`id`),
   KEY `fk_district_id_idx` (`district_id`),
   CONSTRAINT `fk_district_id` FOREIGN KEY (`district_id`) REFERENCES `districts` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=33 DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB AUTO_INCREMENT=33 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -45,30 +45,6 @@ LOCK TABLES `address` WRITE;
 /*!40000 ALTER TABLE `address` DISABLE KEYS */;
 INSERT INTO `address` VALUES (1,'Rua da Escola','7','2.º drt',2400,102,'Leiria',10),(2,'Av. da Liberdade','10A','4.º esq',1059,765,'Lisboa',11),(3,'Praceta D. João Pereira','56',NULL,3025,22,'Coimbra',6),(4,'Bairro 1.º de Maio','25',NULL,2140,57,'Chamusca',14),(5,'Estrada de Fátima','107',NULL,2395,1,'Minde',14),(6,'Estrada do Caldeirão','8','1.º frt',9980,33,'Corvo',29),(7,'Rua General Humberto Delgado','20','3-º esq',2555,100,'Entroncamento',14),(8,'Avenida Santa Joana Princesa','15A',NULL,2566,526,'Lisboa',11),(9,'Rua de Quintãs','294',NULL,2654,111,'Penafiel',13),(10,'Rua da Carreira','56','6º drt',1500,159,'Braga',3),(11,'Rua Castanheiros','26','2º drt',2565,154,'Mirandela',4),(12,'Rua Marques Pombal','53','3º esq',2410,121,'Leiria',10),(13,'Rua Alferes Veiga Pestana','10',NULL,9270,129,'Ribeira Funda',19),(14,'Rua Cruzes','48',NULL,4750,462,'Santo Amaro',3),(15,'R Doutor Alberto Sampaio','28','3º drt',4820,145,'Fafe',3),(16,'Rua Nossa Senhora de Fatima','33',NULL,3400,149,'Oliveira do Hospital',6),(17,'Rua do Casal','100',NULL,2410,68,'Leiria',10),(18,'Rua de Santa Isabel','7','4º esq',2450,125,'Fatima',10),(19,'Rua da Chamusca','5',NULL,5244,54,'Chamusca',14),(20,'Avenida Luis Bívar','85','',1050,243,'Lisboa',11),(21,'Rua de Pombal','21',NULL,2458,548,'Pombal',10),(22,'Rua de Coimbra','5','2º drt',3000,256,'Coimbra',6),(23,'Rua da Malaposta','7',NULL,2410,45,'Cruz da Areia',10),(24,'Travessa da Figueira','8',NULL,2400,325,'Leiria',10),(25,'Rua da Quintas','75',NULL,3025,284,'Condeixa',6),(26,'Rua Dr. Armando Gameiro','67','',2140,385,'Chamusca',14),(27,'Av. 24 de Julho','379','R\\c esq',1004,108,'Lisboa',11),(30,'Rua da Alvorada','60','',3801,551,'Eixo',1),(31,'Rua da Alvorada','60','',3801,551,'Eixo',1),(32,'Rua Trabalhadores do Comércio','17','3.º Frt',2070,57,'Cartaxo',14);
 /*!40000 ALTER TABLE `address` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
--- Table structure for table `admin_users`
---
-
-DROP TABLE IF EXISTS `admin_users`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE `admin_users` (
-  `id` int(10) unsigned NOT NULL,
-  PRIMARY KEY (`id`),
-  CONSTRAINT `fk_admin_user_id` FOREIGN KEY (`id`) REFERENCES `users` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `admin_users`
---
-
-LOCK TABLES `admin_users` WRITE;
-/*!40000 ALTER TABLE `admin_users` DISABLE KEYS */;
-INSERT INTO `admin_users` VALUES (1),(2);
-/*!40000 ALTER TABLE `admin_users` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -89,7 +65,7 @@ CREATE TABLE `adoption_animals` (
   CONSTRAINT `fk_adopt_animal_id` FOREIGN KEY (`id`) REFERENCES `animals` (`id`),
   CONSTRAINT `fk_associated_user_id` FOREIGN KEY (`associated_user_id`) REFERENCES `associated_users` (`id`),
   CONSTRAINT `fk_organization_id` FOREIGN KEY (`organization_id`) REFERENCES `organizations` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -115,12 +91,13 @@ CREATE TABLE `adoptions` (
   `adoption_date` date DEFAULT NULL,
   `adopted_animal_id` int(10) unsigned NOT NULL,
   `adopter_id` int(10) unsigned NOT NULL,
+  `type` enum('adoption','fat') NOT NULL,
   PRIMARY KEY (`id`),
   KEY `fk_adopter_id_idx` (`adopter_id`),
   KEY `fk_adoption_animal_id` (`adopted_animal_id`),
   CONSTRAINT `fk_adopter_id` FOREIGN KEY (`adopter_id`) REFERENCES `users` (`id`),
   CONSTRAINT `fk_adoption_animal_id` FOREIGN KEY (`adopted_animal_id`) REFERENCES `adoption_animals` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -129,7 +106,7 @@ CREATE TABLE `adoptions` (
 
 LOCK TABLES `adoptions` WRITE;
 /*!40000 ALTER TABLE `adoptions` DISABLE KEYS */;
-INSERT INTO `adoptions` VALUES (1,'Gostaria de adotar este cão, tenho muito espaço no quintal.',NULL,9,17),(2,'O meu tareco faleceu há um tempo, e gostaria de ter outro gato em casa, o Limão parece-me oser o gato ideal.',NULL,4,18),(3,'Gostei muito do Esdrubal, como posso fazer para o adotar?.','2020-09-15',14,16),(4,'Gostaria de acolher temporariamente a Mason, como faço?','2020-09-03',12,15);
+INSERT INTO `adoptions` VALUES (1,'Gostaria de adotar este cão, tenho muito espaço no quintal.',NULL,9,17,'adoption'),(2,'O meu tareco faleceu há um tempo, e gostaria de ter outro gato em casa, o Limão parece-me oser o gato ideal.',NULL,4,18,'adoption'),(3,'Gostei muito do Esdrubal, como posso fazer para o adotar?.','2020-09-15',14,16,'adoption'),(4,'Gostaria de acolher temporariamente a Mason, como faço?','2020-09-03',12,15,'adoption');
 /*!40000 ALTER TABLE `adoptions` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -160,7 +137,7 @@ CREATE TABLE `animals` (
   CONSTRAINT `fk_fur_length_id` FOREIGN KEY (`fur_length_id`) REFERENCES `fur_lengths` (`id`),
   CONSTRAINT `fk_nature_id` FOREIGN KEY (`nature_id`) REFERENCES `nature` (`id`),
   CONSTRAINT `fk_size_id` FOREIGN KEY (`size_id`) REFERENCES `sizes` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=35 DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB AUTO_INCREMENT=21 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -187,7 +164,7 @@ CREATE TABLE `associated_users` (
   PRIMARY KEY (`id`),
   KEY `associated_fk_org_id_idx` (`organization_id`),
   CONSTRAINT `fk_assoc_user_id` FOREIGN KEY (`id`) REFERENCES `users` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -223,7 +200,7 @@ CREATE TABLE `auth_assignment` (
 
 LOCK TABLES `auth_assignment` WRITE;
 /*!40000 ALTER TABLE `auth_assignment` DISABLE KEYS */;
-INSERT INTO `auth_assignment` VALUES ('admin','1',1607911303),('admin','2',1607911303),('associatedUser','3',1607911303),('associatedUser','4',1607911303),('associatedUser','5',1607911303),('associatedUser','6',1607911303),('associatedUser','7',1607911303),('associatedUser','8',1607911303),('user','10',1607911303),('user','11',1607911303),('user','12',1607911303),('user','13',1607911303),('user','14',1607911303),('user','15',1607911303),('user','16',1607911303),('user','17',1607911303),('user','18',1607911303),('user','19',1607911303),('user','20',1607911303),('user','9',1607911303);
+INSERT INTO `auth_assignment` VALUES ('admin','1',1609619367),('admin','2',1609619367),('associatedUser','3',1609619367),('associatedUser','4',1609619367),('associatedUser','5',1609619367),('associatedUser','6',1609619367),('associatedUser','7',1609619367),('associatedUser','8',1609619367),('user','10',1609619367),('user','11',1609619367),('user','12',1609619367),('user','13',1609619367),('user','14',1609619367),('user','15',1609619367),('user','16',1609619367),('user','17',1609619367),('user','18',1609619367),('user','19',1609619367),('user','20',1609619367),('user','3',1609619367),('user','4',1609619367),('user','5',1609619367),('user','6',1609619367),('user','7',1609619367),('user','8',1609619367),('user','9',1609619367);
 /*!40000 ALTER TABLE `auth_assignment` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -255,7 +232,7 @@ CREATE TABLE `auth_item` (
 
 LOCK TABLES `auth_item` WRITE;
 /*!40000 ALTER TABLE `auth_item` DISABLE KEYS */;
-INSERT INTO `auth_item` VALUES ('admin',1,NULL,NULL,NULL,1607911302,1607911302),('associatedUser',1,NULL,NULL,NULL,1607911302,1607911302),('createAdoptionAnimal',2,'Create Adoption Animal',NULL,NULL,1607911302,1607911302),('createAdoptionRequest',2,'Create adoption Request',NULL,NULL,1607911302,1607911302),('createFoundAnimal',2,'Create Found Animal',NULL,NULL,1607911302,1607911302),('createMissingAnimal',2,'Create a Missing Animal',NULL,NULL,1607911302,1607911302),('createOrganizationRequest',2,'Create an Organization',NULL,NULL,1607911302,1607911302),('manageAdoption',2,'Manage all the actions on the organization it belongs.',NULL,NULL,1607911302,1607911302),('manageAdoptionAnimal',2,'Manage Adoption Animal',NULL,NULL,1607911302,1607911302),('manageFoundAnimal',2,'Manage Found Animal',NULL,NULL,1607911302,1607911302),('manageMissingAnimal',2,'Manage a Missing Animal',NULL,NULL,1607911302,1607911302),('manageOrganization',2,'Manage all the actions over the organization',NULL,NULL,1607911302,1607911302),('manageOrganizationRequest',2,'Manage all the actions over the organization it belongs.',NULL,NULL,1607911302,1607911302),('manageOwnFoundAnimal',2,'Manage own Found Animal','isPublisherUser',NULL,1607911302,1607911302),('manageOwnMissingAnimal',2,'Manage own Missing Animal','isPublisherUser',NULL,1607911302,1607911302),('manageOwnOrgAdoption',2,'Manage all the actions over the adoptions of the organization it belongs.','isOrganizationAssociatedUser',NULL,1607911302,1607911302),('manageOwnOrgAdoptionAnimal',2,'Manage Adoption Animal on the organization it belongs','isOrganizationAssociatedUser',NULL,1607911302,1607911302),('manageOwnOrgOrganization',2,'Manage all the actions over the organization it belongs.','isOrganizationAssociatedUser',NULL,1607911302,1607911302),('manageOwnUser',2,'Manage own user','isUser',NULL,1607911302,1607911302),('manageUser',2,'Manage user',NULL,NULL,1607911302,1607911302),('user',1,NULL,NULL,NULL,1607911302,1607911302);
+INSERT INTO `auth_item` VALUES ('admin',1,NULL,NULL,NULL,1609619367,1609619367),('associatedUser',1,NULL,NULL,NULL,1609619367,1609619367),('createAdoptionAnimal',2,'Create Adoption Animal',NULL,NULL,1609619366,1609619366),('createAdoptionRequest',2,'Create adoption Request',NULL,NULL,1609619366,1609619366),('createFoundAnimal',2,'Create Found Animal',NULL,NULL,1609619366,1609619366),('createMissingAnimal',2,'Create a Missing Animal',NULL,NULL,1609619366,1609619366),('createOrganizationRequest',2,'Create an Organization',NULL,NULL,1609619366,1609619366),('manageAdoption',2,'Manage all the actions on the organization it belongs.',NULL,NULL,1609619366,1609619366),('manageAdoptionAnimal',2,'Manage Adoption Animal',NULL,NULL,1609619366,1609619366),('manageFoundAnimal',2,'Manage Found Animal',NULL,NULL,1609619366,1609619366),('manageMissingAnimal',2,'Manage a Missing Animal',NULL,NULL,1609619366,1609619366),('manageOrganization',2,'Manage all the actions over the organization',NULL,NULL,1609619366,1609619366),('manageOwnFoundAnimal',2,'Manage own Found Animal','isPublisherUser',NULL,1609619366,1609619366),('manageOwnMissingAnimal',2,'Manage own Missing Animal','isPublisherUser',NULL,1609619366,1609619366),('manageOwnOrgAdoption',2,'Manage all the actions over the adoptions of the organization it belongs.','isOrganizationAssociatedUser',NULL,1609619366,1609619366),('manageOwnOrgAdoptionAnimal',2,'Manage Adoption Animal on the organization it belongs','isOrganizationAssociatedUser',NULL,1609619366,1609619366),('manageOwnOrgOrganization',2,'Manage all the actions over the organization it belongs.','isOrganizationAssociatedUser',NULL,1609619366,1609619366),('manageOwnUser',2,'Manage own user','isUser',NULL,1609619366,1609619366),('manageUser',2,'Manage user',NULL,NULL,1609619366,1609619366),('user',1,NULL,NULL,NULL,1609619366,1609619366);
 /*!40000 ALTER TABLE `auth_item` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -282,7 +259,7 @@ CREATE TABLE `auth_item_child` (
 
 LOCK TABLES `auth_item_child` WRITE;
 /*!40000 ALTER TABLE `auth_item_child` DISABLE KEYS */;
-INSERT INTO `auth_item_child` VALUES ('admin','associatedUser'),('associatedUser','createAdoptionAnimal'),('user','createAdoptionRequest'),('user','createFoundAnimal'),('user','createMissingAnimal'),('user','createOrganizationRequest'),('admin','manageAdoption'),('manageOwnOrgAdoption','manageAdoption'),('manageOwnOrgAdoptionAnimal','manageAdoptionAnimal'),('admin','manageFoundAnimal'),('manageOwnFoundAnimal','manageFoundAnimal'),('admin','manageMissingAnimal'),('manageOwnMissingAnimal','manageMissingAnimal'),('admin','manageOrganization'),('manageOrganizationRequest','manageOrganization'),('associatedUser','manageOrganizationRequest'),('user','manageOwnFoundAnimal'),('user','manageOwnMissingAnimal'),('associatedUser','manageOwnOrgAdoption'),('associatedUser','manageOwnOrgAdoptionAnimal'),('user','manageOwnUser'),('admin','manageUser'),('manageOwnUser','manageUser'),('associatedUser','user');
+INSERT INTO `auth_item_child` VALUES ('admin','associatedUser'),('associatedUser','createAdoptionAnimal'),('user','createAdoptionRequest'),('user','createFoundAnimal'),('user','createMissingAnimal'),('user','createOrganizationRequest'),('admin','manageAdoption'),('manageOwnOrgAdoption','manageAdoption'),('admin','manageAdoptionAnimal'),('manageOwnOrgAdoptionAnimal','manageAdoptionAnimal'),('admin','manageFoundAnimal'),('manageOwnFoundAnimal','manageFoundAnimal'),('admin','manageMissingAnimal'),('manageOwnMissingAnimal','manageMissingAnimal'),('admin','manageOrganization'),('manageOwnOrgOrganization','manageOrganization'),('user','manageOwnFoundAnimal'),('user','manageOwnMissingAnimal'),('associatedUser','manageOwnOrgAdoption'),('associatedUser','manageOwnOrgAdoptionAnimal'),('associatedUser','manageOwnOrgOrganization'),('user','manageOwnUser'),('admin','manageUser'),('manageOwnUser','manageUser'),('admin','user');
 /*!40000 ALTER TABLE `auth_item_child` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -308,7 +285,7 @@ CREATE TABLE `auth_rule` (
 
 LOCK TABLES `auth_rule` WRITE;
 /*!40000 ALTER TABLE `auth_rule` DISABLE KEYS */;
-INSERT INTO `auth_rule` VALUES ('isOrganizationAssociatedUser',_binary 'O:42:\"common\\rbac\\OrganizationAssociatedUserRule\":3:{s:4:\"name\";s:28:\"isOrganizationAssociatedUser\";s:9:\"createdAt\";i:1607911302;s:9:\"updatedAt\";i:1607911302;}',1607911302,1607911302),('isPublisherUser',_binary 'O:29:\"common\\rbac\\PublisherUserRule\":3:{s:4:\"name\";s:15:\"isPublisherUser\";s:9:\"createdAt\";i:1607911302;s:9:\"updatedAt\";i:1607911302;}',1607911302,1607911302),('isUser',_binary 'O:20:\"common\\rbac\\UserRule\":3:{s:4:\"name\";s:6:\"isUser\";s:9:\"createdAt\";i:1607911302;s:9:\"updatedAt\";i:1607911302;}',1607911302,1607911302);
+INSERT INTO `auth_rule` VALUES ('isOrganizationAssociatedUser',_binary 'O:42:\"common\\rbac\\OrganizationAssociatedUserRule\":3:{s:4:\"name\";s:28:\"isOrganizationAssociatedUser\";s:9:\"createdAt\";i:1609619366;s:9:\"updatedAt\";i:1609619366;}',1609619366,1609619366),('isPublisherUser',_binary 'O:29:\"common\\rbac\\PublisherUserRule\":3:{s:4:\"name\";s:15:\"isPublisherUser\";s:9:\"createdAt\";i:1609619366;s:9:\"updatedAt\";i:1609619366;}',1609619366,1609619366),('isUser',_binary 'O:20:\"common\\rbac\\UserRule\":3:{s:4:\"name\";s:6:\"isUser\";s:9:\"createdAt\";i:1609619366;s:9:\"updatedAt\";i:1609619366;}',1609619366,1609619366);
 /*!40000 ALTER TABLE `auth_rule` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -323,7 +300,7 @@ CREATE TABLE `districts` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `name` varchar(45) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=30 DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB AUTO_INCREMENT=30 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -345,16 +322,18 @@ DROP TABLE IF EXISTS `found_animals`;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `found_animals` (
   `id` int(10) unsigned NOT NULL,
-  `location` varchar(45) DEFAULT NULL,
-  `is_active` bit(1) DEFAULT NULL,
+  `location_id` int(10) unsigned NOT NULL,
+  `is_active` bit(1) NOT NULL,
   `found_date` date DEFAULT NULL,
-  `priority` enum('Alta','Media','Baixa','Por classificar') DEFAULT NULL,
+  `priority` enum('Alta','Media','Baixa','Por classificar') NOT NULL DEFAULT 'Por classificar',
   `user_id` int(10) unsigned NOT NULL,
   PRIMARY KEY (`id`),
   KEY `fk_user_id_idx` (`user_id`),
+  KEY `fk_location_id_idx` (`location_id`),
   CONSTRAINT `fk_animal_id` FOREIGN KEY (`id`) REFERENCES `animals` (`id`),
+  CONSTRAINT `fk_location_id` FOREIGN KEY (`location_id`) REFERENCES `address` (`id`),
   CONSTRAINT `fk_user_id` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -363,7 +342,7 @@ CREATE TABLE `found_animals` (
 
 LOCK TABLES `found_animals` WRITE;
 /*!40000 ALTER TABLE `found_animals` DISABLE KEYS */;
-INSERT INTO `found_animals` VALUES (6,'1',_binary '','2020-06-04','Baixa',9),(13,'1',_binary '','2020-06-04','Baixa',10),(19,'1',_binary '','2020-06-04','Baixa',11);
+INSERT INTO `found_animals` VALUES (6,1,_binary '','2020-06-04','Baixa',9),(13,1,_binary '','2020-06-04','Baixa',10),(19,1,_binary '','2020-06-04','Baixa',11);
 /*!40000 ALTER TABLE `found_animals` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -378,7 +357,7 @@ CREATE TABLE `fur_colors` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `fur_color` varchar(45) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -402,7 +381,7 @@ CREATE TABLE `fur_lengths` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `fur_length` varchar(45) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -426,7 +405,7 @@ CREATE TABLE `migration` (
   `version` varchar(180) NOT NULL,
   `apply_time` int(11) DEFAULT NULL,
   PRIMARY KEY (`version`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -435,7 +414,7 @@ CREATE TABLE `migration` (
 
 LOCK TABLES `migration` WRITE;
 /*!40000 ALTER TABLE `migration` DISABLE KEYS */;
-INSERT INTO `migration` VALUES ('m000000_000000_base',1607911295),('m130524_201442_init',1607911295),('m190124_110200_add_verification_token_column_to_user_table',1607911295),('m140506_102106_rbac_init',1607911298),('m170907_052038_rbac_add_index_on_auth_assignment_user_id',1607911298),('m180523_151638_rbac_updates_indexes_without_prefix',1607911298),('m200409_110543_rbac_update_mssql_trigger',1607911298);
+INSERT INTO `migration` VALUES ('m000000_000000_base',1609619163),('m130524_201442_init',1609619177),('m190124_110200_add_verification_token_column_to_user_table',1609619177),('m140506_102106_rbac_init',1609619215),('m170907_052038_rbac_add_index_on_auth_assignment_user_id',1609619215),('m180523_151638_rbac_updates_indexes_without_prefix',1609619216),('m200409_110543_rbac_update_mssql_trigger',1609619216);
 /*!40000 ALTER TABLE `migration` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -455,7 +434,7 @@ CREATE TABLE `missing_animals` (
   KEY `fk_owner_id_idx` (`owner_id`),
   CONSTRAINT `fk_missing_animal_id` FOREIGN KEY (`id`) REFERENCES `animals` (`id`),
   CONSTRAINT `fk_owner_id` FOREIGN KEY (`owner_id`) REFERENCES `users` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -480,7 +459,7 @@ CREATE TABLE `nature` (
   `parent_nature_id` int(10) unsigned DEFAULT NULL,
   `name` varchar(45) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=113 DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB AUTO_INCREMENT=113 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -504,14 +483,18 @@ CREATE TABLE `organizations` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `name` varchar(64) NOT NULL,
   `nif` varchar(9) NOT NULL,
-  `email` varchar(64) DEFAULT NULL,
-  `phone` varchar(9) DEFAULT NULL,
-  `address_id` int(10) unsigned DEFAULT NULL,
+  `email` varchar(64) NOT NULL,
+  `phone` varchar(9) NOT NULL,
+  `address_id` int(10) unsigned NOT NULL,
+  `founder_id` int(10) unsigned NOT NULL,
+  `status` int(10) unsigned NOT NULL DEFAULT '0',
   PRIMARY KEY (`id`),
-  UNIQUE KEY `nif_UNIQUE` (`nif`),
+  UNIQUE KEY `nif_UNIQUE` (`nif`) /*!80000 INVISIBLE */,
   KEY `fk_address_id_idx` (`address_id`),
-  CONSTRAINT `fk_address_id` FOREIGN KEY (`address_id`) REFERENCES `address` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8mb4;
+  KEY `founder_id` (`founder_id`),
+  CONSTRAINT `fk_address_id` FOREIGN KEY (`address_id`) REFERENCES `address` (`id`),
+  CONSTRAINT `organizations_ibfk_1` FOREIGN KEY (`founder_id`) REFERENCES `users` (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -520,7 +503,7 @@ CREATE TABLE `organizations` (
 
 LOCK TABLES `organizations` WRITE;
 /*!40000 ALTER TABLE `organizations` DISABLE KEYS */;
-INSERT INTO `organizations` VALUES (1,'Ajuda Animal','546235957','ajudaanimal@gmail.com','919305590',7),(2,'Gatos Urbanos','510709575','gatos.urbanos@gmail.com','915632562',23),(3,'Associação Zoófila de Leiria','532145265','azleiria.geral@gmail.com','913555456',24),(4,'Apaaf Associação','534426426','apaaf1@gmail.com','915420452',25),(5,'Associação Amigos dos Animais Chamusca','597234636','animaischamusca@hotmail.com','915344265',26),(6,'Associação Zoófila Portuguesa','537185687','info@azp.pt','217970810',27);
+INSERT INTO `organizations` VALUES (1,'Ajuda Animal','546235957','ajudaanimal@gmail.com','919305590',7,3,2),(2,'Gatos Urbanos','510709575','gatos.urbanos@gmail.com','915632562',23,4,1),(3,'Associação Zoófila de Leiria','532145265','azleiria.geral@gmail.com','913555456',24,5,1),(4,'Apaaf Associação','534426426','apaaf1@gmail.com','915420452',25,8,1),(5,'Associação Amigos dos Animais Chamusca','597234636','animaischamusca@hotmail.com','915344265',26,9,1),(6,'Associação Zoófila Portuguesa','537185687','info@azp.pt','217970810',27,19,0);
 /*!40000 ALTER TABLE `organizations` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -540,7 +523,7 @@ CREATE TABLE `photos` (
   PRIMARY KEY (`id`),
   KEY `photos_animals_id_fk` (`id_animal`),
   CONSTRAINT `photos_animals_id_fk` FOREIGN KEY (`id_animal`) REFERENCES `animals` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=40 DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB AUTO_INCREMENT=40 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -564,7 +547,7 @@ CREATE TABLE `sizes` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `size` varchar(45) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -586,10 +569,10 @@ DROP TABLE IF EXISTS `users`;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `users` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
-  `firstName` varchar(45) DEFAULT NULL,
-  `lastName` varchar(45) DEFAULT NULL,
+  `firstName` varchar(45) NOT NULL,
+  `lastName` varchar(45) NOT NULL,
   `email` varchar(64) NOT NULL,
-  `nif` varchar(9) DEFAULT NULL,
+  `nif` varchar(9) NOT NULL,
   `phone` varchar(9) DEFAULT NULL,
   `username` varchar(255) NOT NULL,
   `auth_key` varchar(32) NOT NULL,
@@ -605,10 +588,9 @@ CREATE TABLE `users` (
   UNIQUE KEY `username` (`username`),
   UNIQUE KEY `nif_UNIQUE` (`nif`),
   UNIQUE KEY `password_reset_token` (`password_reset_token`),
-  KEY `fk_address_id_idx` (`address_id`),
-  KEY `fk_user_address_id_idx` (`address_id`),
+  KEY `fk_user_address_id_idx` (`address_id`) /*!80000 INVISIBLE */,
   CONSTRAINT `fk_user_address_id` FOREIGN KEY (`address_id`) REFERENCES `address` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=27 DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB AUTO_INCREMENT=27 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -617,7 +599,7 @@ CREATE TABLE `users` (
 
 LOCK TABLES `users` WRITE;
 /*!40000 ALTER TABLE `users` DISABLE KEYS */;
-INSERT INTO `users` VALUES (1,'Simão','Pedro','simao.s.pedro@gmail.com','242218040','912345678','simaopedro','ozFqrgfw1RzFo-RJJUXCx9CI87lv5vDN','$2y$13$LOP/MFRXV/l6hF9ohY6CiuO.8yQCi//QGXq7rDrtBvFlCjJvW94tu',NULL,10,1605220994,1605220994,'t5AYTA0WgGx92sREwUOoJBqE4la2P2yt_1605220994',1),(2,'Cátia','Bessa','katyb@gm.pt','242319123','918765432','katy','EgIapFuHmRab0fz93bDuEm6kaCC2FkAM','$2y$13$LOP/MFRXV/l6hF9ohY6CiuO.8yQCi//QGXq7rDrtBvFlCjJvW94tu',NULL,10,1605224315,1605224315,'LvelSObJ7seAS_lCQEgtODzhg0dBJJRr_1605224315',2),(3,'Ricardo','Lopes','ricardolopes@gm.pt','242517987','963524871','ricardolopes','yI1GZZmscmpCNaxLLaKe6G7jM3CEL5gx','$2y$13$LOP/MFRXV/l6hF9ohY6CiuO.8yQCi//QGXq7rDrtBvFlCjJvW94tu',NULL,10,1605291218,1605291218,'3SYTOgQE_8A91wqGl7KGRS9MQ0HOh8ZP_1605291218',3),(4,'Cláudia','Valente','claudiavalente@gm.pt','252456839','933564712','claudiavalente','GWVzgG4hfNVyIeAn9M5n5iDMwjfG9dit','$2y$13$LOP/MFRXV/l6hF9ohY6CiuO.8yQCi//QGXq7rDrtBvFlCjJvW94tu',NULL,10,1605291387,1605291387,'TymcG-CiB4CS_811nBYJqrGdoDRiOEZv_1605291387',4),(5,'Martim','Gaspar','martimgaspar@gm.pt','252678934','928736451','martimgaspar','mJMoGHev31YDP8M3J3yXfJRjFDdhhQyN','$2y$13$LOP/MFRXV/l6hF9ohY6CiuO.8yQCi//QGXq7rDrtBvFlCjJvW94tu',NULL,10,1605295368,1605295368,'7YIOqMoSC_ArzHFlQy97Xyl90zdxj2Gp_1605295368',5),(6,'José','Miguel','zemigas@gm.pt','196783526','915463728','zemigas','w71yoafkeRfTeWZgDZGhY1mgxH3fdQEU','$2y$13$LOP/MFRXV/l6hF9ohY6CiuO.8yQCi//QGXq7rDrtBvFlCjJvW94tu',NULL,10,1605295493,1605295493,'ipBbZ01J0lr8wtoQdxJnYukQr8ckkg8q_1605295493',6),(8,'Rita','Alves','rita@gmail.com','123555658','917544885','rita','7rdixwM38038Z5xE-nyTCPPzaIWk7wtB','$2y$13$LOP/MFRXV/l6hF9ohY6CiuO.8yQCi//QGXq7rDrtBvFlCjJvW94tu',NULL,10,1605306410,1605306410,'E5FjYLglm4oK4iF9mXGtbR_zkOg-e5ns_1605306410',8),(9,'Joao','Mendes','joao@gmail.com','111555452','915583126','joao','6GsrKnJwEnEwHcsVhEuEbLvB6UZyVmfK','$2y$13$LOP/MFRXV/l6hF9ohY6CiuO.8yQCi//QGXq7rDrtBvFlCjJvW94tu',NULL,10,1605306887,1605306887,'_-If8lte1_aNFClUyb2znlb0FD_0SKv1_1605306887',9),(10,'Rafael','Gomes','rafael@ipl.com','186522447','915425664','rafael','FPa-bBvu9O6fi8VYoIA01-w5czTGwSR5','$2y$13$LOP/MFRXV/l6hF9ohY6CiuO.8yQCi//QGXq7rDrtBvFlCjJvW94tu',NULL,10,1605306920,1605306920,'xvdNNqDGyihDcLyblmFzhITh5jOszx8a_1605306920',10),(11,'Ana','Santos','ana@ipl.com','147525248','965546232','ana','qj4AkBZpVcAFj5donJQ-VgIcOolO5IKU','$2y$13$LOP/MFRXV/l6hF9ohY6CiuO.8yQCi//QGXq7rDrtBvFlCjJvW94tu',NULL,10,1605306941,1605306941,'FreHllJDkC66eup4plz9BcypvOA2Krr7_1605306941',11),(12,'Patricia','Alverca','patricia@ipl.com','146822454','965214653','patricia','hUMmy_-cb4hGriI5bUTQQVBIjS_Ug7Hq','$2y$13$LOP/MFRXV/l6hF9ohY6CiuO.8yQCi//QGXq7rDrtBvFlCjJvW94tu',NULL,10,1605306969,1605306969,'dFp9tmmyKF94DpGqlwF6GxrKglp9Wd6v_1605306969',12),(13,'Tania','Monteiro','tania@ipl.com','254127655','915852045','tania','ai9UHtObJk_PD6PSQPX_gD7SPFHVvj2b','$2y$13$LOP/MFRXV/l6hF9ohY6CiuO.8yQCi//QGXq7rDrtBvFlCjJvW94tu',NULL,10,1605306985,1605306985,'UPnxKzJST2JkgSAPX8bAuBPcOfl1zxbO_1605306985',13),(14,'Telmo','Jesus','telmo@ipl.com','268421455','934623455','telmo','jGWbLPFsklsEVgbFUukkUC7jYVjq4_hO','$2y$13$LOP/MFRXV/l6hF9ohY6CiuO.8yQCi//QGXq7rDrtBvFlCjJvW94tu',NULL,10,1605306999,1605306999,'zHGeA4TsN6VRBRROluzgX15xnou5m-XT_1605306999',14),(15,'Tiago','Ribeiro','tiago@ipl.com','215592312','965422355','tiago','71Mz993_1MuqkfggzzdgKMYpmnnteJEQ','$2y$13$LOP/MFRXV/l6hF9ohY6CiuO.8yQCi//QGXq7rDrtBvFlCjJvW94tu',NULL,10,1605307023,1605307023,'pGRVYwvOd_ie-WJFhu_1-_WspgUUiCeL_1605307023',15),(16,'Jessica','Silva','jessica@ipl.com','196246633','934524875','jessica','2q19kl4FBD88OeVOaeM1SN8lN-x3UTpW','$2y$13$LOP/MFRXV/l6hF9ohY6CiuO.8yQCi//QGXq7rDrtBvFlCjJvW94tu',NULL,10,1605307047,1605307047,'R7bt092u0pKC7JEqSh1o1r-Is0YuJCeY_1605307047',16),(17,'Antonio','Simões','antonio@ipl.com','175300645','916578521','antonio','M5cGOzNYdtyRpkLdZNEJ9D5C-8ZCXaFV','$2y$13$LOP/MFRXV/l6hF9ohY6CiuO.8yQCi//QGXq7rDrtBvFlCjJvW94tu',NULL,10,1605307061,1605307061,'YXySG72mwz8Up3PrOx46xNmHCnBeiBt4_1605307061',17),(18,'Fernando','Fernandes','fernando@ipl.com','298422361','962174114','fernando','5BZe7exNxtFjgzd5l3wq7etjcmnONi7t','$2y$13$LOP/MFRXV/l6hF9ohY6CiuO.8yQCi//QGXq7rDrtBvFlCjJvW94tu',NULL,10,1605307078,1605307078,'7hzrd3UpONBHDDSErhCMH20gIuZumP7P_1605307078',18),(19,'Sonia','Mendes','sonia@ipl.com','146539523','937852455','sonia','U4hqVHpPpWjK6pUsk600DCrbXbUN_m-b','$2y$13$LOP/MFRXV/l6hF9ohY6CiuO.8yQCi//QGXq7rDrtBvFlCjJvW94tu',NULL,10,1605307094,1605307094,'DfeE2TC98oMhEiLhzTXJyIMN5jHIeIJz_1605307094',19),(20,'Pedro','Ribeiro','pedro@ipl.com','136522663','932785248','pedro','Cwy5gwOdYe6DtbgagqH5bXNmQcZMWICm','$2y$13$LOP/MFRXV/l6hF9ohY6CiuO.8yQCi//QGXq7rDrtBvFlCjJvW94tu',NULL,10,1605307111,1605307111,'YZjpe94o75TvIsJCpNEfZb88NyMcv53a_1605307111',20),(21,'Diogo','Lopes','diogo@ipl.com','125532487','915239415','diogo','fi7JHXIJIWd9aepoI5y6ndaPkxcuyL4z','$2y$13$LOP/MFRXV/l6hF9ohY6CiuO.8yQCi//QGXq7rDrtBvFlCjJvW94tu',NULL,10,1605308218,1605308218,'j3FF2EF-zu2fWA7MjmkCYTjD2kA_J8br_1605308218',21),(22,'Diana','Antunes','diana@ipl.com','268758567','965224654','diana','dOTC79z4dSH_8DQuUCV5KoEV02gOFyR6','$2y$13$LOP/MFRXV/l6hF9ohY6CiuO.8yQCi//QGXq7rDrtBvFlCjJvW94tu',NULL,10,1605308239,1605308239,'pV0U5zDbF32B7MeR7NRzmpkq0QU0aLQe_1605308239',22),(23,'Manuel','Carlos','manecas@ipl.pt','231564897','987654321','manecas','z6ny9PqXrRX6DFVxqQKWl9wV3kNYQtTS','$2y$13$dGwOrHksMBVq4R2KOP13funEPVNsSSSEtwqo/apSnX8LwTlN4qW2S',NULL,10,1605378335,1605461899,'2JkjKV2RobCqqWX45VUPHzgv4inafjFz_1605378335',31),(24,'Asdrubal','Gertrudes','asdrubal@ipl.pt','123456789','967845321','asdrubal','ACXeGdiP6Vp4mkjERdUh_y3CYhcK0Lil','$2y$13$M1eTcXY2R262OZXOS.yWOecfGKgwbamnPCjYH5QjnjTunvUsJVnqO',NULL,10,1605963196,1605964863,'2xzQ0WBGpQSo-EeNpOrhjNzyYtfwyvLp_1605963196',32),(25,NULL,NULL,'ricardo.lopes@trigenius.pt',NULL,NULL,'ricardo.lopes','UjExoLm1rJXELL8Fg63CzNLYVdDs_mBR','$2y$13$Gt6SSZViMzpmbLvQ7CJGTuJXjge44FwtNiyFz3Slm/gshm2QSsqk2',NULL,10,1606853863,1606853863,'_g8TWoKd-aYUZqBfc8l6ufqoLlUUt-A1_1606853863',NULL),(26,NULL,NULL,'joaopaulo@gmail.com',NULL,NULL,'joaopaulo','K0u7WSPbCdbTYzFt4l7i8UzctEQoa20E','$2y$13$Z/SuVR4kxFclzPKNXDonzO1T4kV9U8RdV4VPavjaaNZTJklpmH1Ou',NULL,10,1606855597,1606855597,'YfJZ1u7MDXtjN8OFzj1D0ORsyNVHhE-n_1606855597',NULL);
+INSERT INTO `users` VALUES (1,'Simão','Pedro','simao.s.pedro@gmail.com','242218040','912345678','simaopedro','ozFqrgfw1RzFo-RJJUXCx9CI87lv5vDN','$2y$13$LOP/MFRXV/l6hF9ohY6CiuO.8yQCi//QGXq7rDrtBvFlCjJvW94tu',NULL,10,1605220994,1605220994,'t5AYTA0WgGx92sREwUOoJBqE4la2P2yt_1605220994',1),(2,'Cátia','Bessa','katyb@gm.pt','242319123','918765432','katy','EgIapFuHmRab0fz93bDuEm6kaCC2FkAM','$2y$13$LOP/MFRXV/l6hF9ohY6CiuO.8yQCi//QGXq7rDrtBvFlCjJvW94tu',NULL,10,1605224315,1605224315,'LvelSObJ7seAS_lCQEgtODzhg0dBJJRr_1605224315',2),(3,'Ricardo','Lopes','ricardolopes@gm.pt','242517987','963524871','ricardolopes','yI1GZZmscmpCNaxLLaKe6G7jM3CEL5gx','$2y$13$LOP/MFRXV/l6hF9ohY6CiuO.8yQCi//QGXq7rDrtBvFlCjJvW94tu',NULL,10,1605291218,1605291218,'3SYTOgQE_8A91wqGl7KGRS9MQ0HOh8ZP_1605291218',3),(4,'Cláudia','Valente','claudiavalente@gm.pt','252456839','933564712','claudiavalente','GWVzgG4hfNVyIeAn9M5n5iDMwjfG9dit','$2y$13$LOP/MFRXV/l6hF9ohY6CiuO.8yQCi//QGXq7rDrtBvFlCjJvW94tu',NULL,10,1605291387,1605291387,'TymcG-CiB4CS_811nBYJqrGdoDRiOEZv_1605291387',4),(5,'Martim','Gaspar','martimgaspar@gm.pt','252678934','928736451','martimgaspar','mJMoGHev31YDP8M3J3yXfJRjFDdhhQyN','$2y$13$LOP/MFRXV/l6hF9ohY6CiuO.8yQCi//QGXq7rDrtBvFlCjJvW94tu',NULL,10,1605295368,1605295368,'7YIOqMoSC_ArzHFlQy97Xyl90zdxj2Gp_1605295368',5),(6,'José','Miguel','zemigas@gm.pt','196783526','915463728','zemigas','w71yoafkeRfTeWZgDZGhY1mgxH3fdQEU','$2y$13$LOP/MFRXV/l6hF9ohY6CiuO.8yQCi//QGXq7rDrtBvFlCjJvW94tu',NULL,10,1605295493,1605295493,'ipBbZ01J0lr8wtoQdxJnYukQr8ckkg8q_1605295493',6),(8,'Rita','Alves','rita@gmail.com','123555658','917544885','rita','7rdixwM38038Z5xE-nyTCPPzaIWk7wtB','$2y$13$LOP/MFRXV/l6hF9ohY6CiuO.8yQCi//QGXq7rDrtBvFlCjJvW94tu',NULL,10,1605306410,1605306410,'E5FjYLglm4oK4iF9mXGtbR_zkOg-e5ns_1605306410',8),(9,'Joao','Mendes','joao@gmail.com','111555452','915583126','joao','6GsrKnJwEnEwHcsVhEuEbLvB6UZyVmfK','$2y$13$LOP/MFRXV/l6hF9ohY6CiuO.8yQCi//QGXq7rDrtBvFlCjJvW94tu',NULL,10,1605306887,1605306887,'_-If8lte1_aNFClUyb2znlb0FD_0SKv1_1605306887',9),(10,'Rafael','Gomes','rafael@ipl.com','186522447','915425664','rafael','FPa-bBvu9O6fi8VYoIA01-w5czTGwSR5','$2y$13$LOP/MFRXV/l6hF9ohY6CiuO.8yQCi//QGXq7rDrtBvFlCjJvW94tu',NULL,10,1605306920,1605306920,'xvdNNqDGyihDcLyblmFzhITh5jOszx8a_1605306920',10),(11,'Ana','Santos','ana@ipl.com','147525248','965546232','ana','qj4AkBZpVcAFj5donJQ-VgIcOolO5IKU','$2y$13$LOP/MFRXV/l6hF9ohY6CiuO.8yQCi//QGXq7rDrtBvFlCjJvW94tu',NULL,10,1605306941,1605306941,'FreHllJDkC66eup4plz9BcypvOA2Krr7_1605306941',11),(12,'Patricia','Alverca','patricia@ipl.com','146822454','965214653','patricia','hUMmy_-cb4hGriI5bUTQQVBIjS_Ug7Hq','$2y$13$LOP/MFRXV/l6hF9ohY6CiuO.8yQCi//QGXq7rDrtBvFlCjJvW94tu',NULL,10,1605306969,1605306969,'dFp9tmmyKF94DpGqlwF6GxrKglp9Wd6v_1605306969',12),(13,'Tania','Monteiro','tania@ipl.com','254127655','915852045','tania','ai9UHtObJk_PD6PSQPX_gD7SPFHVvj2b','$2y$13$LOP/MFRXV/l6hF9ohY6CiuO.8yQCi//QGXq7rDrtBvFlCjJvW94tu',NULL,10,1605306985,1605306985,'UPnxKzJST2JkgSAPX8bAuBPcOfl1zxbO_1605306985',13),(14,'Telmo','Jesus','telmo@ipl.com','268421455','934623455','telmo','jGWbLPFsklsEVgbFUukkUC7jYVjq4_hO','$2y$13$LOP/MFRXV/l6hF9ohY6CiuO.8yQCi//QGXq7rDrtBvFlCjJvW94tu',NULL,10,1605306999,1605306999,'zHGeA4TsN6VRBRROluzgX15xnou5m-XT_1605306999',14),(15,'Tiago','Ribeiro','tiago@ipl.com','215592312','965422355','tiago','71Mz993_1MuqkfggzzdgKMYpmnnteJEQ','$2y$13$LOP/MFRXV/l6hF9ohY6CiuO.8yQCi//QGXq7rDrtBvFlCjJvW94tu',NULL,10,1605307023,1605307023,'pGRVYwvOd_ie-WJFhu_1-_WspgUUiCeL_1605307023',15),(16,'Jessica','Silva','jessica@ipl.com','196246633','934524875','jessica','2q19kl4FBD88OeVOaeM1SN8lN-x3UTpW','$2y$13$LOP/MFRXV/l6hF9ohY6CiuO.8yQCi//QGXq7rDrtBvFlCjJvW94tu',NULL,10,1605307047,1605307047,'R7bt092u0pKC7JEqSh1o1r-Is0YuJCeY_1605307047',16),(17,'Antonio','Simões','antonio@ipl.com','175300645','916578521','antonio','M5cGOzNYdtyRpkLdZNEJ9D5C-8ZCXaFV','$2y$13$LOP/MFRXV/l6hF9ohY6CiuO.8yQCi//QGXq7rDrtBvFlCjJvW94tu',NULL,10,1605307061,1605307061,'YXySG72mwz8Up3PrOx46xNmHCnBeiBt4_1605307061',17),(18,'Fernando','Fernandes','fernando@ipl.com','298422361','962174114','fernando','5BZe7exNxtFjgzd5l3wq7etjcmnONi7t','$2y$13$LOP/MFRXV/l6hF9ohY6CiuO.8yQCi//QGXq7rDrtBvFlCjJvW94tu',NULL,10,1605307078,1605307078,'7hzrd3UpONBHDDSErhCMH20gIuZumP7P_1605307078',18),(19,'Sonia','Mendes','sonia@ipl.com','146539523','937852455','sonia','U4hqVHpPpWjK6pUsk600DCrbXbUN_m-b','$2y$13$LOP/MFRXV/l6hF9ohY6CiuO.8yQCi//QGXq7rDrtBvFlCjJvW94tu',NULL,10,1605307094,1605307094,'DfeE2TC98oMhEiLhzTXJyIMN5jHIeIJz_1605307094',19),(20,'Pedro','Ribeiro','pedro@ipl.com','136522663','932785248','pedro','Cwy5gwOdYe6DtbgagqH5bXNmQcZMWICm','$2y$13$LOP/MFRXV/l6hF9ohY6CiuO.8yQCi//QGXq7rDrtBvFlCjJvW94tu',NULL,10,1605307111,1605307111,'YZjpe94o75TvIsJCpNEfZb88NyMcv53a_1605307111',20),(21,'Diogo','Lopes','diogo@ipl.com','125532487','915239415','diogo','fi7JHXIJIWd9aepoI5y6ndaPkxcuyL4z','$2y$13$LOP/MFRXV/l6hF9ohY6CiuO.8yQCi//QGXq7rDrtBvFlCjJvW94tu',NULL,10,1605308218,1605308218,'j3FF2EF-zu2fWA7MjmkCYTjD2kA_J8br_1605308218',21),(22,'Diana','Antunes','diana@ipl.com','268758567','965224654','diana','dOTC79z4dSH_8DQuUCV5KoEV02gOFyR6','$2y$13$LOP/MFRXV/l6hF9ohY6CiuO.8yQCi//QGXq7rDrtBvFlCjJvW94tu',NULL,10,1605308239,1605308239,'pV0U5zDbF32B7MeR7NRzmpkq0QU0aLQe_1605308239',22),(23,'Manuel','Carlos','manecas@ipl.pt','231564897','987654321','manecas','z6ny9PqXrRX6DFVxqQKWl9wV3kNYQtTS','$2y$13$dGwOrHksMBVq4R2KOP13funEPVNsSSSEtwqo/apSnX8LwTlN4qW2S',NULL,10,1605378335,1605461899,'2JkjKV2RobCqqWX45VUPHzgv4inafjFz_1605378335',31),(24,'Asdrubal','Gertrudes','asdrubal@ipl.pt','123456789','967845321','asdrubal','ACXeGdiP6Vp4mkjERdUh_y3CYhcK0Lil','$2y$13$M1eTcXY2R262OZXOS.yWOecfGKgwbamnPCjYH5QjnjTunvUsJVnqO',NULL,10,1605963196,1605964863,'2xzQ0WBGpQSo-EeNpOrhjNzyYtfwyvLp_1605963196',32);
 /*!40000 ALTER TABLE `users` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -630,4 +612,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2020-12-16  0:04:20
+-- Dump completed on 2021-01-02 21:13:09
