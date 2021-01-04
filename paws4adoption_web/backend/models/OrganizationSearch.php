@@ -13,7 +13,7 @@ use common\models\Organization;
  */
 class OrganizationSearch extends Organization
 {
-    public $address;
+    public $city;
 
     /**
      * {@inheritdoc}
@@ -35,12 +35,6 @@ class OrganizationSearch extends Organization
         return Model::scenarios();
     }
 
-    public function attributes()
-    {
-        // add related fields to searchable attributes
-        return array_merge(parent::attributes(), ['address']);
-    }
-
     /**
      * Creates data provider instance with search query applied
      *
@@ -52,32 +46,25 @@ class OrganizationSearch extends Organization
     {
         $query = Organization::find();
 
-        //TODO: comentar
-//        $query->joinWith(['address as address']);
-        $query->joinWith(['address' => function($query) { $query->from(['address' => 'city']); }]);
-
         // add conditions that should always apply here
-
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
         ]);
 
-        $dataProvider->sort->attributes['address.city'] = [
-            // The tables are the ones our relation are configured to
-            // in my case they are prefixed with "tbl_"
-            'asc' => ['address.city' => SORT_ASC],
-            'desc' => ['address.city' => SORT_DESC],
-        ];
+        $dataProvider->setSort([
+            'attributes' => [
+                'id',
+                'city' => [
+                    'asc' => ['address.city' => SORT_ASC],
+                    'desc' => ['address.city' => SORT_DESC],
+                    'label' => 'Cidade'
+                ],
+            ],
+        ]);
 
-        //$this->load($params);
-
-//        if (!$this->validate()) {
-//            // uncomment the following line if you do not want to return any records when validation fails
-//            // $query->where('0=1');
-//            return $dataProvider;
-//        }
 
         if (!($this->load($params) && $this->validate())) {
+            $query->joinWith(['address']);
             return $dataProvider;
         }
 
@@ -90,9 +77,11 @@ class OrganizationSearch extends Organization
         $query->andFilterWhere(['like', 'name', $this->name])
             ->andFilterWhere(['like', 'nif', $this->nif])
             ->andFilterWhere(['like', 'email', $this->email])
-            ->andFilterWhere(['like', 'phone', $this->phone]);
-
-        $query->andFilterWhere(['like', 'address.city', $this->getAttribute('address.city')]);
+            ->andFilterWhere(['like', 'phone', $this->phone])
+            ->andFilterWhere(['like', 'city', $this->city]);
+        $query->joinWith(['address' => function($q){
+            $q->where('address.city LIKE "%' . $this->city . '%"');
+        }]);
 
         return $dataProvider;
     }

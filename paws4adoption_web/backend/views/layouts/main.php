@@ -52,7 +52,7 @@ AppAsset::register($this);
                 . Html::beginForm(['/site/logout'], 'post')
                 . Html::submitButton(
                 'Logout (' . Yii::$app->user->identity->username . ')',
-                ['class' => 'btn btn-link logout']
+                ['class' => 'btn btn-link logout', 'id' => 'logout-button']
                 )
                 . Html::endForm()
                 . '</li>';
@@ -76,7 +76,7 @@ AppAsset::register($this);
                         'options'=> ['class' => 'sidebar-nav navbar-collapse' ],
                         'type' => SideNav::TYPE_DEFAULT,
                         'heading' => 'MENU',
-                        'linkTemplate' => '<a href="{url}" title="{label}">{icon}<span class="nav-label">{label}</span></a>',
+                        'linkTemplate' => '<a id="{id}" href="{url}" title="{label}">{icon}<span class="nav-label">{label}</span></a>',
                         'items' => [
                             [
                                 'url' => ['site/index'],
@@ -84,6 +84,7 @@ AppAsset::register($this);
                                 'icon' => 'home'
                             ],
                             [
+                                'id' => 'users-menu-item',
                                 'url' => ['user/index'],
                                 'label' => 'Utilizadores',
                                 'icon' => 'align-right',
@@ -91,6 +92,7 @@ AppAsset::register($this);
                             [
                                 'label' => 'Associações',
                                 'icon' => 'question-sign',
+                                'id' => 'navOrganizations',
                                 'items' => [
                                     ['label' => 'Gerir Associações', 'icon'=>'info-sign', 'url'=>['organization/index']],
                                     ['label' => 'Pendentes aprovação', 'icon'=>'phone', 'url'=>['organization/approval-pending']],

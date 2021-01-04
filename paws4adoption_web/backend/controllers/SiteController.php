@@ -93,8 +93,9 @@ class SiteController extends Controller
 
         if($user == null){
             $model->password = '';
-            return $this->redirect(['site/login']);
-            //  return $this->render('login', ['model' => $model]);
+            Yii::$app->session->setFlash('Error', "Username ou password inválidos");
+            //return $this->redirect(['site/login']);
+            return $this->render('login', ['model' => $model]);
         }
 
         //Get user role by user id
@@ -106,8 +107,8 @@ class SiteController extends Controller
         else {
             $model->password = '';
             Yii::$app->session->setFlash('Error', "Acesso exclusivo para administradores");
-            //return $this->render('login', ['model' => $model]);
-            return $this->redirect(['login']);
+            return $this->render('login', ['model' => $model]);
+            //return $this->redirect(['login']);
         }
     }
 

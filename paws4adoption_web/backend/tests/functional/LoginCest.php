@@ -26,19 +26,53 @@ class LoginCest
             ]
         ];
     }
+
+    public function _before(FunctionalTester $I){
+        $I->amOnPage('/site/login');
+        $I->amOnPage('/site/login');
+        $I->see("Login");
+    }
     
     /**
      * @param FunctionalTester $I
      */
-    public function loginUser(FunctionalTester $I)
+    public function login(FunctionalTester $I)
     {
-        $I->amOnPage('/site/login');
-        $I->fillField('Username', 'erau');
-        $I->fillField('Password', 'password_0');
+        $I->fillField('Username', 'simaopedro');
+        $I->fillField('Password', 'Sporting');
         $I->click('login-button');
 
-        $I->see('Logout (erau)', 'form button[type=submit]');
+        $I->see('Logout (simaopedro)', 'form button[type=submit]');
         $I->dontSeeLink('Login');
-        $I->dontSeeLink('Signup');
+    }
+
+    public function incorrectLoginUser(FunctionalTester $I){
+        $I->fillField('Username', 'simaopedroa');
+        $I->fillField('Password', 'Sporting');
+        $I->click('login-button');
+
+        $I->see('Username ou password inválidos');
+        $I->dontSee('Logout (simaopedro)');
+    }
+
+    public function loginWithNotAdminUser(FunctionalTester $I){
+        $I->fillField('Username', 'patricia');
+        $I->fillField('Password', 'Sporting');
+        $I->click('login-button');
+
+        $I->see('Acesso exclusivo para administradores');
+        $I->dontSee('Logout (patricia)');
+    }
+
+    public function logout(FunctionalTester $I){
+        $I->fillField('Username', 'simaopedro');
+        $I->fillField('Password', 'Sporting');
+        $I->click('login-button');
+
+        $I->see('Logout (simaopedro)', 'form button[type=submit]');
+        $I->dontSeeLink('Login');
+
+        $I->click('logout-button');
+        $I->see('Login');
     }
 }
