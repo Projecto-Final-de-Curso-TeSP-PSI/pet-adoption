@@ -291,7 +291,7 @@ class User extends \yii\db\ActiveRecord implements IdentityInterface
      */
     public function generateEmailVerificationToken()
     {
-        $this->verification_token = Yii::$app->security->generateRandomString(16) . time();
+        $this->verification_token = preg_replace('/[^A-Za-z0-9_]/', '0', Yii::$app->security->generateRandomString(32) . '_' . time());
     }
 
     /**
