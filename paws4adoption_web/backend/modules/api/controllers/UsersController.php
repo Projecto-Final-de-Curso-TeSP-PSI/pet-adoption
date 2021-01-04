@@ -257,13 +257,19 @@ class UsersController extends ActiveController
                 $message['Validation Process'] = 'Error';
                 $message['Error'] = 'Not known validation key';
             } else{
-                $user->status = User::STATUS_ACTIVE;
-                if($user->save()){
-                    $message['Validation Process'] = 'SUCCESS';
-                } else{
+                if($user->status != User::STATUS_INACTIVE){
                     Yii::$app->response->statusCode = 401;
                     $message['Validation result'] = 'Error';
-                    $message['Error'] = 'Not able to save user';
+                    $message['Error'] = 'User not waiting for activation';
+                } else{
+                    $user->status = User::STATUS_ACTIVE;
+                    if($user->save()){
+                        $message['Validation Process'] = 'SUCCESS';
+                    } else{
+                        Yii::$app->response->statusCode = 401;
+                        $message['Validation result'] = 'Error';
+                        $message['Error'] = 'Not able to save user';
+                    }
                 }
             }
         } catch (BadRequestHttpException $e){
