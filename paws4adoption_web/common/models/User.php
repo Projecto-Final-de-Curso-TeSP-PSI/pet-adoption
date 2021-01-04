@@ -291,7 +291,7 @@ class User extends \yii\db\ActiveRecord implements IdentityInterface
      */
     public function generateEmailVerificationToken()
     {
-        $this->verification_token = Yii::$app->security->generateRandomString() . time();
+        $this->verification_token = Yii::$app->security->generateRandomString(16) . time();
     }
 
     /**
@@ -302,35 +302,12 @@ class User extends \yii\db\ActiveRecord implements IdentityInterface
         $this->password_reset_token = null;
     }
 
+    /**
+     * Get's full name of the user
+     * @return string
+     */
     public function getFullName(){
         return $this->firstName . " " . $this->lastName;
-    }
-
-    /**
-     * Send's email with the autentication validation id
-     * @param $validationKey | be used to authenticate the user
-     * @param $email | email to send the autentication message
-     * @return bool true if the email was sent
-     */
-    public function sendEmail($validationKey, $email){
-        $strMsg = "Clique aqui para validar: http://127.0.0.1:8888/api/users/validation/" . $validationKey;
-        //var_dump($strMsg); die;
-        return (Yii::$app->mailer->compose()
-            ->setFrom('paws4adoption@gmail.com')
-            ->setTo($email)
-            ->setSubject('VAlidação de email')
-            ->setTextBody($strMsg)
-            ->send()
-        );
-    }
-
-    public function afterSave($insert, $changedAttributes)
-    {
-        parent::afterSave($insert, $changedAttributes);
-
-        if($insert){
-            $this->sendEmail($this->verification_token, $this->email);
-        }
     }
 
     /**
