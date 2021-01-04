@@ -4,12 +4,12 @@ use yii\helpers\Html;
 /* @var $this yii\web\View */
 /* @var $user common\models\user */
 
-$verifyLink = Yii::$app->urlManager->createAbsoluteUrl(['site/verify-email', 'token' => $user->verification_token]);
+$verifyLink = Yii::$app->urlManager->createAbsoluteUrl(['api/users/validation/'. $user->verification_token]);
 ?>
 <div class="verify-email">
-    <p>Hello <?= Html::encode($user->username) ?>,</p>
+    <p>Olá <?= Html::encode($user->username) ?>,</p>
 
-    <p>Follow the link below to verify your email:</p>
+    <p>Clique no link abaixo para validar o seu email:</p>
 
     <p><?= Html::a(Html::encode($verifyLink), $verifyLink) ?></p>
 </div>

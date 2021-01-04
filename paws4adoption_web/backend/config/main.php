@@ -49,19 +49,6 @@ return [
         'errorHandler' => [
             'errorAction' => 'site/error',
         ],
-
-        //Mailing component
-        'mail' => [
-            'class' => 'yii\swiftmailer\Mailer',
-            'transport' => [
-                'class' => 'Swift_SmtpTransport',
-                'host' => 'smtp.gmail.com',
-                'username' => 'paws4adoption@gmail.com',
-                'password' => 'Sporting123',
-                'port' => '587',
-                'encryption' => 'tls',
-            ],
-        ],
         'urlManager' => [
             'enablePrettyUrl' => true,
             'showScriptName' => false,
