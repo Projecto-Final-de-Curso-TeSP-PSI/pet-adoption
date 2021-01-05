@@ -16,6 +16,7 @@ use common\models\OrganizationSearch;
 use common\models\Photo;
 use common\models\Size;
 use common\models\User;
+use phpDocumentor\Reflection\Types\This;
 use Yii;
 use common\models\AdoptionAnimal;
 use yii\data\ActiveDataProvider;
@@ -80,7 +81,7 @@ class AdoptionAnimalController extends Controller
             $animalAdoptionSearchModel = new AnimalAdoptionSearch();
             $animalSearchModel = new AnimalSearch();
             $organizationSearchModel = new OrganizationSearch();
-            $animalAdoptionDataProvider = $animalAdoptionSearchModel->search(Yii::$app->request->queryParams);
+//            $animalAdoptionDataProvider = $animalAdoptionSearchModel->search(Yii::$app->request->queryParams);
 
             if (Yii::$app->request->get() != null){
 
@@ -92,9 +93,16 @@ class AdoptionAnimalController extends Controller
                         'pageSize' => 10,
                     ]
                 ]);
-            } /*else {
-                $query =
-            }*/
+            } else {
+                $query = AdoptionAnimal::find()
+                    ->joinWith('adoption')
+                    ->andWhere(['is', 'adoption_date', null]);
+
+                $animalAdoptionDataProvider = new ActiveDataProvider([
+                    'query' => $query,
+                    'pagination' => false
+                ]);
+            }
         } catch (\Exception $e){
             throw $e;
         }
@@ -310,7 +318,7 @@ class AdoptionAnimalController extends Controller
 
     private function queryBuilder($params)
     {
-//Todo: corrigir a query par não mostrar animais já adotados
+//Todo: corrigir a query para não mostrar animais já adotados
         $parent_nature_id = $params['AnimalSearch']['parent_nature_id'];
         $natureCat_id = $params['AnimalSearch']['natureCat_id'];
         $natureDog_id = $params['AnimalSearch']['natureDog_id'];
@@ -321,121 +329,136 @@ class AdoptionAnimalController extends Controller
             $naturesIds = Nature::getChildsIdsByParentId($parent_nature_id);
 
             $query = AdoptionAnimal::find()
-                ->innerJoinWith('animal')
-                ->where(['in', 'nature_id', $naturesIds])
-                ->where(['nature_id' => $natureCat_id, 'size_id' => $size, 'organization_id' => $organization]);
+                ->joinWith(['animal', 'adoption'])
+                ->andWhere(['in', 'nature_id', $naturesIds])
+                ->andWhere(['nature_id' => $natureCat_id, 'size_id' => $size, 'organization_id' => $organization])
+                ->andWhere(['is', 'adoption_date', null]);
             return $query;
 
         } elseif ($parent_nature_id !== "" && $natureDog_id !== "" && $size !== "" && $organization !== "") {
             $naturesIds = Nature::getChildsIdsByParentId($parent_nature_id);
 
             $query = AdoptionAnimal::find()
-                ->innerJoinWith('animal')
-                ->where(['in', 'nature_id', $naturesIds])
-                ->where(['nature_id' => $natureDog_id, 'size_id' => $size, 'organization_id' => $organization]);
+                ->joinWith(['animal', 'adoption'])
+                ->andWhere(['in', 'nature_id', $naturesIds])
+                ->andWhere(['nature_id' => $natureDog_id, 'size_id' => $size, 'organization_id' => $organization])
+                ->andWhere(['is', 'adoption_date', null]);
             return $query;
 
         } elseif ($parent_nature_id !== "" && $natureCat_id !== "" && $size !== "") {
             $naturesIds = Nature::getChildsIdsByParentId($parent_nature_id);
 
             $query = AdoptionAnimal::find()
-                ->innerJoinWith('animal')
-                ->where(['in', 'nature_id', $naturesIds])
-                ->where(['nature_id' => $natureCat_id, 'size_id' => $size]);
+                ->joinWith(['animal', 'adoption'])
+                ->andWhere(['in', 'nature_id', $naturesIds])
+                ->andWhere(['nature_id' => $natureCat_id, 'size_id' => $size])
+                ->andWhere(['is', 'adoption_date', null]);
             return $query;
 
         } elseif ($parent_nature_id !== "" && $natureDog_id !== "" && $size !== "") {
             $naturesIds = Nature::getChildsIdsByParentId($parent_nature_id);
 
             $query = AdoptionAnimal::find()
-                ->innerJoinWith('animal')
+                ->joinWith(['animal', 'adoption'])
                 ->where(['in', 'nature_id', $naturesIds])
-                ->where(['nature_id' => $natureDog_id, 'size_id' => $size]);
+                ->where(['nature_id' => $natureDog_id, 'size_id' => $size])
+                ->andWhere(['is', 'adoption_date', null]);
             return $query;
 
         } elseif ($parent_nature_id !== "" && $natureCat_id !== "" && $organization !== "") {
             $naturesIds = Nature::getChildsIdsByParentId($parent_nature_id);
 
             $query = AdoptionAnimal::find()
-                ->innerJoinWith('animal')
-                ->where(['in', 'nature_id', $naturesIds])
-                ->where(['nature_id' => $natureCat_id, 'organization_id' => $organization]);
+                ->joinWith(['animal', 'adoption'])
+                ->andwhere(['in', 'nature_id', $naturesIds])
+                ->andwhere(['nature_id' => $natureCat_id, 'organization_id' => $organization])
+                ->andWhere(['is', 'adoption_date', null]);
             return $query;
 
         } elseif ($parent_nature_id !== "" && $natureDog_id !== "" && $organization !== "") {
             $naturesIds = Nature::getChildsIdsByParentId($parent_nature_id);
 
             $query = AdoptionAnimal::find()
-                ->innerJoinWith('animal')
-                ->where(['in', 'nature_id', $naturesIds])
-                ->where(['nature_id' => $natureDog_id, 'organization_id' => $organization]);
+                ->joinWith(['animal', 'adoption'])
+                ->andWhere(['in', 'nature_id', $naturesIds])
+                ->andWhere(['nature_id' => $natureDog_id, 'organization_id' => $organization])
+                ->andWhere(['is', 'adoption_date', null]);
             return $query;
 
         } elseif ($parent_nature_id !== "" && $natureCat_id !== "") {
 
             $query = AdoptionAnimal::find()
-                ->innerJoinWith('animal')
-                ->where(['nature_id' => $natureCat_id]);
+                ->joinWith(['animal', 'adoption'])
+                ->andWhere(['nature_id' => $natureCat_id])
+                ->andWhere(['is', 'adoption_date', null]);
             return $query;
 
         } elseif ($parent_nature_id !== "" && $natureDog_id !== "") {
 
             $query = AdoptionAnimal::find()
-                ->innerJoinWith('animal')
-                ->where(['nature_id' => $natureDog_id]);
+                ->joinWith(['animal', 'adoption'])
+                ->andWhere(['nature_id' => $natureDog_id])
+                ->andWhere(['is', 'adoption_date', null]);
             return $query;
 
         } elseif ($parent_nature_id !== "" && $size !== "" && $organization !== "") {
             $naturesIds = Nature::getChildsIdsByParentId($parent_nature_id);
 
             $query = AdoptionAnimal::find()
-                ->innerJoinWith('animal')
-                ->where(['in', 'nature_id', $naturesIds])
-                ->andWhere(['size_id' => $size, 'organization_id' => $organization]);
+                ->joinWith(['animal', 'adoption'])
+                ->andWhere(['in', 'nature_id', $naturesIds])
+                ->andWhere(['size_id' => $size, 'organization_id' => $organization])
+                ->andWhere(['is', 'adoption_date', null]);
             return $query;
 
         } elseif ($parent_nature_id !== "" && $size !== "") {
             $naturesIds = Nature::getChildsIdsByParentId($parent_nature_id);
 
             $query = AdoptionAnimal::find()
-                ->innerJoinWith('animal')
-                ->where(['in', 'nature_id', $naturesIds])
-                ->andWhere(['size_id' => $size]);
+                ->joinWith(['animal', 'adoption'])
+                ->andWhere(['in', 'nature_id', $naturesIds])
+                ->andWhere(['size_id' => $size])
+                ->andWhere(['is', 'adoption_date', null]);
             return $query;
 
         } elseif ($parent_nature_id !== "" && $organization !== "") {
             $naturesIds = Nature::getChildsIdsByParentId($parent_nature_id);
 
             $query = AdoptionAnimal::find()
-                ->innerJoinWith('animal')
-                ->where(['in', 'nature_id', $naturesIds])
-                ->andWhere(['organization_id' => $organization]);
+                ->joinWith(['animal', 'adoption'])
+                ->andWhere(['in', 'nature_id', $naturesIds])
+                ->andWhere(['organization_id' => $organization])
+                ->andWhere(['is', 'adoption_date', null]);
             return $query;
 
         } elseif ($parent_nature_id !== "") {
             $naturesIds = Nature::getChildsIdsByParentId($parent_nature_id);
 
             $query = AdoptionAnimal::find()
-                ->innerJoinWith('animal')
-                ->where(['in', 'nature_id', $naturesIds]);
+                ->joinWith(['animal', 'adoption'])
+                ->andWhere(['in', 'nature_id', $naturesIds])
+                ->andWhere(['is', 'adoption_date', null]);
             return $query;
 
         } elseif ($size !== "" && $organization !== "") {
             $query = AdoptionAnimal::find()
-                ->innerJoinWith('animal')
-                ->where(['size_id' => $size, 'organization_id' => $organization]);
+                ->joinWith(['animal', 'adoption'])
+                ->andWhere(['size_id' => $size, 'organization_id' => $organization])
+                ->andWhere(['is', 'adoption_date', null]);
             return $query;
 
         } elseif ($size !== "") {
             $query = AdoptionAnimal::find()
-                ->innerJoinWith('animal')
-                ->where(['size_id' => $size]);
+                ->joinWith(['animal', 'adoption'])
+                ->andWhere(['size_id' => $size])
+                ->andWhere(['is', 'adoption_date', null]);
             return $query;
 
         } elseif ($organization !== ""){
             $query = AdoptionAnimal::find()
-                ->innerJoinWith('animal')
-                ->where(['organization_id' => $organization]);
+                ->joinWith(['animal', 'adoption'])
+                ->andWhere(['organization_id' => $organization])
+                ->andWhere(['is', 'adoption_date', null]);
             return $query;
         }
     }
