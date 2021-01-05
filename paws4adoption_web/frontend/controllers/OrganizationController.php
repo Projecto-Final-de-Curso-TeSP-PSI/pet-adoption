@@ -14,6 +14,7 @@ use common\models\FoundAnimal;
 use common\models\FoundAnimalSearch;
 use common\models\MissingAnimal;
 use common\models\Nature;
+use common\models\Photo;
 use common\models\Size;
 use common\models\User;
 use common\models\UserSearch;
@@ -176,6 +177,16 @@ class OrganizationController extends Controller
         return $this->render('rescue', [
             'dataProviderFoundAnimal' => $dataProviderFoundAnimal,
             'searchFoundAnimalModel' => $searchFoundAnimalModel,
+        ]);
+    }
+
+    public function actionDetailsRescue($id){
+        $foundAnimal = FoundAnimal::findOne($id);
+        $photo = Photo::findOne(['id_animal' => $foundAnimal->animal->id]);
+
+        return $this->render('detailsAnimalRescue', [
+            'foundAnimal' => $foundAnimal,
+            'photo' => $photo,
         ]);
     }
 
