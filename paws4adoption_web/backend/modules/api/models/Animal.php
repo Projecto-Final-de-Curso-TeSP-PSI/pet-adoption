@@ -21,6 +21,7 @@ class Animal extends \common\models\Animal{
             'sex',
             'name',
             'type',
+            'createdAt',
             'adoptionAnimal',
             'missingAnimal',
             'foundAnimal'

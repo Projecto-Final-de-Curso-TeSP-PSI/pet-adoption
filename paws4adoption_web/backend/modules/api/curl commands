@@ -18,6 +18,10 @@ curl -X POST http://paws4adoption.web.back/api/users -H 'Content-Type: applicati
     "district_id":10
 }'
 
+--- GET Validation ---
+curl http://paws4adoption.web.back/api/users/validation/{token gerado automaticamente}
+
+
 --- POST Return token ---
 curl -X POST http://paws4adoption.web.back/api/users/token -H 'Content-Type: application/json' -d '{
     "username":"qwerty9",
@@ -133,6 +137,10 @@ curl -X POST http://paws4adoption.web.back/api/found-animals -H 'Authorization: 
     "city":"Minde",
     "found_date":"20201212"
 }'
+
+--- GET Found Animal by district ---
+curl http://paws4adoption.web.back/api/found-animals/district/10
+
 
 --- PUT Update found animal ---
 curl -X PUT http://paws4adoption.web.back/api/found-animals/21 -H 'Authorization: Bearer ozFqrgfw1RzFo-RJJUXCx9CI87lv5vDN' -H 'Content-Type: application/json' -d '{
