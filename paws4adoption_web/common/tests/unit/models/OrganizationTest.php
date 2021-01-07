@@ -147,10 +147,11 @@ class OrganizationTest extends \Codeception\Test\Unit
         $this->assertEquals(1, $this->organization1->address_id);
         $this->assertEquals(Organization::ACTIVE, $this->organization1->status);
 
-        $this->assertTrue($this->organization1->validate(), json_encode($this->organization2->errors));
+        $this->assertTrue($this->organization1->validate(), json_encode($this->organization1->errors));
         $this->assertTrue($this->organization2->validate(), json_encode($this->organization2->errors));
-        $this->assertTrue($this->organization3->validate(), json_encode($this->organization2->errors));
+        $this->assertTrue($this->organization3->validate(), json_encode($this->organization3->errors));
 
+        echo json_encode($this->organization3);
     }
 
 }

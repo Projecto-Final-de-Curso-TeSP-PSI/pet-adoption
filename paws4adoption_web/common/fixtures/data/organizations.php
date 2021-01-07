@@ -25,7 +25,7 @@ return [
         'email' => 'apa@gmail2.com',
         'phone' => '912568968',
         'address_id' => 3,
-        'founder_id' => 4,
+        'founder_id' => 1,
         'status' => \common\models\Organization::ACTIVE,
     ],
 ];

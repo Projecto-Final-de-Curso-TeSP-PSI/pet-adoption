@@ -183,7 +183,7 @@ class OrganizationController extends Controller
      * @param $id
      * @return \yii\web\Response
      */
-    public function  actionBlock($id){
+    public function actionBlock($id){
         $organization = Organization::findOne($id);
 
         if($organization != null){
@@ -206,7 +206,7 @@ class OrganizationController extends Controller
     /**
      * Accepts an organization, add's it's founder to teh associated user descendency, and add's also associated user role to it's founder
      * @param integer $id The id of the organization to be approved
-     * @return \yii\web\Response
+     * @return string
      */
     public function actionApproveOrganization($id){
         $db = Yii::$app->db;
@@ -231,10 +231,10 @@ class OrganizationController extends Controller
         } catch(\Exception $e){
             $transaction->rollBack();
             Yii::$app->session->setFlash('Error', "Erro ao atualizar associação");
-            return $this->redirect(['organization/approval-pending']);
+            return $this->redirect('index');
         }
         Yii::$app->session->setFlash('Success', "Organização adicionada com sucesso");
-        return $this->redirect(['organization/index']);
+        return $this->redirect('approval-pending');
     }
 
     /**

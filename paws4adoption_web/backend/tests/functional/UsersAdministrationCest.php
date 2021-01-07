@@ -1,5 +1,6 @@
 <?php namespace frontend\tests\functional;
 
+use backend\tests\AcceptanceTester;
 use backend\tests\FunctionalTester;
 use Codeception\Util\Locator;
 
@@ -18,12 +19,4 @@ class UsersAdministrationCest
         $I->dontSeeLink('Login');
     }
 
-    // tests
-    public function index(FunctionalTester $I)
-    {
-        //$I->click(Locator::find('a', ['href' => '/site/index']));
-        $I->click('/user/index/', 'href');
-
-        $I->see('Users');
-    }
 }

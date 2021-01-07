@@ -1,4 +1,4 @@
-suite_namespace: frontend\tests\acceptance
+suite_namespace: backend\tests\acceptance
 actor: AcceptanceTester
 modules:
     enabled:
@@ -8,10 +8,10 @@ modules:
         - Yii2:
             part: init
         - Db:
-            dsn: 'mysql:host=localhost;dbname=paws4adoption_test'
+            dsn: 'mysql:host=localhost;dbname=paws4adoption'
             user: 'root'
             password: ''
-            dump: 'frontend/tests/_data/dump.sql'
+            dump: 'backend/tests/_data/dump.sql'
             populate: true # run populator before all tests
-            cleanup: false # run populator before each test
+            cleanup: true # run populator before each test
             populator: 'mysql -u $user -h $host $dbname < $dump'
