@@ -180,6 +180,9 @@ class AdoptionController extends Controller
         throw new NotFoundHttpException('The requested page does not exist.');
     }
 
+    /**
+     * @return string|\yii\web\Response
+     */
     public function actionSubmitAdoptionRequest()
     {
         $model = new Adoption();
@@ -199,6 +202,9 @@ class AdoptionController extends Controller
         ]);
     }
 
+    /**
+     * @return string|\yii\web\Response
+     */
     public function actionSubmitFatRequest()
     {
         $model = new Adoption();
@@ -218,6 +224,11 @@ class AdoptionController extends Controller
         ]);
     }
 
+    /**
+     *
+     * @param $id
+     * @return array|\yii\db\ActiveRecord[] all the adoption requests made to that animal
+     */
     public static function getAdoptionRequestsByAnimal($id)
     {
         return Adoption::find()
@@ -225,6 +236,14 @@ class AdoptionController extends Controller
             ->all();
     }
 
+    /**
+     * @param $id
+     * @param $animal_id
+     * @return \yii\web\Response
+     * @throws NotFoundHttpException
+     * @throws \Throwable
+     * @throws \yii\db\StaleObjectException
+     */
     public function actionAcceptAdoptionRequest($id, $animal_id){
 
         $adoptedAnimal = $this->findModel($id);

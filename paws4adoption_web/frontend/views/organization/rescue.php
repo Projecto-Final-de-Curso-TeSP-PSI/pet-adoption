@@ -12,7 +12,8 @@ use yii\helpers\Url;
 
 AppAsset::register($this);
 
-$this->title = 'Animais para adotar na minha associação';
+$this->title = 'Animais para resgante';
+
 
 ?>
 
@@ -35,7 +36,7 @@ $this->title = 'Animais para adotar na minha associação';
                     'animal.sex', 'animal.size.size', 'found_date',
                     [
                         'header' => 'Localização',
-                        'content' => function($model){
+                        'content' => function ($model) {
                             return Html::tag(null, $model->location->fullAddress);
                         }
 
@@ -52,20 +53,25 @@ $this->title = 'Animais para adotar na minha associação';
                                         'title' => 'Aceitar Resgate',
                                     ]
                                 );
+
                             },
                             'view' => function ($url, $model, $key) {     // render your custom button
-                                return Html::a('Detalhes', Url::toRoute(['organization/modifyPriority', 'id' => Html::encode($key)]),
+
+                                return Html::a('Detalhes', Url::toRoute(['organization/details-rescue', 'id' => Html::encode($key)]),
                                     [
                                         'class' => 'btn btn-info',
                                         'title' => 'Detalhes',
+
                                     ]
                                 );
+
                             },
 
                         ],
                     ],
                 ]
-            ])
+            ]);
+
             ?>
         </div>
     </div>

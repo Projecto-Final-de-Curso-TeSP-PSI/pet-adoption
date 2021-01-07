@@ -298,6 +298,9 @@
         $("#AdoptionAnimalFilterBtn").on('click', function(event){
             event.preventDefault();
 
+            var org = document.getElementById("animalsearch-organization");
+            var orgValue = org.options[org.selectedIndex].value;
+
             var especie = document.getElementById("animalsearch-parent_nature_id");
             var especieValue = especie.options[especie.selectedIndex].value;
 
@@ -310,7 +313,7 @@
             var size = document.getElementById("animalsearch-size");
             var sizeValue = size.options[size.selectedIndex].value;
 
-            if(especieValue !== "" || natureCatValue !== "" || natureDogValue !== "" || sizeValue !== ""){
+            if(especieValue !== "" || natureCatValue !== "" || natureDogValue !== "" || sizeValue !== "" || orgValue !== ""){
                 $("#searchForm").submit();
             }
         });

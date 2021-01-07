@@ -190,13 +190,7 @@ a.btn{
     vertical-align: middle !important;
 }
 
-.priorityBaixa{
-    background-color: rgba(99, 153, 89, 0.22);
+.rescueImg{
+    width: 300px !important;
 }
 
-.priorityMedia{
-    background-color: rgba(206, 192, 106, 0.23);
-}
-.priorityAlta{
-    background-color: rgba(255, 0, 0, 0.2);
-}
