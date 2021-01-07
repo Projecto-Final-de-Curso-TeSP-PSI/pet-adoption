@@ -43,14 +43,6 @@ use common\models\AssociatedUser;
                             <i data-feather="flag" class="icon"></i>
                             Animal Errante
                         </a>
-                        <?php
-                        if (Yii::$app->user->can('createAdoptionAnimal')) {
-                            echo '<a class="dropdown-item" href="' . Yii::$app->request->baseUrl . '/adoption-animal/create">
-                                <i data-feather="flag" class="icon"></i>
-                                Animal para Adopção
-                                </a>';
-                        }
-                        ?>
                     </div>
 
                 </div>
@@ -71,35 +63,60 @@ use common\models\AssociatedUser;
                         </div>
                     </a>
                     <div class="dropdown-menu">
-                        <a class="dropdown-item" href="<?= Yii::$app->request->baseUrl ?>/organization/create">
-                            <i data-feather="file-plus" class="icon"></i>
-                            <span class="title">Registar Associação</span>
-                        </a>
+
+                        <?php if(!Yii::$app->user->isGuest){ ?>
+                            <a class="dropdown-item" href="<?= Yii::$app->request->baseUrl ?>/organization/create">
+                                <i data-feather="file-plus" class="icon"></i>
+                                <span class="title">Registar Associação</span>
+                            </a>
+                        <?php } ?>
+
                         <a class="dropdown-item" href="<?= Yii::$app->request->baseUrl ?>/organization">
                             <i data-feather="list" class="icon"></i>
                             Lista de associações
                         </a>
+
                         <?php if(Yii::$app->user->can('associatedUser')){ ?>
                             <a class="dropdown-item" href="<?= Yii::$app->request->baseUrl ?>/organization/associate-manage">
                                 <i data-feather="list" class="icon"></i>
                                 Gerir Utilizadores Associação
                             </a>
                         <?php } ?>
+
+                        <?php if(!Yii::$app->user->isGuest){ ?>
+                            <a class="dropdown-item" href="<?= Yii::$app->request->baseUrl ?>/associated-user-request/create">
+                                <i data-feather="list" class="icon"></i>
+                                Ser Voluntário
+                            </a>
+                        <?php } ?>
+
+                        <?php
+                        if (Yii::$app->user->can('createAdoptionAnimal')) {
+                            echo
+                                '<a class="nav-link" href="' . Yii::$app->request->baseUrl . '/adoption-animal/my-org-adoption-animals">
+                                <i data-feather="archive" class="icon"></i>
+                                <span class="title">Animais da Associação</span>
+                                </a>';
+                        } ?>
+
+                        <?php if(Yii::$app->user->can('associatedUser')){ ?>
+                            <a class="nav-link" href="<?= Yii::$app->request->baseUrl ?>/organization/rescue">
+                                <i data-feather="alert-triangle" class="icon"></i>
+                                <span class="title">Pedidos de Resgate</span>
+                            </a>
+                        <?php } ?>
+
+                        <?php
+                        if (Yii::$app->user->can('createAdoptionAnimal')) {
+                            echo '<a class="dropdown-item" href="' . Yii::$app->request->baseUrl . '/adoption-animal/create">
+                                <i data-feather="flag" class="icon"></i>
+                                Publicar Animal para Adopção
+                                </a>';
+                        }
+                        ?>
+
                     </div>
                 </div>
-
-                <?php
-                if (Yii::$app->user->can('createAdoptionAnimal')) {
-                    echo '<a class="nav-link" href="' . Yii::$app->request->baseUrl . '/adoption-animal/my-org-adoption-animals">
-                    <i data-feather="archive" class="icon"></i>
-                    <span class="title">Animais da Associação</span>
-                    </a>';
-                } ?>
-
-                <a class="nav-link" href="<?= Yii::$app->request->baseUrl ?>/organization/rescue">
-                    <i data-feather="alert-triangle" class="icon"></i>
-                    <span class="title">Pedidos de Resgate</span>
-                </a>
 
                 <div class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">

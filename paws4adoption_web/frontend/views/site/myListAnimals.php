@@ -22,7 +22,7 @@ $this->title = 'Os meus animais perdidos';
             <div class="tabs-style-two">
                 <ul class="nav nav-tabs">
                     <li class="nav-item">
-                        <a class="nav-link tabLink active" data-toggle="tab" href="#demo_three_profile">Animais Desaparcidos</a>
+                        <a class="nav-link tabLink active" data-toggle="tab" href="#demo_three_profile">Animais Desaparecidos</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link tabLink" data-toggle="tab" href="#demo_three_contact">Animais Errantes</a>

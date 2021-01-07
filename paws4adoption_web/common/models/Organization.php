@@ -4,6 +4,7 @@ namespace common\models;
 
 use Yii;
 use yii\db\Query;
+use yii\helpers\ArrayHelper;
 
 /**
  * This is the model class for table "organizations".
@@ -37,6 +38,26 @@ class Organization extends \yii\db\ActiveRecord
     {
         return 'organizations';
     }
+
+    /**
+     * @param bool $active the state ot the organization
+     * @param $except
+     * @return array
+     */
+    public static function getSpinnerOptions($active = true, $user_id = -1)
+    {
+        $user = AssociatedUser::findOne($user_id);
+        $organization_id = -1;
+
+        if($user != null)
+            $organization_id = $user->organization_id;
+
+        return ArrayHelper::map(self::find()
+            ->isActive($active)
+            ->except($organization_id)
+            ->all(),
+            'id', 'name');
+    }   
 
     /**
      * {@inheritdoc}

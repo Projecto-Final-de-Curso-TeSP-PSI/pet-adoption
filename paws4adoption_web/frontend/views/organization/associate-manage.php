@@ -22,7 +22,7 @@ AppAsset::register($this);
     </div>
 
     <p>
-        <?= Html::a('Associar novo membro', ['add-associate'], ['class' => 'btn btn-success']) ?>
+        <?= Html::a('Associar novos membros', ['associated-user-request/index'], ['class' => 'btn btn-success']) ?>
     </p>
 
     <div>
@@ -64,7 +64,7 @@ AppAsset::register($this);
                                 [
                                     'class' => 'btn btn-danger btn-xs',
                                     'data' => [
-                                        'confirm' => 'Tem a certeza que pretende remover-se a si próprio? Ficará sem acesso ao backoffice!',
+                                        'confirm' => 'Tem a certeza que pretende remover-se a si próprio? Ficará sem acesso à associação!',
                                         'method' => 'post',
                                     ]
                                 ]

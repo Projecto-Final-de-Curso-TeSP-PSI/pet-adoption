@@ -14,6 +14,10 @@ class OrganizationQuery extends ActiveQuery
             : $this->andOnCondition(['!=', 'status', Organization::ACTIVE]);
     }
 
+    public function except($id){
+        return $this->andOnCondition(['!=', 'id', $id]);
+    }
+
     public function isAprovalPending(){
         return $this->andOnCondition(['status' => Organization::APPROVAL_PENDING]);
     }

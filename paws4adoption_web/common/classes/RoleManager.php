@@ -86,9 +86,6 @@ class RoleManager
                 return false;
             }
 
-
-            var_dump($auth->getRolesByUser($user_id));
-
             //If role to be delete is Associated User, then delete the descendency
             if($role == self::ASSOCIATED_USER_ROLE){
 
@@ -101,20 +98,14 @@ class RoleManager
                 if(!$oldAssociatedUser->save())
                     throw new \yii\db\Exception("Error");
 
-//                var_dump($oldAssociatedUser);
             }
-
-
-//            $transaction->rollBack();
 
             $transaction->commit();
         } catch(\Exception $e){
             $transaction->rollBack();
-            var_dump($e); die;
             return false;
         } catch (\Throwable $e){
             $transaction->rollBack();
-            var_dump($e); die;
             return false;
         }
 
