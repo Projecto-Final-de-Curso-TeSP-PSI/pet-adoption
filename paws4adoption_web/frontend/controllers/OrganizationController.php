@@ -345,6 +345,7 @@ class OrganizationController extends Controller
     }
 
     /**
+     * Action thar render the associate-manage view
      * @param $id
      * @return string
      */
@@ -369,7 +370,7 @@ class OrganizationController extends Controller
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
             'pagination' => [
-                'pageSize' => 1,
+                'pageSize' => 10,
             ],
             'sort' => [
                 'defaultOrder' => [
@@ -384,12 +385,8 @@ class OrganizationController extends Controller
         ]);
     }
 
-
-    public function actionAssociateAdd($id){
-
-    }
-
     /**
+     * Action that removes an user from one association, and also remove the associatedUser
      * @param $id
      * @return \yii\web\Response
      * @throws ForbiddenHttpException
@@ -401,8 +398,8 @@ class OrganizationController extends Controller
         if($user == null)
             throw new ForbiddenHttpException("Não está associado a nenhuma organização");
 
-        if(!Yii::$app->user->can('manageOrganization',  ['organization_id' => AssociatedUser::findOne($id)->organization_id]))
-            throw new ForbiddenHttpException("Não tem uma organização associada");
+//        if(!Yii::$app->user->can('manageOrganization',  ['organization_id' => AssociatedUser::findOne($id)->organization_id]))
+//            throw new ForbiddenHttpException("Não tem uma organização associada");
 
         $organization_id = AssociatedUser::getOrgIdByUserId($id);
 
