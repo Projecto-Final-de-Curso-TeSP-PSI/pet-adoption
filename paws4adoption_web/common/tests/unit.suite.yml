@@ -6,3 +6,4 @@ modules:
         - Yii2:
             part: fixtures
         - Asserts
+
