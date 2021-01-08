@@ -54,8 +54,8 @@ $this->title = 'Organizações';
                 'content' => function($model) {
                     return  Html::tag(
                         'span',
-                        $model->status == Organization::ACTIVE ? 'Ativo' : 'Inactivo',
-                        ['class' => $model->status == Organization::ACTIVE ? 'btn btn-success btn-xs' : 'btn btn-danger btn-xs']
+                        $model->status == Organization::STATUS_ACTIVE ? 'Ativo' : 'Inactivo',
+                        ['class' => $model->status == Organization::STATUS_ACTIVE ? 'btn btn-success btn-xs' : 'btn btn-danger btn-xs']
                     );
                 }
             ],
@@ -63,9 +63,9 @@ $this->title = 'Organizações';
                 'header' => 'Ação',
                 'content' => function($model, $key, $index, $column) {
                     return Html::a(
-                        '<i class="fa fa-euro">' . ($model->status === Organization::ACTIVE ? 'Bloquear' : 'Desbloquear') . '</i>',
+                        '<i class="fa fa-euro">' . ($model->status === Organization::STATUS_ACTIVE ? 'Bloquear' : 'Desbloquear') . '</i>',
                         Url::to(['organization/block', 'id' => $model->id]),
-                        [  'class' => $model->status == Organization::ACTIVE ? 'btn btn-danger btn-xs' : 'btn btn-success btn-xs'],
+                        [  'class' => $model->status == Organization::STATUS_ACTIVE ? 'btn btn-danger btn-xs' : 'btn btn-success btn-xs'],
                     );
                 }
             ],

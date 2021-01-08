@@ -2,6 +2,7 @@
 
 namespace common\models;
 
+use ReflectionClass;
 use Yii;
 use yii\db\Query;
 use yii\helpers\ArrayHelper;
@@ -24,9 +25,9 @@ use yii\helpers\ArrayHelper;
  */
 class Organization extends \yii\db\ActiveRecord
 {
-    const APPROVAL_PENDING = 0;
-    const ACTIVE = 1;
-    const INACTIVE = 2;
+    const STATUS_APPROVAL_PENDING = 0;
+    const STATUS_ACTIVE = 1;
+    const STATUS_INACTIVE = 2;
 
     const SCENARIO_CREATE_ORGANIZATION = 'createorganization';
     const SCENARIO_UPDATE_ORGANIZATION = 'updateorganization';
@@ -57,7 +58,7 @@ class Organization extends \yii\db\ActiveRecord
             ->except($organization_id)
             ->all(),
             'id', 'name');
-    }   
+    }
 
     /**
      * {@inheritdoc}
@@ -163,6 +164,33 @@ class Organization extends \yii\db\ActiveRecord
      */
     public function getCity(){
         return $this->address->city;
+    }
+
+    /**
+     * Get's an array of all the status ot the organization, according with teh actor that is accessing
+     * @return array
+     */
+    public static function getStatuses($actor){
+        $result = null;
+        switch($actor){
+            case 'user':
+                $result  = [
+                    ['id' => self::STATUS_ACTIVE, 'name' => 'Ativo'],
+                    ['id' => self::STATUS_INACTIVE, 'name' => 'Inativo'],
+                ];
+                break;
+            case 'admin':
+                $result  = [
+                    ['id' => self::STATUS_APPROVAL_PENDING, 'name' => 'Pendente Aprovação'],
+                    ['id' => self::STATUS_ACTIVE, 'name' => 'Ativo'],
+                    ['id' => self::STATUS_INACTIVE, 'name' => 'Inativo'],
+                ];
+                break;
+            default:
+                $result = [];
+        }
+
+        return ArrayHelper::map($result, 'id', 'name');
     }
 
     /**

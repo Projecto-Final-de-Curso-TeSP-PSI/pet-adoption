@@ -34,7 +34,7 @@ $this->params['breadcrumbs'][] = $this->title;
                 'header' => 'Gerir Utilizador',
                 'content' => function($model) {
                     return  Html::tag('span',
-                        $model->status == User::STATUS_ACTIVE ? 'Ativo' : 'Inactivo',
+                        $model->status == User::STATUS_ACTIVE ? 'Ativo' : 'Inativo',
                         ['class' => $model->status == User::STATUS_ACTIVE ? 'btn btn-success btn-xs' : 'btn btn-danger btn-xs']
                     );
                 }

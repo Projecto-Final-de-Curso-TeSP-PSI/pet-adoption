@@ -188,10 +188,10 @@ class OrganizationController extends Controller
 
         if($organization != null){
 
-            if($organization->status == Organization::ACTIVE)
-                $organization->status = Organization::INACTIVE;
+            if($organization->status == Organization::STATUS_ACTIVE)
+                $organization->status = Organization::STATUS_INACTIVE;
             else
-                $organization->status = Organization::ACTIVE;
+                $organization->status = Organization::STATUS_ACTIVE;
 
             if($organization->save()){
                 //Yii::$app->session->setFlash('Success', "Associação atualizada com sucesso");
@@ -215,7 +215,7 @@ class OrganizationController extends Controller
         try{
             $organization = Organization::findOne($id);
             if($organization != null){
-                $organization->status = Organization::ACTIVE;
+                $organization->status = Organization::STATUS_ACTIVE;
 
                 if(!$organization->save()){
                     throw new Exception("Error on saving new organization status");

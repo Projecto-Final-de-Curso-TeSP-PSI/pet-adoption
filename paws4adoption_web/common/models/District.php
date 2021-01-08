@@ -23,6 +23,10 @@ class District extends \yii\db\ActiveRecord
         return 'districts';
     }
 
+    /**
+     * Get's an array with all Districts
+     * @return array
+     */
     public static function getData()
     {
         return ArrayHelper::map(District::find()->all(), 'id', 'name');

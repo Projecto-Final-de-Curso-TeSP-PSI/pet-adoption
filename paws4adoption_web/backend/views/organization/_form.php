@@ -1,6 +1,7 @@
 <?php
 
 use common\models\District;
+use common\models\Organization;
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
 
@@ -26,7 +27,7 @@ $founder = $model->founder;
 
     <?= $form->field($model, 'address_id')->textInput() ?>
 
-    <?= $form->field($model, 'status')->textInput() ?>
+    <?= $form->field($model, 'status')->dropDownList(Organization::getStatuses('user'), ['prompt' => 'Escolha o estado'])?>
 
     <?= $form->field($address, 'street')->textInput() ?>
 

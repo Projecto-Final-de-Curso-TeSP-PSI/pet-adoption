@@ -74,7 +74,7 @@ AppAsset::register($this);
                                 'Remover',
                                 Url::to(['organization/associate-remove', 'id' => $model->id]),
                                 [
-                                    'class' => $model->status == Organization::ACTIVE ? 'btn btn-danger btn-xs' : 'btn btn-success btn-xs',
+                                    'class' => $model->status == Organization::STATUS_ACTIVE ? 'btn btn-danger btn-xs' : 'btn btn-success btn-xs',
                                     'data' => [
                                         'confirm' => 'Confirma que pretende remover o utilizador?',
                                         'method' => 'post',

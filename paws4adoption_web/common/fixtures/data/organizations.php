@@ -8,7 +8,7 @@ return [
         'phone' => '912356896',
         'address_id' => 1,
         'founder_id' => 1,
-        'status' => \common\models\Organization::ACTIVE,
+        'status' => \common\models\Organization::STATUS_ACTIVE,
     ],
     'organization2' => [
         'name' => 'Apa',
@@ -17,7 +17,7 @@ return [
         'phone' => '912568968',
         'address_id' => 2,
         'founder_id' => 2,
-        'status' => \common\models\Organization::ACTIVE,
+        'status' => \common\models\Organization::STATUS_ACTIVE,
     ],
     'organization3' => [
         'name' => 'Apa',
@@ -26,6 +26,6 @@ return [
         'phone' => '912568968',
         'address_id' => 3,
         'founder_id' => 1,
-        'status' => \common\models\Organization::ACTIVE,
+        'status' => \common\models\Organization::STATUS_ACTIVE,
     ],
 ];

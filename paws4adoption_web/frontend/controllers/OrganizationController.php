@@ -326,7 +326,7 @@ class OrganizationController extends Controller
     {
 
         $organization = $this->findModel($id);
-        $organization->status = Organization::INACTIVE;
+        $organization->status = Organization::STATUS_INACTIVE;
 
         if($organization->save()){
             Yii::$app->session->setFlash('Success', "Organização eliminada com sucesso.");
