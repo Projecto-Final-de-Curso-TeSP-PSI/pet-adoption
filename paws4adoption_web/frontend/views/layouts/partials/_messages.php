@@ -1,4 +1,4 @@
-<div class="container-fluid col-md-8\">
+<div class="container-fluid col-md-8">
     <?php if(Yii::$app->session->hasFlash('Success')){?>
     <div class="alert alert-success alert-dismissible rounded" id="success-message" style="display:block">
         <button type="button" class="close">
