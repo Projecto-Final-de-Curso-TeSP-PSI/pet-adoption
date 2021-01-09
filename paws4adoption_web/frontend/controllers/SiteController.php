@@ -205,12 +205,12 @@ class SiteController extends Controller
         $id = Yii::$app->user->getId();
 
         $dataProviderMissingAnimal = new ActiveDataProvider([
-            'query' => MissingAnimal::find()->where(['owner_id' => $id]),
+            'query' => MissingAnimal::find()->where(['owner_id' => $id, 'is_missing' => 1]),
             'pagination' => false,
         ]);
 
         $dataProviderFoundAnimal = new ActiveDataProvider([
-            'query' => FoundAnimal::find()->where(['user_id' => $id]),
+            'query' => FoundAnimal::find()->where(['user_id' => $id, 'is_active' => 1]),
             'pagination' => false,
         ]);
 
