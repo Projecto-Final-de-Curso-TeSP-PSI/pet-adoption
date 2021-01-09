@@ -29,10 +29,10 @@ class AdoptionController extends Controller
         return [
             'access' => [
                 'class' => AccessControl::class,
-                'only' => ['submit-adoption-request', 'sumbit-fat-request'],
+                'only' => [],
                 'rules' => [
                     [
-                        'actions' => ['submit-adoption-request', 'submit-fat-request'],
+                        'actions' => [],
                         'allow' => true,
                         'roles' => ['@']
                     ]
@@ -96,15 +96,12 @@ class AdoptionController extends Controller
         $adopter = User::findOne(['id' => $adopterId]);
         $model->adopter_id = $adopterId;
         $model->adopted_animal_id = $id;
-//        $model->adoption_date = date("Y-m-d");
         $model->type = $type;
-
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
 
             return $this->redirect('success');
         }
-
 
         if ($type == 'fat') {
             $model->scenario = 'fat';
@@ -180,49 +177,49 @@ class AdoptionController extends Controller
         throw new NotFoundHttpException('The requested page does not exist.');
     }
 
-    /**
-     * @return string|\yii\web\Response
-     */
-    public function actionSubmitAdoptionRequest()
-    {
-        $model = new Adoption();
-        $model->scenario = 'adoption';
-        $title = 'Formalização de proposta de adoção';
-
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id]);
-        }
-
-        $model->adopter_id = \Yii::$app->user->id;
-        $model->adopted_animal_id = 1;
-
-        return $this->render('create', [
-            'model' => $model,
-            'title' => $title
-        ]);
-    }
-
-    /**
-     * @return string|\yii\web\Response
-     */
-    public function actionSubmitFatRequest()
-    {
-        $model = new Adoption();
-        $model->scenario = 'fat';
-        $title = 'Formalização de proposta de acolhimento temporário';
-
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id]);
-        }
-
-        $model->adopter_id = \Yii::$app->user->id;
-        $model->adopted_animal_id = 1;
-
-        return $this->render('create', [
-            'model' => $model,
-            'title' => $title
-        ]);
-    }
+//    /**
+//     * @return string|\yii\web\Response
+//     */
+//    public function actionSubmitAdoptionRequest()
+//    {
+//        $model = new Adoption();
+//        $model->scenario = 'adoption';
+//        $title = 'Formalização de proposta de adoção';
+//
+//        if ($model->load(Yii::$app->request->post()) && $model->save()) {
+//            return $this->redirect(['view', 'id' => $model->id]);
+//        }
+//
+//        $model->adopter_id = \Yii::$app->user->id;
+//        $model->adopted_animal_id = 1;
+//
+//        return $this->render('create', [
+//            'model' => $model,
+//            'title' => $title
+//        ]);
+//    }
+//
+//    /**
+//     * @return string|\yii\web\Response
+//     */
+//    public function actionSubmitFatRequest()
+//    {
+//        $model = new Adoption();
+//        $model->scenario = 'fat';
+//        $title = 'Formalização de proposta de acolhimento temporário';
+//
+//        if ($model->load(Yii::$app->request->post()) && $model->save()) {
+//            return $this->redirect(['view', 'id' => $model->id]);
+//        }
+//
+//        $model->adopter_id = \Yii::$app->user->id;
+//        $model->adopted_animal_id = 1;
+//
+//        return $this->render('create', [
+//            'model' => $model,
+//            'title' => $title
+//        ]);
+//    }
 
     /**
      *

@@ -19,7 +19,7 @@ class UserTest extends \Codeception\Test\Unit
         $this->tester->haveFixtures([
             'user' => [
                 'class' => UserFixture::className(),
-                'dataFile' => codecept_data_dir() . 'user.php'
+                //'dataFile' => codecept_data_dir() . 'user.php'
             ]
         ]);
     }
@@ -62,10 +62,13 @@ class UserTest extends \Codeception\Test\Unit
             $user->$attribute = 10;
             echo $attribute . ': ' . $user->$attribute;
         }
+
+
         $this->assertFalse($user->validate([
             'firstName', 'lastName', 'nif', 'phone', 'username',
             'password_hash', 'password_reset_token', 'verification_token']));
 
         $this->assertTrue($user->validate(['status', 'created_at', 'updated_at', 'address_id']));
+
     }
 }
