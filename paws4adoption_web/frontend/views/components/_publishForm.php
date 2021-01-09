@@ -66,29 +66,10 @@ AppAsset::register($this);
                             'inputOptions' => ['id' => 'createFill-chipId']
                         ])->textInput(['placeholder' => 'Insere o Chip']) ?>
 
-                    <?= $form->field($animalModel, 'nature_id',
-                        ['inputOptions' => ['id' => 'createFill-nature', 'name' => 'nature']])
-                        ->dropDownList($natureList, ['prompt' => 'Escolha a natureza'])
-                        ->label('Espécie')?>
+                    <?= $form->field($animalModel, 'nature_id')->dropDownList(
+                            ['Raças Gato' => $natureCat, 'Raças Cão' => $natureDog],
+                            ['prompt' => 'Escolha a raça']) ?>
 
-                    <?= $form->field($animalModel, 'nature_id',
-                        ['inputOptions' => ['id' => 'createFill-breed']])
-                        ->dropDownList($natureCat, ['prompt' => 'Escolha a raça '])
-                        ->label('Raça de Gato')?>
-
-                    <?= $form->field($animalModel, 'nature_id',
-                        ['inputOptions' => ['id' => 'createFill-breed']])
-                        ->dropDownList($natureDog, ['prompt' => 'Escolha a raça '])
-                        ->label('Raça de Cão')?>
-
-                    <? //= $form->field($animalModel, 'nature_id')->widget(DepDrop::classname(), [
-                    //'id' => 'sub-nature-id',
-                    //'pluginOptions' => [
-                    //'depends' => ['nature-id'],
-                    //'placeholder' => 'Select...',
-                    //'url' => Url::to(['subnature']),
-                    //],
-                    //]) ?>
 
                     <?= $form->field($animalModel, 'sex',
                         [
