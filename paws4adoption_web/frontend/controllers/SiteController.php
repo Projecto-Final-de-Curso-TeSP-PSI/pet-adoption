@@ -129,6 +129,7 @@ class SiteController extends Controller
     {
         $model = new ContactForm();
         if ($model->load(Yii::$app->request->post()) && $model->validate()) {
+
             if ($model->sendEmail(Yii::$app->params['adminEmail'])) {
                 Yii::$app->session->setFlash('success', 'Thank you for contacting us. We will respond to you as soon as possible.');
             } else {
@@ -174,11 +175,11 @@ class SiteController extends Controller
             'pagination' => false,
         ]);
         $dataProviderMissingAnimal = new ActiveDataProvider([
-            'query' => MissingAnimal::find()->orderBy('id DESC')->limit(3),
+            'query' => MissingAnimal::find()->where(['is_missing' => 1])->orderBy('id DESC')->limit(3),
             'pagination' => false,
         ]);
         $dataProviderFoundAnimal = new ActiveDataProvider([
-        'query' => FoundAnimal::find()->orderBy('id DESC')->limit(3),
+        'query' => FoundAnimal::find()->where(['is_active' => 1])->orderBy('id DESC')->limit(3),
         'pagination' => false,
         ]);
 

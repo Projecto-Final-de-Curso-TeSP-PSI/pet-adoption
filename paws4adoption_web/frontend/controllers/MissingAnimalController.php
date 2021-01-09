@@ -73,7 +73,13 @@ class MissingAnimalController extends Controller
         try {
             $animalMissingSearchModel = new AnimalMissingSearch();
             $animalSearchModel = new AnimalSearch();
-            $animalMissingDataProvider = $animalMissingSearchModel->search(Yii::$app->request->queryParams);
+            $animalMissingDataProvider =
+            $animalMissingDataProvider = new ActiveDataProvider([
+                'query' =>  MissingAnimal::find()->where(['is_missing' => 1]),
+                'pagination' => [
+                    'pageSize' => 10,
+                ]
+            ]);
 
             if (Yii::$app->request->get() != null) {
 

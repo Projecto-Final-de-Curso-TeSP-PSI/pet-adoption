@@ -70,7 +70,6 @@ AppAsset::register($this);
                             ['Raças Gato' => $natureCat, 'Raças Cão' => $natureDog],
                             ['prompt' => 'Escolha a raça']) ?>
 
-
                     <?= $form->field($animalModel, 'sex',
                         [
                             'inputOptions' => ['id' => 'createFill-sex']

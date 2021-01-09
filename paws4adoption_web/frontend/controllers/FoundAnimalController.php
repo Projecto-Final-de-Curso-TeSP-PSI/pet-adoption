@@ -61,7 +61,12 @@ class FoundAnimalController extends Controller
         try {
             $animalFoundSearchModel = new FoundAnimalSearch();
             $animalSearchModel = new AnimalSearch();
-            $animalFoundDataProvider = $animalFoundSearchModel->search(Yii::$app->request->queryParams);
+            $animalFoundDataProvider = new ActiveDataProvider([
+                'query' =>  FoundAnimal::find()->where(['is_active' => 1]),
+                'pagination' => [
+                    'pageSize' => 10,
+                ]
+            ]);
 
             if (Yii::$app->request->get() != null) {
 
