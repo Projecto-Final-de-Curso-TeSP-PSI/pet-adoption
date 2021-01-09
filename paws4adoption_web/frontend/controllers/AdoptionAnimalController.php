@@ -440,6 +440,22 @@ class AdoptionAnimalController extends Controller
                 ->andWhere(['is', 'adoption_date', null]);
             return $query;
 
+        } elseif ($natureCat_id !== "") {
+
+            $query = AdoptionAnimal::find()
+                ->joinWith(['animal', 'adoption'])
+                ->andWhere(['nature_id' => $natureCat_id])
+                ->andWhere(['is', 'adoption_date', null]);
+            return $query;
+
+        } elseif ($natureDog_id !== "") {
+
+            $query = AdoptionAnimal::find()
+                ->joinWith(['animal', 'adoption'])
+                ->andWhere(['nature_id' => $natureDog_id])
+                ->andWhere(['is', 'adoption_date', null]);
+            return $query;
+
         } elseif ($size !== "" && $organization !== "") {
             $query = AdoptionAnimal::find()
                 ->joinWith(['animal', 'adoption'])

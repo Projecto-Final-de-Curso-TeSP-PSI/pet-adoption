@@ -12,6 +12,7 @@ use common\models\AssociatedUserRequest;
 use common\models\AssociatedUserRequestSearch;
 use yii\data\ActiveDataProvider;
 use yii\filters\AccessControl;
+use yii\web\BadRequestHttpException;
 use yii\web\Controller;
 use yii\web\ForbiddenHttpException;
 use yii\web\NotFoundHttpException;
@@ -30,14 +31,19 @@ class AssociatedUserRequestController extends Controller
         return [
             'access' => [
                 'class' => AccessControl::class,
-                'only' => ['create', 'update', 'delete'],
+                'only' => ['create', 'update', 'delete', 'approve', 'reprove'],
                 'rules' => [
                     [
                         'actions' => ['create', 'update', 'delete'],
                         'allow' => true,
                         'roles' => ['@'],
-                    ]
-                ]
+                    ],
+                    [
+                        'actions' => ['approve', 'reprove'],
+                        'allow' => true,
+                        'roles' => ['associatedUser'],
+                    ],
+                ],
             ],
             'verbs' => [
                 'class' => VerbFilter::className(),
@@ -58,6 +64,12 @@ class AssociatedUserRequestController extends Controller
         $user = AssociatedUser::findOne(Yii::$app->user->id);
         if($user == null)
             throw new ForbiddenHttpException("Não está associado a nenhuma organização");
+
+
+        if(!Yii::$app->user->can('manageOwnOrg', ['associated_user_id' => Yii::$app->user->id]))
+
+
+
 
         $query = AssociatedUserRequest::find()->where(
             [
@@ -99,40 +111,6 @@ class AssociatedUserRequestController extends Controller
     }
 
     /**
-     * Updates an existing AssociatedUserRequest model.
-     * If update is successful, the browser will be redirected to the 'view' page.
-     * @param integer $id
-     * @return mixed
-     * @throws NotFoundHttpException if the model cannot be found
-     */
-    public function actionUpdate($id)
-    {
-        $model = $this->findModel($id);
-
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id]);
-        }
-
-        return $this->render('update', [
-            'model' => $model,
-        ]);
-    }
-
-    /**
-     * Deletes an existing AssociatedUserRequest model.
-     * If deletion is successful, the browser will be redirected to the 'index' page.
-     * @param integer $id
-     * @return mixed
-     * @throws NotFoundHttpException if the model cannot be found
-     */
-    public function actionDelete($id)
-    {
-        $this->findModel($id)->delete();
-
-        return $this->redirect(['index']);
-    }
-
-    /**
      * Finds the AssociatedUserRequest model based on its primary key value.
      * If the model is not found, a 404 HTTP exception will be thrown.
      * @param integer $id
@@ -149,10 +127,11 @@ class AssociatedUserRequestController extends Controller
     }
 
     /**
- * Accepts an new user to an organization, and add's also associated user role
- * @param integer $id The id of the organization to be approved
- * @return string
- */
+     * Accepts an new user to an organization, and add's also associated user role
+     * @param $id
+     * @return \yii\web\Response
+     * @throws ForbiddenHttpException
+     */
     public function actionApprove($id){
 
         //Verify if user has associatedUser relation, therefore also as an organization assigned
@@ -160,11 +139,19 @@ class AssociatedUserRequestController extends Controller
         if($user == null)
             throw new ForbiddenHttpException("Não está associado a nenhuma organização");
 
+        //If user can't manage own organization
+        $associatedUserRequest = AssociatedUserRequest::findOne($id);
+        if($associatedUserRequest == null)
+            throw new BadRequestHttpException("Whrong candidate approval request");
+
+        if(!Yii::$app->user->can('manageOwnOrgOrganization', ['organization_id' => $associatedUserRequest->organization_id])){
+            throw new ForbiddenHttpException();
+        }
+
         $db = Yii::$app->db;
         $transaction = $db->beginTransaction();
 
         try{
-            $associatedUserRequest = AssociatedUserRequest::findOne($id);
             if($associatedUserRequest != null){
                 $associatedUserRequest->status = AssociatedUserRequest::TREATED;
 
@@ -188,26 +175,44 @@ class AssociatedUserRequestController extends Controller
         return $this->redirect('index');
     }
 
+    /**
+     * Reproves an new user to an organization, simply deletes the line from the associatedUserRequest table
+     * @param $id
+     * @return \yii\web\Response
+     * @throws ForbiddenHttpException
+     */
     public function actionReprove($id){
-        //Verify if user has associatedUser relation, therefore also as an organization assigned
-        $user = AssociatedUser::findOne(Yii::$app->user->id);
-        if($user == null)
+
+        //Verify if loggeduser has associatedUser relation, therefore also as an organization assigned
+        $loggedUser = AssociatedUser::findOne(Yii::$app->user->id);
+        if($loggedUser == null)
             throw new ForbiddenHttpException("Não está associado a nenhuma organização");
+
+        //If user can't manage own organization
+        if(!Yii::$app->user->can('manageOrganization', ['organization_id' => $loggedUser->id])){
+            throw new ForbiddenHttpException();
+        }
 
         $associatedUserRequest = AssociatedUserRequest::findOne($id);
         if($associatedUserRequest == null){
-
+            Yii::$app->session->setFlash('Error', "Erro na repovação de pedido de voluntariado, contate o webmaster");
             return $this->redirect('index');
         }
 
-        if($associatedUserRequest->delete()){
-            Yii::$app->session->setFlash('Success', "Pedido de voluntariado removida com sucesso!");
+        try {
+            if($associatedUserRequest->delete()){
+                Yii::$app->session->setFlash('Success', "Pedido de voluntariado removido com sucesso!");
+            }
+            else{
+                Yii::$app->session->setFlash('Error', "Erro ao remover pedido de voluntariado!");
+            }
+        } catch(Exception $e){
+            Yii::$app->session->setFlash('Error', "Erro ao apagar o pedido de voluntariado");
+        } catch (\Throwable $e){
+            Yii::$app->session->setFlash('Error', "Erro ao apagar o pedido de voluntariado");
         }
-        else{
-            Yii::$app->session->setFlash('Error', "Erro ao remover pedido de voluntariado!");
-        }
-        return $this->redirect(['index']);
 
+        return $this->redirect(['index']);
 
     }
 
