@@ -97,7 +97,7 @@ class SiteController extends Controller
             $loggedUserId = Yii::$app->user->id;
             $loggedUser = User::findIdentity($loggedUserId);
             if($loggedUser->address_id == null){
-                return $this->actionProfile();
+                return $this->redirect(['site/profile']);
             }
             return $this->goBack();
         } else {
