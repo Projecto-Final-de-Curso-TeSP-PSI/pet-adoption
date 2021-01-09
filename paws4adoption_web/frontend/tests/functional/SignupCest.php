@@ -20,13 +20,19 @@ class SignupCest
         $I->see('Registo de utilizador', 'h1');
         $I->see('Preencha o formulário para se registar.', 'p');
         $I->submitForm($this->formId,         [
+            'SignupForm[firstName]'  => '',
+            'SignupForm[lastName]'  => '',
+            'SignupForm[nif]'  => '',
             'SignupForm[username]'  => '',
             'SignupForm[email]'     => '',
             'SignupForm[password]'  => '',
         ]);
-        $I->seeValidationError('Username cannot be blank.'); //PRECISA DE SER ALTERADO PARA PT
-        $I->seeValidationError('Email cannot be blank.'); //PRECISA DE SER ALTERADO PARA PT
-        $I->seeValidationError('Password cannot be blank.'); //PRECISA DE SER ALTERADO PARA PT
+        $I->seeValidationError('Nome cannot be blank.');
+        $I->seeValidationError('Apelido cannot be blank.');
+        $I->seeValidationError('NIF cannot be blank.');
+        $I->seeValidationError('Nome de utilizador cannot be blank.');
+        $I->seeValidationError('Email cannot be blank.');
+        $I->seeValidationError('Password cannot be blank.');
     }
         //---->TESTE PARA VERIFICAR SE QUANDO SE COLOCA EMAIL INVALIDO SE APARECE SO ERRO REFEREMTE AO EMAIL NAO VALIDO
     public function signupWithWrongEmail(FunctionalTester $I)
@@ -47,6 +53,9 @@ class SignupCest
     public function signupSuccessfully(FunctionalTester $I)
     {
         $I->submitForm($this->formId, [
+            'SignupForm[firstName]'  => 'Test',
+            'SignupForm[lastName]'  => 'Tester',
+            'SignupForm[nif]'  => '152365155',
             'SignupForm[username]' => 'tester',
             'SignupForm[email]' => 'tester.email@example.com',
             'SignupForm[password]' => 'tester_password',
