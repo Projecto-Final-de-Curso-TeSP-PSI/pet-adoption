@@ -54,15 +54,11 @@ class VerifyEmailCest
 
     public function checkSuccessVerification(FunctionalTester $I)
     {
-        $I->amOnRoute('site/verify-email', ['token' => '4ch0qbfhvWwkcuWqjN8SWRq72SOw1KYT_1548675330']);
+        $I->amOnRoute('site/verify-email', ['token' => '2xzQ0WBGpQSo-EeNpOrhjNzyYtfwyvLp_1605963196']);
         $I->canSee('Your email has been confirmed!');
-        $I->canSee('Congratulations!', 'h1');
-        $I->see('Logout (test.test)', 'form button[type=submit]');
+        $I->see('Destaques');
+        $I->click('#dropDownUser');
+        $I->see('Logout');
 
-        $I->seeRecord('common\models\user', [
-           'username' => 'test.test',
-           'email' => 'test@mail.com',
-           'status' => \common\models\user::STATUS_ACTIVE
-        ]);
     }
 }

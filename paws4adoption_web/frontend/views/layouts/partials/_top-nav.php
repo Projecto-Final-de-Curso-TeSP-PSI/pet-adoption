@@ -151,7 +151,7 @@ use yii\helpers\Html;
                 <a id='dropDownUser' class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                     <div class="menu-profile">
                         <?php $userid = Yii::$app->user->id; $loggedUser = \common\models\User::findIdentity($userid) ?>
-                        <span class="name"><?= isset($loggedUser) ? $loggedUser->getFullName() : 'Guest' ?></span>
+                        <span id="userLogged" class="name"><?= isset($loggedUser) ? $loggedUser->getFullName() : 'Guest' ?></span>
                         <i data-feather="user" class="icon"></i>
                     </div>
                 </a>
