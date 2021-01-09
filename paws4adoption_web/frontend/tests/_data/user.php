@@ -19,6 +19,7 @@ return [
         'updated_at' => '1391885313',
         'email' => 'nicolas.dianna@hotmail.com',
         'status' => '0',
+        'nif' => '139188531'
     ],
     [
         'username' => 'test.test',

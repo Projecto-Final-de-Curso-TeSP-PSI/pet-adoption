@@ -17,17 +17,17 @@ $this->params['breadcrumbs'][] = $this->title;
                 <div class="faq-accordion mb-30">
                     <ul class="accordion">
                         <li class="accordion-item">
-                            <a class="accordion-title" href="javascript:void(0)">
+                            <a class="accordion-title" id="help1">
                                 <i class="lni-plus"></i>
                                 Adotando um animal.
                             </a>
                             <div class="accordion-content">
-                                A adoção é uma ótima maneira de ajudar tanto aos animais, pois ganham uma família onde
+                                <p id="helpText1">A adoção é uma ótima maneira de ajudar tanto aos animais, pois ganham uma família onde
                                 se sentem amados e protegidos, como as associações que infelizmente estão sempre lotadas
                                 de animais e de pedidos de resgate.
                                 Ao adotar a associação fica com espaço livre e pode ir resgatar outro animal que
                                 necessite, desta forma a adoção cria um ciclo muito importante para a diminuição de
-                                animais de rua.
+                                animais de rua.</p>
                                 <hr>
                                 Para isso pode utilizar o nosso site para consultar os animais que estão disponíveis
                                 para adoção e formalizar um pedido para esse efeito. Veja aqui a <a
@@ -36,15 +36,15 @@ $this->params['breadcrumbs'][] = $this->title;
                             </div>
                         </li>
                         <li class="accordion-item">
-                            <a class="accordion-title" href="javascript:void(0)">
+                            <a class="accordion-title" id="help2">
                                 <i class="lni-plus"></i>
                                 Seja uma familia de acolhimento temporario
                             </a>
                             <div class="accordion-content">
-                                Se querias ter um animal mas infelizmente não tens poder financeiro para o teres, as
+                                <p id="helpText2">Se querias ter um animal mas infelizmente não tens poder financeiro para o teres, as
                                 famílias de acolhimento temporário pode ser a solução, sendo que normalmente quando este
                                 tipo de "adoção" acontece, as associações ajudam com a ração e veterinário. Desta forma
-                                ambos ficam a ganhar!
+                                ambos ficam a ganhar!</p>
                                 <hr>
                                 <b>Veja as Vantagens:</b>
                                 <ul>
@@ -66,16 +66,16 @@ $this->params['breadcrumbs'][] = $this->title;
                             </div>
                         </li>
                         <li class="accordion-item">
-                            <a class="accordion-title" href="javascript:void(0)">
+                            <a class="accordion-title" id="help3">
                                 <i class="lni-plus"></i>
                                 Apadrinhar um animal
                             </a>
                             <div class="accordion-content">
-                                Ama animais e quer ajudar um animal em particular, mas não pode adotar um animal por
+                                <p id="helpText3">Ama animais e quer ajudar um animal em particular, mas não pode adotar um animal por
                                 algum motivo? O apadrinhamento é uma ajuda financeira destinada a um certo animal para o
                                 ajudar com a sua alimentação, brinquedos e cuidados médicos. Desta forma pode ajudar um
                                 animal a ter uma melhor qualidade de vida e ajudar com as despesas do animal, e por sua
-                                vez ajudar com as despesas da associação, desta forma promove a sua adoção.
+                                    vez ajudar com as despesas da associação, desta forma promove a sua adoção. </p>
                                 <hr>
                                 Para isso entre em contacto com uma associação para que ela o possa orientar nesse
                                 processo. Veja aqui a <a href="<?= Yii::$app->request->baseUrl ?>/organization"><b>lista
@@ -83,32 +83,32 @@ $this->params['breadcrumbs'][] = $this->title;
                             </div>
                         </li>
                         <li class="accordion-item">
-                            <a class="accordion-title" href="javascript:void(0)">
+                            <a class="accordion-title" id="help4">
                                 <i class="lni-plus"></i>
                                 Doações
                             </a>
                             <div class="accordion-content">
-                                A doação ao contrario do apadrinhamento e feito a associação e não a um animal em
+                                <p id="helpText4">A doação ao contrario do apadrinhamento e feito a associação e não a um animal em
                                 especifico. A doação pode ter vários formatos monetários, alimentação, produtos de
                                 higiene para os animais, entre outros produtos que eles necessitam.
                                 As doações são o grande sustento das associações de proteção de animais, sendo assim é a
                                 forma onde estas vão buscar a maioria do dinheiro para se manterem operacionais e pagar
                                 as contas necessárias. A doação é muito importante! Sem as doações as associações teriam
                                 de fechar e os animais deixavam de ter para onde ir, voltando para a rua e para o
-                                abandono.
+                                    abandono.</p>
                                 <hr>
                                 Veja aqui a <a href="<?= Yii::$app->request->baseUrl ?>/organization"><b>lista de
                                         associações</b></a> para poder fazer a sua doação.
                             </div>
                         </li>
                         <li class="accordion-item">
-                            <a class="accordion-title" href="javascript:void(0)">
+                            <a class="accordion-title" id="help5">
                                 <i class="lni-plus"></i>
                                 Quero ser Voluntario
                             </a>
                             <div class="accordion-content">
-                                O voluntariado, é principalmente o trabalho manual que uma associação necessita, desde
-                                cuidar dos animais a limpar as suas casas, cuidados médicos, participação em campanhas.
+                                <p id="helpText5">O voluntariado, é principalmente o trabalho manual que uma associação necessita, desde
+                                    cuidar dos animais a limpar as suas casas, cuidados médicos, participação em campanhas.</p>
                                 <hr>
                                 Para isso entre em contacto com uma associação para que ela o possa orientar nesse
                                 processo. Veja aqui a <a href="<?= Yii::$app->request->baseUrl ?>/organization"><b>lista

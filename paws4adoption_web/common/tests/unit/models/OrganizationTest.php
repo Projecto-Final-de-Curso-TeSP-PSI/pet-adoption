@@ -152,5 +152,4 @@ class OrganizationTest extends \Codeception\Test\Unit
         $this->assertTrue($this->organization3->validate(), json_encode($this->organization3->errors));
 
     }
-
 }

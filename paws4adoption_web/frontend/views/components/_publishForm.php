@@ -68,7 +68,9 @@ AppAsset::register($this);
 
                     <?= $form->field($animalModel, 'nature_id')->dropDownList(
                             ['Raças Gato' => $natureCat, 'Raças Cão' => $natureDog],
-                            ['prompt' => 'Escolha a raça']) ?>
+                            ['prompt' => 'Escolha a raça',
+                            'id' => 'createFill-nature'
+                            ]) ?>
 
                     <?= $form->field($animalModel, 'sex',
                         [

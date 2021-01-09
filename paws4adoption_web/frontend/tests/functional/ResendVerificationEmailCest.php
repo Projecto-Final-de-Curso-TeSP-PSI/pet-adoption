@@ -22,7 +22,7 @@ class ResendVerificationEmailCest
         return [
             'user' => [
                 'class' => UserFixture::className(),
-                'dataFile' => codecept_data_dir() . 'user.php',
+                //'dataFile' => codecept_data_dir() . 'user.php',
             ],
         ];
     }
@@ -78,6 +78,6 @@ class ResendVerificationEmailCest
             'username' => 'test.test',
             'status' => \common\models\user::STATUS_INACTIVE
         ]);
-        $I->see('Check your email for further instructions.');
+        $I->see('Verifique o seu email.');
     }
 }

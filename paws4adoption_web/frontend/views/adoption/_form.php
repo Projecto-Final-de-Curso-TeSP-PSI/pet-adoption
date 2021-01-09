@@ -41,14 +41,8 @@ AppAsset::register($this);
                     </div>
 
                     <?php ActiveForm::end(); ?>
-                    <hr>
-                    <p><b>Para editar ou eliminar uma publicação já feita aceda à </b>
-                        <a href="<?= Yii::$app->request->baseUrl ?>/site/my-list-animals"><b> Minha lista </a></a>
-                    </p>
-
-                </div><!-- userProfileForm -->
+                </div>
             </div>
         </div>
     </div>
 </div>
-<!-- End Profile Settings -->
