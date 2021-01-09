@@ -15,7 +15,7 @@ use yii\widgets\ActiveForm;
 
 <div class="nature-form">
 
-    <?php $form = ActiveForm::begin(); ?>
+    <?php $form = ActiveForm::begin(['id' => $model->scenario == Nature::SCENARIO_SPECIE ? 'Nature[addSpecie]' : 'Nature[addSubSpecie]' ]); ?>
 
         <?php
             if($model->scenario == Nature::SCENARIO_SUB_SPECIE){
@@ -30,7 +30,7 @@ use yii\widgets\ActiveForm;
             ->label($model->scenario == Nature::SCENARIO_SPECIE ? 'Espécie' : 'Sub-espécie') ?>
 
         <div class="form-group">
-            <?= Html::submitButton('Save', ['class' => 'btn btn-success']) ?>
+            <?= Html::submitButton('Salvar', ['class' => 'btn btn-success']) ?>
             <?= Html::a('Cancelar', ['index'], ['class' => 'btn btn-primary']) ?>
         </div>
 

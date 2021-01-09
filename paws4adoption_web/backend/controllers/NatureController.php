@@ -49,9 +49,10 @@ class NatureController extends Controller
      */
     public function actionIndex()
     {
-        $searchModel = new NatureSearch();
-        $parentDataProvider = $searchModel->search(Yii::$app->request->queryParams);
-        $childDataProvider = $searchModel->search(Yii::$app->request->queryParams);
+        $parentSearchModel = new NatureSearch();
+        $childSearchModel = new NatureSearch();
+        $parentDataProvider = $parentSearchModel->search(Yii::$app->request->queryParams);
+        $childDataProvider = $childSearchModel->search(Yii::$app->request->queryParams);
 
 
 
@@ -62,25 +63,26 @@ class NatureController extends Controller
             ],
             'sort' => [
                 'defaultOrder' => [
-                    'name' => SORT_ASC,
+
                 ]
             ],
         ]);
 
         $childDataProvider = new ActiveDataProvider([
-            'query' => Nature::find(),
+            'query' => Nature::find()->where(['is not', 'parent_nature_id', null]),
             'pagination' => [
                 'pageSize' => 10,
             ],
             'sort' => [
                 'defaultOrder' => [
-                    'name' => SORT_ASC,
+
                 ]
             ],
         ]);
 
         return $this->render('index', [
-            'searchModel' => $searchModel,
+            'parentSearchModel' => $parentSearchModel,
+            'childSearchModel' => $childSearchModel,
             'parentDataProvider' => $parentDataProvider,
             'childDataProvider' => $childDataProvider,
         ]);

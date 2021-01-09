@@ -2,9 +2,11 @@
 
 namespace common\models;
 
+use common\classes\RoleManager;
 use Yii;
 use yii\base\NotSupportedException;
 use yii\behaviors\TimestampBehavior;
+use yii\helpers\Html;
 use yii\web\IdentityInterface;
 
 /**
@@ -25,8 +27,9 @@ use yii\web\IdentityInterface;
  * @property int $updated_at
  * @property string|null $verification_token
  * @property int|null $address_id
+ * @property string $city
+ * @property string $fullName
  *
- * @property AdminUser $adminUser
  * @property AssociatedUser $associatedUser
 
  * @property FoundAnimal[] $foundAnimals
@@ -106,7 +109,9 @@ class User extends \yii\db\ActiveRecord implements IdentityInterface
             'updated_at' => 'Updated At',
             'verification_token' => 'Verification Token',
             'address_id' => 'Address ID',
-            'fullName' => 'Nome completo'
+            'fullName' => 'Nome completo',
+            'statusHtml' => 'Estado',
+            'adminPermissionStatusHtml' => 'Admin'
         ];
     }
 
@@ -324,5 +329,92 @@ class User extends \yii\db\ActiveRecord implements IdentityInterface
      */
     public function getFoundedOrganizations(){
         return $this->hasMany(Organization::className(), ['founder_id' => 'id']);
+    }
+
+    /**
+     * Gets the html status for the user
+     * @return string
+     */
+    public function getStatusHtml(){
+        $class = null;
+        $text = null;
+        switch($this->status){
+            case self::STATUS_DELETED:
+                $class = 'btn btn-danger';
+                $text = 'Eliminado';
+                break;
+            case self::STATUS_INACTIVE:
+                $class = 'btn btn-default';
+                $text = 'Inativo';
+                break;
+            case self::STATUS_ACTIVE:
+                $class = 'btn btn-success';
+                $text = 'Ativo';
+                break;
+        }
+        return '<span class="'. Html::encode($class) .  ' render-status">' . Html::encode($text) . '</span>';
+    }
+
+    /**
+     * Get's the html button for bokc and unblock users
+     * @return array
+     */
+    public function getActionButtonBlock(){
+        $text = null;
+        $html = null;
+        switch($this->status){
+            case self::STATUS_INACTIVE:
+                $text = 'Desbloquear';
+                $html = '<span class="glyphicon glyphicon-ok-sign gi-block" style="color:green"></span>';
+                break;
+            case self::STATUS_ACTIVE:
+                $text = 'Bloquear';
+                $html = '<span class="glyphicon glyphicon-remove-sign" style="color:red"></span>';
+                break;
+        }
+
+        return [
+            'html' => $html,
+            'text' => $text
+        ];
+    }
+
+    /**
+     * Get's the html status of the admin permission for this user
+     */
+    public function getAdminPermissionStatusHtml(){
+        $userHasAdminRole = RoleManager::userHasRole(RoleManager::ADMIN_ROLE, $this->id);
+        $class = null;
+        $text = null;
+        if($userHasAdminRole){
+            $class = 'btn btn-success';
+            $text = 'Sim';
+        } else{
+            $class = 'btn btn-default   ';
+            $text = 'Não';
+        }
+        return '<span class="'. Html::encode($class) .  ' render-status">' . Html::encode($text) . '</span>';
+    }
+
+    /**
+     * Get's the html button to give or take admin permission
+     * @return array
+     */
+    public function getActionButtonAdmin(){
+        $userHasAdminRole = RoleManager::userHasRole(RoleManager::ADMIN_ROLE, $this->id);
+        $text = null;
+        $html = null;
+        if($userHasAdminRole) {
+            $text = 'Retirar Admin';
+            $html = '<span class="glyphicon glyphicon-thumbs-down" style="color:red"></span>';
+        } else {
+            $text = 'Tornar Admin';
+            $html = '<span class="glyphicon glyphicon-thumbs-up gi-block" style="color:green"></span>';
+        }
+
+        return [
+            'html' => $html,
+            'text' => $text
+        ];
     }
 }

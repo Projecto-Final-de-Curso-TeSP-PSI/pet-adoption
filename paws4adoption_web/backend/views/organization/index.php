@@ -16,7 +16,6 @@ $this->title = 'Organizações';
 
     <h1><?= Html::encode($this->title) ?></h1>
 
-    <?php \yii\widgets\Pjax::begin(['id' => 'pjax-container'] ); ?>
     <?= GridView::widget([
         'tableOptions' => [
             'class' => 'table table-striped',
@@ -40,41 +39,35 @@ $this->title = 'Organizações';
                 'contentOptions' => ['class' => 'hidden-xs hidden-sm'],
             ],
             [
-                'headerOptions' => ['class' => 'hidden-xs hidden-sm  hidden-md'],
                 'attribute' => 'phone',
+                'headerOptions' => ['class' => 'hidden-xs hidden-sm  hidden-md'],
                 'contentOptions' => ['class' => 'hidden-xs hidden-sm  hidden-md'],
             ],
             [
+                'attribute' => 'city',
                 'headerOptions' => ['class' => 'hidden-xs hidden-sm hidden-md'],
-                'attribute' => 'address.city',
                 'contentOptions' => ['class' => 'hidden-xs hidden-sm  hidden-md'],
             ],
             [
-                'header' => 'Estado',
-                'content' => function($model) {
-                    return  Html::tag(
-                        'span',
-                        $model->status == Organization::STATUS_ACTIVE ? 'Ativo' : 'Inactivo',
-                        ['class' => $model->status == Organization::STATUS_ACTIVE ? 'btn btn-success btn-xs' : 'btn btn-danger btn-xs']
-                    );
-                }
-            ],
-            [
-                'header' => 'Ação',
-                'content' => function($model, $key, $index, $column) {
-                    return Html::a(
-                        '<i class="fa fa-euro">' . ($model->status === Organization::STATUS_ACTIVE ? 'Bloquear' : 'Desbloquear') . '</i>',
-                        Url::to(['organization/block', 'id' => $model->id]),
-                        [  'class' => $model->status == Organization::STATUS_ACTIVE ? 'btn btn-danger btn-xs' : 'btn btn-success btn-xs'],
-                    );
-                }
+                'attribute' => 'statusHtml',
+                'format' => 'html'
             ],
             [
                 'class' => 'yii\grid\ActionColumn',
                 'template' => '{view} {update} {myButton}',
+                'buttons' => [
+                    'myButton' => function ($url,$model,$key) {
+                        return Html::a(
+                            '<span class="glyphicon ' . ($model->status == Organization::STATUS_ACTIVE ? 'glyphicon-remove-circle gi-block' : 'glyphicon-ok-circle gi-unblock') . '"></span>',
+                            Url::to(['organization/block', 'id' => $model->id]),
+                            [
+                                'title' => ($model->status == Organization::STATUS_ACTIVE ? 'Bloquear' : 'Desbloquear' )
+                            ],
+                        );
+                    },
+                ],
             ],
         ],
     ]); ?>
-    <?php \yii\widgets\Pjax::end(); ?>
 
 </div>

@@ -22,88 +22,55 @@ $this->params['breadcrumbs'][] = $this->title;
         'dataProvider' => $dataProvider,
         'filterModel' => $searchModel,
         'columns' => [
-            'id',
-            'firstName',
-            'lastName',
-            'email:email',
+            'fullName',
+            'username',
             'nif',
             'phone',
-            'username',
-            'created_at',
-            [
-                'header' => 'Gerir Utilizador',
-                'content' => function($model) {
-                    return  Html::tag('span',
-                        $model->status == User::STATUS_ACTIVE ? 'Ativo' : 'Inativo',
-                        ['class' => $model->status == User::STATUS_ACTIVE ? 'btn btn-success btn-xs' : 'btn btn-danger btn-xs']
-                    );
-                }
-            ],
-            [
-                'header' => 'Ação',
-                'content' => function($model, $key, $index, $column) {
-                    if($key == Yii::$app->user->id){
-                        return Html::a(
-                            '<i class="fa fa-euro">' . ($model->status === User::STATUS_ACTIVE ? 'Bloquear' : 'Desbloquear') . '</i>',
-                            Url::to(['user/block', 'id' => $model->id]),
-                            [
-                                'class' => $model->status == User::STATUS_ACTIVE ? 'btn btn-danger btn-xs' : 'btn btn-success btn-xs',
-                                'data' => [
-                                    'confirm' => 'Tem a certeza que pretende bloquear-se a si próprio? Ficará sem acesso ao backoffice!',
-                                    'method' => 'post',
-                                ]
-                            ]
-                        );
-                    } else {
-                        return Html::a(
-                            '<i class="fa fa-euro">' . ($model->status === User::STATUS_ACTIVE ? 'Bloquear' : 'Desbloquear') . '</i>',
-                            Url::to(['user/block', 'id' => $model->id]),
-                            [  'class' => $model->status == User::STATUS_ACTIVE ? 'btn btn-danger btn-xs' : 'btn btn-success btn-xs'],
-                            );
-                    }
-                },
-            ],
-            [
-                'header' => 'Gerir Admin',
-                'content' => function($model, $key, $index, $column) {
-                    $userHasAdminRole = RoleManager::userHasRole(RoleManager::ADMIN_ROLE, $key);
-                    return  Html::tag('span',
-                        $userHasAdminRole ? 'Admin' : '-',
-                        ['class' => $userHasAdminRole ? 'btn btn-info btn-xs' : '']
-                    );
-                }
-            ],
-            [
-                'header' => 'Ação',
-                'content' => function($model, $key, $index, $column) {
-                    $userHasAdminRole = RoleManager::userHasRole(RoleManager::ADMIN_ROLE, $key);
-                    if($key == Yii::$app->user->id){
-                        return Html::a(
-                            $userHasAdminRole ? 'Remover' : 'Tornar Adicionar',
-                            Url::to(['user/set-unset-admin', 'user_id' => $key]),
-                            [
-                                'class' =>  $userHasAdminRole ? 'btn btn-danger btn-xs' : 'btn btn-success btn-xs',
-                                'data' => [
-                                    'confirm' => 'Tem a certeza que pretende remover permissão de Admin a si próprio? Ficará sem acesso ao backoffice!',
-                                    'method' => 'post',
-                                ]
-                            ]
-                        );
-                    } else {
-                        return Html::a(
-                            $userHasAdminRole? 'Remover' : 'Tornar Admin',
-                            Url::to(['user/set-unset-admin', 'user_id' => $key]),
-                            [  'class' => $userHasAdminRole ? 'btn btn-danger btn-xs' : 'btn btn-success btn-xs'],
-                            );
-                    }
-                },
-            ],
+            ['attribute' => 'statusHtml', 'header' => 'Estado', 'format' => 'html'],
+            ['attribute' => 'adminPermissionStatusHtml', 'format' => 'html'],
             [
                 'class' => 'yii\grid\ActionColumn',
-                'template' => '{view} {update}',
+                'template' => '{view} {update} {block} {admin}',
+                'buttons' => [
+                    'block' => function ($url, $model, $key) {
+                        if($key == Yii::$app->user->id)
+                            $data =  [
+                            'confirm' => 'Tem a certeza que pretende bloquear-se a si próprio?',
+                            'method' => 'post',
+                            ];
+                        else
+                            $data = [];
+
+                        return Html::a(
+                            $model->actionButtonBlock['html'],
+                            Url::to(['user/block', 'id' => $model->id]),
+                            [
+                                'title' => $model->actionButtonBlock['text'],
+                                'data' => $data
+                            ],
+                        );
+                    },
+                    'admin' =>function ($url, $model, $key) {
+                        if($key == Yii::$app->user->id)
+                            $data =  [
+                                'confirm' => 'Tem a certeza que pretende remover permissão de Admin a si próprio? Ficará sem acesso ao backoffice!',
+                                'method' => 'post',
+                            ];
+                        else
+                            $data = [];
+
+                        return Html::a(
+                            $model->actionButtonAdmin['html'],
+                            Url::to(['user/set-unset-admin', 'user_id' => $key]),
+                            [
+                                'title' => $model->actionButtonAdmin['text'],
+                                'data' => $data
+                            ],
+                            );
+                    },
+                ],
             ],
         ],
     ]); ?>
-
 
 </div>

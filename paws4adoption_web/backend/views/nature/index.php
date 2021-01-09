@@ -5,7 +5,8 @@ use yii\grid\GridView;
 use yii\helpers\Url;
 
 /* @var $this yii\web\View */
-/* @var $searchModel backend\models\NatureSearch */
+/* @var $parentSearchModel backend\models\NatureSearch */
+/* @var $childSearchModel backend\models\NatureSearch */
 /* @var $parentDataProvider yii\data\ActiveDataProvider */
 /* @var $childDataProvider yii\data\ActiveDataProvider */
 
@@ -22,27 +23,12 @@ use yii\helpers\Url;
                 <?= Html::a('Criar Espécie', ['create-specie'], ['class' => 'btn btn-success']) ?>
             </p>
             <?= GridView::widget([
-                'id' => 'parentGridView',
+                'id' => 'speciesGridView',
                 'dataProvider' => $parentDataProvider,
-                'filterModel' => $searchModel,
-
-                'rowOptions' => function($model,$index,$key){
-                    return ['id' => $model['id'],
-                        'onclick' =>
-                        '
-                              var pjaxContainer = $(this).attr(\'pjax-container\');
-                              $.get(
-                                  "'.Url::toRoute('refresh-subspecies').'", { id:' . $model['id'].' } 
-                              ).done(function( data ) {
-                                  $.pjax.reload({container:\'#idofyourpjaxwidget\'});
-                              } 
-                        );
-                        '
-                    ];
-                },
+                'filterModel' => $parentSearchModel,
                 'columns' => [
                     ['class' => 'yii\grid\SerialColumn'],
-                    'name',
+                    'Espécie' => 'name',
                     [
                         'class' => 'yii\grid\ActionColumn',
                         'template' => '{update} {delete}',
@@ -58,14 +44,6 @@ use yii\helpers\Url;
                         },
                     ],
                 ],
-//                    [
-//                        'class' => 'yii\grid\RadioButtonColumn',
-//                        'radioOptions' => function($model, $keys, $index, $column){
-//                            return [
-//                                'onchange' => "var selectedKey = $keys;"
-//                            ];
-//                        },
-//                    ]
             ]); ?>
         </div>
 
@@ -76,14 +54,13 @@ use yii\helpers\Url;
             </p>
 
             <?php \yii\widgets\Pjax::begin(['id' => 'pjax-container'] ); ?>
-
                 <?= GridView::widget([
-                    'id' => 'childGridView',
+                    'id' => 'subspeciesGridView',
                     'dataProvider' => $childDataProvider,
-                    'filterModel' => $searchModel,
+                    'filterModel' => $childSearchModel,
                     'columns' => [
                         ['class' => 'yii\grid\SerialColumn'],
-                        'name',
+                        'Espécie' => 'name',
                         [
                             'class' => 'yii\grid\ActionColumn',
                             'template' => '{update} {delete}',
@@ -100,7 +77,6 @@ use yii\helpers\Url;
                         ],
                     ],
                 ]); ?>
-
             <?php \yii\widgets\Pjax::end(); ?>
 
         </div>

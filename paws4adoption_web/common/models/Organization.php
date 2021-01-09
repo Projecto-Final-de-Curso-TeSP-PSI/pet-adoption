@@ -6,6 +6,7 @@ use ReflectionClass;
 use Yii;
 use yii\db\Query;
 use yii\helpers\ArrayHelper;
+use yii\helpers\Html;
 
 /**
  * This is the model class for table "organizations".
@@ -92,7 +93,8 @@ class Organization extends \yii\db\ActiveRecord
             'address' => 'Morada',
             'founder_id' => 'Founder id',
             'founder' => 'Fundador',
-            'city' => 'Cidade'
+            'city' => 'Cidade',
+            'statusHtml' => 'Estado'
         ];
     }
 
@@ -191,6 +193,30 @@ class Organization extends \yii\db\ActiveRecord
         }
 
         return ArrayHelper::map($result, 'id', 'name');
+    }
+
+    /**
+     * Get's the HTML string to render a button like logo for the status
+     * @return string
+     */
+    public function getStatusHtml(){
+        $class = null;
+        $text = null;
+        switch($this->status){
+            case self::STATUS_APPROVAL_PENDING:
+                $class = 'btn btn-info';
+                $text = 'Pendente Aprovação';
+                break;
+            case self::STATUS_ACTIVE:
+                $class = 'btn btn-success';
+                $text = 'Ativo';
+                break;
+            case self::STATUS_INACTIVE:
+                $class = 'btn btn-danger';
+                $text = 'Inativo';
+                break;
+        }
+        return '<span class="'. Html::encode($class) .  ' render-status">' . Html::encode($text) . '</span>';
     }
 
     /**

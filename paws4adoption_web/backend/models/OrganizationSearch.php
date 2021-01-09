@@ -14,6 +14,7 @@ use common\models\Organization;
 class OrganizationSearch extends Organization
 {
     public $city;
+    public $statusHtml;
 
     /**
      * {@inheritdoc}
@@ -22,7 +23,7 @@ class OrganizationSearch extends Organization
     {
         return [
             [['id', 'address_id', 'status'], 'integer'],
-            [['name', 'nif', 'email', 'phone', 'city'], 'safe'],
+            [['name', 'nif', 'email', 'phone', 'statusHtml', 'city'], 'safe'],
         ];
     }
 
@@ -53,18 +54,27 @@ class OrganizationSearch extends Organization
 
         $dataProvider->setSort([
             'attributes' => [
-                'id',
-                'city' => [
+                'name' => [
                     'asc' => ['address.city' => SORT_ASC],
                     'desc' => ['address.city' => SORT_DESC],
                     'label' => 'Cidade'
                 ],
+                'city' => [
+                    'asc' => ['city' => SORT_ASC],
+                    'desc' => ['city' => SORT_DESC],
+                    'label' => 'Cidade'
+                ],
+                'status' => [
+                    'asc' => ['status' => SORT_ASC],
+                    'desc' => ['Status' => SORT_DESC],
+                    'label' => 'Estado'
+                ],
+
             ],
         ]);
 
 
         if (!($this->load($params) && $this->validate())) {
-            $query->joinWith(['address']);
             return $dataProvider;
         }
 
@@ -79,9 +89,6 @@ class OrganizationSearch extends Organization
             ->andFilterWhere(['like', 'email', $this->email])
             ->andFilterWhere(['like', 'phone', $this->phone])
             ->andFilterWhere(['like', 'city', $this->city]);
-        $query->joinWith(['address' => function($q){
-            $q->where('address.city LIKE "%' . $this->city . '%"');
-        }]);
 
         return $dataProvider;
     }

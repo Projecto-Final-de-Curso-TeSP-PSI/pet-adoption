@@ -137,3 +137,24 @@ a.desc:after {
 .nav > li > form > button.logout:focus {
     outline: none;
 }
+
+.render-status {
+    pointer-events: none;
+    width: 100%;
+    height: 100%;
+}
+
+.width-100{
+    width: 100%;
+}
+
+.gi-block {
+    padding: 2px;
+    color: red;
+}
+
+.gi-unblock{
+    padding: 2px;
+    color: green;
+}
+

@@ -1,5 +1,6 @@
 <?php
 
+use common\models\Organization;
 use yii\helpers\Html;
 use yii\widgets\DetailView;
 
@@ -26,6 +27,7 @@ $this->title = 'Detalhes da Organização';
             'nif',
             'email:email',
             'phone',
+            ['attribute' => 'statusHtml', 'format' => 'html'],
             'address_id',
             'address.street',
             'address.door_number',
