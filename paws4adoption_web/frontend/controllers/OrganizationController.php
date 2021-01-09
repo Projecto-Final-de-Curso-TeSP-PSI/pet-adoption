@@ -46,13 +46,20 @@ class OrganizationController extends Controller
         return [
             'access' => [
                 'class' => AccessControl::className(),
-                'only' => ['create', 'update', 'delete', 'associate-manage'],
+                'only' => ['create', 'update', 'delete', 'associate-manage', 'associate-remove'],
                 'rules' => [
                     [
-                        'actions' => ['associate-manage', 'associate-remove', 'associate-add'],
+                        'actions' => ['associate-manage'],
                         'allow' => true,
-                        'roles' => ['@'],
+                        'roles' => ['associatedUser'],
                     ],
+                    [
+                        'actions' => ['associate-remove'],
+                        'allow' => true,
+                        'roles' => ['manageOrganization'],
+                        'roleParams' => ['associate_id' => Yii::$app->request->get('id')],
+                    ],
+
                     [
                         'actions' => ['create'],
                         'allow' => true,
@@ -404,15 +411,10 @@ class OrganizationController extends Controller
      */
     public function actionAssociateRemove($id){
 
-        //Verify if user has associatedUser relation, therefore also as an organization assigned
-        $user = AssociatedUser::findOne(Yii::$app->user->id);
-        if($user == null)
-            throw new ForbiddenHttpException("Não está associado a nenhuma organização");
-
-//        if(!Yii::$app->user->can('manageOrganization',  ['organization_id' => AssociatedUser::findOne($id)->organization_id]))
-//            throw new ForbiddenHttpException("Não tem uma organização associada");
-
-        $organization_id = AssociatedUser::getOrgIdByUserId($id);
+        //If user to remove doesn't have a associatedUser descendency
+        $associatedUser = AssociatedUser::findOne($id);
+        if($associatedUser == null)
+            throw new BadRequestHttpException("Whrong remove request");
 
         if(RoleManager::revokeRole(RoleManager::ASSOCIATED_USER_ROLE, $id)){
             Yii::$app->session->setFlash('Success', "Utilizador removido com sucesso!");
@@ -420,8 +422,8 @@ class OrganizationController extends Controller
         else{
             Yii::$app->session->setFlash('Error', "Erro ao remover user da associação!");
         }
-        return $this->redirect(['organization/associate-manage']);
 
+        return $this->redirect(['organization/associate-manage']);
     }
 
 }

@@ -37,18 +37,24 @@ class RoleManager
 
             //If we are setting a new associated user, assign the descendency
             if($new_role == self::ASSOCIATED_USER_ROLE){
-                //add the associated user descendency
-                $newAssociatedUser = new AssociatedUser();
-                $newAssociatedUser->id = $user_id;
-                $newAssociatedUser->isActive = true;
-                $newAssociatedUser->organization_id = $organization_id;
 
+                //If new associate user as hasn't already had an associated_user role
+                $newAssociatedUser = AssociatedUser::findOne($user_id);
+                if($newAssociatedUser == null){
+                    //add the associated user descendency
+                    $newAssociatedUser = new AssociatedUser();
+                    $newAssociatedUser->id = $user_id;
+                    $newAssociatedUser->isActive = true;
+                    $newAssociatedUser->organization_id = $organization_id;
+                } else {
+                    $newAssociatedUser->isActive = true;
+                    $newAssociatedUser->organization_id = $organization_id;
+                }
                 if(!$newAssociatedUser->save()){
                     $transaction->rollBack();
                     return false;
                 }
             }
-
             $transaction->commit();
         } catch(\Exception $e){
             $transaction->rollBack();
@@ -97,7 +103,6 @@ class RoleManager
                 $oldAssociatedUser->isActive = false;
                 if(!$oldAssociatedUser->save())
                     throw new \yii\db\Exception("Error");
-
             }
 
             $transaction->commit();

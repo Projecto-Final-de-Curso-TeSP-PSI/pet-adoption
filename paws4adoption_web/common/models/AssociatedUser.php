@@ -71,12 +71,4 @@ class AssociatedUser extends ActiveRecord //extends \common\models\User
         return $this->hasOne(User::className(), ['id' => 'id']);
     }
 
-    /**
-     * Get's the organization id for the user
-     * @param integer $id The user id to het the organization from
-     * @return mixed
-     */
-    public static function getOrgIdByUserId($id){
-        return self::find()->where(['id' => $id])->select(['organization_id'])->column()[0];
-    }
 }
