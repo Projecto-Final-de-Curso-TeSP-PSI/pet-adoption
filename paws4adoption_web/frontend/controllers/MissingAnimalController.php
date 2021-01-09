@@ -357,6 +357,22 @@ class MissingAnimalController extends Controller
 
             return $query;
 
+        } elseif ($natureCat_id !== "") {
+
+            $query = MissingAnimal::find()
+                ->innerJoinWith('animal')
+                ->where(['nature_id' => $natureCat_id]);
+
+            return $query;
+
+        } elseif ($natureDog_id !== "") {
+
+            $query = MissingAnimal::find()
+                ->innerJoinWith('animal')
+                ->where(['nature_id' => $natureDog_id]);
+
+            return $query;
+
         } elseif ($size !== "") {
             $query = MissingAnimal::find()
                 ->innerJoinWith('animal')

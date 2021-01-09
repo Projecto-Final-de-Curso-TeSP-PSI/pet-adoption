@@ -342,6 +342,22 @@ class FoundAnimalController extends Controller
 
             return $query;
 
+        } elseif ($natureCat_id !== "") {
+
+            $query = FoundAnimal::find()
+                ->innerJoinWith('animal')
+                ->where(['nature_id' => $natureCat_id]);
+
+            return $query;
+
+        } elseif ($natureDog_id !== "") {
+
+            $query = FoundAnimal::find()
+                ->innerJoinWith('animal')
+                ->where(['nature_id' => $natureDog_id]);
+
+            return $query;
+
         } elseif ($size !== "") {
             $query = FoundAnimal::find()
                 ->innerJoinWith('animal')
