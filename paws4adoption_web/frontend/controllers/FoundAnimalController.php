@@ -114,7 +114,7 @@ class FoundAnimalController extends Controller
      */
     public function actionCreate()
     {
-        $addressModel = new Address(['scenario' => Address::SCENARIO_FOUND_ANIMAL]);
+        $addressModel = new Address();
         $animalModel = new Animal();
         $foundAnimalModel = new FoundAnimal();
         $animalPhotoModel = new Photo();
@@ -130,7 +130,9 @@ class FoundAnimalController extends Controller
         if (Yii::$app->request->post()) {
             $formData = Yii::$app->request->post();
 
+
             if ($animalModel->load($formData) && $animalModel->save()) {
+
                 if ($animalModel->load($formData) && $animalModel->save()) {
                     if (UploadedFile::getInstance($animalPhotoModel, 'imgPath') != null) {
                         $file = UploadedFile::getInstance($animalPhotoModel, 'imgPath');
@@ -143,7 +145,9 @@ class FoundAnimalController extends Controller
                         $animalPhotoModel->save();
                     }
                     $addressModel->load($formData);
+
                     if ($addressModel->save()) {
+
                         $foundAnimalModel->load($formData);
                         $foundAnimalModel->id = $animalModel->id;
                         $foundAnimalModel->is_active = true;
