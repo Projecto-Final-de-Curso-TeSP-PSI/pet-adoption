@@ -81,8 +81,6 @@ class AnimalTest extends \Codeception\Test\Unit
         $animal->description = 'Animal de teste para verificar o save na BD';
         //Salva o animal e ve se esta tudo ok
         $this->assertTrue($animal->save());
-        //Ve se existe na base de dados
-        $this->tester->seeInDatabase('animal', ['name' => 'Foo']);
-
     }
+
 }
