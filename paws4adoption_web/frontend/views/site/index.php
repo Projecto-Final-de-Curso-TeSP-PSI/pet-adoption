@@ -27,13 +27,13 @@ AppAsset::register($this);
                         <div class="tabs-style-two">
                             <ul class="nav nav-tabs">
                                 <li class="nav-item">
-                                    <a class="nav-link active tabLink" data-toggle="tab" href="#demo_three_home">Animais para Adoção</a>
+                                    <a class="nav-link active tabLink" id="linkAdoptionAnimal" data-toggle="tab" href="#demo_three_home">Animais para Adoção</a>
                                 </li>
                                 <li class="nav-item">
-                                    <a class="nav-link tabLink" data-toggle="tab" href="#demo_three_profile">Animais Desaparcidos</a>
+                                    <a class="nav-link tabLink" id="linkMissingAnimal" data-toggle="tab" href="#demo_three_profile">Animais Desaparcidos</a>
                                 </li>
                                 <li class="nav-item">
-                                    <a class="nav-link tabLink" data-toggle="tab" href="#demo_three_contact">Animais Errantes</a>
+                                    <a class="nav-link tabLink" id="linkFoundAnimal" data-toggle="tab" href="#demo_three_contact">Animais Errantes</a>
                                 </li>
                             </ul>
 
@@ -87,8 +87,7 @@ AppAsset::register($this);
                                 Sendo desta forma com este site pretendemos ajudar as associações e ter um maior numero de adoções.
                                 Tambem pretende-se que este site seja um meio de informação sobre animais desaparcidos ou errantes, assim desta forma podemos todos contribuir para que o numero de animais errantes diminua.
                             </p>
-                            <a href="<?= Yii::$app->request->baseUrl ?>/site/faq" class="card-link">FAQ</a>
-                            <a href="<?= Yii::$app->request->baseUrl ?>/site/help" class="card-link">Ajudar</a>
+                            <a href="<?= Yii::$app->request->baseUrl ?>/site/help" id="homeLinkHelp" class="card-link">Ajudar</a>
                         </div>
                     </div>
                 </div>

@@ -25,7 +25,7 @@ use common\models\AssociatedUser;
                 </a>
 
                 <div class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    <a class="nav-link dropdown-toggle" href="#" id="menuPublish" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                         <div class="dropdown-title">
                             <i data-feather="plus" class="icon"></i>
                             <span class="title">
@@ -35,11 +35,11 @@ use common\models\AssociatedUser;
                         </div>
                     </a>
                     <div class="dropdown-menu">
-                        <a class="dropdown-item" href="<?= Yii::$app->request->baseUrl ?>/missing-animal/create">
+                        <a class="dropdown-item" id="menuPublishMissingAnimal" href="<?= Yii::$app->request->baseUrl ?>/missing-animal/create">
                             <i data-feather="frown" class="icon"></i>
                             Animal Desaparecido
                         </a>
-                        <a class="dropdown-item" href="<?= Yii::$app->request->baseUrl ?>/found-animal/create">
+                        <a class="dropdown-item" id="menuPublishFoundAnimal" href="<?= Yii::$app->request->baseUrl ?>/found-animal/create">
                             <i data-feather="flag" class="icon"></i>
                             Animal Errante
                         </a>

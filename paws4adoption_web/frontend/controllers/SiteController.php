@@ -131,9 +131,9 @@ class SiteController extends Controller
         if ($model->load(Yii::$app->request->post()) && $model->validate()) {
 
             if ($model->sendEmail(Yii::$app->params['adminEmail'])) {
-                Yii::$app->session->setFlash('Success', 'Agradecemos o contato. Responderemos assim que possível.');
+                Yii::$app->session->setFlash('Success', 'Obrigada pelo contacto. Logo que possível iremos responder.');
             } else {
-                Yii::$app->session->setFlash('Error', 'Houve um erro ao enviar a mensagem..');
+                Yii::$app->session->setFlash('Error', 'Houve um erro a enviar o seu email.');
             }
 
             return $this->redirect(['site/contact']);
@@ -153,15 +153,7 @@ class SiteController extends Controller
     {
         return $this->render('help');
     }
-    /**
-     * Displays about page.
-     *
-     * @return mixed
-     */
-    public function actionFaq()
-    {
-        return $this->render('faq');
-    }
+
 
     /**
      * Displays homepage.
@@ -322,10 +314,10 @@ class SiteController extends Controller
         $model = new ResendVerificationEmailForm();
         if ($model->load(Yii::$app->request->post()) && $model->validate()) {
             if ($model->sendEmail()) {
-                Yii::$app->session->setFlash('success', 'Check your email for further instructions.');
-                return $this->goHome();
+                Yii::$app->session->setFlash('Success', 'Verifique o seu email.');
+                return $this->redirect(['site/login']);
             }
-            Yii::$app->session->setFlash('error', 'Sorry, we are unable to resend verification email for the provided email address.');
+            Yii::$app->session->setFlash('Error', 'Não foi possivel enviar uma nova verificação.');
         }
 
         return $this->render('resendVerificationEmail', [

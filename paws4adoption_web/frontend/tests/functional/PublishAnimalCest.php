@@ -22,10 +22,10 @@ class PublishAnimalCest
         $I->see('No que Consiste o Site', 'div');
         $I->click('#sideMenuBurguer');
         $I->see('Publicar');
-        $I->click('Publicar');
-        $I->see('Animal Desaparcido');
-        $I->click('Animal Desaparcido');
-        $I->see('Pubicação Animal Desaparcido', );
+        $I->click('#menuPublish');
+        $I->click('#menuPublishMissingAnimal');
+        $I->see('Publicação de Animal Desaparcido', 'h1');
+
 
         $I->fillField('#createFill-name', '');
         $I->fillField('#createFill-chipId', '');
@@ -41,9 +41,6 @@ class PublishAnimalCest
         $I->seeValidationError('Tamanho do pêlo cannot be blank.');
         $I->seeValidationError('Cor do pêlo cannot be blank.');
         $I->seeValidationError('Porte cannot be blank.');
-
-        //TODO::esta linha nao passa no teste, não consigo entender o motivo
-        //$I->seeValidationError('Data de Desaparecimento cannot be blank.');
     }
     public function submitMissingAnimal(FunctionalTester $I)
     {
@@ -56,10 +53,9 @@ class PublishAnimalCest
         $I->see('No que Consiste o Site', 'div');
         $I->click('#sideMenuBurguer');
         $I->see('Publicar');
-        $I->click('Publicar');
-        $I->see('Animal Desaparcido');
-        $I->click('Animal Desaparcido');
-        $I->see('Pubicação Animal Desaparcido', );
+        $I->click('#menuPublish');
+        $I->click('#menuPublishMissingAnimal');
+        $I->see('Publicação de Animal Desaparcido', 'h1');
 
         $I->fillField('#createFill-name', 'Foo');
         $I->fillField('#createFill-chipId', '1632665966556');
@@ -76,11 +72,10 @@ class PublishAnimalCest
         $I->selectOption("Animal[fur_color_id]", 'Branco');
         $I->seeInField("#createFill-furColor", 'Branco');
 
-        $I->selectOption("Animal[nature_id]", 'Asian');
-        $I->seeInField("#createFill-breed", 'Asian');
 
-        $I->selectOption("nature", 'Gato');
-        $I->seeInField("#createFill-nature", 'Gato');
+
+        $I->selectOption("Animal[nature_id]", 'Asian');
+        $I->seeInField("#createFill-nature", 'Asian');
 
         $I->fillField('#createFill-missingDate', '10/10/2020');
         $I->fillField('#createFill-description', '');
@@ -90,10 +85,6 @@ class PublishAnimalCest
         $I->attachFile('#createFill-photo', 'testImg.jpg');
 
         $I->click('Publicar', 'button');
-
-
-        //TODO::esta linha nao passa no teste, não consigo entender o motivo
-        //$I->seeValidationError('Data de Desaparecimento cannot be blank.');
     }
 
 
