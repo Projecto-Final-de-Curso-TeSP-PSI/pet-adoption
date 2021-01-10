@@ -31,6 +31,7 @@ use yii\helpers\Url;
 /* @var $closeText */
 /* @var $imgPath */
 
+$loggedUserId = Yii::$app->user->id;
 
 ?>
 
@@ -116,7 +117,7 @@ use yii\helpers\Url;
 
                     case 'missingAnimal':
                         //This button call's modal with owner details
-                        $loggedUserId = Yii::$app->user->id;
+
                         if($loggedUserId == $ownerId){
 
                             echo Html::a('Editar', ['missing-animal/update', 'id' => Html::encode($animalId)], [
@@ -145,7 +146,6 @@ use yii\helpers\Url;
                         break;
                     case 'foundAnimal':
                         //This button call's modal with owner details
-                        $loggedUserId = Yii::$app->user->id;
                         if($loggedUserId == $userId){
 
                             echo Html::a('Editar', [ 'found-animal/update', 'id' => Html::encode($animalId)], [
