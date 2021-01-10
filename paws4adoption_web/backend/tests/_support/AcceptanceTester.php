@@ -34,7 +34,6 @@ class AcceptanceTester extends \Codeception\Actor
 
         // logging in
         $I->amOnPage('/site/login');
-        $I->amOnPage('/site/login');
         $I->see("Login");
         $I->fillField('Username', $username);
         $I->fillField('Password', $password);
