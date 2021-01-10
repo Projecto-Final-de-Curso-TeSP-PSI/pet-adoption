@@ -24,16 +24,16 @@ AppAsset::register($this);
                         'id' => 'createAdoption-form',
                         'options' => ['enctype' => 'multipart/form-data']]); ?>
 
-                    <?= $form->field($adopter, 'fullName')->textInput(['placeholder' => 'Insere o nome']) ?>
+                    <?= $form->field($adopter, 'fullName')->textInput(['placeholder' => 'Insere o nome','readonly' => true]) ?>
 
-                    <?= $form->field($adopter->address, 'fullAddress')->textInput(['placeholder' => 'Insere o nome']) ?>
+                    <?= $form->field($adopter->address, 'fullAddress')->textInput(['placeholder' => 'Insere o nome', 'readonly' => true]) ?>
 
-                    <?= $form->field($adopter, 'phone')->textInput(['placeholder' => 'Insere o nome']) ?>
+                    <?= $form->field($adopter, 'phone')->textInput(['placeholder' => 'Insere o nome', 'readonly' => true]) ?>
 
-                    <?= $form->field($adopter, 'email')->textInput(['placeholder' => 'Insere o nome']) ?>
+                    <?= $form->field($adopter, 'email')->textInput(['placeholder' => 'Insere o nome', 'readonly' => true]) ?>
 
 
-                    <?= $form->field($adoptionModel, 'motivation')->textarea(['placeholder' => 'Insere o nome']) ?>
+                    <?= $form->field($adoptionModel, 'motivation')->textarea(['placeholder' => 'Insere o motivo pelo qual quer fazer esta adoção.']) ?>
 
 
                     <div class="form-group">
