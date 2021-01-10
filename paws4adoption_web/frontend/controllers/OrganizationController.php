@@ -169,10 +169,8 @@ class OrganizationController extends Controller
         $organization = Organization::findOne($organizationId);
         $orgDistrict = $organization->address->district_id;
 
-        $searchFoundAnimalModel = new FoundAnimalSearch();
-
         $addresses = Address::find()->where(['district_id' => $orgDistrict])->select('id');
-        $foundAnimalsModel = FoundAnimal::find()->where(['location_id' => $addresses]);
+        $foundAnimalsModel = FoundAnimal::find()->where(['location_id' => $addresses, 'is_active' => 1]);
 
 
 
@@ -183,7 +181,6 @@ class OrganizationController extends Controller
 
         return $this->render('rescue', [
             'dataProviderFoundAnimal' => $dataProviderFoundAnimal,
-            'searchFoundAnimalModel' => $searchFoundAnimalModel,
         ]);
     }
 
@@ -195,6 +192,23 @@ class OrganizationController extends Controller
             'foundAnimal' => $foundAnimal,
             'photo' => $photo,
         ]);
+    }
+
+    public function actionAcceptRescue($id){
+        $adoptionAnimal = new AdoptionAnimal();
+        $foundAnimal = FoundAnimal::findOne(['id' => $id]);
+        $loggedUserId = Yii::$app->user->id;
+        $loggedAssociatedUser = AssociatedUser::findOne($loggedUserId);
+
+        $foundAnimal->is_active = 0;
+        $foundAnimal->save();
+        $adoptionAnimal->is_on_fat = 0;
+        $adoptionAnimal->associated_user_id = $loggedUserId;
+        $adoptionAnimal->organization_id = $loggedAssociatedUser->organization_id;
+        $adoptionAnimal->save();
+        Yii::$app->session->setFlash('Success', 'Your email has been confirmed!');
+        return $this->redirect('rescue');
+
     }
 
     /**

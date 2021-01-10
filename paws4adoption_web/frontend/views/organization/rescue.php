@@ -8,7 +8,7 @@ use yii\helpers\Url;
 
 
 /* @var $dataProviderFoundAnimal yii\data\ActiveDataProvider */
-/* @var $searchFoundAnimalModel */
+
 
 AppAsset::register($this);
 
@@ -24,7 +24,6 @@ $this->title = 'Animais para resgante';
 
             <?= GridView::widget([
                 'dataProvider' => $dataProviderFoundAnimal,
-                'filterModel' => $searchFoundAnimalModel,
                 'columns' => [
                     'id',
                     [
@@ -47,7 +46,7 @@ $this->title = 'Animais para resgante';
                         'template' => '{view} {accept}',
                         'buttons' => [
                             'accept' => function ($url, $model, $key) {     // render your custom button
-                                return Html::a('Aceitar Resgate', Url::toRoute(['organization/acceptRescue', 'id' => Html::encode($key)]),
+                                return Html::a('Aceitar Resgate', Url::toRoute(['organization/accept-rescue', 'id' => Html::encode($key)]),
                                     [
                                         'class' => 'btn btn-primary',
                                         'title' => 'Aceitar Resgate',
