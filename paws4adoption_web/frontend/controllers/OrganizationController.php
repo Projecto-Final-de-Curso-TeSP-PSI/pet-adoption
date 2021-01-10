@@ -98,10 +98,10 @@ class OrganizationController extends Controller
 
             $request = Yii::$app->request;
 
-            if( $request->post() != null) {
+            if ($request->post() != null) {
 
-                $requestDistrictId = ArrayHelper::getValue($request->post(), 'District.id' );
-                if($requestDistrictId == "all") {
+                $requestDistrictId = ArrayHelper::getValue($request->post(), 'District.id');
+                if ($requestDistrictId == "all") {
                     $query = Organization::find()->isActive(true);
                 } else {
                     $query = Organization::find()->isActive(true)
@@ -135,8 +135,7 @@ class OrganizationController extends Controller
                 'dataProvider' => $dataProvider,
                 'districts' => $districts,
             ]);
-        }
-        catch(Exception $e){
+        } catch (Exception $e) {
             //Throw exception case anything fails
             throw $e;
         }
@@ -155,12 +154,13 @@ class OrganizationController extends Controller
         ]);
     }
 
-    public function actionRescue(){
+    public function actionRescue()
+    {
 
         $loggedUserId = Yii::$app->user->id;
         $loggedAssociatedUser = AssociatedUser::findOne($loggedUserId);
 
-        if ($loggedAssociatedUser == null){
+        if ($loggedAssociatedUser == null) {
             throw new ForbiddenHttpException(
                 'Não está associado a nenhuma organização, pelo que não tem acesso à página que está a tentar aceder.');
         }
@@ -173,7 +173,6 @@ class OrganizationController extends Controller
         $foundAnimalsModel = FoundAnimal::find()->where(['location_id' => $addresses, 'is_active' => 1]);
 
 
-
         $dataProviderFoundAnimal = new ActiveDataProvider([
             'query' => $foundAnimalsModel,
             'pagination' => false,
@@ -184,31 +183,77 @@ class OrganizationController extends Controller
         ]);
     }
 
-    public function actionDetailsRescue($id){
-        $foundAnimal = FoundAnimal::findOne($id);
-        $photo = Photo::findOne(['id_animal' => $foundAnimal->animal->id]);
-
-        return $this->render('detailsAnimalRescue', [
-            'foundAnimal' => $foundAnimal,
-            'photo' => $photo,
-        ]);
-    }
-
-    public function actionAcceptRescue($id){
-        $adoptionAnimal = new AdoptionAnimal();
-        $foundAnimal = FoundAnimal::findOne(['id' => $id]);
+    public function actionDetailsRescue($id)
+    {
         $loggedUserId = Yii::$app->user->id;
         $loggedAssociatedUser = AssociatedUser::findOne($loggedUserId);
 
-        $foundAnimal->is_active = 0;
-        $foundAnimal->save();
-        $adoptionAnimal->id = $id;
-        $adoptionAnimal->is_on_fat = 0;
-        $adoptionAnimal->associated_user_id = $loggedUserId;
-        $adoptionAnimal->organization_id = $loggedAssociatedUser->organization_id;
-        $adoptionAnimal->save();
-        Yii::$app->session->setFlash('Success', 'Your email has been confirmed!');
-        return $this->redirect('rescue');
+        if ($loggedAssociatedUser == null) {
+            throw new ForbiddenHttpException(
+                'Não está associado a nenhuma organização, pelo que não tem acesso à página que está a tentar aceder.');
+        }
+
+        $organizationId = $loggedAssociatedUser->organization_id;
+        $organization = Organization::findOne($organizationId);
+        $orgDistrict = $organization->address->district_id;
+
+        $foundAnimal = FoundAnimal::findOne(['id' => $id]);
+        if ($foundAnimal->location->district_id == $orgDistrict) {
+            $photo = Photo::findOne(['id_animal' => $foundAnimal->animal->id]);
+
+            return $this->render('detailsAnimalRescue', [
+                'foundAnimal' => $foundAnimal,
+                'photo' => $photo,
+            ]);
+        }
+
+        throw new ForbiddenHttpException(
+            'Este animal não está localizado no seu distrito.');
+
+    }
+
+    public function actionAcceptRescue($id)
+    {
+        try {
+            $loggedUserId = Yii::$app->user->id;
+            $loggedAssociatedUser = AssociatedUser::findOne($loggedUserId);
+
+            if ($loggedAssociatedUser == null) {
+                throw new ForbiddenHttpException(
+                    'Não está associado a nenhuma organização, pelo que não tem acesso à página que está a tentar aceder.');
+            }
+
+            $organizationId = $loggedAssociatedUser->organization_id;
+            $organization = Organization::findOne($organizationId);
+            $orgDistrict = $organization->address->district_id;
+
+            $foundAnimal = FoundAnimal::findOne(['id' => $id]);
+
+            if ($foundAnimal->location->district_id == $orgDistrict) {
+
+                $adoptionAnimal = new AdoptionAnimal();
+                $adoptionAnimal->id = $id;
+                $adoptionAnimal->is_on_fat = 0;
+                $adoptionAnimal->associated_user_id = $loggedUserId;
+                $adoptionAnimal->organization_id = $organizationId;
+
+                if ($adoptionAnimal->save()) {
+                    $foundAnimal->is_active = 0;
+                    $foundAnimal->save();
+
+                    Yii::$app->session->setFlash('Success', 'O animal foi adicionado à lista de animais para adoção da sua associação.');
+                    return $this->redirect('rescue');
+                }
+            }
+
+        } catch (Exception $e) {
+            Yii::$app->session->setFlash('Error', 'Erro ao tentar concluir o resgate.');
+        }
+
+        throw new ForbiddenHttpException(
+            'Este animal não está localizado no seu distrito.');
+
+
 
     }
 
@@ -229,17 +274,17 @@ class OrganizationController extends Controller
             if (Yii::$app->request->post()) {
                 $post = Yii::$app->request->post();
 
-                if($address->load($post) && $address->save()){
+                if ($address->load($post) && $address->save()) {
                     $organization->load($post);
                     $organization->address_id = $address->id;
                     $organization->founder_id = Yii::$app->user->id;
 
-                    if($organization->save()){
+                    if ($organization->save()) {
 
                         $transaction->commit();
                         Yii::$app->session->setFlash('Success', "Associação criada com sucesso.");
                         return $this->redirect(['site/index']);
-                    } else{
+                    } else {
 
                         $transaction->rollBack();
                         Yii::$app->session->setFlash('Error', "Erro ao criar associação.");
@@ -248,7 +293,7 @@ class OrganizationController extends Controller
                             'newAddress' => $address,
                         ]);
                     }
-                } else{
+                } else {
 
                     $transaction->rollBack();
                     Yii::$app->session->setFlash('Error', "Erro ao criar associação.");
@@ -292,15 +337,15 @@ class OrganizationController extends Controller
             if (Yii::$app->request->post()) {
                 $post = Yii::$app->request->post();
 
-                if($address->load($post) && $address->save()){
+                if ($address->load($post) && $address->save()) {
                     $organization->load($post);
 
-                    if($organization->save()){
+                    if ($organization->save()) {
 
                         $transaction->commit();
                         Yii::$app->session->setFlash('Success', "Organização salva com sucesso.");
                         return $this->redirect('../site/index');
-                    } else{
+                    } else {
 
                         $transaction->rollBack();
 
@@ -310,7 +355,7 @@ class OrganizationController extends Controller
                             'address' => $address,
                         ]);
                     }
-                } else{
+                } else {
 
                     $transaction->rollBack();
 
@@ -350,11 +395,10 @@ class OrganizationController extends Controller
         $organization = $this->findModel($id);
         $organization->status = Organization::STATUS_INACTIVE;
 
-        if($organization->save()){
+        if ($organization->save()) {
             Yii::$app->session->setFlash('Success', "Organização eliminada com sucesso.");
             return $this->redirect(['site/index']);
-        }
-        else{
+        } else {
             Yii::$app->session->setFlash('Error', "Erro ao eliminar organização.");
             return $this->redirect(['site/index']);
         }
@@ -382,11 +426,12 @@ class OrganizationController extends Controller
      * @param $id
      * @return string
      */
-    public function actionAssociateManage(){
+    public function actionAssociateManage()
+    {
 
         //Verify if user has associatedUser relation, therefore also as an organization assigned
         $user = AssociatedUser::findOne(Yii::$app->user->id);
-        if($user == null)
+        if ($user == null)
             throw new ForbiddenHttpException("Não está associado a nenhuma organização");
 
         $searchModel = new UserSearch;
@@ -424,17 +469,17 @@ class OrganizationController extends Controller
      * @return \yii\web\Response
      * @throws ForbiddenHttpException
      */
-    public function actionAssociateRemove($id){
+    public function actionAssociateRemove($id)
+    {
 
         //If user to remove doesn't have a associatedUser descendency
         $associatedUser = AssociatedUser::findOne($id);
-        if($associatedUser == null)
+        if ($associatedUser == null)
             throw new BadRequestHttpException("Whrong remove request");
 
-        if(RoleManager::revokeRole(RoleManager::ASSOCIATED_USER_ROLE, $id)){
+        if (RoleManager::revokeRole(RoleManager::ASSOCIATED_USER_ROLE, $id)) {
             Yii::$app->session->setFlash('Success', "Utilizador removido com sucesso!");
-        }
-        else{
+        } else {
             Yii::$app->session->setFlash('Error', "Erro ao remover user da associação!");
         }
 
