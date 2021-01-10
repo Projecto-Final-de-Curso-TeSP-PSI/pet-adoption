@@ -133,9 +133,9 @@ use common\models\AssociatedUser;
                             <i data-feather="help-circle" class="icon"></i>
                             Como Ajudar
                         </a>
-                        <a class="dropdown-item" href="<?= Yii::$app->request->baseUrl ?>/site/info">
+                        <a class="dropdown-item" href="<?= Yii::$app->request->baseUrl ?>/site/contact">
                             <i data-feather="info" class="icon"></i>
-                            Funcionalidades
+                            Entre em contacto
                         </a>
                     </div>
                 </div>
