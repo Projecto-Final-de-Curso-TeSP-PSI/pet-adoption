@@ -202,6 +202,7 @@ class OrganizationController extends Controller
 
         $foundAnimal->is_active = 0;
         $foundAnimal->save();
+        $adoptionAnimal->id = $id;
         $adoptionAnimal->is_on_fat = 0;
         $adoptionAnimal->associated_user_id = $loggedUserId;
         $adoptionAnimal->organization_id = $loggedAssociatedUser->organization_id;
