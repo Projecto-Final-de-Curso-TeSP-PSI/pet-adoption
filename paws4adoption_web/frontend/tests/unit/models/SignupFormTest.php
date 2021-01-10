@@ -19,7 +19,6 @@ class SignupFormTest extends \Codeception\Test\Unit
             'user' => [
                 'class' => UserFixture::className(),
 //                var_dump(codecept_data_dir());
-                'dataFile' => codecept_data_dir() . 'user.php'
             ]
         ]);
     }
@@ -27,6 +26,9 @@ class SignupFormTest extends \Codeception\Test\Unit
     public function testCorrectSignup()
     {
         $model = new SignupForm([
+            'firstName' => 'some',
+            'lastName' => 'name',
+            'nif' => '125236254',
             'username' => 'some_username',
             'email' => 'some_email@example.com',
             'password' => 'some_password',
@@ -37,6 +39,9 @@ class SignupFormTest extends \Codeception\Test\Unit
 
         /** @var \common\models\user $user */
         $user = $this->tester->grabRecord('common\models\user', [
+            'firstName' => 'some',
+            'lastName' => 'name',
+            'nif' => '125236254',
             'username' => 'some_username',
             'email' => 'some_email@example.com',
             'status' => \common\models\user::STATUS_INACTIVE
