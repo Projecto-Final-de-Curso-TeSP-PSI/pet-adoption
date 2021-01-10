@@ -1,5 +1,6 @@
 <?php
 
+use frontend\assets\AppAsset;
 use yii\grid\GridView;
 use yii\helpers\Html;
 use yii\helpers\Url;
@@ -10,7 +11,7 @@ use yii\helpers\Url;
 /* @var $searchModel */
 
 $this->title = $model->animal->name;
-\yii\web\YiiAsset::register($this);
+AppAsset::register($this);
 ?>
 
 <div class="container">

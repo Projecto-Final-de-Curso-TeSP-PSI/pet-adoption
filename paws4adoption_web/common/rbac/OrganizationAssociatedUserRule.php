@@ -28,7 +28,12 @@ class OrganizationAssociatedUserRule extends \yii\rbac\Rule
         }
 
         if (isset($params['animal_id'])){
-            return AdoptionAnimal::findOne($params['animal_id'])->organization_id == AssociatedUser::findOne($user)->organization_id;
+            $loggedUser = AssociatedUser::findOne($user);
+            if($loggedUser != null) {
+                return AdoptionAnimal::findOne($params['animal_id'])->organization_id == AssociatedUser::findOne($user)->organization_id;
+            } else {
+                return false;
+            }
         }
 
         //If parameter passed is associate_id, check if the logged user is associated to the same organization as the user sent in the parameter
