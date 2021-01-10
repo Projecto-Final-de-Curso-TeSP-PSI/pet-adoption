@@ -12,11 +12,10 @@ class ResetPasswordFormTest extends \Codeception\Test\Unit
      */
     protected $tester;
 
-
     public function _before()
     {
         $this->tester->haveFixtures([
-            'user' => [
+            'users' => [
                 'class' => UserFixture::className(),
             ],
         ]);
@@ -35,7 +34,7 @@ class ResetPasswordFormTest extends \Codeception\Test\Unit
 
     public function testResetCorrectToken()
     {
-        $user = $this->tester->grabFixture('user', 0);
+        $user = $this->tester->grabFixture('users', 0);
         $form = new ResetPasswordForm($user['password_reset_token']);
         expect_that($form->resetPassword());
     }
