@@ -6,6 +6,7 @@ use Cassandra\Date;
 use common\models\Address;
 use common\models\AdoptionAnimal;
 use common\models\Animal;
+use common\models\AssociatedUser;
 use common\models\User;
 use frontend\models\AdoptionRequestForm;
 use Yii;
@@ -13,6 +14,7 @@ use common\models\Adoption;
 use common\models\AdoptionSearch;
 use yii\filters\AccessControl;
 use yii\web\Controller;
+use yii\web\ForbiddenHttpException;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 
@@ -29,14 +31,20 @@ class AdoptionController extends Controller
         return [
             'access' => [
                 'class' => AccessControl::class,
-                'only' => [],
+                'only' => ['create', 'success'],
                 'rules' => [
                     [
-                        'actions' => [],
+                        'actions' => ['create', 'success'],
                         'allow' => true,
                         'roles' => ['@']
-                    ]
-                ]
+                    ],
+//                    [
+//                        'actions' => ['delete', 'accept-adoption-request'],
+//                        'allow' => true,
+//                        'roles' => ['manageAdoptionAnimal'],
+//                        'roleParams' => ['animal_id' => Yii::$app->request->get('animal_id')]
+//                    ]
+                ],
             ],
             'verbs' => [
                 'class' => VerbFilter::className(),
@@ -47,20 +55,20 @@ class AdoptionController extends Controller
         ];
     }
 
-    /**
-     * Lists all Adoption models.
-     * @return mixed
-     */
-    public function actionIndex()
-    {
-        $searchModel = new AdoptionSearch();
-        $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
-
-        return $this->render('index', [
-            'searchModel' => $searchModel,
-            'dataProvider' => $dataProvider,
-        ]);
-    }
+//    /**
+//     * Lists all Adoption models.
+//     * @return mixed
+//     */
+//    public function actionIndex()
+//    {
+//        $searchModel = new AdoptionSearch();
+//        $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
+//
+//        return $this->render('index', [
+//            'searchModel' => $searchModel,
+//            'dataProvider' => $dataProvider,
+//        ]);
+//    }
 
     /**
      * Success page.
@@ -71,18 +79,18 @@ class AdoptionController extends Controller
         return $this->render('success');
     }
 
-    /**
-     * Displays a single Adoption model.
-     * @param integer $id
-     * @return mixed
-     * @throws NotFoundHttpException if the model cannot be found
-     */
-    public function actionView($id)
-    {
-        return $this->render('view', [
-            'model' => $this->findModel($id),
-        ]);
-    }
+//    /**
+//     * Displays a single Adoption model.
+//     * @param integer $id
+//     * @return mixed
+//     * @throws NotFoundHttpException if the model cannot be found
+//     */
+//    public function actionView($id)
+//    {
+//        return $this->render('view', [
+//            'model' => $this->findModel($id),
+//        ]);
+//    }
 
     /**
      * Creates a new Adoption model.
@@ -121,25 +129,25 @@ class AdoptionController extends Controller
         }
     }
 
-    /**
-     * Updates an existing Adoption model.
-     * If update is successful, the browser will be redirected to the 'view' page.
-     * @param integer $id
-     * @return mixed
-     * @throws NotFoundHttpException if the model cannot be found
-     */
-    public function actionUpdate($id)
-    {
-        $model = $this->findModel($id);
-
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id]);
-        }
-
-        return $this->render('update', [
-            'model' => $model,
-        ]);
-    }
+//    /**
+//     * Updates an existing Adoption model.
+//     * If update is successful, the browser will be redirected to the 'view' page.
+//     * @param integer $id
+//     * @return mixed
+//     * @throws NotFoundHttpException if the model cannot be found
+//     */
+//    public function actionUpdate($id)
+//    {
+//        $model = $this->findModel($id);
+//
+//        if ($model->load(Yii::$app->request->post()) && $model->save()) {
+//            return $this->redirect(['view', 'id' => $model->id]);
+//        }
+//
+//        return $this->render('update', [
+//            'model' => $model,
+//        ]);
+//    }
 
     /**
      * Deletes an existing Adoption model.
@@ -150,6 +158,18 @@ class AdoptionController extends Controller
      */
     public function actionDelete($id, $animal_id)
     {
+        $loggedUserId = Yii::$app->user->id;
+        $loggedAssociatedUser = AssociatedUser::findOne($loggedUserId);
+
+        if ($loggedAssociatedUser == null){
+            throw new ForbiddenHttpException(
+                'Não está associado a nenhuma organização, pelo que não tem acesso à página que está a tentar aceder.');
+        } elseif ($loggedAssociatedUser->organization_id != AdoptionAnimal::findOne($animal_id)->organization_id){
+            throw new ForbiddenHttpException(
+                'Este animal não pertence à sua organização.'
+            );
+        }
+
         $this->findModel($id)->delete();
 
         $count = count(self::getAdoptionRequestsByAnimal($animal_id));
@@ -177,50 +197,6 @@ class AdoptionController extends Controller
         throw new NotFoundHttpException('The requested page does not exist.');
     }
 
-//    /**
-//     * @return string|\yii\web\Response
-//     */
-//    public function actionSubmitAdoptionRequest()
-//    {
-//        $model = new Adoption();
-//        $model->scenario = 'adoption';
-//        $title = 'Formalização de proposta de adoção';
-//
-//        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-//            return $this->redirect(['view', 'id' => $model->id]);
-//        }
-//
-//        $model->adopter_id = \Yii::$app->user->id;
-//        $model->adopted_animal_id = 1;
-//
-//        return $this->render('create', [
-//            'model' => $model,
-//            'title' => $title
-//        ]);
-//    }
-//
-//    /**
-//     * @return string|\yii\web\Response
-//     */
-//    public function actionSubmitFatRequest()
-//    {
-//        $model = new Adoption();
-//        $model->scenario = 'fat';
-//        $title = 'Formalização de proposta de acolhimento temporário';
-//
-//        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-//            return $this->redirect(['view', 'id' => $model->id]);
-//        }
-//
-//        $model->adopter_id = \Yii::$app->user->id;
-//        $model->adopted_animal_id = 1;
-//
-//        return $this->render('create', [
-//            'model' => $model,
-//            'title' => $title
-//        ]);
-//    }
-
     /**
      *
      * @param $id
@@ -242,6 +218,18 @@ class AdoptionController extends Controller
      * @throws \yii\db\StaleObjectException
      */
     public function actionAcceptAdoptionRequest($id, $animal_id){
+
+        $loggedUserId = Yii::$app->user->id;
+        $loggedAssociatedUser = AssociatedUser::findOne($loggedUserId);
+
+        if ($loggedAssociatedUser == null){
+            throw new ForbiddenHttpException(
+                'Não está associado a nenhuma organização, pelo que não tem acesso à página que está a tentar aceder.');
+        } elseif ($loggedAssociatedUser->organization_id != AdoptionAnimal::findOne($animal_id)->organization_id){
+            throw new ForbiddenHttpException(
+                'Este animal não pertence à sua organização.'
+            );
+        }
 
         $adoptedAnimal = $this->findModel($id);
         $adoptedAnimal->adoption_date = date("Y-m-d");

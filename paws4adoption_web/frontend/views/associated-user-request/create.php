@@ -6,9 +6,8 @@ use yii\helpers\Html;
 /* @var $this yii\web\View */
 /* @var $model common\models\AssociatedUserRequest */
 
-$this->title = 'Create Associated User Request';
-$this->params['breadcrumbs'][] = ['label' => 'Associated User Requests', 'url' => ['index']];
-$this->params['breadcrumbs'][] = $this->title;
+$this->title = 'Candidatura a Voluntário';
+
 AppAsset::register($this);
 ?>
 <div class="associated-user-request-create">

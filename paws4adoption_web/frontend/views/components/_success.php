@@ -19,7 +19,7 @@ AppAsset::register($this);
                 <h4><?= $description ?></h4>
 
 
-                <?= Html::a($btnText, 'adoption-animal/', [
+                <?= Html::a($btnText, '../adoption-animal/', [
                 'class' => 'btn btn-primary',
                 'title' => 'Sucesso',
                 ]); ?>

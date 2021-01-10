@@ -41,7 +41,7 @@ class AdoptionAnimalController extends Controller
         return [
             'access' => [
                 'class' => AccessControl::class,
-                'only' => ['create', 'update', 'delete', /*'my-org-adoption-animals'*/],
+                'only' => ['create', 'view', 'update', 'delete', /*'my-org-adoption-animals'*/],
                 'rules' => [
                     [
                         'actions' => ['create'],
@@ -49,7 +49,7 @@ class AdoptionAnimalController extends Controller
                         'roles' => ['createAdoptionAnimal']
                     ],
                     [
-                        'actions' => ['update', 'delete'],
+                        'actions' => ['view','update', 'delete'],
                         'allow' => true,
                         'roles' => ['manageAdoptionAnimal'],
                         'roleParams' => ['animal_id' => Yii::$app->request->get('id')]

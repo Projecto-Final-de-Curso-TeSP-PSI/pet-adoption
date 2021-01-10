@@ -96,8 +96,11 @@ class SiteController extends Controller
         if ($model->load(Yii::$app->request->post()) && $model->login()) {
             $loggedUserId = Yii::$app->user->id;
             $loggedUser = User::findIdentity($loggedUserId);
-            if($loggedUser->address_id == null){
+            if($loggedUser !== null && $loggedUser->address_id == null){
                 return $this->redirect(['site/profile']);
+            }
+            if ($loggedUser === null){
+                Yii::$app->session->setFlash('Error', 'Confirme o email de validação que lhe foi enviado para poder fazer login.');
             }
             return $this->goBack();
         } else {
