@@ -130,6 +130,18 @@ foreach ($photos as $photo){
                         'submitContact' => 'Contactar',
                         'closeText' => 'Fechar'
                     ]);
+
+                echo Yii::$app->view->renderFile('@frontend/views/components/_modalPublisherInfo.php',
+                    [
+                        'title' => 'Contatos do dono',
+                        'modalId' => $animalId,
+                        'publisherUsername' => $model->user->username,
+                        'publisherContact' => $model->user->phone,
+                        'publisherEmail' => $model->user->email,
+
+                        'closeText' => 'Fechar'
+                    ]);
+
                 break;
             default:
                 break;
