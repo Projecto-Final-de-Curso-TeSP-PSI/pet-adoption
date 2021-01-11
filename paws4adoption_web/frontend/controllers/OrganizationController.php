@@ -238,7 +238,7 @@ class OrganizationController extends Controller
                 $adoptionAnimal->organization_id = $organizationId;
                 $animal = Animal::findOne($id);
                 $animal->createdAt = date("Y-m-d H:m:s");
-                
+
 
 
                 if ($adoptionAnimal->save() && $animal->save()) {
@@ -286,12 +286,12 @@ class OrganizationController extends Controller
                     if ($organization->save()) {
 
                         $transaction->commit();
-                        Yii::$app->session->setFlash('Success', "Associação criada com sucesso.");
+                        Yii::$app->session->setFlash('Success', "Associação submetida com sucesso.");
                         return $this->redirect(['site/index']);
                     } else {
 
                         $transaction->rollBack();
-                        Yii::$app->session->setFlash('Error', "Erro ao criar associação.");
+                        Yii::$app->session->setFlash('Error', "Erro ao submeter associação.");
                         return $this->render('create', [
                             'newOrganization' => $organization,
                             'newAddress' => $address,
@@ -300,7 +300,7 @@ class OrganizationController extends Controller
                 } else {
 
                     $transaction->rollBack();
-                    Yii::$app->session->setFlash('Error', "Erro ao criar associação.");
+                    Yii::$app->session->setFlash('Error', "Erro ao submeter associação.");
                     return $this->render('create', [
                         'newOrganization' => $organization,
                         'newAddress' => $address
