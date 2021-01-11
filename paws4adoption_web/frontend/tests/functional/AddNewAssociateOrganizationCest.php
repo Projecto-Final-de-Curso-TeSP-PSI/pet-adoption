@@ -32,12 +32,10 @@ class AddNewAssociateOrganizationCest
         $I->click('Save');
 
         $I->see('Pedido de voluntariado registado');
-        $I->click('Joao Mendes');
-        $I->see('Logout');
-        $I->click('Logout');
-        $I->see('Guest');
-        $I->click('#userLogged');
-        $I->click('Login');
+
+    }
+
+    public function testAddNewCandidate(FunctionalTester $I){
         $I->amOnRoute('site/login');
         $I->see('Log In', 'h1');
         $I->see('Autentique-se com nome de utilizador e password.', 'p');
@@ -53,18 +51,18 @@ class AddNewAssociateOrganizationCest
         $I->pause();
         $I->see('Gestão Utilizadores Associação');
 
-        $I->click( 'Associar novos membros');
+        $I->click('a', '#btnAddNewAssociates');
         $I->pause();
 
         $I->see('Joao Mendes');
+//        $I->click('Aprovar');
 
-        $I->click('Aprovar');
+//        $I->canSee('Associado adicionado com sucesso');
 
-        $I->canSee('Associado adicionado com sucesso');
-
-        $I->click('Voltar');
-
-        $I->pause();
-        $I->canSee('Joao Mendes');
+//        $I->click('#btnReturn');
+//        //$I->amOnPage('/organization/associate-manage');
+//
+//        $I->pause();
+//        $I->canSee('Joao Mendes');
     }
 }
