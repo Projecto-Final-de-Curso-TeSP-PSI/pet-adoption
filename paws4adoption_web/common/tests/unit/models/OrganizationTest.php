@@ -98,7 +98,8 @@ class OrganizationTest extends \Codeception\Test\Unit
 
     }
 
-    public function testAddressIdIsValid(){
+    /** @test */
+    public function address_is_valid(){
 
     //Assert that address id doesn't exist
     $this->organization1->address_id = 4;
@@ -110,29 +111,8 @@ class OrganizationTest extends \Codeception\Test\Unit
 
     }
 
-    public function testFieldsLength(){
-
-        $this->organization1->name = '1234567890123456789012345678901234567890123456789012345678912345';
-        $this->assertTrue($this->organization1->validate(['name']));
-
-        $this->organization1->name = '12345678901234567890123456789012345678901234567890123456789123456';
-        $this->assertFalse($this->organization1->validate(['name']));
-
-        $this->organization1->email = '123456789012345678901234567890123456789012345678901234567891234';
-        $this->assertTrue($this->organization1->validate(['email']));
-
-        $this->organization1->email = '12345678901234567890123456789012345678901234567890123456789123456';
-        $this->assertFalse($this->organization1->validate(['email']));
-
-        $this->organization1->nif = '123456789';
-        $this->assertTrue($this->organization1->validate(['nif']));
-
-        $this->organization1->nif = '1234567890';
-        $this->assertFalse($this->organization1->validate(['nif']));
-
-    }
-
-    public function testFieldsAreCorrectlyInserted(){
+    /** @test */
+    public function fields_are_correctly_inserted(){
 
         $this->organization1 = $this->tester->grabFixture('organization', 'organization1');
         $this->organization2 = $this->tester->grabFixture('organization', 'organization2');

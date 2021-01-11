@@ -18,8 +18,6 @@ $this->title = 'Organizações pendentes de aprovação';
 
     <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
 
-    <?php Pjax::begin(); ?>
-
     <?= GridView::widget([
         'dataProvider' => $dataProvider,
         'filterModel' => $searchModel,
@@ -61,8 +59,5 @@ $this->title = 'Organizações pendentes de aprovação';
             ],
         ],
     ]); ?>
-
-    <?php Pjax::end();?>
-
 
 </div>
