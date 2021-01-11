@@ -16,7 +16,7 @@ class VerifyEmailFormTest extends \Codeception\Test\Unit
     public function _before()
     {
         $this->tester->haveFixtures([
-            'users' => [
+            'user' => [
                 'class' => UserFixture::className(),
             ]
         ]);

@@ -18,15 +18,12 @@ class SignupFormTest extends \Codeception\Test\Unit
         $this->tester->haveFixtures([
             'users' => [
                 'class' => UserFixture::className(),
+//                var_dump(codecept_data_dir());
             ]
         ]);
 
-        $this->auth = \Yii::$app->authManager;
-        if($this->auth->getRole('user') == null)
-        {
-            $userRole = $this->auth->createRole('user');
-            $this->auth->add($userRole);
-        }
+
+
     }
 
     public function testCorrectSignup()
@@ -39,6 +36,12 @@ class SignupFormTest extends \Codeception\Test\Unit
             'email' => 'some_email@example.com',
             'password' => 'some_password',
         ]);
+
+//        echo ' asdfasdf' . $this->auth->getRole('user'); die;
+
+        $this->auth = \Yii::$app->authManager;
+        $userRole = $this->auth->createRole('user');
+        $this->auth->add($userRole);
 
         $user = $model->signup();
         expect($user)->true();
