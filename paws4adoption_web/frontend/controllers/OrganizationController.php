@@ -229,15 +229,19 @@ class OrganizationController extends Controller
 
             $foundAnimal = FoundAnimal::findOne(['id' => $id]);
 
-            if ($foundAnimal->location->district_id == $orgDistrict) {
 
+            if ($foundAnimal->location->district_id == $orgDistrict) {
                 $adoptionAnimal = new AdoptionAnimal();
                 $adoptionAnimal->id = $id;
                 $adoptionAnimal->is_on_fat = 0;
                 $adoptionAnimal->associated_user_id = $loggedUserId;
                 $adoptionAnimal->organization_id = $organizationId;
+                $animal = Animal::findOne($id);
+                $animal->createdAt = date("Y-m-d H:m:s");
+                
 
-                if ($adoptionAnimal->save()) {
+
+                if ($adoptionAnimal->save() && $animal->save()) {
                     $foundAnimal->is_active = 0;
                     $foundAnimal->save();
 
