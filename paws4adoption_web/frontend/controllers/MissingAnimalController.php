@@ -122,28 +122,6 @@ class MissingAnimalController extends Controller
         ]);
     }
 
-    public function actionSubnature()
-    {
-
-        if (isset($_POST['depdrop_parents'])) {
-            $parents = $_POST['depdrop_parents'];
-            if ($parents != null) {
-                $natureId = $parents[0];
-
-                var_dump($natureId);
-                return;
-
-                if ($natureId == 1) {
-                    return ArrayHelper::map(Nature::find()->where(['parent_nature_id' => 1])->all(), 'id', 'name');
-                } else {
-                    return ArrayHelper::map(Nature::find()->where(['parent_nature_id' => 2])->all(), 'id', 'name');
-                }
-            }
-        }
-        return ['output' => '', 'selected' => ''];
-
-    }
-
     /**
      * Creates a new MissingAnimal model.
      * If creation is successful, the browser will be redirected to the 'view' page.

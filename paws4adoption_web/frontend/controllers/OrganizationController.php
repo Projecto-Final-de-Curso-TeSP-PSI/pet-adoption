@@ -229,15 +229,19 @@ class OrganizationController extends Controller
 
             $foundAnimal = FoundAnimal::findOne(['id' => $id]);
 
-            if ($foundAnimal->location->district_id == $orgDistrict) {
 
+            if ($foundAnimal->location->district_id == $orgDistrict) {
                 $adoptionAnimal = new AdoptionAnimal();
                 $adoptionAnimal->id = $id;
                 $adoptionAnimal->is_on_fat = 0;
                 $adoptionAnimal->associated_user_id = $loggedUserId;
                 $adoptionAnimal->organization_id = $organizationId;
+                $animal = Animal::findOne($id);
+                $animal->createdAt = date("Y-m-d H:m:s");
 
-                if ($adoptionAnimal->save()) {
+
+
+                if ($adoptionAnimal->save() && $animal->save()) {
                     $foundAnimal->is_active = 0;
                     $foundAnimal->save();
 
@@ -282,12 +286,12 @@ class OrganizationController extends Controller
                     if ($organization->save()) {
 
                         $transaction->commit();
-                        Yii::$app->session->setFlash('Success', "Associação criada com sucesso.");
+                        Yii::$app->session->setFlash('Success', "Associação submetida com sucesso.");
                         return $this->redirect(['site/index']);
                     } else {
 
                         $transaction->rollBack();
-                        Yii::$app->session->setFlash('Error', "Erro ao criar associação.");
+                        Yii::$app->session->setFlash('Error', "Erro ao submeter associação.");
                         return $this->render('create', [
                             'newOrganization' => $organization,
                             'newAddress' => $address,
@@ -296,7 +300,7 @@ class OrganizationController extends Controller
                 } else {
 
                     $transaction->rollBack();
-                    Yii::$app->session->setFlash('Error', "Erro ao criar associação.");
+                    Yii::$app->session->setFlash('Error', "Erro ao submeter associação.");
                     return $this->render('create', [
                         'newOrganization' => $organization,
                         'newAddress' => $address

@@ -20,7 +20,6 @@ AppAsset::register($this);
             <?=Html::encode($model->address->city);?>
         </div>
         <p class="card-text"><?=Html::label('Morada:') . " ". Html::encode($model->address->fullAddress);?></p>
-        <button type="button" class="btn btn-primary">Ver Animais Adoção</button>
     </div>
     <div class="text-muted card-footer">
         <?=Html::label('Contacto:') . " " . Html::encode($model->phone);?>

@@ -110,9 +110,10 @@ $this->params['breadcrumbs'][] = $this->title;
                                 <p id="helpText5">O voluntariado, é principalmente o trabalho manual que uma associação necessita, desde
                                     cuidar dos animais a limpar as suas casas, cuidados médicos, participação em campanhas.</p>
                                 <hr>
-                                Para isso entre em contacto com uma associação para que ela o possa orientar nesse
+                                Para isso escolha uma associação e submeta uma candidatura atravez da nossa opção "Ser Voluntario" para que ela o possa orientar nesse
                                 processo. Veja aqui a <a href="<?= Yii::$app->request->baseUrl ?>/organization"><b>lista
-                                        de associações</b></a>
+                                        de associações</b></a> e submeter a sua candidatura <a href="<?=Yii::$app->request->baseUrl ?>../associated-user-request/create"><b>aqui
+                                    </b></a>
                             </div>
                         </li>
                     </ul>

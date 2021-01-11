@@ -32,6 +32,9 @@ AppAsset::register($this);
             'data-toggle' => 'modal',
             'data-target' => '#modalFilter',
         ]) ?>
+        <?= Html::a('Limpar Filtro', ['index'], [
+            'class' => 'btn btn-primary',
+        ]) ?>
     </div>
     <div>
         <?= ListView::widget([

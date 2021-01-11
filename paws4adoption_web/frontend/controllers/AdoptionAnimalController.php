@@ -95,8 +95,8 @@ class AdoptionAnimalController extends Controller
                 ]);
             } else {
                 $query = AdoptionAnimal::find()
-                    ->joinWith('adoption')
-                    ->andWhere(['is', 'adoption_date', null]);
+                    ->joinWith(['adoption', 'animal'])
+                    ->andWhere(['is', 'adoption_date', null])->orderBy(['createdAt' => SORT_DESC]);
 
                 $animalAdoptionDataProvider = new ActiveDataProvider([
                     'query' => $query,
@@ -205,7 +205,7 @@ class AdoptionAnimalController extends Controller
                 $adoptionAnimalModel->organization_id = $loggedAssociatedUser->organization_id;
                 $adoptionAnimalModel->associated_user_id = $loggedUserId;
                 if ($adoptionAnimalModel->save()) {
-                    return $this->redirect(['site/my-org-adoption-animals']);
+                    return $this->redirect(['adoption-animal/my-org-adoption-animals']);
                 }
             }
         }
@@ -332,7 +332,7 @@ class AdoptionAnimalController extends Controller
                 ->joinWith(['animal', 'adoption'])
                 ->andWhere(['in', 'nature_id', $naturesIds])
                 ->andWhere(['nature_id' => $natureCat_id, 'size_id' => $size, 'organization_id' => $organization])
-                ->andWhere(['is', 'adoption_date', null]);
+                ->andWhere(['is', 'adoption_date', null])->orderBy(['createdAt' => SORT_DESC]);
             return $query;
 
         } elseif ($parent_nature_id !== "" && $natureDog_id !== "" && $size !== "" && $organization !== "") {
@@ -342,7 +342,7 @@ class AdoptionAnimalController extends Controller
                 ->joinWith(['animal', 'adoption'])
                 ->andWhere(['in', 'nature_id', $naturesIds])
                 ->andWhere(['nature_id' => $natureDog_id, 'size_id' => $size, 'organization_id' => $organization])
-                ->andWhere(['is', 'adoption_date', null]);
+                ->andWhere(['is', 'adoption_date', null])->orderBy(['createdAt' => SORT_DESC]);
             return $query;
 
         } elseif ($parent_nature_id !== "" && $natureCat_id !== "" && $size !== "") {
@@ -352,7 +352,7 @@ class AdoptionAnimalController extends Controller
                 ->joinWith(['animal', 'adoption'])
                 ->andWhere(['in', 'nature_id', $naturesIds])
                 ->andWhere(['nature_id' => $natureCat_id, 'size_id' => $size])
-                ->andWhere(['is', 'adoption_date', null]);
+                ->andWhere(['is', 'adoption_date', null])->orderBy(['createdAt' => SORT_DESC]);
             return $query;
 
         } elseif ($parent_nature_id !== "" && $natureDog_id !== "" && $size !== "") {
@@ -362,7 +362,7 @@ class AdoptionAnimalController extends Controller
                 ->joinWith(['animal', 'adoption'])
                 ->where(['in', 'nature_id', $naturesIds])
                 ->where(['nature_id' => $natureDog_id, 'size_id' => $size])
-                ->andWhere(['is', 'adoption_date', null]);
+                ->andWhere(['is', 'adoption_date', null])->orderBy(['createdAt' => SORT_DESC]);
             return $query;
 
         } elseif ($parent_nature_id !== "" && $natureCat_id !== "" && $organization !== "") {
@@ -372,7 +372,7 @@ class AdoptionAnimalController extends Controller
                 ->joinWith(['animal', 'adoption'])
                 ->andwhere(['in', 'nature_id', $naturesIds])
                 ->andwhere(['nature_id' => $natureCat_id, 'organization_id' => $organization])
-                ->andWhere(['is', 'adoption_date', null]);
+                ->andWhere(['is', 'adoption_date', null])->orderBy(['createdAt' => SORT_DESC]);
             return $query;
 
         } elseif ($parent_nature_id !== "" && $natureDog_id !== "" && $organization !== "") {
@@ -382,7 +382,7 @@ class AdoptionAnimalController extends Controller
                 ->joinWith(['animal', 'adoption'])
                 ->andWhere(['in', 'nature_id', $naturesIds])
                 ->andWhere(['nature_id' => $natureDog_id, 'organization_id' => $organization])
-                ->andWhere(['is', 'adoption_date', null]);
+                ->andWhere(['is', 'adoption_date', null])->orderBy(['createdAt' => SORT_DESC]);
             return $query;
 
         } elseif ($parent_nature_id !== "" && $natureCat_id !== "") {
@@ -390,7 +390,7 @@ class AdoptionAnimalController extends Controller
             $query = AdoptionAnimal::find()
                 ->joinWith(['animal', 'adoption'])
                 ->andWhere(['nature_id' => $natureCat_id])
-                ->andWhere(['is', 'adoption_date', null]);
+                ->andWhere(['is', 'adoption_date', null])->orderBy(['createdAt' => SORT_DESC]);
             return $query;
 
         } elseif ($parent_nature_id !== "" && $natureDog_id !== "") {
@@ -398,7 +398,7 @@ class AdoptionAnimalController extends Controller
             $query = AdoptionAnimal::find()
                 ->joinWith(['animal', 'adoption'])
                 ->andWhere(['nature_id' => $natureDog_id])
-                ->andWhere(['is', 'adoption_date', null]);
+                ->andWhere(['is', 'adoption_date', null])->orderBy(['createdAt' => SORT_DESC]);
             return $query;
 
         } elseif ($parent_nature_id !== "" && $size !== "" && $organization !== "") {
@@ -408,7 +408,7 @@ class AdoptionAnimalController extends Controller
                 ->joinWith(['animal', 'adoption'])
                 ->andWhere(['in', 'nature_id', $naturesIds])
                 ->andWhere(['size_id' => $size, 'organization_id' => $organization])
-                ->andWhere(['is', 'adoption_date', null]);
+                ->andWhere(['is', 'adoption_date', null])->orderBy(['createdAt' => SORT_DESC]);
             return $query;
 
         } elseif ($parent_nature_id !== "" && $size !== "") {
@@ -418,7 +418,7 @@ class AdoptionAnimalController extends Controller
                 ->joinWith(['animal', 'adoption'])
                 ->andWhere(['in', 'nature_id', $naturesIds])
                 ->andWhere(['size_id' => $size])
-                ->andWhere(['is', 'adoption_date', null]);
+                ->andWhere(['is', 'adoption_date', null])->orderBy(['createdAt' => SORT_DESC]);
             return $query;
 
         } elseif ($parent_nature_id !== "" && $organization !== "") {
@@ -428,7 +428,7 @@ class AdoptionAnimalController extends Controller
                 ->joinWith(['animal', 'adoption'])
                 ->andWhere(['in', 'nature_id', $naturesIds])
                 ->andWhere(['organization_id' => $organization])
-                ->andWhere(['is', 'adoption_date', null]);
+                ->andWhere(['is', 'adoption_date', null])->orderBy(['createdAt' => SORT_DESC]);
             return $query;
 
         } elseif ($parent_nature_id !== "") {
@@ -437,7 +437,7 @@ class AdoptionAnimalController extends Controller
             $query = AdoptionAnimal::find()
                 ->joinWith(['animal', 'adoption'])
                 ->andWhere(['in', 'nature_id', $naturesIds])
-                ->andWhere(['is', 'adoption_date', null]);
+                ->andWhere(['is', 'adoption_date', null])->orderBy(['createdAt' => SORT_DESC]);
             return $query;
 
         } elseif ($natureCat_id !== "") {
@@ -445,7 +445,7 @@ class AdoptionAnimalController extends Controller
             $query = AdoptionAnimal::find()
                 ->joinWith(['animal', 'adoption'])
                 ->andWhere(['nature_id' => $natureCat_id])
-                ->andWhere(['is', 'adoption_date', null]);
+                ->andWhere(['is', 'adoption_date', null])->orderBy(['createdAt' => SORT_DESC]);
             return $query;
 
         } elseif ($natureDog_id !== "") {
@@ -453,28 +453,28 @@ class AdoptionAnimalController extends Controller
             $query = AdoptionAnimal::find()
                 ->joinWith(['animal', 'adoption'])
                 ->andWhere(['nature_id' => $natureDog_id])
-                ->andWhere(['is', 'adoption_date', null]);
+                ->andWhere(['is', 'adoption_date', null])->orderBy(['createdAt' => SORT_DESC]);
             return $query;
 
         } elseif ($size !== "" && $organization !== "") {
             $query = AdoptionAnimal::find()
                 ->joinWith(['animal', 'adoption'])
                 ->andWhere(['size_id' => $size, 'organization_id' => $organization])
-                ->andWhere(['is', 'adoption_date', null]);
+                ->andWhere(['is', 'adoption_date', null])->orderBy(['createdAt' => SORT_DESC]);
             return $query;
 
         } elseif ($size !== "") {
             $query = AdoptionAnimal::find()
                 ->joinWith(['animal', 'adoption'])
                 ->andWhere(['size_id' => $size])
-                ->andWhere(['is', 'adoption_date', null]);
+                ->andWhere(['is', 'adoption_date', null])->orderBy(['createdAt' => SORT_DESC]);
             return $query;
 
         } elseif ($organization !== ""){
             $query = AdoptionAnimal::find()
                 ->joinWith(['animal', 'adoption'])
                 ->andWhere(['organization_id' => $organization])
-                ->andWhere(['is', 'adoption_date', null]);
+                ->andWhere(['is', 'adoption_date', null])->orderBy(['createdAt' => SORT_DESC]);
             return $query;
         }
     }

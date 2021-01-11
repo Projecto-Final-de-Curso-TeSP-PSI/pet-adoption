@@ -99,7 +99,7 @@ class AssociatedUserRequestController extends Controller
         $model = new AssociatedUserRequest();
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            Yii::$app->session->setFlash('Success', "Pedido de voluntariado regstado");
+            Yii::$app->session->setFlash('Success', "Pedido de voluntariado registado");
             return $this->redirect(['site/index']);
         } else{
             $model->candidate_id = Yii::$app->user->id;

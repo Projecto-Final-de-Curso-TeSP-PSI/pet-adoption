@@ -2,6 +2,7 @@
 
 /* @var $this yii\web\View */
 /* @var $form yii\bootstrap\ActiveForm */
+
 /* @var $model \frontend\models\ContactForm */
 
 use frontend\assets\AppAsset;
@@ -13,13 +14,14 @@ $this->title = 'Contactar';
 AppAsset::register($this);
 ?>
 <div class="site-contact">
-    <h1><?= Html::encode($this->title) ?></h1>
+    <div class="container">
+        <h1><?= Html::encode($this->title) ?></h1>
 
-    <p>Envie um e-mail ao suporte.</p>
+        <p>Envie um e-mail ao suporte.</p>
 
-    <div class="row">
-        <div class="col-lg-5">
-            <?php $form = ActiveForm::begin(['id' => 'contact-form']); ?>
+        <div class="row">
+            <div class="col-lg-12">
+                <?php $form = ActiveForm::begin(['id' => 'contact-form']); ?>
 
                 <?= $form->field($model, 'name')->textInput(['autofocus' => true])->label('Nome') ?>
 
@@ -37,8 +39,8 @@ AppAsset::register($this);
                     <?= Html::submitButton('Submit', ['class' => 'btn btn-primary', 'name' => 'contact-button']) ?>
                 </div>
 
-            <?php ActiveForm::end(); ?>
+                <?php ActiveForm::end(); ?>
+            </div>
         </div>
     </div>
-
 </div>
