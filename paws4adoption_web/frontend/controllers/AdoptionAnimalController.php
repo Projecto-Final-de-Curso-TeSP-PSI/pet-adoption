@@ -205,7 +205,7 @@ class AdoptionAnimalController extends Controller
                 $adoptionAnimalModel->organization_id = $loggedAssociatedUser->organization_id;
                 $adoptionAnimalModel->associated_user_id = $loggedUserId;
                 if ($adoptionAnimalModel->save()) {
-                    return $this->redirect(['site/my-org-adoption-animals']);
+                    return $this->redirect(['adoption-animal/my-org-adoption-animals']);
                 }
             }
         }
