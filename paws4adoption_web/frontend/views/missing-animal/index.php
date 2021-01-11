@@ -37,8 +37,15 @@ AppAsset::register($this);
         <?= ListView::widget([
             'dataProvider' => $dataProvider,
             'itemView' => '../components/_itemListAnimal',
-            'layout' => "{pager}\n{items}",
+            'layout' => "{items}</div><div>{pager}",
             'options' => ['class' => 'row'],
+            'pager' => [
+                'options' => [
+                    'class' => 'pagination',
+                ],
+                'linkContainerOptions' => ['class'=>'page-item'],
+                'linkOptions' => ['class' => 'page-link'],
+            ],
             'itemOptions' => ['class' => 'col-xl-4 col-lg-4 col-sm-6']
         ])
         ?>
