@@ -20,6 +20,7 @@ use phpDocumentor\Reflection\Types\This;
 use Yii;
 use common\models\AdoptionAnimal;
 use yii\data\ActiveDataProvider;
+use yii\data\Pagination;
 use yii\filters\AccessControl;
 use yii\helpers\ArrayHelper;
 use yii\web\Controller;
@@ -54,12 +55,6 @@ class AdoptionAnimalController extends Controller
                         'roles' => ['manageAdoptionAnimal'],
                         'roleParams' => ['animal_id' => Yii::$app->request->get('id')]
                     ],
-                    /*[
-                        'actions' => ['my-org-adoption-animals'],
-                        'allow' => true,
-                        'roles' => ['manageAdoptionAnimal'],
-                        'roleParams' => ['organization_id' => $this->getOrgId()]
-                    ]*/
                 ]
             ],
             'verbs' => [
@@ -81,7 +76,6 @@ class AdoptionAnimalController extends Controller
             $animalAdoptionSearchModel = new AnimalAdoptionSearch();
             $animalSearchModel = new AnimalSearch();
             $organizationSearchModel = new OrganizationSearch();
-//            $animalAdoptionDataProvider = $animalAdoptionSearchModel->search(Yii::$app->request->queryParams);
 
             if (Yii::$app->request->get() != null){
 
@@ -100,7 +94,9 @@ class AdoptionAnimalController extends Controller
 
                 $animalAdoptionDataProvider = new ActiveDataProvider([
                     'query' => $query,
-                    'pagination' => false
+                    'pagination' => [
+                        'pageSize' => 10,
+                    ]
                 ]);
             }
         } catch (\Exception $e){
@@ -122,26 +118,6 @@ class AdoptionAnimalController extends Controller
 
     }
 
-
-//    /**
-//     * Displays AnimalsList page.
-//     *
-//     * @return mixed
-//     */
-//    public function actionListAnimals()
-//    {
-//        $dataProvider = new ActiveDataProvider([
-//            'query' => Animal::find()->orderBy('id DESC'),
-//            'pagination' => [
-//                'pageSize' => 10,
-//            ],
-//        ]);
-//        //var_dump($dataProvider->getModels());
-//
-//        return $this->render('listAnimals', ['dataProvider' => $dataProvider]);
-//    }
-
-
     /**
      * Displays a single AdoptionAnimal model.
      * @param integer $id
@@ -155,7 +131,7 @@ class AdoptionAnimalController extends Controller
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
-            'pagination' => false,
+            'pagination' => 10,
         ]);
 
         return $this->render('view', [

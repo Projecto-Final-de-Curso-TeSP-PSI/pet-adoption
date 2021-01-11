@@ -37,10 +37,17 @@ class FoundAnimalController extends Controller
                 'only' => ['create', 'update', 'delete'],
                 'rules' => [
                     [
-                        'actions' => ['create', 'update', 'delete'],
+                        'actions' => ['create'],
                         'allow' => true,
                         'roles' => ['@'],
-                    ]
+
+                    ],
+                    [
+                    'actions' => ['update', 'delete'],
+                    'allow' => true,
+                    'roles' => ['manageFoundAnimal'],
+                    'roleParams' => ['animal_type' => 'foundAnimal', 'animal_id' => Yii::$app->request->get('id')],
+                ],
                 ]
             ],
             'verbs' => [
@@ -260,7 +267,7 @@ class FoundAnimalController extends Controller
     {
         $this->findModel($id)->delete();
 
-        return $this->redirect(['index']);
+        return $this->redirect(['site/my-list-animals']);
     }
 
     /**

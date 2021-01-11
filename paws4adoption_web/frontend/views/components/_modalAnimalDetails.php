@@ -191,15 +191,32 @@ $loggedUserId = Yii::$app->user->id;
 
 
 <?php
-    echo Yii::$app->view->renderFile('@frontend/views/components/_modalYesNo.php',
-        [
-            'route' => 'missing-animal/delete',
-            'animalId' => $animalId,
-            'title' => 'Eliminar',
-            'subtitle' => '',
-            'question' => 'Confirmar que prentende eliminar o animal?',
-            'dismissButtonText' => 'Cancelar',
-            'confirmButtonText' => 'Sim',
-        ]);
+switch ($type){
+    case "missingAnimal":
+        echo Yii::$app->view->renderFile('@frontend/views/components/_modalYesNo.php',
+            [
+                'route' => 'missing-animal/delete',
+                'animalId' => $animalId,
+                'title' => 'Eliminar',
+                'subtitle' => '',
+                'question' => 'Confirmar que prentende eliminar o animal?',
+                'dismissButtonText' => 'Cancelar',
+                'confirmButtonText' => 'Sim',
+            ]);
+        break;
+    case 'foundAnimal':
+        echo Yii::$app->view->renderFile('@frontend/views/components/_modalYesNo.php',
+            [
+                'route' => 'found-animal/delete',
+                'animalId' => $animalId,
+                'title' => 'Eliminar',
+                'subtitle' => '',
+                'question' => 'Confirmar que prentende eliminar o animal?',
+                'dismissButtonText' => 'Cancelar',
+                'confirmButtonText' => 'Sim',
+            ]);
+        break;
+}
+
 ?>
 

@@ -60,7 +60,7 @@ AppAsset::register($this);
                                 <?= $form->field($model, 'password')->passwordInput() ?>
 
                                 <div class="form-group">
-                                    <?= Html::submitButton('Registar', ['class' => 'btn btn-primary']) ?>
+                                    <?= Html::submitButton('Registar', ['class' => 'btn btn-primary', 'id' => 'btnRegister']) ?>
                                 </div>
                             <?php ActiveForm::end(); ?>
 
