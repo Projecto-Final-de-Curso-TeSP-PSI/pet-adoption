@@ -29,10 +29,13 @@ class SignupCest
         $I->seeInCurrentUrl('/site/signup');
         $I->see('Registo de utilizador');
 
-        $I->fillField('SignupForm[username]', 'catarina.cardoso');
+        $I->fillField('SignupForm[firstName]', 'catarina');
+        $I->fillField('SignupForm[lastName]', 'cardoso');
+        $I->fillField('SignupForm[nif]', '445454895');
         $I->fillField('SignupForm[email]', 'catarina.cardoso@trigenius.pt');
-        $I->fillField('SignupForm[password]', 'Porto123#');
-        $I->click(Locator::find('button', ['name' => 'login-button']));
+        $I->fillField('SignupForm[username]', 'catarina.cardoso');
+        $I->fillField('SignupForm[password]', 'lolololol');
+        $I->click(Locator::find('button', ['id' => 'btnRegister']));
 
         $I->wait(2);
         $I->seeInCurrentUrl('/');

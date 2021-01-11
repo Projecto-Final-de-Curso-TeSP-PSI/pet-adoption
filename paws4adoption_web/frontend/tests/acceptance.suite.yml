@@ -8,7 +8,7 @@ modules:
         - Yii2:
             part: init
         - Db:
-            dsn: 'mysql:host=localhost;dbname=paws4adoption_test'
+            dsn: 'mysql:host=localhost;dbname=paws4adoption'
             user: 'root'
             password: ''
             dump: 'frontend/tests/_data/dump.sql'

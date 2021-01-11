@@ -14,7 +14,7 @@ class LoginCest
     {
         $I->wantTo("test making a login");
 
-        $I->amOnPage(Url::toRoute('/site/index'));
+        $I->amOnPage('/site/index');
         $I->wait(2); // wait for page to be opened
 
         $I->see('No que consiste o site');

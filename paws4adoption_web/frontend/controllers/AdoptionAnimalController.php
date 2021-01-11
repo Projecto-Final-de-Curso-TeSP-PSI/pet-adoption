@@ -155,7 +155,7 @@ class AdoptionAnimalController extends Controller
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
-            'pagination' => false,
+            'pagination' => 10,
         ]);
 
         return $this->render('view', [
