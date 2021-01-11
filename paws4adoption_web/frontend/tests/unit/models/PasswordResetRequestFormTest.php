@@ -18,7 +18,7 @@ class PasswordResetRequestFormTest extends \Codeception\Test\Unit
     public function _before()
     {
         $this->tester->haveFixtures([
-            'user' => [
+            'users' => [
                 'class' => UserFixture::className(),
             ]
         ]);
@@ -33,7 +33,7 @@ class PasswordResetRequestFormTest extends \Codeception\Test\Unit
 
     public function testNotSendEmailsToInactiveUser()
     {
-        $user = $this->tester->grabFixture('user', 1);
+        $user = $this->tester->grabFixture('users', 1);
         $model = new PasswordResetRequestForm();
         $model->email = $user['email'];
         expect_not($model->sendEmail());
@@ -41,7 +41,7 @@ class PasswordResetRequestFormTest extends \Codeception\Test\Unit
 
     public function testSendEmailSuccessfully()
     {
-        $userFixture = $this->tester->grabFixture('user', 0);
+        $userFixture = $this->tester->grabFixture('users', 0);
         
         $model = new PasswordResetRequestForm();
         $model->email = $userFixture['email'];
