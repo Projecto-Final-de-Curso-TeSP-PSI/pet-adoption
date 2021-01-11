@@ -40,6 +40,5 @@ class SignupCest
         $I->wait(2);
         $I->seeInCurrentUrl('/');
         $I->seeInDatabase('users', ['username' => 'catarina.cardoso', 'email' => 'catarina.cardoso@trigenius.pt']);
-
     }
 }
