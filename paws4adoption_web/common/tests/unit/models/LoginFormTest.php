@@ -16,18 +16,13 @@ class LoginFormTest extends \Codeception\Test\Unit
      */
     protected $tester;
 
-
-    /**
-     * @return array
-     */
-    public function _fixtures()
+    protected function _before()
     {
-        return [
-            'user' => [
+        $this->tester->haveFixtures([
+            'users' => [
                 'class' => UserFixture::className(),
-                //'dataFile' => codecept_data_dir() . 'user.php'
             ]
-        ];
+        ]);
     }
 
     public function testLoginNoUser()
@@ -56,8 +51,8 @@ class LoginFormTest extends \Codeception\Test\Unit
     public function testLoginCorrect()
     {
         $model = new LoginForm([
-            'username' => 'bayer.hudson',
-            'password' => 'password_0',
+            'username' => 'test.test',
+            'password' => 'Test1234',
         ]);
 
         expect('model should login user', $model->login())->true();

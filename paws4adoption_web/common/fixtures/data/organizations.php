@@ -7,7 +7,7 @@ return [
         'email' => 'azl@gmail.com',
         'phone' => '912356896',
         'address_id' => 1,
-        'founder_id' => 1,
+        'founder_id' => 3,
         'status' => \common\models\Organization::STATUS_ACTIVE,
     ],
     'organization2' => [
@@ -16,7 +16,7 @@ return [
         'email' => 'apa@gmail.com',
         'phone' => '912568968',
         'address_id' => 2,
-        'founder_id' => 2,
+        'founder_id' => 3,
         'status' => \common\models\Organization::STATUS_ACTIVE,
     ],
     'organization3' => [
@@ -25,7 +25,7 @@ return [
         'email' => 'apa@gmail2.com',
         'phone' => '912568968',
         'address_id' => 3,
-        'founder_id' => 1,
+        'founder_id' => 3,
         'status' => \common\models\Organization::STATUS_ACTIVE,
     ],
 ];

@@ -17,7 +17,7 @@ class UserTest extends \Codeception\Test\Unit
     protected function _before()
     {
         $this->tester->haveFixtures([
-            'user' => [
+            'users' => [
                 'class' => UserFixture::className(),
                 //'dataFile' => codecept_data_dir() . 'user.php'
             ]

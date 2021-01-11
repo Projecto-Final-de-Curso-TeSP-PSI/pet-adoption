@@ -26,8 +26,6 @@ class OrganizationTest extends \Codeception\Test\Unit
         $this->tester->haveFixtures([
             'organization' => [
                 'class' => OrganizationFixture::className(),
-                // fixture data located in tests/_data/user.php
-                //'dataFile' => 'data/organization.php'
             ]
         ]);
 

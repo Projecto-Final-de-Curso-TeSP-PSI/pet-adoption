@@ -1,5 +1,7 @@
 <?php namespace common\tests;
 
+use common\fixtures\AnimalFixture;
+use common\fixtures\UserFixture as UserFixture;
 use common\models\Animal;
 use function GuzzleHttp\Promise\all;
 
@@ -9,9 +11,14 @@ class AnimalTest extends \Codeception\Test\Unit
      * @var \common\tests\UnitTester
      */
     protected $tester;
-    
-    protected function _before()
+
+    public function _before()
     {
+        $this->tester->haveFixtures([
+            'animals' => [
+                'class' => AnimalFixture::className(),
+            ]
+        ]);
     }
 
     protected function _after()
@@ -31,7 +38,7 @@ class AnimalTest extends \Codeception\Test\Unit
 
         //Verifica todos os campos que nao devem aceitar null
         $this->assertFalse($animal->validate(
-            ['nature_id', 'fur_length_id', 'fur_color_id', 'size_id', 'sex', 'create_at']
+            ['nature_id', 'fur_length_id', 'fur_color_id', 'size_id', 'sex', 'createAt']
         ));
 
         //Verifica todos os campos que podem levar null
@@ -63,7 +70,7 @@ class AnimalTest extends \Codeception\Test\Unit
         ));
         //Verifica todos os campos do tipo int podem levar um int
         $this->assertTrue($animal->validate(
-            ['nature_id', 'fur_length_id', 'fur_color_id', 'size_id', 'create_at']
+            ['nature_id']
         ));
     }
 
@@ -72,15 +79,17 @@ class AnimalTest extends \Codeception\Test\Unit
         $animal = new Animal();
         //Preenche os campos
         $animal->name = 'Foo';
-        $animal->nature_id = 30;
-        $animal->fur_length_id = 2;
+
+        $animal->nature_id = 2;
+        $animal->fur_length_id = 1;
         $animal->fur_color_id = 3;
         $animal->size_id = 1;
+
         $animal->sex = 'F';
         $animal->chipId = '623621533336';
         $animal->description = 'Animal de teste para verificar o save na BD';
         //Salva o animal e ve se esta tudo ok
-        $this->assertTrue($animal->save());
+        $this->assertTrue($animal->save(), json_encode($animal->errors));
     }
 
 }

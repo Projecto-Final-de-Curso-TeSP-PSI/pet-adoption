@@ -1,6 +1,10 @@
 <?php
 return [
     [
+        'firstName' => 'Okirlin',
+        'lastName' => 'Hudson',
+        'nif' => '357864911',
+        'phone' => '968574911',
         'username' => 'erau',
         'auth_key' => 'tUu1qHcde0diwUol3xeI-18MuHkkprQI',
         // password_0
@@ -9,5 +13,6 @@ return [
         'created_at' => '1392559490',
         'updated_at' => '1392559490',
         'email' => 'sfriesen@jenkins.info',
+        'address_id' => 2
     ],
 ];
