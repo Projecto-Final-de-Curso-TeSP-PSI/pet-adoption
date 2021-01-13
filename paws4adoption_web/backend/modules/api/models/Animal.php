@@ -3,9 +3,7 @@
 namespace backend\modules\api\models;
 
 use common\models\Photo;
-/**
-* @property Photo $photo
-*/
+
 class Animal extends \common\models\Animal{
 
     /**
@@ -96,8 +94,5 @@ class Animal extends \common\models\Animal{
 //        return $this->hasMany(Photo::className(), ['id_animal' => 'id']);
 //    }
 
-    public function getPhoto()
-    {
-        return $this->photos[0]->imgBase64;
-    }
+
 }

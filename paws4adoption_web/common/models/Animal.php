@@ -182,6 +182,14 @@ class Animal extends \yii\db\ActiveRecord
         return $this->hasMany(Photo::className(), ['id_animal' => 'id']);
     }
 
+    public function getPhoto()
+    {
+        foreach ( $this->photos as $photo){
+            return $photo->imgBase64;
+        }
+
+    }
+
     public function getType()
     {
         if ($this->getAdoptionAnimal()->count() != '0') {

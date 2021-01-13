@@ -279,7 +279,7 @@ class Utils
     private static function uploadPhoto($uniqueId, $photoBase64){
         try {
 
-            $path = realpath(Yii::$app->basePath . '/../frontend/web/images/animal') . '\\';
+            $path = Yii::$app->basePath . '/../frontend/web/images/animal' . '/';
 
 //            $postdata = fopen($_FILES['photo']['tmp_name'], "r");
 

@@ -70,8 +70,10 @@ class Photo extends \yii\db\ActiveRecord
 
     public function getImgBase64()
     {
-        $path = realpath(Yii::$app->basePath . '/../frontend/web/images/animal/'.$this->name.'.'.$this->extension);
+        $path = Yii::$app->basePath . '/../frontend/web/images/animal/'.$this->name.'.'.$this->extension;
         $type = pathinfo($path,PATHINFO_EXTENSION);
+//        var_dump(Yii::$app->basePath . '/../frontend/web/images/animal/'.$this->name.'.'.$this->extension); die;
+
         $imgFile = file_get_contents($path);
         $base64 = 'data:image/' . $type . ';base64,' . base64_encode($imgFile);
 
