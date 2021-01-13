@@ -43,11 +43,15 @@ class Utils
             $animal->size_id = $post['size_id'];
             $animal->sex = $post['sex'];
 
+
             if(!$animal->save())
                 throw new BadRequestHttpException("Erro on saving animal");
 
-//            if(!self::createPhoto($animal))
-//                throw new BadRequestHttpException("Error on saving animal");
+            if (isset($post['photo'])){
+                if(!self::createPhoto($animal, $post['photo']))
+                    throw new BadRequestHttpException("Error on saving animal");
+            }
+
 
             switch($animal_type) {
                 case 'missingAnimal':
@@ -205,14 +209,14 @@ class Utils
      * @throws PhotoSaveException
      * @throws PhotoUploadException
      */
-    private static function createPhoto($animal){
+    private static function createPhoto($animal, $photoBase64){
 
         $saveResult = null;
         try {
             $photo = new Photo();
             $photo->caption = $animal->nature->name . " - " . $animal->name;
 
-            $result = self::uploadPhoto(uniqid());
+            $result = self::uploadPhoto(uniqid(), $photoBase64);
 
             if($result['saved'] == true){
                 $photo->name = $result['name'];
@@ -272,32 +276,36 @@ class Utils
      * @return array
      * @throws PhotoUploadException
      */
-    private static function uploadPhoto($uniqueId){
+    private static function uploadPhoto($uniqueId, $photoBase64){
         try {
 
             $path = realpath(Yii::$app->basePath . '/../frontend/web/images/animal') . '\\';
 
-            $postdata = fopen($_FILES['photo']['tmp_name'], "r");
+//            $postdata = fopen($_FILES['photo']['tmp_name'], "r");
+
 
 
             /* Get file extension */
-            $extension = substr($_FILES['photo']['name'], strrpos($_FILES['photo']['name'], '.'));
+//            $extension = substr($_FILES['photo']['name'], strrpos($_FILES['photo']['name'], '.'));
+            $extension = 'bmp';
 
             /* Generate unique name */
-            $filename = $uniqueId . $extension;
+            $filename = $uniqueId .'.'. $extension;
             $documentPath = $path . $filename;
 
-            /* Open a file for writing */
-            $fp = fopen($documentPath, "w");
+            file_put_contents($documentPath, base64_decode($photoBase64));
 
-            /* Read the data 1 KB at a time and write to the file */
-            while ($data = fread($postdata, 1024)) {
-                fwrite($fp, $data);
-            }
-
-            /* Close the streams */
-            fclose($fp);
-            fclose($postdata);
+//            /* Open a file for writing */
+//            $fp = fopen($documentPath, "w");
+//
+//            /* Read the data 1 KB at a time and write to the file */
+//            while ($data = fread($postdata, 1024)) {
+//                fwrite($fp, $data);
+//            }
+//
+//            /* Close the streams */
+//            fclose($fp);
+//            fclose($postdata);
         }
         catch (\Exception $e){
             throw  new PhotoUploadException("Error on uploading photo", null, $e);
