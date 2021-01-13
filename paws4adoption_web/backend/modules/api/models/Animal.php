@@ -2,7 +2,10 @@
 
 namespace backend\modules\api\models;
 
-
+use common\models\Photo;
+/**
+* @property Photo $photo
+*/
 class Animal extends \common\models\Animal{
 
     /**
@@ -24,7 +27,8 @@ class Animal extends \common\models\Animal{
             'createdAt',
             'adoptionAnimal',
             'missingAnimal',
-            'foundAnimal'
+            'foundAnimal',
+            'photo'
         ];
         return $fields;
     }
@@ -35,7 +39,16 @@ class Animal extends \common\models\Animal{
      */
     public function extraFields()
     {
-        return ['adoptionAnimal', 'missingAnimal', 'foundAnimal', 'type', 'nature', 'size', 'furLength', 'furColor'];
+        return [
+            'adoptionAnimal',
+            'missingAnimal',
+            'foundAnimal',
+            'type',
+            'nature',
+            'size',
+            'furLength',
+            'furColor',
+        ];
     }
 
     /**
@@ -45,7 +58,7 @@ class Animal extends \common\models\Animal{
      */
     public function getAdoptionAnimal()
     {
-        return $this->hasOne(\backend\modules\api\models\AdoptionAnimal::class, ['id' => 'id']);
+        return $this->hasOne(AdoptionAnimal::class, ['id' => 'id']);
     }
 
     /**
@@ -55,7 +68,7 @@ class Animal extends \common\models\Animal{
      */
     public function getMissingAnimal()
     {
-        return $this->hasOne(\backend\modules\api\models\MissingAnimal::class, ['id' => 'id']);
+        return $this->hasOne(MissingAnimal::class, ['id' => 'id']);
     }
 
     /**
@@ -65,7 +78,7 @@ class Animal extends \common\models\Animal{
      */
     public function getFoundAnimal()
     {
-        return $this->hasOne(\backend\modules\api\models\FoundAnimal::class, ['id' => 'id']);
+        return $this->hasOne(FoundAnimal::class, ['id' => 'id']);
     }
 
     /**
@@ -75,7 +88,16 @@ class Animal extends \common\models\Animal{
      */
     public function getNature()
     {
-        return $this->hasOne(\backend\modules\api\models\Nature::className(), ['id' => 'nature_id']);
+        return $this->hasOne(Nature::className(), ['id' => 'nature_id']);
     }
 
+//    public function getPhotos()
+//    {
+//        return $this->hasMany(Photo::className(), ['id_animal' => 'id']);
+//    }
+
+    public function getPhoto()
+    {
+        return $this->photos[0]->imgBase64;
+    }
 }
