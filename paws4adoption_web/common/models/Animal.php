@@ -185,9 +185,8 @@ class Animal extends \yii\db\ActiveRecord
     public function getPhoto()
     {
         foreach ( $this->photos as $photo){
-            return $photo->imgBase64;
+            return $photo->name.'.'.$photo->extension;
         }
-
     }
 
     public function getType()
