@@ -60,8 +60,13 @@ class AnimalsController extends ActiveController
             ->isStillOnStreet(true)
             ->all();
 
+        $adoptionAnimals = \backend\modules\api\models\Animal::find()
+            ->isAdoptionAnimal()
+            ->all();
 
-        $animals = array_merge($missingAnimals, $foundAnimals);
+//        var_dump($adoptionAnimals); die;
+
+        $animals = array_merge($missingAnimals, $foundAnimals, $adoptionAnimals);
 
         return $animals;
     }
