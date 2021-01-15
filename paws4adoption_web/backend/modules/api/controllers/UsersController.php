@@ -237,6 +237,7 @@ class UsersController extends ActiveController
             }
             $response['success'] = true;
             $response['token'] = User::findByUsername($user->username)->auth_key;
+            $response['id'] = $user->id;
         } catch (\Exception $e){
             throw $e;
         }
