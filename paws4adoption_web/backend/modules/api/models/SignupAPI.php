@@ -4,16 +4,20 @@
 namespace backend\modules\api\models;
 
 
+use common\models\Address;
 use common\models\User;
 use Yii;
+use yii\base\Model;
 
-class SignupAPI extends \frontend\models\SignupForm
+class SignupAPI extends Model
 {
     public $firstName;
     public $lastName;
     public $nif;
     public $phone;
     public $email;
+    public $username;
+    public $password;
 
     public $street;
     public $door_number;
@@ -41,7 +45,7 @@ class SignupAPI extends \frontend\models\SignupForm
         $user->nif = $this->nif;
         $user->phone = $this->phone;
 
-        $userAddress = new \common\models\Address();
+        $userAddress = new Address();
         $userAddress->street = $this->street;
         $userAddress->door_number = $this->door_number;
         $userAddress->floor = $this->floor;
@@ -51,10 +55,7 @@ class SignupAPI extends \frontend\models\SignupForm
         $userAddress->district_id = $this->district_id;
         $userAddress->save();
 
-        
         $user->address_id = $userAddress->id;
-
-
 
         if($user->save()){
             // atribuição do papel de user por default a todos os utilizadores registados
@@ -67,6 +68,24 @@ class SignupAPI extends \frontend\models\SignupForm
         }
 
         return false;
-        
+    }
+
+    /**
+     * Sends confirmation email to user
+     * @param User $user user model to with email should be send
+     * @return bool whether the email was sent
+     */
+    protected function sendEmail($user)
+    {
+        return Yii::$app
+            ->mailer
+            ->compose(
+                ['html' => 'emailVerify-html', 'text' => 'emailVerify-text'],
+                ['user' => $user]
+            )
+            ->setFrom([Yii::$app->params['supportEmail'] => Yii::$app->name . ' robot'])
+            ->setTo($this->email)
+            ->setSubject('Account registration at ' . Yii::$app->name)
+            ->send();
     }
 }
