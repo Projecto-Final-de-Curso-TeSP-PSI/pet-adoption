@@ -12,12 +12,12 @@ class AnimalQuery extends ActiveQuery
     public function isAdoptionAnimal(){
 
         return $this
-            ->joinWith('adoptionAnimal aa ')
+            ->joinWith('adoptionAnimal aa')
             ->andWhere(['is not', 'aa.id', null]);
     }
 
     public function isOnFat($status = true){
-        return $this->andOnCondition(['is:_on_fat' => $status]);
+        return $this->andOnCondition(['is_on_fat' => $status]);
     }
 
     public function isAdopted($status = true){
