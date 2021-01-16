@@ -142,6 +142,7 @@ class Utils
             if(!$animal->save())
                 throw new BadRequestHttpException("Erro on saving animal");
 
+
             if (isset($post['photo'])){
                 if(!self::updatePhoto($animal, $post['photo']))
                     throw new BadRequestHttpException("Error on saving animal");
@@ -250,25 +251,29 @@ class Utils
      * @throws PhotoUploadException
      */
     private static function updatePhoto($animal, $photoBase64){
-        $saveResult = null;
         try {
 
-            $result = self::uploadPhoto($animal->photo->name, $photoBase64);
+            $result = self::uploadPhoto($animal->photoName, $photoBase64);
+
+            $updatedPhoto = null;
+            foreach ( $animal->photos as $photo){
+                $updatedPhoto = $photo;
+            }
 
             if($result['saved'] == true){
-                $animal->photo->extension = $result['extension'];
+                $updatedPhoto->extension = $result['extension'];
             }
             else{
                 return false;
             }
 
-            $result = $animal->save();
+            $result = $updatedPhoto->save();
         } catch (PhotoUploadException $e){
             throw  $e;
         } catch(\Exception $e){
             throw new PhotoSaveException("Error on saving photo on the database", 400);
         }
-        return $saveResult;
+        return $result;
     }
 
     /**

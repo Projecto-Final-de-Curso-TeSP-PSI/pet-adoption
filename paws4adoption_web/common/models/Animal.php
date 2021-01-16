@@ -189,6 +189,13 @@ class Animal extends \yii\db\ActiveRecord
         }
     }
 
+    public function getPhotoName()
+    {
+        foreach ( $this->photos as $photo){
+            return $photo->name;
+        }
+    }
+
     public function getType()
     {
         if ($this->getAdoptionAnimal()->count() != '0') {
