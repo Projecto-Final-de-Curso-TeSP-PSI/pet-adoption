@@ -142,8 +142,10 @@ class Utils
             if(!$animal->save())
                 throw new BadRequestHttpException("Erro on saving animal");
 
-//            if(!self::updatePhoto($animal))
-//                throw new BadRequestHttpException("Error on saving photo");
+            if (isset($post['photo'])){
+                if(!self::updatePhoto($animal, $post['photo']))
+                    throw new BadRequestHttpException("Error on saving animal");
+            }
 
             switch($animal_type) {
                 case "missingAnimal":
@@ -247,12 +249,11 @@ class Utils
      * @throws PhotoSaveException
      * @throws PhotoUploadException
      */
-    private static function updatePhoto($animal){
+    private static function updatePhoto($animal, $photoBase64){
         $saveResult = null;
         try {
 
-
-            $result = self::uploadPhoto($animal->photo->name);
+            $result = self::uploadPhoto($animal->photo->name, $photoBase64);
 
             if($result['saved'] == true){
                 $animal->photo->extension = $result['extension'];
