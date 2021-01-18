@@ -64,7 +64,9 @@ class SignupAPI extends Model
             //Linha a baixo está comprometer os testes unitários e funcionais.
             $auth->assign($userRole, $user->getId());
 
-            return $this->sendEmail($user);
+            $this->sendEmail($user);
+
+            return true;
         }
 
         return false;
