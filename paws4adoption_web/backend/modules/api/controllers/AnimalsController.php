@@ -88,7 +88,10 @@ class AnimalsController extends ActiveController
 
             case 'adoptionAnimal':
                 $adoptionAnimal = $animal->adoptionAnimal;
-                if($adoptionAnimal->adoption != null && $adoptionAnimal->is_on_fat == false)
+                if(
+//                    ($adoptionAnimal->adoption != null && $adoptionAnimal->is_on_fat == false) ||
+                    ($adoptionAnimal->adoption != null && $adoptionAnimal->adoption->adoption_date != null )
+                )
                     throw new NotFoundHttpException('Animal not found');
                 break;
 

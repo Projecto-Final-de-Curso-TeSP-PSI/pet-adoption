@@ -104,7 +104,7 @@ class Utils
             throw new SaveAnimalException("Error on saving animal on the database", null, $e);
         }
 
-        return $animal;
+        return \backend\modules\api\models\Animal::findOne($animal->id);
     }
 
     /**
@@ -202,7 +202,7 @@ class Utils
             throw new SaveAnimalException("Error on saving animal on the database", null, $e);
         }
 
-        return Animal::findOne($animal->id);
+        return \backend\modules\api\models\Animal::findOne($animal->id);
     }
 
     /**
