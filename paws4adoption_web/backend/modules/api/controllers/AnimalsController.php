@@ -60,11 +60,23 @@ class AnimalsController extends ActiveController
             ->isStillOnStreet(true)
             ->all();
 
-        $adoptionAnimals = \backend\modules\api\models\Animal::find()
-            ->isAdoptionAnimal()
-            ->all();
+        $adoptionAnimalsWithoutAdoptionIds = AdoptionAnimal::find()
+            ->joinWith('adoption a')
+            ->where(['is', 'a.id', null])
+            ->select('adoption_animals.id')
+            ->column();
 
-//        var_dump($adoptionAnimals); die;
+        $adoptionAnimalsWIthAdoptionDateNullIds = AdoptionAnimal::find()
+            ->joinWith('adoption a')
+            ->where(['is', 'a.adoption_date', null])
+            ->select('adoption_animals.id')
+            ->column();
+
+        $notAdoptedAnimalsIds = array_merge($adoptionAnimalsWithoutAdoptionIds, $adoptionAnimalsWIthAdoptionDateNullIds);
+
+        $adoptionAnimals = \backend\modules\api\models\Animal::find()
+            ->where(['in', 'id', $notAdoptedAnimalsIds])
+            ->all();
 
         $animals = array_merge($missingAnimals, $foundAnimals, $adoptionAnimals);
 
