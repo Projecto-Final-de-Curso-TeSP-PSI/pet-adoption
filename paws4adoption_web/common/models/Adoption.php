@@ -13,6 +13,7 @@ use Yii;
  * @property string|null $adoption_date
  * @property int $adopted_animal_id
  * @property int $adopter_id
+ * @property string $type
  *
  * @property User $adopter
  * @property AdoptionAnimal $adoptedAnimal
@@ -38,7 +39,7 @@ class Adoption extends \yii\db\ActiveRecord
     {
         return [
             [['motivation', 'adopted_animal_id', 'adopter_id'], 'required'],
-            [['motivation'], 'string'],
+            [['motivation', 'type'], 'string'],
             [['adoption_date'], 'safe'],
             [['adopted_animal_id', 'adopter_id'], 'integer'],
             [['adopter_id'], 'exist', 'skipOnError' => true, 'targetClass' => User::className(), 'targetAttribute' => ['adopter_id' => 'id']],

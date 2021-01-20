@@ -113,6 +113,14 @@ return [
                         ],
                     ],
                 ],
+                [ //SERVICE: ADOPTIONS
+                    'class' => 'yii\rest\UrlRule',
+                    'controller' => 'api/adoptions',
+                    'pluralize' => 'false',
+                    'tokens' => [
+                        '{id}' => '<id:\\d+>',
+                    ]
+                ],
                 [ //SERVICE: SPECIES
                     'class' => 'yii\rest\UrlRule',
                     'controller' => 'api/species',
