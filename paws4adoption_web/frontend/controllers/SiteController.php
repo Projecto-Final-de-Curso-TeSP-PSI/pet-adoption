@@ -166,7 +166,10 @@ class SiteController extends Controller
     public function actionIndex()
     {
         $dataProviderAdoptionAnimal = new ActiveDataProvider([
-            'query' => AdoptionAnimal::find()->orderBy('id DESC')->limit(3),
+            'query' => AdoptionAnimal::find()
+                ->joinWith('adoption')
+                ->where(['is', 'adoption_date', null])
+                ->orderBy('id DESC')->limit(3),
             'pagination' => false,
         ]);
         $dataProviderMissingAnimal = new ActiveDataProvider([
