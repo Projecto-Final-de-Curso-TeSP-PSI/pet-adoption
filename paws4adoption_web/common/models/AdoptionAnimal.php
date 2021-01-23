@@ -2,6 +2,7 @@
 
 namespace common\models;
 
+use backend\mosquitto\MosquittoCatcher;
 use Yii;
 
 /**
@@ -103,5 +104,27 @@ class AdoptionAnimal extends \common\models\Animal
             ->innerJoinWith('organization')
             ->select('address_id')
             ->column();
+    }
+
+    public function afterSave($insert, $changedAttributes)
+    {
+        try {
+            if (!$insert) {
+                return;
+            }
+
+            $myObj = new \stdClass();
+
+            $myObj->id = $this->id;
+
+            $myJSON = json_encode($myObj);
+
+            if ($insert){
+                MosquittoCatcher::makePublish('NEW_ADOPTION_ANIMAL', $myJSON);
+            }
+
+        } catch (\Exception $e) {
+            return;
+        }
     }
 }

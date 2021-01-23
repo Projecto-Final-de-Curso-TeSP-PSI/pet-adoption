@@ -294,7 +294,6 @@ class AdoptionAnimalController extends Controller
 
     private function queryBuilder($params)
     {
-//Todo: corrigir a query para não mostrar animais já adotados
         $parent_nature_id = $params['AnimalSearch']['parent_nature_id'];
         $natureCat_id = $params['AnimalSearch']['natureCat_id'];
         $natureDog_id = $params['AnimalSearch']['natureDog_id'];
