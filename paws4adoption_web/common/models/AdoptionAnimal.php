@@ -116,6 +116,13 @@ class AdoptionAnimal extends \common\models\Animal
             $myObj = new \stdClass();
 
             $myObj->id = $this->id;
+            $myObj->name = $this->animal->name;
+
+            $parentNature = Nature::findOne(['id' => $this->animal->nature]);
+
+            $myObj->parent_nature_name = $parentNature->id == 1 ? 'Gato' : 'Cão' ;
+
+            $myObj->nature_name = $this->animal->nature->name;
 
             $myJSON = json_encode($myObj);
 
