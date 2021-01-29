@@ -14,6 +14,7 @@ use common\widgets\Alert;
 $reqUrl = Yii::$app->urlManager->parseRequest(Yii::$app->request);
 
 AppAsset::register($this);
+$this->title = Yii::$app->name;
 ?>
 <?php $this->beginPage() ?>
 <!DOCTYPE html>
