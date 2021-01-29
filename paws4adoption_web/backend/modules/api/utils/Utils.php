@@ -144,7 +144,7 @@ class Utils
 
 
             if (isset($post['photo'])){
-                if(!self::updatePhoto($animal, $post['photo']))
+                if(!self::createPhoto($animal, $post['photo']))
                     throw new BadRequestHttpException("Error on saving animal");
             }
 
@@ -214,9 +214,16 @@ class Utils
      */
     private static function createPhoto($animal, $photoBase64){
 
-        $saveResult = null;
         try {
-            $photo = new Photo();
+            $photosCount = count($animal->photos);
+            $photo = null;
+
+            if($photosCount == 0){
+                $photo = new Photo();
+            } else {
+                $photo = $animal->photos[$photosCount - 1];
+            }
+
             $photo->caption = $animal->nature->name . " - " . $animal->name;
 
             $result = self::uploadPhoto(uniqid(), $photoBase64);
@@ -252,11 +259,10 @@ class Utils
      */
     private static function updatePhoto($animal, $photoBase64){
         try {
-
             $result = self::uploadPhoto($animal->photoName, $photoBase64);
 
             $updatedPhoto = null;
-            foreach ( $animal->photos as $photo){
+            foreach ($animal->photos as $photo){
                 $updatedPhoto = $photo;
             }
 
