@@ -1,5 +1,6 @@
 <?php
 
+use common\classes\RoleManager;
 use common\models\AssociatedUser;
 
 ?>
@@ -64,11 +65,13 @@ use common\models\AssociatedUser;
                     </a>
                     <div class="dropdown-menu">
 
-                        <?php if(!Yii::$app->user->isGuest){ ?>
-                            <a class="dropdown-item" href="<?= Yii::$app->request->baseUrl ?>/organization/create">
-                                <i data-feather="file-plus" class="icon"></i>
-                                <span class="title">Registar Associação</span>
-                            </a>
+                        <?php if(!Yii::$app->user->isGuest){
+                            if(!RoleManager::userHasRole('associatedUser', Yii::$app->user->id)){?>
+                                <a class="dropdown-item" href="<?= Yii::$app->request->baseUrl ?>/organization/create">
+                                    <i data-feather="file-plus" class="icon"></i>
+                                    <span class="title">Registar Associação</span>
+                                </a>
+                            <?php } ?>
                         <?php } ?>
 
                         <a class="dropdown-item" href="<?= Yii::$app->request->baseUrl ?>/organization">
@@ -83,11 +86,13 @@ use common\models\AssociatedUser;
                             </a>
                         <?php } ?>
 
-                        <?php if(!Yii::$app->user->isGuest){ ?>
-                            <a class="dropdown-item" href="<?= Yii::$app->request->baseUrl ?>/associated-user-request/create">
-                                <i data-feather="list" class="icon"></i>
-                                Ser Voluntário
-                            </a>
+                        <?php if(!Yii::$app->user->isGuest){
+                            if(!RoleManager::userHasRole('associatedUser', Yii::$app->user->id)){?>
+                                <a class="dropdown-item" href="<?= Yii::$app->request->baseUrl ?>/associated-user-request/create">
+                                    <i data-feather="list" class="icon"></i>
+                                    Ser Voluntário
+                                </a>
+                            <?php } ?>
                         <?php } ?>
 
                         <?php

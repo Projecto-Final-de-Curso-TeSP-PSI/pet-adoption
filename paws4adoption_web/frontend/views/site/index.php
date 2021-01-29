@@ -30,7 +30,7 @@ AppAsset::register($this);
                                     <a class="nav-link active tabLink" id="linkAdoptionAnimal" data-toggle="tab" href="#demo_three_home">Animais para Adoção</a>
                                 </li>
                                 <li class="nav-item">
-                                    <a class="nav-link tabLink" id="linkMissingAnimal" data-toggle="tab" href="#demo_three_profile">Animais Desaparcidos</a>
+                                    <a class="nav-link tabLink" id="linkMissingAnimal" data-toggle="tab" href="#demo_three_profile">Animais Desaparecidos</a>
                                 </li>
                                 <li class="nav-item">
                                     <a class="nav-link tabLink" id="linkFoundAnimal" data-toggle="tab" href="#demo_three_contact">Animais Errantes</a>

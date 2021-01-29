@@ -270,6 +270,11 @@ class OrganizationController extends Controller
      */
     public function actionCreate()
     {
+        if(Yii::$app->user->can('associatedUser')){
+            Yii::$app->session->setFlash('Error', 'Um utilizador apenas pode estar registado numa associação!');
+            return $this->redirect(['site/index']);
+        }
+
         $organization = new Organization();
         $address = new Address(['scenario' => Address::SCENARIO_ADDRESS]);
 

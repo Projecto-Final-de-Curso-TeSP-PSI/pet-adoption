@@ -96,6 +96,11 @@ class AssociatedUserRequestController extends Controller
      */
     public function actionCreate()
     {
+        if(Yii::$app->user->can('associatedUser')){
+            Yii::$app->session->setFlash('Error', 'Um utilizador apenas pode estar registado numa associação!');
+            return $this->redirect(['site/index']);
+        }
+
         $model = new AssociatedUserRequest();
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
