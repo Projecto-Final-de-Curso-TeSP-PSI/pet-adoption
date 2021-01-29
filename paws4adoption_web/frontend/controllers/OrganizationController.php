@@ -102,9 +102,11 @@ class OrganizationController extends Controller
 
                 $requestDistrictId = ArrayHelper::getValue($request->post(), 'District.id');
                 if ($requestDistrictId == "all") {
-                    $query = Organization::find()->isActive(true);
+                    $query = Organization::find()
+                        ->isActive(true);
                 } else {
-                    $query = Organization::find()->isActive(true)
+                    $query = Organization::find()
+                        ->isActive(true)
                         ->innerJoinWith('address')
                         ->where(['in', 'district_id', $requestDistrictId]);
                 }

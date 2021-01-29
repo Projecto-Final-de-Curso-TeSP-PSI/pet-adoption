@@ -141,6 +141,7 @@ class Organization extends \yii\db\ActiveRecord
      */
     public static function getAllAddressesIds(){
         return self::find()
+            ->isActive(true)
             ->select('address_id')
             ->distinct()
             ->column();
