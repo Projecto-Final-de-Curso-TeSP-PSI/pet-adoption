@@ -41,14 +41,21 @@ $this->params['breadcrumbs'][] = $this->title;
                         else
                             $data = [];
 
-                        return Html::a(
-                            $model->actionButtonBlock['html'],
-                            Url::to(['user/block', 'id' => $model->id]),
-                            [
-                                'title' => $model->actionButtonBlock['text'],
-                                'data' => $data
-                            ],
-                        );
+                        if($model->status == User::STATUS_BLOCKED || $model->status == User::STATUS_ACTIVE){
+                            return Html::a(
+                                $model->actionButtonBlock['html'],
+                                Url::to(['user/block', 'id' => $model->id]),
+                                [
+                                    'title' => $model->actionButtonBlock['text'],
+                                    'data' => $data
+                                ],
+                            );
+                        } else{
+                            return Html::a(
+                                $model->actionButtonBlock['html'],
+                            );
+                        }
+
                     },
                     'admin' =>function ($url, $model, $key) {
                         if($key == Yii::$app->user->id)
@@ -59,14 +66,20 @@ $this->params['breadcrumbs'][] = $this->title;
                         else
                             $data = [];
 
-                        return Html::a(
-                            $model->actionButtonAdmin['html'],
-                            Url::to(['user/set-unset-admin', 'user_id' => $key]),
-                            [
-                                'title' => $model->actionButtonAdmin['text'],
-                                'data' => $data
-                            ],
+                        if($model->status == User::STATUS_ACTIVE) {
+                            return Html::a(
+                                $model->actionButtonAdmin['html'],
+                                Url::to(['user/set-unset-admin', 'user_id' => $key]),
+                                [
+                                    'title' => $model->actionButtonAdmin['text'],
+                                    'data' => $data
+                                ],
                             );
+                        } else {
+                            return Html::a(
+                                $model->actionButtonAdmin['html'],
+                            );
+                        }
                     },
                 ],
             ],

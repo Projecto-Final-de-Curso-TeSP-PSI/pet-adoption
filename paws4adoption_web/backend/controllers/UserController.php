@@ -130,20 +130,21 @@ class UserController extends Controller
     public function actionBlock($id){
         $user = User::findOne($id);
         if($user != null){
+            if($user->status == User::STATUS_ACTIVE || $user->status == USER::STATUS_BLOCKED){
+                if($user->status == User::STATUS_ACTIVE)
+                    $user->status = User::STATUS_BLOCKED;
 
-            if($user->status == User::STATUS_ACTIVE)
-                $user->status = User::STATUS_INACTIVE;
-            else
-                $user->status = User::STATUS_ACTIVE;
+                if($user->status == USER::STATUS_BLOCKED)
+                    $user->status = User::STATUS_ACTIVE;
 
-            if($user->save()){
-                Yii::$app->session->setFlash('Success', "User atualizador com sucesso");
-                return $this->redirect(['user/index']);
+                if($user->save()){
+                    Yii::$app->session->setFlash('Success', "User atualizador com sucesso");
+                    return $this->redirect(['user/index']);
+                }
             }
-
-            Yii::$app->session->setFlash('Error', "Erro ao atualizar user");
-            return $this->redirect(['user/index']);
         }
+        Yii::$app->session->setFlash('Error', "Erro ao atualizar user");
+        return $this->redirect(['user/index']);
     }
 
     /**
@@ -173,7 +174,5 @@ class UserController extends Controller
         }
 
         return $this->redirect(['user/index']);
-
-
     }
 }

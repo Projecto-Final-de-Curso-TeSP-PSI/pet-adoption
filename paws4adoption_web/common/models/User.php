@@ -46,6 +46,7 @@ class User extends \yii\db\ActiveRecord implements IdentityInterface
     const STATUS_DELETED = 0;
     const STATUS_INACTIVE = 9;
     const STATUS_ACTIVE = 10;
+    const STATUS_BLOCKED = 11;
 
     /**
      * {@inheritdoc}
@@ -84,7 +85,7 @@ class User extends \yii\db\ActiveRecord implements IdentityInterface
             [['password_reset_token'], 'unique'],
             [['address_id'], 'exist', 'skipOnError' => true, 'targetClass' => Address::className(), 'targetAttribute' => ['address_id' => 'id']],
             ['status', 'default', 'value' => self::STATUS_INACTIVE],
-            ['status', 'in', 'range' => [self::STATUS_ACTIVE, self::STATUS_INACTIVE, self::STATUS_DELETED]],
+            ['status', 'in', 'range' => [self::STATUS_ACTIVE, self::STATUS_INACTIVE, self::STATUS_DELETED, self::STATUS_BLOCKED]],
         ];
     }
 
@@ -351,6 +352,10 @@ class User extends \yii\db\ActiveRecord implements IdentityInterface
                 $class = 'btn btn-success';
                 $text = 'Ativo';
                 break;
+            case self::STATUS_BLOCKED:
+                $class = 'btn btn-default';
+                $text = 'Bloqueado';
+                break;
         }
         return '<span class="'. Html::encode($class) .  ' render-status">' . Html::encode($text) . '</span>';
     }
@@ -364,12 +369,16 @@ class User extends \yii\db\ActiveRecord implements IdentityInterface
         $html = null;
         switch($this->status){
             case self::STATUS_INACTIVE:
-                $text = 'Desbloquear';
-                $html = '<span class="glyphicon glyphicon-ok-sign gi-block" style="color:green"></span>';
+                $text = 'Sem ação';
+                $html = '<span class="glyphicon glyphicon-ok-sign gi-block" style="color:gray"></span>';
                 break;
             case self::STATUS_ACTIVE:
                 $text = 'Bloquear';
                 $html = '<span class="glyphicon glyphicon-remove-sign" style="color:red"></span>';
+                break;
+            case self::STATUS_BLOCKED:
+                $text = 'Desbloquear';
+                $html = '<span class="glyphicon glyphicon-remove-sign" style="color:green"></span>';
                 break;
         }
 
@@ -404,12 +413,20 @@ class User extends \yii\db\ActiveRecord implements IdentityInterface
         $userHasAdminRole = RoleManager::userHasRole(RoleManager::ADMIN_ROLE, $this->id);
         $text = null;
         $html = null;
-        if($userHasAdminRole) {
-            $text = 'Retirar Admin';
-            $html = '<span class="glyphicon glyphicon-thumbs-down" style="color:red"></span>';
+
+        $user = User::findOne($this->id);
+
+        if($user->status == User::STATUS_ACTIVE){
+            if($userHasAdminRole) {
+                $text = 'Retirar Admin';
+                $html = '<span class="glyphicon glyphicon-thumbs-down" style="color:red"></span>';
+            } else {
+                $text = 'Tornar Admin';
+                $html = '<span class="glyphicon glyphicon-thumbs-up gi-block" style="color:green"></span>';
+            }
         } else {
-            $text = 'Tornar Admin';
-            $html = '<span class="glyphicon glyphicon-thumbs-up gi-block" style="color:green"></span>';
+            $text = "Sem ação";
+            $html = '<span class="glyphicon glyphicon-thumbs-down" style="color:gray"></span>';
         }
 
         return [
