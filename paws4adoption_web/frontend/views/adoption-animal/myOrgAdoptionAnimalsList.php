@@ -29,6 +29,7 @@ $this->title = 'Animais para adotar na minha associação';
                     [
                         'header' => 'Foto',
                         'content' => function($model) {
+                            
                             return Html::img('@images/'. $model->animal->photos[0]->name . '.jpg',  ['alt' => 'Card Image', 'class' => 'card-img radius-0 image-animal-grid']);
                         }
                     ],
