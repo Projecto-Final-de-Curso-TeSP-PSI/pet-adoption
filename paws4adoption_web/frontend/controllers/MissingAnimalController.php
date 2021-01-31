@@ -73,22 +73,23 @@ class MissingAnimalController extends Controller
         try {
             $animalMissingSearchModel = new AnimalMissingSearch();
             $animalSearchModel = new AnimalSearch();
-            $animalMissingDataProvider =
-            $animalMissingDataProvider = new ActiveDataProvider([
-                'query' =>  MissingAnimal::find()->where(['is_missing' => 1]),
-                'pagination' => [
-                    'pageSize' => 10,
-                ]
-            ]);
 
-            if (Yii::$app->request->get() != null) {
-
+            $params = Yii::$app->request->get();
+            if(array_key_exists('AnimalSearch', $params)){
                 $query = $this->queryBuilder(Yii::$app->request->get());
 
                 $animalMissingDataProvider = new ActiveDataProvider([
                     'query' => $query,
                     'pagination' => [
-                        'pageSize' => 10,
+                        'pageSize' => 9,
+                    ]
+                ]);
+            } else {
+                $query = MissingAnimal::find()->where(['is_missing' => 1]);
+                $animalMissingDataProvider = new ActiveDataProvider([
+                    'query' =>  $query,
+                    'pagination' => [
+                        'pageSize' => 9,
                     ]
                 ]);
             }
@@ -106,7 +107,6 @@ class MissingAnimalController extends Controller
             'natureDog' => Nature::getExistingNatureDog(),
             'size' => Size::getData(),
         ]);
-
     }
 
     /**

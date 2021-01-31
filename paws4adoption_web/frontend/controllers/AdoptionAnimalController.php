@@ -77,14 +77,14 @@ class AdoptionAnimalController extends Controller
             $animalSearchModel = new AnimalSearch();
             $organizationSearchModel = new OrganizationSearch();
 
-            if (Yii::$app->request->get() != null){
-
+            $params = Yii::$app->request->get();
+            if (array_key_exists('AnimalSearch', $params)){
                 $query = $this->queryBuilder(Yii::$app->request->get());
 
                 $animalAdoptionDataProvider = new ActiveDataProvider([
                     'query' => $query,
                     'pagination' => [
-                        'pageSize' => 10,
+                        'pageSize' => 9,
                     ]
                 ]);
             } else {
@@ -95,7 +95,7 @@ class AdoptionAnimalController extends Controller
                 $animalAdoptionDataProvider = new ActiveDataProvider([
                     'query' => $query,
                     'pagination' => [
-                        'pageSize' => 10,
+                        'pageSize' => 9,
                     ]
                 ]);
             }
@@ -115,7 +115,6 @@ class AdoptionAnimalController extends Controller
             'size' => Size::getData(),
             'organization' => Organization::getOrganizationsWithAdoptionAnimals()
         ]);
-
     }
 
     /**
@@ -131,7 +130,6 @@ class AdoptionAnimalController extends Controller
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
-            'pagination' => 10,
         ]);
 
         return $this->render('view', [
@@ -294,11 +292,11 @@ class AdoptionAnimalController extends Controller
 
     private function queryBuilder($params)
     {
-        $parent_nature_id = $params['AnimalSearch']['parent_nature_id'];
-        $natureCat_id = $params['AnimalSearch']['natureCat_id'];
-        $natureDog_id = $params['AnimalSearch']['natureDog_id'];
-        $size = $params['AnimalSearch']['size'];
-        $organization = $params['AnimalSearch']['organization'];
+        $parent_nature_id = isset($params['AnimalSearch']['parent_nature_id']) ? $params['AnimalSearch']['parent_nature_id'] : "";
+        $natureCat_id = isset($params['AnimalSearch']['natureCat_id']) ? $params['AnimalSearch']['natureCat_id'] : "";
+        $natureDog_id = isset($params['AnimalSearch']['natureDog_id']) ? $params['AnimalSearch']['natureDog_id'] : "";
+        $size = isset($params['AnimalSearch']['size']) ? $params['AnimalSearch']['size'] : "";
+        $organization = isset($params['AnimalSearch']['organization']) ? $params['AnimalSearch']['organization'] : "";
 
         if ($parent_nature_id !== "" && $natureCat_id !== "" && $size !== "" && $organization !== ""){
             $naturesIds = Nature::getChildsIdsByParentId($parent_nature_id);
@@ -475,8 +473,6 @@ class AdoptionAnimalController extends Controller
             ->andWhere(['organization_id' => $organizationId])
             ->joinWith('adoption')
             ->andWhere(['is', 'adoption_date', null]);
-
-//        $queryResult = $query->all();
 
         $dataProviderAdoptionAnimal = new ActiveDataProvider([
             'query' => $query,

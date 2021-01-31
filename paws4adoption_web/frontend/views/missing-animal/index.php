@@ -53,7 +53,7 @@ AppAsset::register($this);
 </div>
 <!-- Modal do filtro -->
 <?= Yii::$app->view->renderFile('@frontend/views/components/_modal.php',
-    ['title' => 'Filtro Animais para Adoção',
+    ['title' => 'Filtro Animais Desaparecidos',
         'content' => $this->render('_search', [
             'animalSearchModel' => $animalSearchModel,
             'animalMissingModel' => $animalMissingSearchModel,
