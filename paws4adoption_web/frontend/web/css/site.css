@@ -194,4 +194,14 @@ a.btn{
 .rescueImg{
     width: 300px !important;
 }
+.btn-newMembers{
+    width: 100% !important;
+    margin: 0 !important;
+    align-self: flex-end;
+    font-size: 15px !important;
+}
+.subTitle{
+    color: #a08170;;
+    font-weight: 200;
+}
 

@@ -9,6 +9,7 @@ use yii\widgets\DetailView;
 /* @var $this yii\web\View */
 /* @var $foundAnimal common\models\FoundAnimal */
 /* @var $photo common\models\Photo */
+/* @var $organizationName */
 
 
 AppAsset::register($this);
@@ -17,6 +18,7 @@ AppAsset::register($this);
 ?>
     <div class="container">
         <h1><?= "Detalhes " . $foundAnimal->animal->name ?></h1>
+        <h3 class="subTitle"><?=$organizationName->name?></h3>
 
         <div class="card-body">
             <hr class="lineCard">

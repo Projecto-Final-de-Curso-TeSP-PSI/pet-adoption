@@ -9,21 +9,28 @@ use yii\helpers\Url;
 /* @var $this yii\web\View */
 /* @var $searchModel common\models\OrganizationSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
+/* @var $organizationName */
 
 
-$this->title = 'Gestão Utilizadores Associação';
+$this->title = 'Gestão Utilizadores Associação ';
 
 AppAsset::register($this);
 ?>
 
 <div class="container">
     <div class="divTitleButtonFilter">
-        <h1><?= Html::encode($this->title) ?></h1>
-    </div>
+        <div class="">
+            <h1><?= Html::encode($this->title) ?></h1>
+            <h3 class="subTitle"><?=$organizationName->name?></h3>
+        </div>
 
-    <p>
-        <?= Html::a('Associar novos membros', ['associated-user-request/index'], ['class' => 'btn btn-success']) ?>
-    </p>
+        <div>
+            <p>
+
+                <?= Html::a( '<i data-feather="user-plus" class="icon"></i>' . ' Associar novos membros', ['associated-user-request/index'], ['class' => 'btn btn-success btn-newMembers']) ?>
+            </p>
+        </div>
+    </div>
 
     <div>
         <?=

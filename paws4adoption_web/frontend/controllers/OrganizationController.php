@@ -162,6 +162,8 @@ class OrganizationController extends Controller
         $loggedUserId = Yii::$app->user->id;
         $loggedAssociatedUser = AssociatedUser::findOne($loggedUserId);
 
+        $organizationName = Organization::findOne(['id' => $loggedAssociatedUser->organization_id]);
+
         if ($loggedAssociatedUser == null) {
             throw new ForbiddenHttpException(
                 'Não está associado a nenhuma organização, pelo que não tem acesso à página que está a tentar aceder.');
@@ -182,6 +184,7 @@ class OrganizationController extends Controller
 
         return $this->render('rescue', [
             'dataProviderFoundAnimal' => $dataProviderFoundAnimal,
+            'organizationName' => $organizationName
         ]);
     }
 
@@ -189,6 +192,8 @@ class OrganizationController extends Controller
     {
         $loggedUserId = Yii::$app->user->id;
         $loggedAssociatedUser = AssociatedUser::findOne($loggedUserId);
+
+        $organizationName = Organization::findOne(['id' => $loggedAssociatedUser->organization_id]);
 
         if ($loggedAssociatedUser == null) {
             throw new ForbiddenHttpException(
@@ -206,6 +211,7 @@ class OrganizationController extends Controller
             return $this->render('detailsAnimalRescue', [
                 'foundAnimal' => $foundAnimal,
                 'photo' => $photo,
+                'organizationName' => $organizationName
             ]);
         }
 
@@ -442,6 +448,8 @@ class OrganizationController extends Controller
 
         //Verify if user has associatedUser relation, therefore also as an organization assigned
         $user = AssociatedUser::findOne(Yii::$app->user->id);
+
+        $organizationName = Organization::findOne(['id' => $user->organization_id]);
         if ($user == null)
             throw new ForbiddenHttpException("Não está associado a nenhuma organização");
 
@@ -471,6 +479,7 @@ class OrganizationController extends Controller
         return $this->render('associate-manage', [
             'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,
+            'organizationName' => $organizationName
         ]);
     }
 

@@ -14,6 +14,7 @@ use yii\helpers\Html;
 /* @var $fulColor */
 /* @var $size */
 /* @var $sex */
+/* @var $organizationName */
 
 AppAsset::register($this);
 $typeCreate = 'createAdoptionAnimal'
@@ -31,5 +32,6 @@ $typeCreate = 'createAdoptionAnimal'
         'fulColor' => $fulColor,
         'size' => $size,
         'sex' => $sex,
+        'organizationName' => $organizationName
     ]) ?>
 </div>

@@ -50,7 +50,7 @@ class AdoptionAnimalController extends Controller
                         'roles' => ['createAdoptionAnimal']
                     ],
                     [
-                        'actions' => ['view','update', 'delete'],
+                        'actions' => ['view', 'update', 'delete'],
                         'allow' => true,
                         'roles' => ['manageAdoptionAnimal'],
                         'roleParams' => ['animal_id' => Yii::$app->request->get('id')]
@@ -78,7 +78,7 @@ class AdoptionAnimalController extends Controller
             $organizationSearchModel = new OrganizationSearch();
 
             $params = Yii::$app->request->get();
-            if (array_key_exists('AnimalSearch', $params)){
+            if (array_key_exists('AnimalSearch', $params)) {
                 $query = $this->queryBuilder(Yii::$app->request->get());
 
                 $animalAdoptionDataProvider = new ActiveDataProvider([
@@ -99,7 +99,7 @@ class AdoptionAnimalController extends Controller
                     ]
                 ]);
             }
-        } catch (\Exception $e){
+        } catch (\Exception $e) {
             throw $e;
         }
 
@@ -125,6 +125,10 @@ class AdoptionAnimalController extends Controller
      */
     public function actionView($id)
     {
+        $loggedUserId = Yii::$app->user->id;
+        $loggedAssociatedUser = AssociatedUser::findOne($loggedUserId);
+        $organizationName = Organization::findOne(['id' => $loggedAssociatedUser->organization_id]);
+
         $query = Adoption::find()
             ->where(['adopted_animal_id' => $id, 'adoption_date' => null]);
 
@@ -135,6 +139,7 @@ class AdoptionAnimalController extends Controller
         return $this->render('view', [
             'model' => $this->findModel($id),
             'dataProvider' => $dataProvider,
+            'organizationName' => $organizationName
         ]);
     }
 
@@ -155,6 +160,10 @@ class AdoptionAnimalController extends Controller
         $fulLength = ArrayHelper::map(FurLength::find()->all(), 'id', 'fur_length');
         $fulColor = ArrayHelper::map(FurColor::find()->all(), 'id', 'fur_color');
         $size = ArrayHelper::map(Size::find()->all(), 'id', 'size');
+        $loggedUserId = Yii::$app->user->id;
+        $loggedAssociatedUser = AssociatedUser::findOne($loggedUserId);
+        $organizationName = Organization::findOne(['id' => $loggedAssociatedUser->organization_id]);
+
 
         if (Yii::$app->request->post()) {
             $formData = Yii::$app->request->post();
@@ -170,8 +179,6 @@ class AdoptionAnimalController extends Controller
                     $animalPhotoModel->save();
                 }
 
-                $loggedUserId = Yii::$app->user->id;
-                $loggedAssociatedUser = AssociatedUser::findOne($loggedUserId);
 
                 $adoptionAnimalModel->load($formData);
                 $adoptionAnimalModel->id = $animalModel->id;
@@ -194,7 +201,8 @@ class AdoptionAnimalController extends Controller
             'fulLength' => $fulLength,
             'fulColor' => $fulColor,
             'size' => $size,
-            'sex' => $sex
+            'sex' => $sex,
+            'organizationName' => $organizationName
         ]);
     }
 
@@ -298,7 +306,7 @@ class AdoptionAnimalController extends Controller
         $size = isset($params['AnimalSearch']['size']) ? $params['AnimalSearch']['size'] : "";
         $organization = isset($params['AnimalSearch']['organization']) ? $params['AnimalSearch']['organization'] : "";
 
-        if ($parent_nature_id !== "" && $natureCat_id !== "" && $size !== "" && $organization !== ""){
+        if ($parent_nature_id !== "" && $natureCat_id !== "" && $size !== "" && $organization !== "") {
             $naturesIds = Nature::getChildsIdsByParentId($parent_nature_id);
 
             $query = AdoptionAnimal::find()
@@ -443,7 +451,7 @@ class AdoptionAnimalController extends Controller
                 ->andWhere(['is', 'adoption_date', null])->orderBy(['createdAt' => SORT_DESC]);
             return $query;
 
-        } elseif ($organization !== ""){
+        } elseif ($organization !== "") {
             $query = AdoptionAnimal::find()
                 ->joinWith(['animal', 'adoption'])
                 ->andWhere(['organization_id' => $organization])
@@ -456,11 +464,13 @@ class AdoptionAnimalController extends Controller
      * Returns to the view a list of all adoption animals in the organization where the user is associated
      * @return string
      */
-    public function actionMyOrgAdoptionAnimals(){
+    public function actionMyOrgAdoptionAnimals()
+    {
         $loggedUserId = Yii::$app->user->id;
         $loggedAssociatedUser = AssociatedUser::findOne($loggedUserId);
+        $organizationName = Organization::findOne(['id' => $loggedAssociatedUser->organization_id]);
 
-        if ($loggedAssociatedUser == null){
+        if ($loggedAssociatedUser == null) {
             throw new ForbiddenHttpException(
                 'Não está associado a nenhuma organização, pelo que não tem acesso à página que está a tentar aceder.');
         }
@@ -482,6 +492,7 @@ class AdoptionAnimalController extends Controller
         return $this->render('myOrgAdoptionAnimalsList', [
             'searchAdoptionAnimalModel' => $searchAdoptionAnimalModel,
             'dataProviderAdoptionAnimal' => $dataProviderAdoptionAnimal,
+            'organizationName' => $organizationName
         ]);
 
     }

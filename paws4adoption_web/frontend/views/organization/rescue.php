@@ -8,7 +8,7 @@ use yii\helpers\Url;
 
 
 /* @var $dataProviderFoundAnimal yii\data\ActiveDataProvider */
-
+/* @var $organizationName */
 
 AppAsset::register($this);
 
@@ -21,6 +21,7 @@ $this->title = 'Animais para resgante';
     <div class="card mb-30 divTab">
         <div class="card-body">
             <h2 class="title"><?= $this->title ?></h2>
+            <h3 class="subTitle"><?=$organizationName->name?></h3>
 
             <?= GridView::widget([
                 'dataProvider' => $dataProviderFoundAnimal,

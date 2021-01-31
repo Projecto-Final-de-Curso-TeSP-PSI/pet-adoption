@@ -26,6 +26,7 @@ use kartik\file\FileInput;
 /* @var $sex */
 /* @var $typeCreate */
 /* @var $priority */
+/* @var $organizationName */
 
 
 AppAsset::register($this);
@@ -47,6 +48,7 @@ AppAsset::register($this);
                         break;
                     case 'createAdoptionAnimal':
                         echo "<h1>Publicação de Animal para Adopção </h1>";
+                        echo "<h3 class=\"subTitle\">$organizationName->name</h3>";
                         break;
                 }
                 ?>

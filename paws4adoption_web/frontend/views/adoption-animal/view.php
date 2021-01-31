@@ -9,6 +9,7 @@ use yii\helpers\Url;
 /* @var $model common\models\AdoptionAnimal */
 /* @var $dataProvider */
 /* @var $searchModel */
+/* @var $organizationName */
 
 $this->title = $model->animal->name;
 AppAsset::register($this);
@@ -17,7 +18,8 @@ AppAsset::register($this);
 <div class="container">
     <div class="card mb-30 divTab">
         <div class="card-body">
-            <h2 class="title"><?= 'Pedidos de adoção para '.$this->title ?></h2>
+            <h1 class="title"><?= 'Pedidos de adoção para '.$this->title ?></h1>
+            <h3 class="subTitle"><?=$organizationName->name?></h3>
             <?= Html::img('@images/'. $model->animal->photos[0]->name . '.jpg',  ['alt' => 'Card Image', 'class' => 'card-img radius-0 image-animal-grid']);?>
             <?= GridView::widget([
                 'dataProvider' => $dataProvider,

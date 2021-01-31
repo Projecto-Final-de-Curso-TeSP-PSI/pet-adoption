@@ -9,17 +9,19 @@ use yii\helpers\Url;
 /* @var $dataProviderAdoptionAnimal yii\data\ActiveDataProvider */
 /* @var $dataProviderAnimalsWithAdoptionRequests yii\data\ActiveDataProvider */
 /* @var $searchAdoptionAnimalModel */
+/* @var $organizationName */
 
 AppAsset::register($this);
 
-$this->title = 'Animais para adotar na minha associação';
+$this->title = 'Lista de animais para adoção';
 
 ?>
 
 <div class="container">
     <div class="card mb-30 divTab">
         <div class="card-body">
-            <h2 class="title"><?= $this->title ?></h2>
+            <h1 class="title"><?= $this->title ?></h1>
+            <h3 class="subTitle"><?=$organizationName->name?></h3>
 
             <?= GridView::widget([
                 'dataProvider' => $dataProviderAdoptionAnimal,
