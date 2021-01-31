@@ -82,7 +82,7 @@ use common\models\AssociatedUser;
                         <?php if(Yii::$app->user->can('associatedUser')){ ?>
                             <a class="dropdown-item" href="<?= Yii::$app->request->baseUrl ?>/organization/associate-manage">
                                 <i data-feather="list" class="icon"></i>
-                                Gerir Utilizadores Associação
+                                Gerir Utilizadores<br>Associação
                             </a>
                         <?php } ?>
 
@@ -98,14 +98,14 @@ use common\models\AssociatedUser;
                         <?php
                         if (Yii::$app->user->can('createAdoptionAnimal')) {
                             echo
-                                '<a class="nav-link" href="' . Yii::$app->request->baseUrl . '/adoption-animal/my-org-adoption-animals">
+                                '<a class="dropdown-item" href="' . Yii::$app->request->baseUrl . '/adoption-animal/my-org-adoption-animals">
                                 <i data-feather="archive" class="icon"></i>
                                 <span class="title">Animais da Associação</span>
                                 </a>';
                         } ?>
 
                         <?php if(Yii::$app->user->can('associatedUser')){ ?>
-                            <a class="nav-link" href="<?= Yii::$app->request->baseUrl ?>/organization/rescue">
+                            <a class="dropdown-item  " href="<?= Yii::$app->request->baseUrl ?>/organization/rescue">
                                 <i data-feather="alert-triangle" class="icon"></i>
                                 <span class="title">Pedidos de Resgate</span>
                             </a>
@@ -115,7 +115,7 @@ use common\models\AssociatedUser;
                         if (Yii::$app->user->can('createAdoptionAnimal')) {
                             echo '<a class="dropdown-item" href="' . Yii::$app->request->baseUrl . '/adoption-animal/create">
                                 <i data-feather="flag" class="icon"></i>
-                                Publicar Animal para Adopção
+                                Publicar Animal para<br>adopção
                                 </a>';
                         }
                         ?>
