@@ -80,12 +80,17 @@ $this->title = 'Animais para adotar na minha associação';
                                 );
                             },
                             'delete' => function($url, $model, $key) {     // render your custom button
-                                return  Html::a('Eliminar', Url::toRoute(['adoption-animal/delete', 'id' => Html::encode($key)]),
-                                    [
-                                        'class' => 'btn btn-danger',
-                                        'title' => 'Eliminar este animal',
-                                    ]
-                                );
+                                if (count(AdoptionController::getAdoptionRequestsByAnimal($model->id)) === 0) {
+                                    return Html::a('Eliminar', Url::toRoute(['adoption-animal/delete', 'id' => Html::encode($key)]),
+                                        [
+                                            'class' => 'btn btn-danger',
+                                            'title' => 'Eliminar este animal',
+                                            'data' => [
+                                                'method' => 'post',
+                                            ],
+                                        ]
+                                    );
+                                }
                             },
                         ],
                     ],
