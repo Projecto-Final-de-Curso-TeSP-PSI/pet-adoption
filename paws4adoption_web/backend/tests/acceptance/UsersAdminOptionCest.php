@@ -50,7 +50,7 @@ class UsersAdminOptionCest
 
         $I->see('Ativo', Locator::find('tr' ,['data-key' => '1' ]));
         $I->see('Ativo', Locator::find('tr' ,['data-key' => '2' ]));
-        $I->see('Inativo', Locator::find('tr' ,['data-key' => '4' ]));
+        $I->see('Bloqueado', Locator::find('tr' ,['data-key' => '4' ]));
 
     }
 

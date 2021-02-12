@@ -11,7 +11,7 @@ class HomeCest
         $I->amOnPage(\Yii::$app->homeUrl);
         $I->see('Destaques', 'h2');
         $I->see('Animais para Adoção', 'a');
-        $I->see('Animais Desaparcidos', 'a');
+        $I->see('Animais Desaparecidos', '#linkMissingAnimal');
         $I->see('Animais Errantes', 'a');
         $I->see('No que Consiste o Site', 'div');
         $I->see('Este site foi desenvolvido como Projeto Final do Curso Tecnico Superior Profissional de Programação de Sistemas de Informação', 'p');
@@ -23,7 +23,7 @@ class HomeCest
         $I->see('Destaques', 'h2');
         $I->see('Animais para Adoção', 'a');
         $I->see('Geraldina');
-        $I->see('Animais Desaparcidos', 'a');
+        $I->see('Animais Desaparecidos', 'a');
         $I->click('#linkMissingAnimal');
         $I->see('Fausto');
         $I->see('Animais Errantes', 'a');

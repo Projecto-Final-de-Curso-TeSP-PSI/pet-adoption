@@ -468,7 +468,9 @@ class AdoptionAnimalController extends Controller
     {
         $loggedUserId = Yii::$app->user->id;
         $loggedAssociatedUser = AssociatedUser::findOne($loggedUserId);
-        $organizationName = Organization::findOne(['id' => $loggedAssociatedUser->organization_id]);
+        if($loggedAssociatedUser != null){
+            $organizationName = Organization::findOne(['id' => $loggedAssociatedUser->organization_id]);
+        }
 
         if ($loggedAssociatedUser == null) {
             throw new ForbiddenHttpException(
