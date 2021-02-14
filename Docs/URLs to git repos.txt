@@ -1,0 +1,28 @@
+##### PAWS 4 ADOPTION #####
+# URLs para os repositórios no Github #
+
+Username       | Nome do estudante |
+-----------------------------------|
+claudiasofia96 | Cláudia Valente   |
+Cláudia	       | Cláudia Valente   |
+2198087	       | Ricardo Lopes     |
+Ceffas84       | Simão Pedro       |
+-----------------------------------|
+
+URL Aplicação Web e Api:
+https://github.com/Projecto-Final-de-Curso-TeSP-PSI/pet-adoption
+
+URL Aplicação móvel:
+https://github.com/Projecto-Final-de-Curso-TeSP-PSI/paws4adoption_mobile
+
+NOTA: 	O repositório da aplicação móvel foi inicialmente criado como uma branch
+	dentro do repositório pet-adoption, porém, após alguns problemas, decidimos
+	iniciar um novo repositório dedicado apenas à aplicação móvel.
+	Isto significa que até dia 22/11/2020 os commits da aplicação móvel estão na
+	branch mobile-dev do repositório pet-adoption.
+	dessa data em diante todos os commits estão no repositório paws4adoption_mobile.
+
+NOTA 2:	A estudante Cláudia Valente teve um problema com o email associado à sua conta de Github,
+	por isso tem dois usernames. Porém apenas os commits feitos com o username claudiasofia96
+	estão a ser contabilizados para as estatísticas. Todos os outros commits realizados com o
+	username Cláudia não estão a ser contabilizados por alguma razão que desconhecemos.
