@@ -31,10 +31,14 @@ $this->title = 'Lista de animais para adoção';
                     [
                         'header' => 'Foto',
                         'content' => function($model) {
+                            foreach ($model->animal->photos as $photo){
+                                $imgPath = $photo->imgPath;
+                            }
+
                             if($model->animal->photos == null){
                                 return Html::img('@images/defaultImg.png',  ['alt' => 'Card Image', 'class' => 'card-img radius-0 image-animal-grid']);
                             }else{
-                                return Html::img('@images/'. $model->animal->photos[0]->name . '.jpg',  ['alt' => 'Card Image', 'class' => 'card-img radius-0 image-animal-grid']);
+                                return Html::img($imgPath, ['alt' => 'Card Image', 'class' => 'card-img radius-0 image-animal-grid']);
                             }
                         }
                     ],

@@ -247,8 +247,6 @@ class OrganizationController extends Controller
                 $animal = Animal::findOne($id);
                 $animal->createdAt = date("Y-m-d H:m:s");
 
-
-
                 if ($adoptionAnimal->save() && $animal->save()) {
                     $foundAnimal->is_active = 0;
                     $foundAnimal->save();

@@ -23,11 +23,15 @@ AppAsset::register($this);
         <div class="card-body">
             <hr class="lineCard">
             <?php
-            if ($photo == null) {
-                echo Html::img('@images/defaultImg.png', ['alt' => 'Card Image', 'class' => 'card-img radius-0 rescueImg']);
-            } else {
-                echo Html::img('@images/' . $photo->name . ".jpg", ['alt' => 'Card Image', 'class' => 'card-img radius-0 rescueImg']);
-            }
+                foreach ($foundAnimal->animal->photos as $photo){
+                    $imgPath = $photo->imgPath;
+                }
+
+                if($foundAnimal->animal->photos == null){
+                    echo Html::img('@images/defaultImg.png',  ['alt' => 'Card Image', 'class' => 'card-img radius-0 rescueImg']);
+                }else{
+                    echo Html::img($imgPath, ['alt' => 'Card Image', 'class' => 'card-img radius-0 rescueImg']);
+                }
 
             ?>
             <hr class="lineCard">

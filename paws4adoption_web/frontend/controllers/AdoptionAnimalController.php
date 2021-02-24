@@ -248,7 +248,7 @@ class AdoptionAnimalController extends Controller
                     $newAnimalPhotoModel->save();
                 }
                 if ($model->save()) {
-                    return $this->redirect(['site/my-org-adoption-animals']);
+                    return $this->redirect(['adoption-animal/my-org-adoption-animals']);
                 }
             }
         }

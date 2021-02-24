@@ -30,7 +30,14 @@ $this->title = 'Animais para resgante';
                     [
                         'header' => 'Foto',
                         'content' => function ($model) {
-                            return Html::img('@images/' . $model->animal->photos[0]->name . '.jpg', ['alt' => 'Card Image', 'class' => 'card-img radius-0 image-animal-grid']);
+                            foreach ($model->animal->photos as $photo){
+                                $imgPath = $photo->imgPath;
+                            }
+                            if($model->animal->photos == null){
+                                return Html::img('@images/defaultImg.png',  ['alt' => 'Card Image', 'class' => 'card-img radius-0 image-animal-grid']);
+                            }else{
+                                return Html::img($imgPath, ['alt' => 'Card Image', 'class' => 'card-img radius-0 image-animal-grid']);
+                            }
                         }
                     ],
                     'animal.sex', 'animal.size.size', 'found_date',
